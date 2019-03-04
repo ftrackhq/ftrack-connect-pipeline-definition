@@ -1,0 +1,38 @@
+{
+    "asset": "lightingPackage",
+    "host":"maya",
+    "ui":"qt",
+    "context":[
+        {
+            "plugin":"context_selector",
+            "widget":"thumbnails"
+        }
+    ],
+    "components":{
+        "beauty":{
+
+        },
+        "diffuse": {
+
+        },
+        "reflection": {
+
+        },
+        "shadow": {
+
+       },
+       "specular": {
+
+      }
+    },
+    "publish":[
+        {
+            "plugin":"to_ftrack",
+            "visible":false
+        },
+        {
+            "plugin":"metadata",
+            "visible":true
+        }
+    ]
+}

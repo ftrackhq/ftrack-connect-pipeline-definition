@@ -1,6 +1,6 @@
 {
-    "name":"Shading",
-    "asset": "shadingPackage",
+    "name":"Rendering",
+    "asset": "renderingPackage",
     "context":[
         "Task",
         "Shading"

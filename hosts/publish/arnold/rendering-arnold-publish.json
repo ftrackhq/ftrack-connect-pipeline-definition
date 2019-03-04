@@ -1,11 +1,10 @@
 {
-    "asset": "modelPackage",
-    "host":"maya",
+    "asset": "renderPackage",
+    "host":"arnold",
     "ui":"qt",
     "context":[
         {
-            "plugin":"context_selector",
-            "widget":"thumbnails"
+            "plugin":"from_environment",
         }
     ],
     "components":{
@@ -14,7 +13,7 @@
                 {
                     "plugin":"from_set",
                     "options": {
-                      "set_name": "export"
+                      "set_name": "geometry"
                     }
                 }
             ],

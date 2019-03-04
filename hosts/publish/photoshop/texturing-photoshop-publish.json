@@ -9,6 +9,30 @@
         }
     ],
     "components":{
+        "color":{
+            "collect":[
+                {
+                    "plugin":"from_suffix",
+                    "options": {
+                        "suffix": "diff_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
         "diffuse":{
             "collect":[
                 {
