@@ -1,0 +1,95 @@
+{
+    "asset": "texturePackage",
+    "host":"photoshop",
+    "ui":"js",
+    "context":[
+        {
+            "plugin":"context_selector", 
+            "widget":"thumbnails"
+        }
+    ],
+    "components":{
+        "diffuse":{
+            "collect":[
+                {
+                    "plugin":"from_suffix",
+                    "options": {
+                        "suffix": "diff_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]    
+        },
+       "specular":{
+            "collect":[
+                {
+                    "plugin":"from_suffix",
+                    "options": {
+                        "suffix": "spec_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "bump":{
+            "collect":[
+                {
+                    "plugin":"from_suffix",
+                    "options": {
+                        "suffix": "spec_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        }
+    },
+    "publish":[
+        {
+            "plugin":"to_ftrack", 
+            "visible":false
+        },
+        {
+            "plugin":"metadata", 
+            "visible":true
+        }
+    ]
+}

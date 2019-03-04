@@ -25,9 +25,10 @@
                     "plugin":"geometry", 
                     "editable":false,
                     "options":{
-                        "file_type":"alebmic",
-                        "animated":false
-
+                        "file_type":"ma",
+                        "animated":true,
+                        "start_frame":0,
+                        "end_frame":100
                     }
                 }
             ]    
@@ -51,7 +52,18 @@
                     "editable":false
                 }
             ],
-            "output":[]    
+            "output":[
+                {
+                    "plugin":"geometry",
+                    "editable":false,
+                    "options":{
+                        "file_type":"alembic",
+                        "animated":true,
+                        "start_frame":0,
+                        "end_frame":100
+                    }
+                }
+            ]
         },
         "reviewable":{
             "collect":[
@@ -69,7 +81,8 @@
                     "plugin":"playblast",
                     "options":{
                         "start_frame":0,
-                        "end_frame":100
+                        "end_frame":100,
+                        "file_type":"mov-h264"
                     }
                 }
             ]               
@@ -84,8 +97,5 @@
             "plugin":"metadata", 
             "visible":true
         }
-    ],
-    "post_publish":[
-
     ]
 }

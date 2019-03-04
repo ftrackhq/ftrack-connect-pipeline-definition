@@ -1,0 +1,15 @@
+{
+    "name":"Shading",
+    "asset": "shadingPackage",
+    "context":[
+        "Task",
+        "Shading"
+    ],
+    "components":[
+        {
+            "name": "main",
+            "file_type": ["mb", "ma"]
+
+        }
+    ]
+}

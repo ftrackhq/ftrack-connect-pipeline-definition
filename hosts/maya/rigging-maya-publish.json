@@ -1,0 +1,47 @@
+{
+    "asset": "modelPackage",
+    "host":"maya",
+    "ui":"qt",
+    "context":[
+        {
+            "plugin":"context_selector",
+            "widget":"thumbnails"
+        }
+    ],
+    "components":{
+        "character":{
+            "collect":[
+                {
+                    "plugin":"from_set",
+                    "options": {
+                      "set_name": "export"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"rig",
+                    "editable":false,
+                    "options":{
+                        "file_type":"ma"
+                    }
+                }
+            ]
+        }
+    },
+    "publish":[
+        {
+            "plugin":"to_ftrack",
+            "visible":false
+        },
+        {
+            "plugin":"metadata",
+            "visible":true
+        }
+    ]
+}

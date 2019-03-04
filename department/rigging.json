@@ -1,0 +1,15 @@
+{
+    "name":"Rigging",
+    "asset": "riggingPackage",
+    "context":[
+        "Task",
+        "Rigging"
+    ],
+    "components":[
+        {
+            "name": "character",
+            "file_type": ["mb", "ma"]
+
+        }
+    ]
+}
