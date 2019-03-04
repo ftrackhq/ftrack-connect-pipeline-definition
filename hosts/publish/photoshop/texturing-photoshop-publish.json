@@ -36,7 +36,7 @@
         "diffuse":{
             "collect":[
                 {
-                    "plugin":"from_suffix",
+                    "plugin":"from_prefix",
                     "options": {
                         "suffix": "diff_"
                     }
@@ -60,7 +60,7 @@
        "specular":{
             "collect":[
                 {
-                    "plugin":"from_suffix",
+                    "plugin":"from_prefix",
                     "options": {
                         "suffix": "spec_"
                     }
@@ -84,7 +84,7 @@
         "bump":{
             "collect":[
                 {
-                    "plugin":"from_suffix",
+                    "plugin":"from_prefix",
                     "options": {
                         "suffix": "spec_"
                     }

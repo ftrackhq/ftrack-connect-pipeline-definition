@@ -9,21 +9,32 @@
         }
     ],
     "components":{
-        "beauty":{
+        "main":{
+            "collect":[
+                {
+                    "plugin":"from_set",
+                    "options": {
+                      "set_name": "geometry"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"geometry",
+                    "editable":false,
+                    "options":{
+                        "file_type":"ma",
+                        "animated":false
 
-        },
-        "diffuse": {
-
-        },
-        "reflection": {
-
-        },
-        "shadow": {
-
-       },
-       "specular": {
-
-      }
+                    }
+                }
+            ]
+        }
     },
     "publish":[
         {

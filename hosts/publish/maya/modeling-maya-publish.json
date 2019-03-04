@@ -56,7 +56,7 @@
                     "plugin":"geometry",
                     "editable":false,
                     "options":{
-                        "file_type":"alembic",
+                        "file_type":"alembic"
                     }
                 }
             ]

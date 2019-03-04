@@ -3,7 +3,8 @@
     "asset": "renderingPackage",
     "context":[
         "Task",
-        "Rendering"
+        "Rendering",
+        "Compositing"
     ],
     "components":[
         {

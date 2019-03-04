@@ -4,16 +4,40 @@
     "ui":"qt",
     "context":[
         {
-            "plugin":"from_environment",
+            "plugin":"from_environment"
         }
     ],
     "components":{
-        "main":{
+        "beauty": {
+            "collect": [
+                {
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "beauty_"
+                    }
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "diffuse": {
             "collect":[
                 {
-                    "plugin":"from_set",
+                    "plugin":"from_prefix",
                     "options": {
-                      "set_name": "geometry"
+                        "suffix": "diff_"
                     }
                 }
             ],
@@ -24,16 +48,86 @@
             ],
             "output":[
                 {
-                    "plugin":"geometry",
-                    "editable":false,
+                    "plugin":"image",
                     "options":{
-                        "file_type":"ma",
-                        "animated":false
-
+                        "file_type":"exr",
+                        "color_depth": 16
                     }
                 }
             ]
-        }
+        },
+        "reflection": {
+            "collect":[
+                {
+                    "plugin":"from_prefix",
+                    "options": {
+                        "suffix": "refl_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "shadow": {
+            "collect":[
+                {
+                    "plugin":"from_prefix",
+                    "options": {
+                        "suffix": "shad_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+       },
+       "specular": {
+            "collect":[
+                {
+                    "plugin":"from_prefix",
+                    "options": {
+                        "suffix": "spec_"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+      }
     },
     "publish":[
         {
