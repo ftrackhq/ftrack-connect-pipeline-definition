@@ -1,0 +1,211 @@
+{
+    "asset": "compPackage",
+    "host":"nuke",
+    "ui":"qt",
+    "context":[
+        {
+            "plugin":"context_selector",
+            "widget":"thumbnails"
+        }
+    ],
+    "components":{
+        "main":{
+            "collect":[
+                {
+                    "plugin":"from_nodes",
+                    "options": {
+                      "set_name": "write"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image_sequence",
+                    "editable":false,
+                    "options":{
+                        "file_type":"exr",
+                    }
+                }
+            ]
+        },
+        "beauty": {
+            "collect": [
+                {
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "beauty_"
+                    }
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "diffuse": {
+            "collect": [
+                {
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "diff_"
+                    }
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "reflection": {
+            "collect": [
+                {
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "refl_"
+                    }
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "shadow": {
+            "collect": [
+                {
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "shad_"
+                    }
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "specular": {
+            "collect": [
+                {
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "spec_"
+                    }
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "reviewable":{
+            "collect":[
+                {
+                    "plugin":"scene"
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"playblast",
+                    "options":{
+                        "from_camera": "persp",
+                        "start_frame":0,
+                        "end_frame":100,
+                        "encoding":"h264",
+                        "file_type": "mov"
+                    }
+                }
+            ]
+        },
+        "thumbnail": {
+            "collect":[
+                {
+                    "plugin":"from_viewport",
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"jpg",
+                    }
+                }
+            ]
+        }
+    },
+    "publish":[
+        {
+            "plugin":"to_ftrack",
+            "visible":false
+        },
+        {
+            "plugin":"metadata",
+            "visible":true
+        }
+    ]
+}
