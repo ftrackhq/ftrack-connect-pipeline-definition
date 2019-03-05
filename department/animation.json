@@ -1,6 +1,6 @@
 {
     "name":"Animation",
-    "asset": "animPackage",
+    "asset_type": "animPackage",
     "context":[
         "Task",
         "Animation"

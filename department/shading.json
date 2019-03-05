@@ -1,14 +1,13 @@
 {
     "name":"Shading",
-    "asset": "shadPackage",
+    "asset_type": "shadPackage",
     "context":[
         "Task",
         "Shading"
     ],
     "components":[
         {
-            "name": "main",
-            "optional": true
+            "name": "main"
         },
         {
             "name": "reviewable"

@@ -1,6 +1,6 @@
 {
     "name":"Texturing",
-    "asset": "textPackage",
+    "asset_type": "textPackage",
     "context":[
         "Task",
         "Texturing"

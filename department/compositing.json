@@ -1,13 +1,13 @@
 {
     "name":"Compositing",
-    "asset": "compPackage",
+    "asset_type": "compPackage",
     "context":[
         "Task",
         "Compositing"
     ],
     "components":[
         {
-            "name": "main",
+            "name": "script",
             "file_type": ["nk"]
         },
         {

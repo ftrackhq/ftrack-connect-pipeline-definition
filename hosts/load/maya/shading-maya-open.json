@@ -1,0 +1,14 @@
+{
+    "name":"ShadingOpen",
+    "host":"maya",
+    "ui":"qt",
+    "import": [
+      {
+        "plugin": "scene",
+        "options":{
+          "asset_type": "shadPackage",
+          "component": ["main"]
+        }
+      }
+    ]
+}

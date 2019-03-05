@@ -1,0 +1,21 @@
+{
+    "name":"ShadingBuilder",
+    "host":"maya",
+    "ui":"qt",
+    "import": [
+      {
+        "plugin": "geometry",
+        "options":{
+          "asset_type": "modelPackage",
+          "component": ["main"]
+        }
+      },
+      {
+        "plugin": "image",
+        "options":{
+          "asset_type": "textPackage",
+          "component": ["color", "diffuse", "specular", "bump"]
+        }
+      }
+    ]
+}
