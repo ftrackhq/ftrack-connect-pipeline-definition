@@ -123,7 +123,7 @@
                 {
                     "plugin":"image",
                     "options":{
-                        "file_type":"jpg",
+                        "file_type":"jpg"
                     }
                 }
             ]

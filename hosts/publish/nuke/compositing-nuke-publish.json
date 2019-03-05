@@ -28,7 +28,7 @@
                     "plugin":"image_sequence",
                     "editable":false,
                     "options":{
-                        "file_type":"exr",
+                        "file_type":"exr"
                     }
                 }
             ]
@@ -180,7 +180,7 @@
         "thumbnail": {
             "collect":[
                 {
-                    "plugin":"from_viewport",
+                    "plugin":"from_viewport"
                 }
             ],
             "validate":[
@@ -192,7 +192,7 @@
                 {
                     "plugin":"image",
                     "options":{
-                        "file_type":"jpg",
+                        "file_type":"jpg"
                     }
                 }
             ]

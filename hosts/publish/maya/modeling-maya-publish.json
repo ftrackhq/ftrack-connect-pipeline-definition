@@ -8,109 +8,109 @@
             "widget":"thumbnails"
         }
     ],
-    "components":{
-        "main":{
-            "collect":[
+    "components": {
+        "main": {
+            "collect": [
                 {
-                    "plugin":"scene"
+                    "plugin": "scene"
                 }
             ],
-            "validate":[
+            "validate": [
                 {
-                    "plugin":"non_empty"
+                    "plugin": "non_empty"
                 }
             ],
-            "output":[
+            "output": [
                 {
-                    "plugin":"geometry", 
-                    "editable":false,
-                    "options":{
-                        "file_type":"ma",
-                        "animated":false
-
+                    "plugin": "geometry",
+                    "editable": false,
+                    "options": {
+                        "file_type": "ma",
+                        "animated": false
                     }
                 }
-            ]    
+            ]
         },
-        "cache":{
-            "collect":[
+        "cache": {
+            "collect": [
                 {
-                    "plugin":"from_set",
-                    "editable":false,
-                    "options":{
-                        "file_type":"mayaascii"
+                    "plugin": "from_set",
+                    "editable": false,
+                    "options": {
+                        "file_type": "mayaascii"
                     }
                 }
             ],
-            "validate":[
+            "validate": [
                 {
-                    "plugin":"non_empty"
+                    "plugin": "non_empty"
                 },
                 {
-                    "plugin":"non_mainfold",
-                    "editable":false
+                    "plugin": "non_mainfold",
+                    "editable": false
                 }
             ],
-            "output":[
+            "output": [
                 {
-                    "plugin":"geometry",
-                    "editable":false,
-                    "options":{
-                        "file_type":"alembic"
+                    "plugin": "geometry",
+                    "editable": false,
+                    "options": {
+                        "file_type": "alembic"
                     }
                 }
             ]
         },
-        "reviewable":{
-            "collect":[
+        "reviewable": {
+            "collect": [
                 {
-                    "plugin":"scene"
+                    "plugin": "scene"
                 }
             ],
-            "validate":[
+            "validate": [
                 {
-                    "plugin":"non_empty"
+                    "plugin": "non_empty"
                 }
             ],
-            "output":[
+            "output": [
                 {
-                    "plugin":"playblast",
-                    "options":{
-                        "start_frame":0,
-                        "end_frame":100,
-                        "file_type":"mov-h264"
-                    }
-                }
-            ]               
-        },
-         "thumbnail": {
-            "collect":[
-                {
-                    "plugin":"from_viewport",
-                }
-            ],
-            "validate":[
-                {
-                    "plugin":"non_empty"
-                }
-            ],
-            "output":[
-                {
-                    "plugin":"image",
-                    "options":{
-                        "file_type":"jpg",
+                    "plugin": "playblast",
+                    "options": {
+                        "start_frame": 0,
+                        "end_frame": 100,
+                        "file_type": "mov-h264"
                     }
                 }
             ]
-    },
-    "publish":[
-        {
-            "plugin":"to_ftrack", 
-            "visible":false
         },
-        {
-            "plugin":"metadata", 
-            "visible":true
-        }
-    ]
+        "thumbnail": {
+            "collect": [
+                {
+                    "plugin": "from_viewport"
+                }
+            ],
+            "validate": [
+                {
+                    "plugin": "non_empty"
+                }
+            ],
+            "output": [
+                {
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "jpg"
+                    }
+                }
+            ]
+        },
+        "publish": [
+            {
+                "plugin": "to_ftrack",
+                "visible": false
+            },
+            {
+                "plugin": "metadata",
+                "visible": true
+            }
+        ]
+    }
 }
