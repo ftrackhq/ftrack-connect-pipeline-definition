@@ -82,7 +82,26 @@
                     }
                 }
             ]               
-        }
+        },
+         "thumbnail": {
+            "collect":[
+                {
+                    "plugin":"from_viewport",
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"jpg",
+                    }
+                }
+            ]
     },
     "publish":[
         {

@@ -1,5 +1,5 @@
 {
-    "asset": "modelPackage",
+    "asset": "rigPackage",
     "host":"maya",
     "ui":"qt",
     "context":[
@@ -29,6 +29,50 @@
                     "editable":false,
                     "options":{
                         "file_type":"ma"
+                    }
+                }
+            ]
+        },
+        "reviewable":{
+            "collect":[
+                {
+                    "plugin":"scene"
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"playblast",
+                    "options":{
+                        "from_camera": "persp",
+                        "start_frame":0,
+                        "end_frame":100,
+                        "encoding":"h264",
+                        "file_type": "mov"
+                    }
+                }
+            ]
+        },
+        "thumbnail": {
+            "collect":[
+                {
+                    "plugin":"from_viewport",
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"jpg",
                     }
                 }
             ]

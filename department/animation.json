@@ -1,6 +1,6 @@
 {
     "name":"Animation",
-    "asset": "animationPackage",
+    "asset": "animPackage",
     "context":[
         "Task",
         "Animation"
@@ -16,6 +16,9 @@
         },
         {
             "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
         }
     ]
 }

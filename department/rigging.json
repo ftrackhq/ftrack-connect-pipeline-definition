@@ -1,6 +1,6 @@
 {
     "name":"Rigging",
-    "asset": "riggingPackage",
+    "asset": "rigPackage",
     "context":[
         "Task",
         "Rigging"
@@ -9,7 +9,12 @@
         {
             "name": "character",
             "file_type": ["mb", "ma"]
-
+        },
+        {
+            "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
         }
     ]
 }

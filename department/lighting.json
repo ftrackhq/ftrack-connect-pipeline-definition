@@ -1,15 +1,19 @@
 {
-    "name":"Rendering",
-    "asset": "renderingPackage",
+    "name":"Lighting",
+    "asset": "lightPackage",
     "context":[
         "Task",
-        "Rendering",
-        "Compositing"
+        "Shading"
     ],
     "components":[
         {
+            "name": "main",
+            "file_type": ["mb", "ma"]
+        },
+        {
             "name": "beauty",
-            "file_type": ["exr"]
+            "file_type": ["exr"],
+            "optional": true
         },
         {
             "name": "diffuse",
@@ -31,6 +35,11 @@
             "file_type": ["exr"],
             "optional": true
         },
-
+        {
+            "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
+        }
     ]
 }

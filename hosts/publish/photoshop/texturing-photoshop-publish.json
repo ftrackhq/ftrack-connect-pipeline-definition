@@ -1,5 +1,5 @@
 {
-    "asset": "texturePackage",
+    "asset": "textPackage",
     "host":"photoshop",
     "ui":"js",
     "context":[
@@ -101,6 +101,29 @@
                     "options":{
                         "file_type":"exr",
                         "color_depth": 16
+                    }
+                }
+            ]
+        },
+        "thumbnail": {
+            "collect":[
+                {
+                    "plugin":"from_component",
+                    "options": {
+                        "component": "color"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"image",
+                    "options":{
+                        "file_type":"jpg",
                     }
                 }
             ]

@@ -1,6 +1,6 @@
 {
     "name":"Texturing",
-    "asset": "texturePackage",
+    "asset": "textPackage",
     "context":[
         "Task",
         "Texturing"
@@ -24,6 +24,9 @@
             "name": "bump",
             "file_type": ["exr"],
             "optional": true
+        },
+        {
+            "name": "thumbnail"
         }
     ]
 }
