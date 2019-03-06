@@ -1,0 +1,15 @@
+{
+    "name":"CompositingOpen",
+    "host":"nuke",
+    "ui":"qt",
+    "import": [
+    {
+      "plugin": "images",
+      "options":{
+        "asset_type": "lightPackage",
+        "component": ["beauty", "diffuse", "specular", "reflection", "shadow"]
+      }
+    }
+
+    ]
+}
