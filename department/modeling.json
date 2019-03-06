@@ -1,0 +1,24 @@
+{
+    "name":"Modeling",
+    "asset_type": "modelPackage",
+    "context":[
+        "Task", 
+        "Modeling"
+    ],
+    "components":[
+        {
+            "name": "main", 
+            "optional": true
+        },
+        {
+            "name": "cache",
+            "file_type": ["alembic"]
+        },
+        {
+            "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
+        }
+    ]   
+}
