@@ -1,6 +1,6 @@
 
 # Asset definition
-##### Defines what belongs to an a package and where is suitable to store and retrieve it, 
+Defines what belongs to an a package and where is suitable to store and retrieve it, 
 
     {
         "name": "<display name>",
@@ -17,7 +17,7 @@
     }
 
 # Plugin definition
-##### Complete plugin definition  
+Complete plugin definition  
 
     {
         "name": "<plugin display name>",
@@ -33,7 +33,7 @@
     }
 
 # Publish Package definition
-##### Defines what components to publish and how
+Defines what components to publish and how
 
     {
         "asset": "<asset Type [modelPkg, rigPkg, ...]>",
@@ -61,7 +61,7 @@
     }
 
 # load Package definition
-##### Defines how to re load packages
+Defines how to re load packages
 
     {
         "name": "<display name>",
