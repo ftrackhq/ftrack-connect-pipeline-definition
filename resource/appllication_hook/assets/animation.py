@@ -13,11 +13,11 @@ def register_asset(event):
         {
             "name":"Animation",
             "asset_type": "animPackage",
-            "context":[
+            "context": [
                 "Task",
                 "Animation"
             ],
-            "components":[
+            "components": [
                 {
                     "name": "main",
                     "optional": True
@@ -35,7 +35,6 @@ def register_asset(event):
             ]
         }
     )
-
 
 
 def register(api_object, **kw):

@@ -37,7 +37,7 @@ Complete plugin definition,
 Defines what components to publish and how.
 
     {
-        "asset": "<asset Type [modelPkg, rigPkg, ...]>",
+        "asset_type": "<asset Type [modelPkg, rigPkg, ...]>",
         "host": "<host Type [maya, nuke, ...]>",
         "ui": "<ui Type [qt, js, ...]>",
         "context": [
@@ -46,18 +46,18 @@ Defines what components to publish and how.
         "components": {
             "<component name>": {
                 "collect": [
-                    "<collect plugin Type>"
+                    "<collect plugin Type [from_selection, from_set, from_filesystem, ...]>"
                 ],
                 "validate": [
-                    "<validate plugin Type>"
+                    "<validate plugin Type [non_mailfold, non_null, ...]>"
                 ],
                 "output": [
-                    "<output plugin Type>"
+                    "<output plugin Type [mayabinary, nukefile, images]>"
                 ]
             }
         },
         "publish": [
-            "<publish plugin Type>"
+            "<publish plugin Type [server, metadata, ...]>"
         ]
     }
 
@@ -69,9 +69,9 @@ Defines how to re load published packages.
         "host": "<host Type [maya, nuke, ...]>",
         "ui": "<ui Type [qt, js, ...]>",
         "load": [
-            "<import plugin Type>"
+            "<import plugin Type [geometry, textures]>"
         ],
         "post": [
-            "<post import plugin Type>"
+            "<post import plugin Type[set_layout, attach_shaders, ...] >"
         ]
     }
