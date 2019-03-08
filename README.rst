@@ -14,7 +14,7 @@ Asset
 Defines what an asset is, based on where to find it and what
 components provides.
 
-.. code ::
+.. code :: json
 
     {
       * "name": "<display name [Animation, Modeling, ...]>",
@@ -36,7 +36,7 @@ Plugin
 All the fields are optional apart from plugin one.
 Defines the plugin which will be called.
 
-.. code ::
+.. code :: json
 
     {
         "name": "<plugin display name>",
@@ -45,7 +45,7 @@ Defines the plugin which will be called.
         "widget": "<widget id used to render the process ui>",
         "visible": "<bool>",
         "editable": "<bool>",
-        "disabled": "<bool>"
+        "disabled": "<bool>",
         "options": {
             "<key>": "<value>",
         }
@@ -56,7 +56,7 @@ Publish Package
 
 Defines what components to publish and how.
 
-.. code ::
+.. code :: json
 
     {
       * "asset_type": "<asset Type [modelPkg, rigPkg, ...]>",
@@ -68,13 +68,13 @@ Defines what components to publish and how.
       * "components": {
           * "<component name [main, color, ...]>": {
               * "collect": [
-                  * "<collect plugin Type [from_selection, from_set, from_filesystem, ...]>"
+                  * "<collect plugin Type [from_selection, from_set, from_filesystem, ...]>",
                 ],
               * "validate": [
-                  * <validate plugin Type [non_mailfold, non_null, ...]>"
+                  * "<validate plugin Type [non_mailfold, non_null, ...]>",
                 ],
-              * "output": [##
-                  * "<output plugin Type [mayabinary, nukefile, images, ...]>"
+              * "output": [
+                  * "<output plugin Type [mayabinary, nukefile, images, ...]>",
                 ]
             }
         },
@@ -88,7 +88,7 @@ Load Package
 
 Defines how to re load published packages.
 
-.. code ::
+.. code :: json
 
     {
        * "name": "<display name>",
