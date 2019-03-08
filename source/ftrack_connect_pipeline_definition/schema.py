@@ -97,7 +97,3 @@ loader_schema = {
         }
     }
 }
-
-
-import json
-print json.dumps(loader_schema)
