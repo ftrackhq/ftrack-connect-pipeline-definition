@@ -2,6 +2,7 @@
     "name":"ShadingBuilder",
     "host":"maya",
     "ui":"qt",
+    "context": ["Task"],
     "components": [
       {
         "plugin": "geometry",

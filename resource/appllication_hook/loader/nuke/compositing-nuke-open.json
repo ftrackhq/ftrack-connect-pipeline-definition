@@ -2,7 +2,8 @@
     "name":"CompositingOpen",
     "host":"nuke",
     "ui":"qt",
-    "import": [
+    "context": ["Task"],
+    "components": [
     {
       "plugin": "images",
       "options":{

@@ -8,10 +8,10 @@ Definitions
  
  
  
-Asset
------
+Package
+-------
 
-Defines what an asset is, based on where to find it and what
+Defines what a package is, based on where to find it and what
 components provides.
 
 .. code :: json
@@ -51,8 +51,8 @@ Defines the plugin which will be called.
         }
     }
 
-Publish Package
----------------
+Package Publisher
+-----------------
 
 Defines what components to publish and how.
 
@@ -83,8 +83,8 @@ Defines what components to publish and how.
         ]
     }
 
-Load Package
-------------
+Package Loader
+--------------
 
 Defines how to re load published packages.
 

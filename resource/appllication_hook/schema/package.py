@@ -3,14 +3,15 @@
 
 import ftrack_api
 from ftrack_connect_pipeline import constants
+from ftrack_connect_pipeline_definition import schema
 import json
 
 
-def register_schema(event):
+def register_asset_schema(event):
 
     # return json so we can validate it
     return json.dumps(
-        {}
+         schema.asset_schema
     )
 
 
@@ -25,6 +26,6 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=asset_schema'.format(constants.PIPELINE_REGISTER_TOPIC),
-        register_schema
+        'topic={} and data.pipeline.type=package_schema'.format(constants.PIPELINE_REGISTER_TOPIC),
+        register_asset_schema
     )
