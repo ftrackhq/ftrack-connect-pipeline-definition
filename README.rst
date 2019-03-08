@@ -1,4 +1,5 @@
-# Definitions
+Definitions
+=============
 
 * \* mark a mandatory field
 * <> a variable
@@ -7,9 +8,13 @@
  
  
  
-## Asset
+Asset
+-----
+
 Defines what an asset is, based on where to find it and what
 components provides.
+
+.. code ::
 
     {
       * "name": "<display name [Animation, Modeling, ...]>",
@@ -25,10 +30,13 @@ components provides.
         ]
     }
     
-## Plugin
+Plugin
+------
+
 All the fields are optional apart from plugin one.
 Defines the plugin which will be called.
 
+.. code ::
 
     {
         "name": "<plugin display name>",
@@ -43,8 +51,12 @@ Defines the plugin which will be called.
         }
     }
 
-## Publish Package
+Publish Package
+---------------
+
 Defines what components to publish and how.
+
+.. code ::
 
     {
       * "asset_type": "<asset Type [modelPkg, rigPkg, ...]>",
@@ -61,7 +73,7 @@ Defines what components to publish and how.
               * "validate": [
                   * <validate plugin Type [non_mailfold, non_null, ...]>"
                 ],
-              * "output": [
+              * "output": [##
                   * "<output plugin Type [mayabinary, nukefile, images, ...]>"
                 ]
             }
@@ -71,8 +83,12 @@ Defines what components to publish and how.
         ]
     }
 
-## Load Package
+Load Package
+------------
+
 Defines how to re load published packages.
+
+.. code ::
 
     {
        * "name": "<display name>",
