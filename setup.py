@@ -19,10 +19,6 @@ RESOURCE_PATH = os.path.join(
     ROOT_PATH, 'resource'
 )
 
-HOOK_PATH = os.path.join(
-    ROOT_PATH, 'hook'
-)
-
 BUILD_PATH = os.path.join(
     ROOT_PATH, 'build'
 )
@@ -65,12 +61,6 @@ class BuildPlugin(setuptools.Command):
             os.path.join(STAGING_PATH, 'resource')
         )
 
-        # Copy plugin files
-        shutil.copytree(
-            HOOK_PATH,
-            os.path.join(STAGING_PATH, 'hook')
-        )
-
         pip_main(
             [
                 'install',
@@ -84,7 +74,7 @@ class BuildPlugin(setuptools.Command):
         result_path = shutil.make_archive(
             os.path.join(
                 BUILD_PATH,
-                'ftrack-connect-pipeline-maya-{0}'.format(VERSION)
+                'ftrack-connect-pipeline-definition-{0}'.format(VERSION)
             ),
             'zip',
             STAGING_PATH
@@ -113,7 +103,7 @@ class PyTest(TestCommand):
 setup(
     name='ftrack-connect-pipeline-definition',
     version=VERSION,
-    description='A dialog to publish assets from Maya to ftrack',
+    description='Collection of definitions of assets and packages.',
     long_description=open(README_PATH).read(),
     keywords='ftrack',
     url='https://bitbucket.org/ftrack/ftrack-connect-pipeline-definition',

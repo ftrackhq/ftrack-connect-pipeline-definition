@@ -7,24 +7,49 @@ import json
 
 
 def register_asset(event):
-
     # return json so we can validate it
     return json.dumps(
         {
-            "name":"Animation",
-            "asset_type": "animPackage",
-            "context": [
+            "name":"Compositing",
+            "asset_type": "compPackage",
+            "context":[
                 "Task",
-                "Animation"
+                "Compositing"
             ],
-            "components": [
+            "components":[
                 {
-                    "name": "main",
-                    "optional": True
+                    "name": "script",
+                    "file_type": ["nk"]
                 },
                 {
                     "name": "cache",
-                    "file_type": ["alembic"]
+                    "file_type": ["abc"]
+                },
+
+                {
+                    "name": "beauty",
+                    "file_type": ["exr"],
+                    "optional": True
+                },
+                {
+                    "name": "diffuse",
+                    "file_type": ["exr"],
+                    "optional": True
+                },
+                {
+                    "name": "reflection",
+                    "file_type": ["exr"],
+                    "optional": True
+                },
+                {
+                    "name": "shadow",
+                    "file_type": ["exr"],
+                    "optional": True
+                },
+                {
+                    "name": "specular",
+                    "file_type": ["exr"],
+                    "optional": True
                 },
                 {
                     "name": "reviewable"

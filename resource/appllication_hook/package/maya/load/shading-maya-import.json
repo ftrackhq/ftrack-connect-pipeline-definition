@@ -2,7 +2,7 @@
     "name":"ShadingBuilder",
     "host":"maya",
     "ui":"qt",
-    "import": [
+    "components": [
       {
         "plugin": "geometry",
         "options":{
@@ -17,5 +17,8 @@
           "component": ["color", "diffuse", "specular", "bump"]
         }
       }
+    ],
+    "post_import": [
+
     ]
 }

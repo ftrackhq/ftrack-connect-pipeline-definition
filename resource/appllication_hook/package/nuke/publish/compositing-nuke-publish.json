@@ -33,6 +33,30 @@
                 }
             ]
         },
+        "cache":{
+            "collect":[
+                {
+                    "plugin":"from_nodes",
+                    "options": {
+                      "set_name": "write"
+                    }
+                }
+            ],
+            "validate":[
+                {
+                    "plugin":"non_empty"
+                }
+            ],
+            "output":[
+                {
+                    "plugin":"geometry",
+                    "editable":false,
+                    "options":{
+                        "file_type":"abc"
+                    }
+                }
+            ]
+        },
         "beauty": {
             "collect": [
                 {
