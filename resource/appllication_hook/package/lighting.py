@@ -10,19 +10,34 @@ def register_asset(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name":"Texturing",
-            "asset_type": "textPackage",
+            "name":"Lighting",
+            "asset_type": "lightPackage",
             "context":[
                 "Task",
-                "Texturing"
+                "Shading"
             ],
             "components":[
                 {
-                    "name": "color",
-                    "file_type": ["exr"]
+                    "name": "main",
+                    "file_type": ["mb", "ma"]
+                },
+                {
+                    "name": "beauty",
+                    "file_type": ["exr"],
+                    "optional": True
                 },
                 {
                     "name": "diffuse",
+                    "file_type": ["exr"],
+                    "optional": True
+                },
+                {
+                    "name": "reflection",
+                    "file_type": ["exr"],
+                    "optional": True
+                },
+                {
+                    "name": "shadow",
                     "file_type": ["exr"],
                     "optional": True
                 },
@@ -32,9 +47,7 @@ def register_asset(event):
                     "optional": True
                 },
                 {
-                    "name": "bump",
-                    "file_type": ["exr"],
-                    "optional": True
+                    "name": "reviewable"
                 },
                 {
                     "name": "thumbnail"
@@ -55,10 +68,7 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=asset'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={} and data.pipeline.type=package'.format(constants.PIPELINE_REGISTER_TOPIC),
         register_asset
     )
-
-
-
 

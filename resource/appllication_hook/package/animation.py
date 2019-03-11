@@ -7,19 +7,24 @@ import json
 
 
 def register_asset(event):
+
     # return json so we can validate it
     return json.dumps(
         {
-            "name":"Rigging",
-            "asset_type": "rigPackage",
-            "context":[
+            "name": "Animation",
+            "asset_type": "animPackage",
+            "context": [
                 "Task",
-                "Rigging"
+                "Animation"
             ],
-            "components":[
+            "components": [
                 {
-                    "name": "character",
-                    "file_type": ["mb", "ma"]
+                    "name": "main",
+                    "optional": True
+                },
+                {
+                    "name": "cache",
+                    "file_type": ["alembic"]
                 },
                 {
                     "name": "reviewable"
@@ -43,8 +48,6 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=asset'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={} and data.pipeline.type=package'.format(constants.PIPELINE_REGISTER_TOPIC),
         register_asset
     )
-
-

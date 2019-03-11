@@ -10,39 +10,19 @@ def register_asset(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name":"Compositing",
-            "asset_type": "compPackage",
+            "name":"Texturing",
+            "asset_type": "textPackage",
             "context":[
                 "Task",
-                "Compositing"
+                "Texturing"
             ],
             "components":[
                 {
-                    "name": "script",
-                    "file_type": ["nk"]
-                },
-                {
-                    "name": "cache",
-                    "file_type": ["abc"]
-                },
-
-                {
-                    "name": "beauty",
-                    "file_type": ["exr"],
-                    "optional": True
+                    "name": "color",
+                    "file_type": ["exr"]
                 },
                 {
                     "name": "diffuse",
-                    "file_type": ["exr"],
-                    "optional": True
-                },
-                {
-                    "name": "reflection",
-                    "file_type": ["exr"],
-                    "optional": True
-                },
-                {
-                    "name": "shadow",
                     "file_type": ["exr"],
                     "optional": True
                 },
@@ -52,7 +32,9 @@ def register_asset(event):
                     "optional": True
                 },
                 {
-                    "name": "reviewable"
+                    "name": "bump",
+                    "file_type": ["exr"],
+                    "optional": True
                 },
                 {
                     "name": "thumbnail"
@@ -73,6 +55,10 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=asset'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={} and data.pipeline.type=package'.format(constants.PIPELINE_REGISTER_TOPIC),
         register_asset
     )
+
+
+
+
