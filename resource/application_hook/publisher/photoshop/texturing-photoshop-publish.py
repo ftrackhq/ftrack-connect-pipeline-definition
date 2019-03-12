@@ -10,9 +10,10 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "asset": "rigPackage",
-            "host":"maya",
-            "ui":"qt",
+            "name": "Texture Publisher",
+            "asset": "textPackage",
+            "host":"photoshop",
+            "ui":"js",
             "context":[
                 {
                     "plugin":"context_selector",
@@ -20,12 +21,12 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "character":{
+                "color":{
                     "collect":[
                         {
-                            "plugin":"from_set",
+                            "plugin":"from_suffix",
                             "options": {
-                              "set_name": "export"
+                                "suffix": "diff_"
                             }
                         }
                     ],
@@ -36,18 +37,21 @@ def register_publisher(event):
                     ],
                     "output":[
                         {
-                            "plugin":"rig",
-                            "editable":False,
+                            "plugin":"image",
                             "options":{
-                                "file_type":"ma"
+                                "file_type":"exr",
+                                "color_depth": 16
                             }
                         }
                     ]
                 },
-                "reviewable":{
+                "diffuse":{
                     "collect":[
                         {
-                            "plugin":"scene"
+                            "plugin":"from_prefix",
+                            "options": {
+                                "suffix": "diff_"
+                            }
                         }
                     ],
                     "validate":[
@@ -57,13 +61,58 @@ def register_publisher(event):
                     ],
                     "output":[
                         {
-                            "plugin":"playblast",
+                            "plugin":"image",
                             "options":{
-                                "from_camera": "persp",
-                                "start_frame":0,
-                                "end_frame":100,
-                                "encoding":"h264",
-                                "file_type": "mov"
+                                "file_type":"exr",
+                                "color_depth": 16
+                            }
+                        }
+                    ]
+                },
+               "specular":{
+                    "collect":[
+                        {
+                            "plugin":"from_prefix",
+                            "options": {
+                                "suffix": "spec_"
+                            }
+                        }
+                    ],
+                    "validate":[
+                        {
+                            "plugin":"non_empty"
+                        }
+                    ],
+                    "output":[
+                        {
+                            "plugin":"image",
+                            "options":{
+                                "file_type":"exr",
+                                "color_depth": 16
+                            }
+                        }
+                    ]
+                },
+                "bump":{
+                    "collect":[
+                        {
+                            "plugin":"from_prefix",
+                            "options": {
+                                "suffix": "spec_"
+                            }
+                        }
+                    ],
+                    "validate":[
+                        {
+                            "plugin":"non_empty"
+                        }
+                    ],
+                    "output":[
+                        {
+                            "plugin":"image",
+                            "options":{
+                                "file_type":"exr",
+                                "color_depth": 16
                             }
                         }
                     ]
@@ -71,7 +120,10 @@ def register_publisher(event):
                 "thumbnail": {
                     "collect":[
                         {
-                            "plugin":"from_viewport"
+                            "plugin":"from_component",
+                            "options": {
+                                "component": "color"
+                            }
                         }
                     ],
                     "validate":[
@@ -103,11 +155,12 @@ def register_publisher(event):
     )
 
 
+
 def register(api_object, **kw):
     '''Register plugin to api_object.'''
 
     # Validate that api_object is an instance of ftrack_api.Session. If not,
-    # assume that _register_assets is being called from an incompatible API
+    # assume that _register is being called from an incompatible API
     # and return without doing anything.
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.

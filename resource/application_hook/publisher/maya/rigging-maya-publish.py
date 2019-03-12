@@ -10,7 +10,8 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "asset": "animPackage",
+            "name": "Rig Publisher",
+            "asset": "rigPackage",
             "host":"maya",
             "ui":"qt",
             "context":[
@@ -20,58 +21,26 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "main":{
-                    "collect":[
-                        {
-                            "plugin":"scene"
-                        }
-                    ],
-                    "validate":[
-                        {
-                            "plugin":"non_empty"
-                        }
-                    ],
-                    "output":[
-                        {
-                            "plugin":"geometry",
-                            "editable":False,
-                            "options":{
-                                "file_type":"ma",
-                                "animated":True,
-                                "start_frame":0,
-                                "end_frame":100
-                            }
-                        }
-                    ]
-                },
-                "cache":{
+                "character":{
                     "collect":[
                         {
                             "plugin":"from_set",
-                            "editable":False,
-                            "options":{
-                                "file_type":"mayaascii"
+                            "options": {
+                              "set_name": "export"
                             }
                         }
                     ],
                     "validate":[
                         {
                             "plugin":"non_empty"
-                        },
-                        {
-                            "plugin":"non_mainfold",
-                            "editable":False
                         }
                     ],
                     "output":[
                         {
-                            "plugin":"geometry",
+                            "plugin":"rig",
                             "editable":False,
                             "options":{
-                                "file_type":"alembic",
-                                "animated":True,
-                                "start_frame":0,
-                                "end_frame":100
+                                "file_type":"ma"
                             }
                         }
                     ]
@@ -139,7 +108,7 @@ def register(api_object, **kw):
     '''Register plugin to api_object.'''
 
     # Validate that api_object is an instance of ftrack_api.Session. If not,
-    # assume that _register_assets is being called from an incompatible API
+    # assume that _register is being called from an incompatible API
     # and return without doing anything.
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.

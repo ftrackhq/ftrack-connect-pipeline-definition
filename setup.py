@@ -15,6 +15,11 @@ ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
 SOURCE_PATH = os.path.join(ROOT_PATH, 'source')
 README_PATH = os.path.join(ROOT_PATH, 'README.rst')
 
+
+HOOK_PATH = os.path.join(
+    ROOT_PATH, 'hook'
+)
+
 RESOURCE_PATH = os.path.join(
     ROOT_PATH, 'resource'
 )
@@ -33,7 +38,7 @@ with open(os.path.join(
     ).group(1)
 
 STAGING_PATH = os.path.join(
-    BUILD_PATH, 'ftrack-connect-pipeline-definition{}'.format(VERSION)
+    BUILD_PATH, 'ftrack-connect-pipeline-definition-{}'.format(VERSION)
 )
 
 
@@ -59,6 +64,12 @@ class BuildPlugin(setuptools.Command):
         shutil.copytree(
             RESOURCE_PATH,
             os.path.join(STAGING_PATH, 'resource')
+        )
+
+        # Copy hook files
+        shutil.copytree(
+            HOOK_PATH,
+            os.path.join(STAGING_PATH, 'hook')
         )
 
         pip_main(
@@ -103,7 +114,7 @@ class PyTest(TestCommand):
 setup(
     name='ftrack-connect-pipeline-definition',
     version=VERSION,
-    description='Collection of definitions of assets and packages.',
+    description='Collection of definitions of package and packages.',
     long_description=open(README_PATH).read(),
     keywords='ftrack',
     url='https://bitbucket.org/ftrack/ftrack-connect-pipeline-definition',

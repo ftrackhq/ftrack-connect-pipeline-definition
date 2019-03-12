@@ -10,8 +10,9 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "asset": "lightPackage",
-            "host":"maya",
+            "name": "Comp Publisher",
+            "asset": "compPackage",
+            "host":"nuke",
             "ui":"qt",
             "context":[
                 {
@@ -20,12 +21,36 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "main":{
+                "script":{
                     "collect":[
                         {
-                            "plugin":"from_set",
+                            "plugin":"from_nodes",
                             "options": {
-                              "set_name": "geometry"
+                              "set_name": "write"
+                            }
+                        }
+                    ],
+                    "validate":[
+                        {
+                            "plugin":"non_empty"
+                        }
+                    ],
+                    "output":[
+                        {
+                            "plugin":"image_sequence",
+                            "editable":False,
+                            "options":{
+                                "file_type":"exr"
+                            }
+                        }
+                    ]
+                },
+                "cache":{
+                    "collect":[
+                        {
+                            "plugin":"from_nodes",
+                            "options": {
+                              "set_name": "write"
                             }
                         }
                     ],
@@ -39,14 +64,12 @@ def register_publisher(event):
                             "plugin":"geometry",
                             "editable":False,
                             "options":{
-                                "file_type":"ma",
-                                "animated":False
-
+                                "file_type":"abc"
                             }
                         }
                     ]
                 },
-                    "beauty": {
+                "beauty": {
                     "collect": [
                         {
                             "plugin": "from_prefix",
@@ -229,7 +252,7 @@ def register(api_object, **kw):
     '''Register plugin to api_object.'''
 
     # Validate that api_object is an instance of ftrack_api.Session. If not,
-    # assume that _register_assets is being called from an incompatible API
+    # assume that _register is being called from an incompatible API
     # and return without doing anything.
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.

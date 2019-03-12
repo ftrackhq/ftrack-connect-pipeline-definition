@@ -10,9 +10,10 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "asset": "textPackage",
-            "host":"photoshop",
-            "ui":"js",
+            "name": "Animation Publisher",
+            "asset": "animPackage",
+            "host":"maya",
+            "ui":"qt",
             "context":[
                 {
                     "plugin":"context_selector",
@@ -20,13 +21,10 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "color":{
+                "main":{
                     "collect":[
                         {
-                            "plugin":"from_suffix",
-                            "options": {
-                                "suffix": "diff_"
-                            }
+                            "plugin":"scene"
                         }
                     ],
                     "validate":[
@@ -36,45 +34,53 @@ def register_publisher(event):
                     ],
                     "output":[
                         {
-                            "plugin":"image",
+                            "plugin":"geometry",
+                            "editable":False,
                             "options":{
-                                "file_type":"exr",
-                                "color_depth": 16
+                                "file_type":"ma",
+                                "animated":True,
+                                "start_frame":0,
+                                "end_frame":100
                             }
                         }
                     ]
                 },
-                "diffuse":{
+                "cache":{
                     "collect":[
                         {
-                            "plugin":"from_prefix",
-                            "options": {
-                                "suffix": "diff_"
+                            "plugin":"from_set",
+                            "editable":False,
+                            "options":{
+                                "file_type":"mayaascii"
                             }
                         }
                     ],
                     "validate":[
                         {
                             "plugin":"non_empty"
+                        },
+                        {
+                            "plugin":"non_mainfold",
+                            "editable":False
                         }
                     ],
                     "output":[
                         {
-                            "plugin":"image",
+                            "plugin":"geometry",
+                            "editable":False,
                             "options":{
-                                "file_type":"exr",
-                                "color_depth": 16
+                                "file_type":"alembic",
+                                "animated":True,
+                                "start_frame":0,
+                                "end_frame":100
                             }
                         }
                     ]
                 },
-               "specular":{
+                "reviewable":{
                     "collect":[
                         {
-                            "plugin":"from_prefix",
-                            "options": {
-                                "suffix": "spec_"
-                            }
+                            "plugin":"scene"
                         }
                     ],
                     "validate":[
@@ -84,34 +90,13 @@ def register_publisher(event):
                     ],
                     "output":[
                         {
-                            "plugin":"image",
+                            "plugin":"playblast",
                             "options":{
-                                "file_type":"exr",
-                                "color_depth": 16
-                            }
-                        }
-                    ]
-                },
-                "bump":{
-                    "collect":[
-                        {
-                            "plugin":"from_prefix",
-                            "options": {
-                                "suffix": "spec_"
-                            }
-                        }
-                    ],
-                    "validate":[
-                        {
-                            "plugin":"non_empty"
-                        }
-                    ],
-                    "output":[
-                        {
-                            "plugin":"image",
-                            "options":{
-                                "file_type":"exr",
-                                "color_depth": 16
+                                "from_camera": "persp",
+                                "start_frame":0,
+                                "end_frame":100,
+                                "encoding":"h264",
+                                "file_type": "mov"
                             }
                         }
                     ]
@@ -119,10 +104,7 @@ def register_publisher(event):
                 "thumbnail": {
                     "collect":[
                         {
-                            "plugin":"from_component",
-                            "options": {
-                                "component": "color"
-                            }
+                            "plugin":"from_viewport"
                         }
                     ],
                     "validate":[
@@ -154,12 +136,11 @@ def register_publisher(event):
     )
 
 
-
 def register(api_object, **kw):
     '''Register plugin to api_object.'''
 
     # Validate that api_object is an instance of ftrack_api.Session. If not,
-    # assume that _register_assets is being called from an incompatible API
+    # assume that _register is being called from an incompatible API
     # and return without doing anything.
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.

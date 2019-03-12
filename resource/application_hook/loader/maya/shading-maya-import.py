@@ -13,19 +13,18 @@ def register_loader(event):
             "name":"ShadingBuilder",
             "host":"maya",
             "ui":"qt",
-            "context": ["Task"],
             "components": [
               {
                 "plugin": "geometry",
                 "options":{
-                  "asset_type": "modelPackage",
+                  "type": "modelPackage",
                   "component": ["main"]
                 }
               },
               {
                 "plugin": "image",
                 "options":{
-                  "asset_type": "textPackage",
+                  "type": "textPackage",
                   "component": ["color", "diffuse", "specular", "bump"]
                 }
               }
@@ -41,7 +40,7 @@ def register(api_object, **kw):
     '''Register plugin to api_object.'''
 
     # Validate that api_object is an instance of ftrack_api.Session. If not,
-    # assume that _register_assets is being called from an incompatible API
+    # assume that _register is being called from an incompatible API
     # and return without doing anything.
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
