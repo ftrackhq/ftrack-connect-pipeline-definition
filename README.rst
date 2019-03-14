@@ -59,7 +59,8 @@ Defines what components to publish and how.
 .. code :: json
 
     {
-      * "asset_type": "<asset Type [modelPkg, rigPkg, ...]>",
+      * "name": "<display name>",
+      * "type": "<asset Type [modelPkg, rigPkg, ...]>",
       * "host": "<host Type [maya, nuke, ...]>",
       * "ui": "<ui Type [qt, js, ...]>",
       * "context": [
