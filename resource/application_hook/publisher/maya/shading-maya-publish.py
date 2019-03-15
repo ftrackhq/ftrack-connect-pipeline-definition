@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
           "name": "Lookdev Publisher",
-          "asset": "shadPackage",
+          "package": "shadPackage",
           "host":"maya",
           "ui":"qt",
           "context":[
@@ -85,18 +85,18 @@ def register_publisher(event):
                 }
               ]
             },
-            "publish": [
-              {
-                "plugin": "to_ftrack",
-                "visible": False
-              },
-              {
-                "plugin": "metadata",
-                "visible": True
-              }
-            ]
-          }
-      }
+          },
+          "publish": [
+            {
+              "plugin": "to_ftrack",
+              "visible": False
+            },
+            {
+              "plugin": "metadata",
+              "visible": True
+            }
+          ]
+        }
     )
 
 

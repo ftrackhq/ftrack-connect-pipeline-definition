@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Texture Publisher",
-            "asset": "textPackage",
+            "package": "textPackage",
             "host":"photoshop",
             "ui":"js",
             "context":[

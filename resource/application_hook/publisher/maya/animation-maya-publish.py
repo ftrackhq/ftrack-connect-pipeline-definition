@@ -11,13 +11,13 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Animation Publisher",
-            "asset": "animPackage",
+            "package": "animPackage",
             "host":"maya",
             "ui":"qt",
             "context":[
                 {
-                    "plugin":"context_selector",
-                    "widget":"thumbnails"
+                    "plugin": "context_selector",
+                    "widget": "thumbnails"
                 }
             ],
             "components":{

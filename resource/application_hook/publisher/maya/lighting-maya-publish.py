@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Lighting Publisher",
-            "asset": "lightPackage",
+            "package": "lightPackage",
             "host":"maya",
             "ui":"qt",
             "context":[

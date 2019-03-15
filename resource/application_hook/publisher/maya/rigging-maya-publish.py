@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Rig Publisher",
-            "asset": "rigPackage",
+            "package": "rigPackage",
             "host":"maya",
             "ui":"qt",
             "context":[

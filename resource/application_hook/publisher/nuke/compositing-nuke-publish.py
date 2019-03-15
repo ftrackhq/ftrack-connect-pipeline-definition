@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Comp Publisher",
-            "asset": "compPackage",
+            "package": "compPackage",
             "host":"nuke",
             "ui":"qt",
             "context":[

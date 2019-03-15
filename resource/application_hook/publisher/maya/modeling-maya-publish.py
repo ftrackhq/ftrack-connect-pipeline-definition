@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Model Publisher",
-            "asset": "modelPackage",
+            "package": "modelPackage",
             "host":"maya",
             "ui":"qt",
             "context":[
@@ -114,17 +114,17 @@ def register_publisher(event):
                         }
                     ]
                 },
-                "publish": [
-                    {
-                        "plugin": "to_ftrack",
-                        "visible": False
-                    },
-                    {
-                        "plugin": "metadata",
-                        "visible": True
-                    }
-                ]
-            }
+            },
+            "publish": [
+                {
+                    "plugin": "to_ftrack",
+                    "visible": False
+                },
+                {
+                    "plugin": "metadata",
+                    "visible": True
+                }
+            ]
         }
     )
 

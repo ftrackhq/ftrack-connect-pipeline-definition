@@ -18,7 +18,7 @@ components provides.
 
     {
       * "name": "<display name [Animation, Modeling, ...]>",
-      * "asset_type": "<asset Type [modelPkg, rigPkg, ...]>",
+      * "type": "<asset Type [modelPkg, rigPkg, ...]>",
       * "context": [
           * "<context type [Task, Modeling, ...]>"
         ],
@@ -60,7 +60,7 @@ Defines what components to publish and how.
 
     {
       * "name": "<display name>",
-      * "type": "<asset Type [modelPkg, rigPkg, ...]>",
+      * "package": "<asset Type [modelPkg, rigPkg, ...]>",
       * "host": "<host Type [maya, nuke, ...]>",
       * "ui": "<ui Type [qt, js, ...]>",
       * "context": [
