@@ -14,13 +14,14 @@ def register_loader(event):
             "host":"nuke",
             "ui":"qt",
             "components": [
-            {
-              "plugin": "images",
-              "options":{
-                "type": "lightPackage",
-                "component": ["beauty", "diffuse", "specular", "reflection", "shadow"]
-              }
-            }
+                {
+                  "name": "import render layers",
+                  "plugin": "images",
+                  "options":{
+                    "type": "lightPackage",
+                    "component": ["beauty", "diffuse", "specular", "reflection", "shadow"]
+                  }
+                }
 
             ]
         }

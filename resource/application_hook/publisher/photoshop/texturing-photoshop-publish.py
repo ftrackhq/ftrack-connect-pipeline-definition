@@ -16,27 +16,31 @@ def register_publisher(event):
             "ui":"js",
             "context":[
                 {
-                    "plugin":"context_selector",
-                    "widget":"thumbnails"
+                    "name": "context selector",
+                    "plugin": "context.publish",
+                    "widget": "context.publish"
                 }
             ],
             "components":{
                 "color":{
                     "collect":[
                         {
-                            "plugin":"from_suffix",
+                            "name": "collect from layer",
+                            "plugin":"from_layer",
                             "options": {
-                                "suffix": "diff_"
+                                "prefix": "col_"
                             }
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "texture layer",
                             "plugin":"image",
                             "options":{
                                 "file_type":"exr",
@@ -46,21 +50,24 @@ def register_publisher(event):
                     ]
                 },
                 "diffuse":{
-                    "collect":[
+                      "collect":[
                         {
-                            "plugin":"from_prefix",
+                            "name": "collect from layer",
+                            "plugin":"from_layer",
                             "options": {
-                                "suffix": "diff_"
+                                "prefix": "diff_"
                             }
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "texture layer",
                             "plugin":"image",
                             "options":{
                                 "file_type":"exr",
@@ -70,21 +77,24 @@ def register_publisher(event):
                     ]
                 },
                "specular":{
-                    "collect":[
+                      "collect":[
                         {
-                            "plugin":"from_prefix",
+                            "name": "collect from layer",
+                            "plugin":"from_layer",
                             "options": {
-                                "suffix": "spec_"
+                                "prefix": "spec_"
                             }
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "texture layer",
                             "plugin":"image",
                             "options":{
                                 "file_type":"exr",
@@ -94,21 +104,24 @@ def register_publisher(event):
                     ]
                 },
                 "bump":{
-                    "collect":[
+                      "collect":[
                         {
-                            "plugin":"from_prefix",
+                            "name": "collect from layer",
+                            "plugin":"from_layer",
                             "options": {
-                                "suffix": "spec_"
+                                "prefix": "bump_"
                             }
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "texture layer",
                             "plugin":"image",
                             "options":{
                                 "file_type":"exr",
@@ -118,24 +131,24 @@ def register_publisher(event):
                     ]
                 },
                 "thumbnail": {
-                    "collect":[
+                    "collect": [
                         {
-                            "plugin":"from_component",
+                            "name": "from viewport",
+                            "plugin": "from_viewport"
+                        }
+                    ],
+                    "validate": [
+                        {
+                            "name": "validate selection",
+                            "plugin": "non_empty"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "thumbnail",
+                            "plugin": "image",
                             "options": {
-                                "component": "color"
-                            }
-                        }
-                    ],
-                    "validate":[
-                        {
-                            "plugin":"non_empty"
-                        }
-                    ],
-                    "output":[
-                        {
-                            "plugin":"image",
-                            "options":{
-                                "file_type":"jpg"
+                                "file_type": "jpg"
                             }
                         }
                     ]
@@ -143,12 +156,9 @@ def register_publisher(event):
             },
             "publish":[
                 {
+                    "name": "to ftrack server",
                     "plugin":"to_ftrack",
                     "visible":False
-                },
-                {
-                    "plugin":"metadata",
-                    "visible":True
                 }
             ]
         }

@@ -16,31 +16,35 @@ def register_publisher(event):
             "ui":"qt",
             "context":[
                 {
-                    "plugin":"context_selector",
-                    "widget":"thumbnails"
+                    "name": "context selector",
+                    "plugin": "context.publish",
+                    "widget": "context.publish"
                 }
             ],
             "components":{
                 "script":{
                     "collect":[
                         {
-                            "plugin":"from_nodes",
+                            "name": "from scene",
+                            "plugin":"from_scene",
                             "options": {
-                              "set_name": "write"
+                              "node_type": "write"
                             }
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
-                            "plugin":"image_sequence",
+                            "name": "nuke file",
+                            "plugin":"nuke_file",
                             "editable":False,
                             "options":{
-                                "file_type":"exr"
+                                "file_type":"nk"
                             }
                         }
                     ]
@@ -48,19 +52,22 @@ def register_publisher(event):
                 "cache":{
                     "collect":[
                         {
+                            "name": "from nodes",
                             "plugin":"from_nodes",
                             "options": {
-                              "set_name": "write"
+                              "node_type": "geo"
                             }
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "alembic",
                             "plugin":"geometry",
                             "editable":False,
                             "options":{
@@ -72,6 +79,7 @@ def register_publisher(event):
                 "beauty": {
                     "collect": [
                         {
+                            "name": "from prefix",
                             "plugin": "from_prefix",
                             "options": {
                                 "suffix": "beauty_"
@@ -80,11 +88,13 @@ def register_publisher(event):
                     ],
                     "validate": [
                         {
+                            "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],
                     "output": [
                         {
+                            "name": "render pass",
                             "plugin": "image",
                             "options": {
                                 "file_type": "exr",
@@ -96,19 +106,22 @@ def register_publisher(event):
                 "diffuse": {
                     "collect": [
                         {
+                            "name": "from prefix",
                             "plugin": "from_prefix",
                             "options": {
-                                "suffix": "diff_"
+                                "prefix": "diff_"
                             }
                         }
                     ],
                     "validate": [
                         {
+                            "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],
                     "output": [
                         {
+                            "name": "render pass",
                             "plugin": "image",
                             "options": {
                                 "file_type": "exr",
@@ -120,19 +133,22 @@ def register_publisher(event):
                 "reflection": {
                     "collect": [
                         {
+                            "name": "from prefix",
                             "plugin": "from_prefix",
                             "options": {
-                                "suffix": "refl_"
+                                "prefix": "ref_"
                             }
                         }
                     ],
                     "validate": [
                         {
+                            "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],
                     "output": [
                         {
+                            "name": "render pass",
                             "plugin": "image",
                             "options": {
                                 "file_type": "exr",
@@ -142,21 +158,24 @@ def register_publisher(event):
                     ]
                 },
                 "shadow": {
-                    "collect": [
+                     "collect": [
                         {
+                            "name": "from prefix",
                             "plugin": "from_prefix",
                             "options": {
-                                "suffix": "shad_"
+                                "prefix": "shad_"
                             }
                         }
                     ],
                     "validate": [
                         {
+                            "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],
                     "output": [
                         {
+                            "name": "render pass",
                             "plugin": "image",
                             "options": {
                                 "file_type": "exr",
@@ -166,21 +185,24 @@ def register_publisher(event):
                     ]
                 },
                 "specular": {
-                    "collect": [
+                     "collect": [
                         {
+                            "name": "from prefix",
                             "plugin": "from_prefix",
                             "options": {
-                                "suffix": "spec_"
+                                "prefix": "spec_"
                             }
                         }
                     ],
                     "validate": [
                         {
+                            "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],
                     "output": [
                         {
+                            "name": "render pass",
                             "plugin": "image",
                             "options": {
                                 "file_type": "exr",
@@ -192,16 +214,19 @@ def register_publisher(event):
                 "reviewable":{
                     "collect":[
                         {
+                            "name": "from scene",
                             "plugin":"scene"
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "playblast",
                             "plugin":"playblast",
                             "options":{
                                 "from_camera": "persp",
@@ -214,21 +239,24 @@ def register_publisher(event):
                     ]
                 },
                 "thumbnail": {
-                    "collect":[
+                    "collect": [
                         {
-                            "plugin":"from_viewport"
+                            "name": "from viewport",
+                            "plugin": "from_viewport"
                         }
                     ],
-                    "validate":[
+                    "validate": [
                         {
-                            "plugin":"non_empty"
+                            "name": "validate selection",
+                            "plugin": "non_empty"
                         }
                     ],
-                    "output":[
+                    "output": [
                         {
-                            "plugin":"image",
-                            "options":{
-                                "file_type":"jpg"
+                            "name": "thumbnail",
+                            "plugin": "image",
+                            "options": {
+                                "file_type": "jpg"
                             }
                         }
                     ]
@@ -236,12 +264,9 @@ def register_publisher(event):
             },
             "publish":[
                 {
+                    "name": "to ftrack server",
                     "plugin":"to_ftrack",
                     "visible":False
-                },
-                {
-                    "plugin":"metadata",
-                    "visible":True
                 }
             ]
         }

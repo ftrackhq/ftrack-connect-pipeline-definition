@@ -15,6 +15,7 @@ def register_loader(event):
             "ui":"qt",
             "components": [
               {
+                "name": "import shading",
                 "plugin": "scene",
                 "options":{
                   "type": "shadPackage",

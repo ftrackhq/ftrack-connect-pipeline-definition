@@ -15,6 +15,7 @@ def register_loader(event):
             "ui":"qt",
             "components": [
               {
+                "name": "import geometry",
                 "plugin": "geometry",
                 "options":{
                   "type": "modelPackage",
@@ -22,6 +23,7 @@ def register_loader(event):
                 }
               },
               {
+                "name": "import texture",
                 "plugin": "image",
                 "options":{
                   "type": "textPackage",

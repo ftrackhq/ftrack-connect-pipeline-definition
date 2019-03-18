@@ -16,14 +16,16 @@ def register_publisher(event):
             "ui":"qt",
             "context":[
                 {
-                    "plugin":"context_selector",
-                    "widget":"thumbnails"
+                    "name": "context selector",
+                    "plugin": "context.publish",
+                    "widget": "context.publish"
                 }
             ],
             "components":{
                 "character":{
                     "collect":[
                         {
+                            "name": "collect from set",
                             "plugin":"from_set",
                             "options": {
                               "set_name": "export"
@@ -32,11 +34,13 @@ def register_publisher(event):
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "rig",
                             "plugin":"rig",
                             "editable":False,
                             "options":{
@@ -48,16 +52,19 @@ def register_publisher(event):
                 "reviewable":{
                     "collect":[
                         {
+                            "name": "from cache",
                             "plugin":"scene"
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "playblast",
                             "plugin":"playblast",
                             "options":{
                                 "from_camera": "persp",
@@ -72,16 +79,19 @@ def register_publisher(event):
                 "thumbnail": {
                     "collect":[
                         {
+                            "name": "collect from viewport",
                             "plugin":"from_viewport"
                         }
                     ],
                     "validate":[
                         {
+                            "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
                     "output":[
                         {
+                            "name": "thumbnail",
                             "plugin":"image",
                             "options":{
                                 "file_type":"jpg"
@@ -92,12 +102,9 @@ def register_publisher(event):
             },
             "publish":[
                 {
+                    "name": "to ftrack server",
                     "plugin":"to_ftrack",
                     "visible":False
-                },
-                {
-                    "plugin":"metadata",
-                    "visible":True
                 }
             ]
         }
