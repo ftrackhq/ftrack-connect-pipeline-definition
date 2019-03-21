@@ -49,6 +49,6 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=loader'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={} and data.pipeline.type=loader'.format(constants.PIPELINE_REGISTER_PLUGIN_TOPIC),
         register_loader
     )
