@@ -13,8 +13,7 @@ def register_asset(event):
             "name":"testPkg",
             "type": "geo",
             "context":[
-                "Task",
-                "Shading"
+                "Task"
             ],
             "components":[
                 {
