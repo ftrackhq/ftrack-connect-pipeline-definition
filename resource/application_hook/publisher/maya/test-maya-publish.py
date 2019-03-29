@@ -41,10 +41,7 @@ def register_publisher(event):
                     "output":[
                         {
                             "name": "maya",
-                            "plugin":"mayaascii",
-                            "options":{
-                                'component_name': 'main'
-                            },
+                            "plugin": "mayaascii"
                         }
                     ]
                 }
