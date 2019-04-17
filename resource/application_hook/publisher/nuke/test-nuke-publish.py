@@ -10,8 +10,8 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name": "Test Publisher",
-            "package": "testPkg",
+            "name": "Test Comp Publisher",
+            "package": "compPkg",
             "host":"nuke",
             "ui":"qt",
             "context":[
@@ -22,7 +22,7 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "main":{
+                "scene":{
                     "collect":[
                         {
                             "name": "collect scene",
@@ -39,6 +39,29 @@ def register_publisher(event):
                         {
                             "name": "write nuke script",
                             "plugin": "nukescript"
+                        }
+                    ]
+                },
+                "render": {
+                    "collect": [
+                        {
+                            "name": "collect scene",
+                            "plugin": "write_node_result",
+                            "options": {
+                                "node_name": "Write1"
+                            }
+                        }
+                    ],
+                    "validate": [
+                        {
+                            "name": "validate selection",
+                            "plugin": "nonempty"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "write sequence",
+                            "plugin": "sequence"
                         }
                     ]
                 }
