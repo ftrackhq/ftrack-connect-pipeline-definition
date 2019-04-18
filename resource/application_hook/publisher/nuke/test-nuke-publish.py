@@ -45,11 +45,9 @@ def register_publisher(event):
                 "render": {
                     "collect": [
                         {
-                            "name": "collect scene",
+                            "name": "collect write node.",
                             "plugin": "write_node_result",
-                            "options": {
-                                "node_name": "Write1"
-                            }
+                            "widget": "write_node_result"
                         }
                     ],
                     "validate": [
