@@ -54,6 +54,11 @@ def register_publisher(event):
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
+                        },
+                        {
+                            "name": "validate node type",
+                            "plugin": "node_type",
+                            "options": {"node_type": "Write"}
                         }
                     ],
                     "output": [
