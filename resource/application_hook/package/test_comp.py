@@ -21,7 +21,15 @@ def register_asset(event):
                 },
                 {
                     "name": "render"
-                }
+                },
+                {
+                    "name": "thumbnail",
+                    "optional": True
+                },
+                {
+                    "name": "reviewable",
+                    "optional": True
+                },
             ]
         }
     )
