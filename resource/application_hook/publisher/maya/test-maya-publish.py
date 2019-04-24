@@ -44,6 +44,58 @@ def register_publisher(event):
                             "plugin": "mayaascii"
                         }
                     ]
+                },
+                "thumbnail": {
+                    "collect": [
+                        {
+                            "name": "collect write node.",
+                            "plugin": "write_node_result",
+                            "widget": "write_node_result"
+                        }
+                    ],
+                    "validate": [
+                        {
+                            "name": "validate selection",
+                            "plugin": "nonempty"
+                        },
+                        {
+                            "name": "validate node type",
+                            "plugin": "node_type",
+                            "options": {"node_type": "Write"}
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "write thumbnail",
+                            "plugin": "thumbnail"
+                        }
+                    ]
+                },
+                "reviewable": {
+                    "collect": [
+                        {
+                            "name": "collect write node.",
+                            "plugin": "write_node_result",
+                            "widget": "write_node_result"
+                        }
+                    ],
+                    "validate": [
+                        {
+                            "name": "validate selection",
+                            "plugin": "nonempty"
+                        },
+                        {
+                            "name": "validate node type",
+                            "plugin": "node_type",
+                            "options": {"node_type": "Write"}
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "write reviewable",
+                            "plugin": "reviewable"
+                        }
+                    ]
                 }
             },
             "publish":[

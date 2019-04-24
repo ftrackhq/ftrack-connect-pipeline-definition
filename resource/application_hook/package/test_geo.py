@@ -10,7 +10,7 @@ def register_asset(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name":"geoPkg",
+            "name": "geoPkg",
             "type": "geo",
             "context":[
                 "Task"
@@ -18,6 +18,14 @@ def register_asset(event):
             "components":[
                 {
                     "name": "main"
+                },
+                {
+                    "name": "thumbnail",
+                    "optional": True
+                },
+                {
+                    "name": "reviewable",
+                    "optional": True
                 }
             ]
         }
