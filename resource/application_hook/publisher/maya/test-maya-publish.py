@@ -48,9 +48,9 @@ def register_publisher(event):
                 "thumbnail": {
                     "collect": [
                         {
-                            "name": "take screenshot.",
-                            "plugin": "screenshot",
-                            "options": {"camera": "persp"}
+                            "name": "select camera to playblast",
+                            "plugin": "camera",
+                            "options": {"camera_name": "persp"}
                         }
                     ],
                     "validate": [
@@ -69,9 +69,9 @@ def register_publisher(event):
                 "reviewable": {
                     "collect": [
                         {
-                            "name": "take playblast",
-                            "plugin": "playblast",
-                            "options": {"camera": "persp"}
+                            "name": "select camera to playblast",
+                            "plugin": "camera",
+                            "options": {"camera_name": "persp"}
                         }
                     ],
                     "validate": [
