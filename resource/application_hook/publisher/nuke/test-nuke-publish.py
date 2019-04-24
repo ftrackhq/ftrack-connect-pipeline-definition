@@ -46,8 +46,8 @@ def register_publisher(event):
                     "collect": [
                         {
                             "name": "collect write node.",
-                            "plugin": "write_node_result",
-                            "widget": "write_node_result"
+                            "plugin": "write_node",
+                            "widget": "write_node"
                         }
                     ],
                     "validate": [
@@ -72,8 +72,8 @@ def register_publisher(event):
                     "collect": [
                         {
                             "name": "collect write node.",
-                            "plugin": "write_node_result",
-                            "widget": "write_node_result"
+                            "plugin": "write_node",
+                            "widget": "write_node"
                         }
                     ],
                     "validate": [
@@ -98,8 +98,8 @@ def register_publisher(event):
                     "collect": [
                         {
                             "name": "collect write node.",
-                            "plugin": "write_node_result",
-                            "widget": "write_node_result"
+                            "plugin": "write_node",
+                            "widget": "write_node"
                         }
                     ],
                     "validate": [
