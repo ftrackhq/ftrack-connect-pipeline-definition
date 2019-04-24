@@ -48,20 +48,15 @@ def register_publisher(event):
                 "thumbnail": {
                     "collect": [
                         {
-                            "name": "collect write node.",
-                            "plugin": "write_node_result",
-                            "widget": "write_node_result"
+                            "name": "take screenshot.",
+                            "plugin": "screenshot",
+                            "options": {"camera": "persp"}
                         }
                     ],
                     "validate": [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
-                        },
-                        {
-                            "name": "validate node type",
-                            "plugin": "node_type",
-                            "options": {"node_type": "Write"}
                         }
                     ],
                     "output": [
@@ -74,20 +69,15 @@ def register_publisher(event):
                 "reviewable": {
                     "collect": [
                         {
-                            "name": "collect write node.",
-                            "plugin": "write_node_result",
-                            "widget": "write_node_result"
+                            "name": "take playblast",
+                            "plugin": "playblast",
+                            "options": {"camera": "persp"}
                         }
                     ],
                     "validate": [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
-                        },
-                        {
-                            "name": "validate node type",
-                            "plugin": "node_type",
-                            "options": {"node_type": "Write"}
                         }
                     ],
                     "output": [
