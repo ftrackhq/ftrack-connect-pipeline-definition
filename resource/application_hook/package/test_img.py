@@ -10,17 +10,17 @@ def register_asset(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name":"compPkg",
-            "type": "comp",
+            "name":"imgPkg",
+            "type": "img",
             "context":[
                 "Task"
             ],
             "components":[
                 {
-                    "name": "scene"
+                    "name": "nukescript"
                 },
                 {
-                    "name": "render"
+                    "name": "sequence"
                 },
                 {
                     "name": "thumbnail",

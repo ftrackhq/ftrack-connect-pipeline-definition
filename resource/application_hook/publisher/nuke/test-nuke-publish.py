@@ -11,7 +11,7 @@ def register_publisher(event):
     return json.dumps(
         {
             "name": "Test Comp Publisher",
-            "package": "compPkg",
+            "package": "imgPkg",
             "host":"nuke",
             "ui":"qt",
             "context":[
@@ -22,7 +22,7 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "scene":{
+                "nukescript":{
                     "collect":[
                         {
                             "name": "collect scene",
@@ -42,7 +42,7 @@ def register_publisher(event):
                         }
                     ]
                 },
-                "render": {
+                "sequence": {
                     "collect": [
                         {
                             "name": "collect write node.",
