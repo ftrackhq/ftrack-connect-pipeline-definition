@@ -25,11 +25,8 @@ def register_publisher(event):
                 "mayaBinary":{
                     "collect":[
                         {
-                            "name": "collect from set",
-                            "plugin":"from_set",
-                            "options": {
-                              "set_name": "geometry"
-                            }
+                            "name": "Pick selected object/s",
+                            "plugin":"selection",
                         }
                     ],
                     "validate":[
