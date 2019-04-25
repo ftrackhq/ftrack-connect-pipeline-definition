@@ -17,7 +17,7 @@ def register_asset(event):
             ],
             "components":[
                 {
-                    "name": "main"
+                    "name": "mayaBinary"
                 },
                 {
                     "name": "thumbnail",

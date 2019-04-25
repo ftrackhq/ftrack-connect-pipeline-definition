@@ -22,7 +22,7 @@ def register_publisher(event):
                 }
             ],
             "components":{
-                "main":{
+                "mayaBinary":{
                     "collect":[
                         {
                             "name": "collect from set",
@@ -41,7 +41,7 @@ def register_publisher(event):
                     "output":[
                         {
                             "name": "maya",
-                            "plugin": "mayaascii"
+                            "plugin": "mayabinary"
                         }
                     ]
                 },
