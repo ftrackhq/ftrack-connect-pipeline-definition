@@ -10,7 +10,7 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name": "Test Geo Publisher",
+            "name": "Geometry Publisher",
             "package": "geoPkg",
             "host":"maya",
             "ui":"qt",

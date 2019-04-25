@@ -10,7 +10,7 @@ def register_publisher(event):
     # return json so we can validate it
     return json.dumps(
         {
-            "name": "Test Comp Publisher",
+            "name": "ImageSequence Publisher",
             "package": "imgPkg",
             "host":"nuke",
             "ui":"qt",
