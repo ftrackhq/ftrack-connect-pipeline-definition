@@ -12,7 +12,7 @@ def register_publisher(event):
         {
             "name": "Geometry Publisher",
             "package": "geoPkg",
-            "host":"maya",
+            "host": "3dsmax",
             "ui":"qt",
             "context":[
                 {
@@ -37,8 +37,8 @@ def register_publisher(event):
                     ],
                     "output":[
                         {
-                            "name": "maya",
-                            "plugin": "mayabinary"
+                            "name": "3dsmaxalembic",
+                            "plugin": "ExtractMaxAlembicPlugin"
                         }
                     ]
                 },
@@ -107,6 +107,6 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=publisher and data.pipeline.host=maya'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={} and data.pipeline.type=publisher and data.pipeline.host=3dsmax'.format(constants.PIPELINE_REGISTER_TOPIC),
         register_publisher
     )
