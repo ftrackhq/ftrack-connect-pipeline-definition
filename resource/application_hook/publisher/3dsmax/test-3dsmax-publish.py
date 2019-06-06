@@ -47,7 +47,7 @@ def register_publisher(event):
                         {
                             "name": "select camera to playblast",
                             "plugin": "camera",
-                            "options": {"camera_name": "persp"}
+                            "widget": "camera",
                         }
                     ],
                     "validate": [
@@ -68,7 +68,7 @@ def register_publisher(event):
                         {
                             "name": "select camera to playblast",
                             "plugin": "camera",
-                            "options": {"camera_name": "persp"}
+                            "widget": "camera",
                         }
                     ],
                     "validate": [
