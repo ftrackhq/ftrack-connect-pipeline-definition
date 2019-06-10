@@ -1,9 +1,10 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2019 ftrack
 
-import ftrack_api
-from ftrack_connect_pipeline import constants
 import json
+
+from ftrack_connect_pipeline import constants
+import ftrack_api
 
 
 def register_publisher(event):
@@ -13,29 +14,29 @@ def register_publisher(event):
             "name": "Geometry Publisher",
             "package": "geoPkg",
             "host": "3dsmax",
-            "ui":"qt",
-            "context":[
+            "ui": "qt",
+            "context": [
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":{
-                "main":{
-                    "collect":[
+            "components": {
+                "main": {
+                    "collect": [
                         {
                             "name": "Pick selected object/s",
-                            "plugin":"selection",
+                            "plugin": "selection",
                         }
                     ],
-                    "validate":[
+                    "validate": [
                         {
                             "name": "validate selection",
-                            "plugin":"nonempty"
+                            "plugin": "nonempty"
                         }
                     ],
-                    "output":[
+                    "output": [
                         {
                             "name": "3dsmaxalembic",
                             "plugin": "ExtractMaxAlembicPlugin"
@@ -45,9 +46,9 @@ def register_publisher(event):
                 "thumbnail": {
                     "collect": [
                         {
-                            "name": "select camera to playblast",
-                            "plugin": "camera",
-                            "widget": "camera",
+                            "name": "select viewport to playblast",
+                            "plugin": "viewport",
+                            "widget": "viewport",
                         }
                     ],
                     "validate": [
@@ -66,9 +67,9 @@ def register_publisher(event):
                 "reviewable": {
                     "collect": [
                         {
-                            "name": "select camera to playblast",
-                            "plugin": "camera",
-                            "widget": "camera",
+                            "name": "select viewport to playblast",
+                            "plugin": "viewport",
+                            "widget": "viewport",
                         }
                     ],
                     "validate": [
@@ -85,11 +86,11 @@ def register_publisher(event):
                     ]
                 }
             },
-            "publish":[
+            "publish": [
                 {
                     "name": "to ftrack server",
-                    "plugin":"result",
-                    "visible":False
+                    "plugin": "result",
+                    "visible": False
                 }
             ]
         }
@@ -107,6 +108,10 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=publisher and data.pipeline.host=3dsmax'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={}'
+        ' and data.pipeline.type=publisher'
+        ' and data.pipeline.host=3dsmax'.format(
+            constants.PIPELINE_REGISTER_TOPIC
+        ),
         register_publisher
     )
