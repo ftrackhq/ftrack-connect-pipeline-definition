@@ -38,8 +38,10 @@ def register_publisher(event):
                     ],
                     "output": [
                         {
-                            "name": "3dsmaxalembic",
-                            "plugin": "ExtractMaxAlembicPlugin"
+                            # "name": "3dsmaxalembic",
+                            # "plugin": "ExtractMaxAlembicPlugin"
+                            "name": "3dsmaxbinary",
+                            "plugin": "ExtractMaxBinaryPlugin"
                         }
                     ]
                 },
@@ -54,7 +56,11 @@ def register_publisher(event):
                     "validate": [
                         {
                             "name": "validate selection",
-                            "plugin": "nonempty"
+                            "plugin": "numeric",
+                            "options": {
+                                "test": [">="],
+                                "value": "0"
+                            }
                         }
                     ],
                     "output": [
@@ -75,7 +81,11 @@ def register_publisher(event):
                     "validate": [
                         {
                             "name": "validate selection",
-                            "plugin": "nonempty"
+                            "plugin": "numeric",
+                            "options": {
+                                "test": [">="],
+                                "value": "0"
+                            }
                         }
                     ],
                     "output": [
