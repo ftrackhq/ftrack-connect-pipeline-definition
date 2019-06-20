@@ -39,7 +39,7 @@ def register_publisher(event):
                     "output": [
                         {
                             "name": "3dsmaxalembic",
-                            "plugin": "ExtractMaxAlembicPlugin"
+                            "plugin": "OutputMaxAlembicPlugin"
                         }
                     ]
                 },
