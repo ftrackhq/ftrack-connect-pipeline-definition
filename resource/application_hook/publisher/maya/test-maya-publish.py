@@ -38,7 +38,16 @@ def register_publisher(event):
                     "output":[
                         {
                             "name": "maya",
-                            "plugin": "mayabinary"
+                            "plugin": "mayabinary",
+                            "options": {
+                                "preserve_reference": False,
+                                "history": False,
+                                "channels": True,
+                                "expressions": False,
+                                "constraints": False,
+                                "shaders": True,
+                                "include_scene_to_assets": False,
+                            }
                         }
                     ]
                 },
