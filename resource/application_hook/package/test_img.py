@@ -18,18 +18,7 @@ def register_asset(event):
             "components":[
                 {
                     "name": "nukescript"
-                },
-                {
-                    "name": "sequence"
-                },
-                {
-                    "name": "thumbnail",
-                    "optional": True
-                },
-                {
-                    "name": "reviewable",
-                    "optional": True
-                },
+                }
             ]
         }
     )
