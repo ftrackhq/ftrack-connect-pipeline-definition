@@ -33,6 +33,10 @@ def register_publisher(event):
                         {
                             "name": "validate selection",
                             "plugin":"nonempty"
+                        },
+                        {
+                            "name": "validate name",
+                            "plugin": "name_validator"
                         }
                     ],
                     "output":[
