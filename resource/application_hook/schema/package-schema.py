@@ -4,12 +4,8 @@
 import ftrack_api
 from ftrack_connect_pipeline import constants
 import json
-from ftrack_connect_pipeline.session import get_shared_session
-
-session = get_shared_session()
-
-_context_types = [str(t["name"]) for t in session.query("ObjectType").all()]
-_asset_types = list(set([str(t["short"]) for t in session.query("AssetType").all()]))
+from functools import partial
+import logging
 
 
 _package_component_schema = {
@@ -26,8 +22,17 @@ _package_component_schema = {
     }
 }
 
-def register_package_schema(event):
+def register_package_schema(session, event):
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+
     # return json so we can validate it
+    _context_types = [str(t["name"]) for t in session.query("ObjectType").all()]
+    _asset_types = list(set([str(t["short"]) for t in session.query("AssetType").all()]))
+
+    logger.debug("_context_types --> {}".format(_context_types))
+    logger.debug("_asset_types --> {}".format(_asset_types))
+
     return json.dumps(
         {
             "title": "Package",
@@ -73,5 +78,5 @@ def register(api_object, **kw):
 
     api_object.event_hub.subscribe(
         'topic={} and data.pipeline.type={}'.format(constants.PIPELINE_REGISTER_TOPIC, constants.PACKAGE_SCHEMA),
-        register_package_schema
+        partial(register_package_schema, api_object)
     )
