@@ -21,36 +21,38 @@ def register_publisher(event):
                     "widget": "context.publish"
                 }
             ],
-            "components":{
-                "nukescript":{
-                    "collect":[
+            "components":[
+                {
+                    "name": "nukescript",
+                    constants.COLLECT:[
                         {
                             "name": "collect scene",
                             "plugin": "nukescene",
                         }
                     ],
-                    "validate":[
+                    constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"nonempty"
                         }
                     ],
-                    "output":[
+                    constants.OUTPUT:[
                         {
                             "name": "write nuke script",
                             "plugin": "nukescript"
                         }
                     ]
                 },
-                "sequence": {
-                    "collect": [
+                {
+                    "name": "sequence",
+                    constants.COLLECT: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -61,22 +63,23 @@ def register_publisher(event):
                             "options": {"node_type": "Write"}
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write sequence",
                             "plugin": "sequence"
                         }
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    constants.COLLECT: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -87,22 +90,23 @@ def register_publisher(event):
                             "options": {"node_type": "Write"}
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
                         }
                     ]
                 },
-                "reviewable": {
-                    "collect": [
+                {
+                    "name": "reviewable",
+                    constants.COLLECT: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -113,15 +117,15 @@ def register_publisher(event):
                             "options": {"node_type": "Write"}
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
                         }
                     ]
                 }
-            },
-            "publish":[
+            ],
+            constants.PUBLISH:[
                 {
                     "name": "to ftrack server",
                     "plugin":"result",

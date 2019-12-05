@@ -21,9 +21,10 @@ def register_publisher(event):
                     "widget": "context.publish"
                 }
             ],
-            "components":{
-                "color":{
-                    "collect":[
+            "components":[
+                {
+                    "name": "color",
+                    constants.COLLECT:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -32,13 +33,13 @@ def register_publisher(event):
                             }
                         }
                     ],
-                    "validate":[
+                    constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
-                    "output":[
+                    constants.OUTPUT:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -49,8 +50,9 @@ def register_publisher(event):
                         }
                     ]
                 },
-                "diffuse":{
-                      "collect":[
+                {
+                    "name": "diffuse",
+                      constants.COLLECT:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -59,13 +61,13 @@ def register_publisher(event):
                             }
                         }
                     ],
-                    "validate":[
+                    constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
-                    "output":[
+                    constants.OUTPUT:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -76,8 +78,9 @@ def register_publisher(event):
                         }
                     ]
                 },
-               "specular":{
-                      "collect":[
+                {
+                    "name": "specular",
+                    constants.COLLECT:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -86,13 +89,13 @@ def register_publisher(event):
                             }
                         }
                     ],
-                    "validate":[
+                    constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
-                    "output":[
+                    constants.OUTPUT:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -103,8 +106,9 @@ def register_publisher(event):
                         }
                     ]
                 },
-                "bump":{
-                      "collect":[
+                {
+                    "name": "bump",
+                      constants.COLLECT:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -113,13 +117,13 @@ def register_publisher(event):
                             }
                         }
                     ],
-                    "validate":[
+                    constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],
-                    "output":[
+                    constants.OUTPUT:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -130,20 +134,21 @@ def register_publisher(event):
                         }
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    constants.COLLECT: [
                         {
                             "name": "from viewport",
                             "plugin": "from_viewport"
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "thumbnail",
                             "plugin": "image",
@@ -153,8 +158,8 @@ def register_publisher(event):
                         }
                     ]
                 }
-            },
-            "publish":[
+            ],
+            constants.PUBLISH:[
                 {
                     "name": "to ftrack server",
                     "plugin":"to_ftrack",

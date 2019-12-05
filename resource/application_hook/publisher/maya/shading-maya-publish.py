@@ -21,21 +21,22 @@ def register_publisher(event):
                 "widget": "context.publish"
               }
           ],
-          "components": {
-            "main": {
-              "collect": [
+          "components": [
+            {
+              "name": "main",
+              constants.COLLECT: [
                 {
                   "name": "collect from scene",
                   "plugin": "scene"
                 }
               ],
-              "validate": [
+              constants.VALIDATE: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
               ],
-              "output": [
+              constants.OUTPUT: [
                 {
                   "name": "mayascii",
                   "plugin": "geometry",
@@ -47,20 +48,21 @@ def register_publisher(event):
                 }
               ]
             },
-            "reviewable": {
-              "collect": [
+            {
+              "name": "reviewable",
+              constants.COLLECT: [
                 {
                   "name": "from scene",
                   "plugin": "scene"
                 }
               ],
-              "validate": [
+              constants.VALIDATE: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
               ],
-              "output": [
+              constants.OUTPUT: [
                 {
                   "name": "playblast",
                   "plugin": "playblast",
@@ -73,20 +75,21 @@ def register_publisher(event):
                 }
               ]
             },
-            "thumbnail": {
-              "collect": [
+            {
+              "name": "thumbnail",
+              constants.COLLECT: [
                 {
                   "name": "from viewport",
                   "plugin": "from_viewport"
                 }
               ],
-              "validate": [
+              constants.VALIDATE: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
               ],
-              "output": [
+              constants.OUTPUT: [
                 {
                   "name": "thumbnail",
                   "plugin": "image",
@@ -96,8 +99,8 @@ def register_publisher(event):
                 }
               ]
             },
-          },
-          "publish": [
+          ],
+          constants.PUBLISH: [
             {
               "name": "to ftrack server",
               "plugin":"to_ftrack",

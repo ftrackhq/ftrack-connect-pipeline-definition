@@ -12,7 +12,7 @@ def register_publisher(event):
         {
             "name": "Geometry Publisher",
             "package": "geoPkg",
-            "host":"maya",
+            "host":"api",
             "ui":"qt",
             "context":[
                 {
@@ -21,21 +21,22 @@ def register_publisher(event):
                     "widget": "context.publish"
                 }
             ],
-            "components":{
-                "main":{
-                    "collect":[
+            "components": [
+                {
+                    "name": "main",
+                    constants.COLLECT:[
                         {
                             "name": "Pick selected object/s",
                             "plugin":"selection",
                         }
                     ],
-                    "validate":[
+                    constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"nonempty"
                         }
                     ],
-                    "output":[
+                    constants.OUTPUT:[
                         {
                             "name": "maya",
                             "plugin": "mayabinary",
@@ -51,50 +52,52 @@ def register_publisher(event):
                         }
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    constants.COLLECT: [
                         {
                             "name": "select camera to playblast",
                             "plugin": "camera",
                             "options": {"camera_name": "persp"}
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
                         }
                     ]
                 },
-                "reviewable": {
-                    "collect": [
+                {
+                    "name": "reviewable",
+                    constants.COLLECT: [
                         {
                             "name": "select camera to playblast",
                             "plugin": "camera",
                             "options": {"camera_name": "persp"}
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
                         }
                     ]
-                }
-            },
-            "publish":[
+                },
+            ],
+            constants.PUBLISH: [
                 {
                     "name": "to ftrack server",
                     "plugin":"result",

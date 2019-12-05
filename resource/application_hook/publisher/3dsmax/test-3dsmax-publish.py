@@ -22,71 +22,74 @@ def register_publisher(event):
                     "widget": "context.publish"
                 }
             ],
-            "components": {
-                "main": {
-                    "collect": [
+            "components": [
+                {
+                    "name": "main",
+                    constants.COLLECT: [
                         {
                             "name": "Pick selected object/s",
                             "plugin": "selection",
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "3dsmaxalembic",
                             "plugin": "OutputMaxAlembicPlugin"
                         }
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    constants.COLLECT: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
                         }
                     ]
                 },
-                "reviewable": {
-                    "collect": [
+                {
+                    "name": "reviewable",
+                    constants.COLLECT: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
                     ],
-                    "validate": [
+                    constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],
-                    "output": [
+                    constants.OUTPUT: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
                         }
                     ]
                 }
-            },
-            "publish": [
+            ],
+            constants.PUBLISH: [
                 {
                     "name": "to ftrack server",
                     "plugin": "result",
