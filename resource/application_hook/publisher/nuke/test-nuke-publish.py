@@ -24,35 +24,38 @@ def register_publisher(event):
             "components":[
                 {
                     "name": "nukescript",
-                    constants.COLLECT:[
+                    "stages": [
+                        {constants.COLLECT:[
                         {
                             "name": "collect scene",
                             "plugin": "nukescene",
                         }
+                        ],
+                        constants.VALIDATE:[
+                            {
+                                "name": "validate selection",
+                                "plugin":"nonempty"
+                            }
+                        ],
+                        constants.OUTPUT:[
+                            {
+                                "name": "write nuke script",
+                                "plugin": "nukescript"
+                            }
+                        ]},
                     ],
-                    constants.VALIDATE:[
-                        {
-                            "name": "validate selection",
-                            "plugin":"nonempty"
-                        }
-                    ],
-                    constants.OUTPUT:[
-                        {
-                            "name": "write nuke script",
-                            "plugin": "nukescript"
-                        }
-                    ]
                 },
                 {
                     "name": "sequence",
-                    constants.COLLECT: [
+                    "stages": [
+                        {constants.COLLECT: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                        {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -62,24 +65,26 @@ def register_publisher(event):
                             "plugin": "node_type",
                             "options": {"node_type": "Write"}
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                        {constants.OUTPUT: [
                         {
                             "name": "write sequence",
                             "plugin": "sequence"
                         }
+                    ]}
                     ]
                 },
                 {
                     "name": "thumbnail",
-                    constants.COLLECT: [
+                    "stages": [
+                        {constants.COLLECT: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                        {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -89,24 +94,26 @@ def register_publisher(event):
                             "plugin": "node_type",
                             "options": {"node_type": "Write"}
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                        {constants.OUTPUT: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
                         }
+                    ]},
                     ]
                 },
                 {
                     "name": "reviewable",
-                    constants.COLLECT: [
+                    "stages": [
+                        {constants.COLLECT: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                        {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -116,12 +123,13 @@ def register_publisher(event):
                             "plugin": "node_type",
                             "options": {"node_type": "Write"}
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                        {constants.OUTPUT: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
                         }
+                    ]},
                     ]
                 }
             ],

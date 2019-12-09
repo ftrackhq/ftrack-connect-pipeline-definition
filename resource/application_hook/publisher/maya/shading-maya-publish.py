@@ -24,19 +24,20 @@ def register_publisher(event):
           "components": [
             {
               "name": "main",
-              constants.COLLECT: [
+              "stages": [
+                {constants.COLLECT: [
                 {
                   "name": "collect from scene",
                   "plugin": "scene"
                 }
-              ],
-              constants.VALIDATE: [
+              ],},
+                {constants.VALIDATE: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
-              ],
-              constants.OUTPUT: [
+              ],},
+                {constants.OUTPUT: [
                 {
                   "name": "mayascii",
                   "plugin": "geometry",
@@ -46,23 +47,25 @@ def register_publisher(event):
                     "animated": False
                   }
                 }
+              ]},
               ]
             },
             {
               "name": "reviewable",
-              constants.COLLECT: [
+              "stages": [
+                {constants.COLLECT: [
                 {
                   "name": "from scene",
                   "plugin": "scene"
                 }
-              ],
-              constants.VALIDATE: [
+              ],},
+                {constants.VALIDATE: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
-              ],
-              constants.OUTPUT: [
+              ],},
+                {constants.OUTPUT: [
                 {
                   "name": "playblast",
                   "plugin": "playblast",
@@ -73,23 +76,25 @@ def register_publisher(event):
                     "file_type": "mov-h264"
                   }
                 }
+              ]}
               ]
             },
             {
               "name": "thumbnail",
-              constants.COLLECT: [
+              "stages": [
+                {constants.COLLECT: [
                 {
                   "name": "from viewport",
                   "plugin": "from_viewport"
                 }
-              ],
-              constants.VALIDATE: [
+              ],},
+                {constants.VALIDATE: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
-              ],
-              constants.OUTPUT: [
+              ],},
+                {constants.OUTPUT: [
                 {
                   "name": "thumbnail",
                   "plugin": "image",
@@ -97,6 +102,7 @@ def register_publisher(event):
                     "file_type": "jpg"
                   }
                 }
+              ]},
               ]
             },
           ],

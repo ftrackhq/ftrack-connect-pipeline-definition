@@ -21,81 +21,87 @@ def register_publisher(event):
                     "widget": "context.publish"
                 }
             ],
-            "components":[
+            "components": [
                 {
                     "name": "main",
-                    constants.COLLECT:[
-                        {
-                            "name": "Pick selected object/s",
-                            "plugin":"selection",
-                        }
-                    ],
-                    constants.VALIDATE:[
-                        {
-                            "name": "validate selection",
-                            "plugin":"nonempty"
-                        }
-                    ],
-                    constants.OUTPUT:[
-                        {
-                            "name": "maya",
-                            "plugin": "mayabinary",
-                            "options": {
-                                "preserve_reference": False,
-                                "history": False,
-                                "channels": True,
-                                "expressions": False,
-                                "constraints": False,
-                                "shaders": True,
-                                "include_scene_to_assets": False,
+                    "stages": [
+                        {constants.COLLECT:[
+                            {
+                                "name": "Pick selected object/s",
+                                "plugin":"selection",
                             }
-                        }
+                        ]},
+                        {constants.VALIDATE:[
+                            {
+                                "name": "validate selection",
+                                "plugin":"nonempty"
+                            }
+                        ],},
+                        {constants.OUTPUT:[
+                            {
+                                "name": "maya",
+                                "plugin": "mayabinary",
+                                "options": {
+                                    "preserve_reference": False,
+                                    "history": False,
+                                    "channels": True,
+                                    "expressions": False,
+                                    "constraints": False,
+                                    "shaders": True,
+                                    "include_scene_to_assets": False,
+                                }
+                            }
+                        ]},
                     ]
                 },
                 {
                     "name": "thumbnail",
-                    constants.COLLECT: [
-                        {
-                            "name": "select camera to playblast",
-                            "plugin": "camera",
-                            "options": {"camera_name": "persp"}
-                        }
-                    ],
-                    constants.VALIDATE: [
-                        {
-                            "name": "validate selection",
-                            "plugin": "nonempty"
-                        }
-                    ],
-                    constants.OUTPUT: [
-                        {
-                            "name": "write thumbnail",
-                            "plugin": "thumbnail"
-                        }
+                    "stages": [
+                        {constants.COLLECT: [
+                            {
+                                "name": "select camera to playblast",
+                                "plugin": "camera",
+                                "options": {"camera_name": "persp"}
+                            }
+                        ],},
+                        {constants.VALIDATE: [
+                            {
+                                "name": "validate selection",
+                                "plugin": "nonempty"
+                            }
+                        ],},
+                        {constants.OUTPUT: [
+                            {
+                                "name": "write thumbnail",
+                                "plugin": "thumbnail"
+                            }
+                        ]}
                     ]
                 },
                 {
                     "name": "reviewable",
-                    constants.COLLECT: [
-                        {
-                            "name": "select camera to playblast",
-                            "plugin": "camera",
-                            "options": {"camera_name": "persp"}
-                        }
-                    ],
-                    constants.VALIDATE: [
-                        {
-                            "name": "validate selection",
-                            "plugin": "nonempty"
-                        }
-                    ],
-                    constants.OUTPUT: [
-                        {
-                            "name": "write reviewable",
-                            "plugin": "reviewable"
-                        }
+                    "stages": [
+                        {constants.COLLECT: [
+                            {
+                                "name": "select camera to playblast",
+                                "plugin": "camera",
+                                "options": {"camera_name": "persp"}
+                            }
+                        ],},
+                        {constants.VALIDATE: [
+                            {
+                                "name": "validate selection",
+                                "plugin": "nonempty"
+                            }
+                        ],},
+                        {constants.OUTPUT: [
+                            {
+                                "name": "write reviewable",
+                                "plugin": "reviewable"
+                            }
+                        ]},
                     ]
-                }
+                },
             ],
             constants.PUBLISH:[
                 {

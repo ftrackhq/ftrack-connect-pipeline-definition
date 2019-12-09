@@ -25,67 +25,73 @@ def register_publisher(event):
             "components": [
                 {
                     "name": "main",
-                    constants.COLLECT: [
+                    "stages": [
+                    {constants.COLLECT: [
                         {
                             "name": "Pick selected object/s",
                             "plugin": "selection",
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                    {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                    {constants.OUTPUT: [
                         {
                             "name": "3dsmaxalembic",
                             "plugin": "OutputMaxAlembicPlugin"
                         }
+                    ]},
                     ]
                 },
                 {
                     "name": "thumbnail",
-                    constants.COLLECT: [
+                    "stages": [
+                    {constants.COLLECT: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                    {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                    {constants.OUTPUT: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
                         }
+                    ]},
                     ]
                 },
                 {
                     "name": "reviewable",
-                    constants.COLLECT: [
+                    "stages": [
+                    {constants.COLLECT: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                    {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                    {constants.OUTPUT: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
                         }
+                    ]},
                     ]
                 }
             ],

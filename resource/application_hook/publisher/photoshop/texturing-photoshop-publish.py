@@ -24,35 +24,38 @@ def register_publisher(event):
             "components":[
                 {
                     "name": "color",
-                    constants.COLLECT:[
-                        {
-                            "name": "collect from layer",
-                            "plugin":"from_layer",
-                            "options": {
-                                "prefix": "col_"
+                    "stages": [
+                        {constants.COLLECT:[
+                            {
+                                "name": "collect from layer",
+                                "plugin":"from_layer",
+                                "options": {
+                                    "prefix": "col_"
+                                }
                             }
-                        }
-                    ],
-                    constants.VALIDATE:[
-                        {
-                            "name": "validate selection",
-                            "plugin":"non_empty"
-                        }
-                    ],
-                    constants.OUTPUT:[
-                        {
-                            "name": "texture layer",
-                            "plugin":"image",
-                            "options":{
-                                "file_type":"exr",
-                                "color_depth": 16
+                        ],},
+                        {constants.VALIDATE:[
+                            {
+                                "name": "validate selection",
+                                "plugin":"non_empty"
                             }
-                        }
-                    ]
+                        ],},
+                        {constants.OUTPUT:[
+                            {
+                                "name": "texture layer",
+                                "plugin":"image",
+                                "options":{
+                                    "file_type":"exr",
+                                    "color_depth": 16
+                                }
+                            }
+                        ]},
+                        ]
                 },
                 {
                     "name": "diffuse",
-                      constants.COLLECT:[
+                    "stages": [
+                        {constants.COLLECT:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -60,14 +63,14 @@ def register_publisher(event):
                                 "prefix": "diff_"
                             }
                         }
-                    ],
-                    constants.VALIDATE:[
+                        ],},
+                        {constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    constants.OUTPUT:[
+                        ],},
+                        {constants.OUTPUT:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -76,39 +79,43 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
+                        ]},
                     ]
                 },
                 {
                     "name": "specular",
-                    constants.COLLECT:[
-                        {
-                            "name": "collect from layer",
-                            "plugin":"from_layer",
-                            "options": {
-                                "prefix": "spec_"
+                    "stages": [
+                        {constants.COLLECT:[
+                            {
+                                "name": "collect from layer",
+                                "plugin":"from_layer",
+                                "options": {
+                                    "prefix": "spec_"
+                                }
                             }
-                        }
-                    ],
-                    constants.VALIDATE:[
-                        {
-                            "name": "validate selection",
-                            "plugin":"non_empty"
-                        }
-                    ],
-                    constants.OUTPUT:[
-                        {
-                            "name": "texture layer",
-                            "plugin":"image",
-                            "options":{
-                                "file_type":"exr",
-                                "color_depth": 16
+                        ],},
+                        {constants.VALIDATE:[
+                            {
+                                "name": "validate selection",
+                                "plugin":"non_empty"
                             }
-                        }
+                        ],},
+                        {constants.OUTPUT:[
+                            {
+                                "name": "texture layer",
+                                "plugin":"image",
+                                "options":{
+                                    "file_type":"exr",
+                                    "color_depth": 16
+                                }
+                            }
+                        ]},
                     ]
                 },
                 {
                     "name": "bump",
-                      constants.COLLECT:[
+                    "stages": [
+                        {constants.COLLECT:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -116,14 +123,14 @@ def register_publisher(event):
                                 "prefix": "bump_"
                             }
                         }
-                    ],
-                    constants.VALIDATE:[
+                    ],},
+                        {constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    constants.OUTPUT:[
+                    ],},
+                        {constants.OUTPUT:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -132,23 +139,25 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
-                    ]
+                    ]},
+                ]
                 },
                 {
                     "name": "thumbnail",
-                    constants.COLLECT: [
+                    "stages": [
+                        {constants.COLLECT: [
                         {
                             "name": "from viewport",
                             "plugin": "from_viewport"
                         }
-                    ],
-                    constants.VALIDATE: [
+                    ],},
+                        {constants.VALIDATE: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    constants.OUTPUT: [
+                    ],},
+                        {constants.OUTPUT: [
                         {
                             "name": "thumbnail",
                             "plugin": "image",
@@ -156,6 +165,7 @@ def register_publisher(event):
                                 "file_type": "jpg"
                             }
                         }
+                    ]},
                     ]
                 }
             ],

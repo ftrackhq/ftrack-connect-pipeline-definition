@@ -24,19 +24,20 @@ def register_publisher(event):
             "components":[
                 {
                     "name": "main",
-                    constants.COLLECT:[
+                    "stages": [
+                    {constants.COLLECT:[
                         {
                             "name": "collect from scene",
                             "plugin":"scene"
                         }
-                    ],
-                    constants.VALIDATE:[
+                    ],},
+                    {constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    constants.OUTPUT:[
+                    ],},
+                    {constants.OUTPUT:[
                         {
                             "name": "maya ascii",
                             "plugin":"geometry",
@@ -48,11 +49,13 @@ def register_publisher(event):
                                 "end_frame":100
                             }
                         }
+                    ]},
                     ]
                 },
                 {
                     "name": "cache",
-                    constants.COLLECT:[
+                    "stages": [
+                    {constants.COLLECT:[
                         {
                             "name": "collect from set",
                             "plugin":"from_set",
@@ -61,8 +64,8 @@ def register_publisher(event):
                                 "set_name":"BAKE"
                             }
                         }
-                    ],
-                    constants.VALIDATE:[
+                    ],},
+                    {constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
@@ -72,8 +75,8 @@ def register_publisher(event):
                             "plugin":"non_mainfold",
                             "editable":False
                         }
-                    ],
-                    constants.OUTPUT:[
+                    ],},
+                    {constants.OUTPUT:[
                         {
                             "name": "alembic",
                             "plugin":"geometry",
@@ -85,23 +88,25 @@ def register_publisher(event):
                                 "end_frame":100
                             }
                         }
+                    ]},
                     ]
                 },
                 {
                     "name": "reviewable",
-                    constants.COLLECT:[
+                    "stages": [
+                    {constants.COLLECT:[
                         {
                             "name": "collect from scene",
                             "plugin":"scene"
                         }
-                    ],
-                    constants.VALIDATE:[
+                    ],},
+                    {constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    constants.OUTPUT:[
+                    ],},
+                    {constants.OUTPUT:[
                         {
                             "name": "playblast",
                             "plugin":"playblast",
@@ -113,23 +118,25 @@ def register_publisher(event):
                                 "file_type": "mov"
                             }
                         }
+                    ]},
                     ]
                 },
                 {
                     "name": "thumbnail",
-                    constants.COLLECT:[
+                    "stages": [
+                    {constants.COLLECT:[
                         {
                             "name": "from viewport",
                             "plugin":"from_viewport"
                         }
-                    ],
-                    constants.VALIDATE:[
+                    ],},
+                    {constants.VALIDATE:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    constants.OUTPUT:[
+                    ],},
+                    {constants.OUTPUT:[
                         {
                             "name": "thumbnail",
                             "plugin":"image",
@@ -137,6 +144,7 @@ def register_publisher(event):
                                 "file_type":"jpg"
                             }
                         }
+                    ]},
                     ]
                 }
             ],

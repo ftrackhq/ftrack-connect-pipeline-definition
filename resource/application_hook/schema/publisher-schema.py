@@ -30,32 +30,36 @@ _component_schema = {
     "title": "Component",
     "type": "object",
     "required": [
-        "name"
+        "name", "stages"
     ],
     "additionalProperties": False,
     "properties": {
         "name": {"type": "string"},
-        constants.COLLECT: {
-            "type": "array",
-            "items": {"$ref": "#/definitions/Plugin"},
-            "default": [],
-            'minItems': 0,
-            'uniqueItems': True
-        },
-        constants.VALIDATE: {
-            "type": "array",
-            "items": {"$ref": "#/definitions/Plugin"},
-            "default": [],
-            'minItems': 0,
-            'uniqueItems': True
-        },
-        constants.OUTPUT: {
-            "type": "array",
-            "items": {"$ref": "#/definitions/Plugin"},
-            "default": [],
-            'minItems': 0,
-            'uniqueItems': True
-        },
+        "stages":{"type":"array",
+                  "items":{
+                    constants.COLLECT: {
+                        "type": "array",
+                        "items": {"$ref": "#/definitions/Plugin"},
+                        "default": [],
+                        'minItems': 0,
+                        'uniqueItems': True
+                    },
+                    constants.VALIDATE: {
+                        "type": "array",
+                        "items": {"$ref": "#/definitions/Plugin"},
+                        "default": [],
+                        'minItems': 0,
+                        'uniqueItems': True
+                    },
+                    constants.OUTPUT: {
+                        "type": "array",
+                        "items": {"$ref": "#/definitions/Plugin"},
+                        "default": [],
+                        'minItems': 0,
+                        'uniqueItems': True
+                    }
+                  }
+        }
     }
 }
 
