@@ -12,10 +12,10 @@ def register_asset(event):
         {
             "name":"imgPkg",
             "type": "img",
-            "context":[
+            constants.CONTEXT:[
                 "Task"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "nukescript"
                 },

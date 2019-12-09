@@ -12,11 +12,11 @@ def register_asset(event):
         {
             "name":"Lighting",
             "type": "lightPackage",
-            "context":[
+            constants.CONTEXT:[
                 "Task",
                 "Shading"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "main",
                     "file_type": ["mb", "ma"]

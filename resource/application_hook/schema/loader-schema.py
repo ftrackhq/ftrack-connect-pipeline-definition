@@ -39,7 +39,7 @@ def register_loader_schema(event):
                 "name": {"type": "string"},
                 "host": {"type": "string"},
                 "ui": {"type": "string"},
-                "components": {
+                constants.COMPONENTS: {
                     "type": "array",
                     "items": _plugin_schema
                 },

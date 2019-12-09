@@ -14,30 +14,30 @@ def register_publisher(event):
           "package": "shadPackage",
           "host":"maya",
           "ui":"qt",
-          "context":[
+          constants.CONTEXT:[
               {
                 "name": "context selector",
                 "plugin": "context.publish",
                 "widget": "context.publish"
               }
           ],
-          "components": [
+          constants.COMPONENTS: [
             {
               "name": "main",
               "stages": [
-                {constants.COLLECT: [
+                {constants.COLLECTORS: [
                 {
                   "name": "collect from scene",
                   "plugin": "scene"
                 }
               ],},
-                {constants.VALIDATE: [
+                {constants.VALIDATORS: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
               ],},
-                {constants.OUTPUT: [
+                {constants.OUTPUTS: [
                 {
                   "name": "mayascii",
                   "plugin": "geometry",
@@ -53,19 +53,19 @@ def register_publisher(event):
             {
               "name": "reviewable",
               "stages": [
-                {constants.COLLECT: [
+                {constants.COLLECTORS: [
                 {
                   "name": "from scene",
                   "plugin": "scene"
                 }
               ],},
-                {constants.VALIDATE: [
+                {constants.VALIDATORS: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
               ],},
-                {constants.OUTPUT: [
+                {constants.OUTPUTS: [
                 {
                   "name": "playblast",
                   "plugin": "playblast",
@@ -82,19 +82,19 @@ def register_publisher(event):
             {
               "name": "thumbnail",
               "stages": [
-                {constants.COLLECT: [
+                {constants.COLLECTORS: [
                 {
                   "name": "from viewport",
                   "plugin": "from_viewport"
                 }
               ],},
-                {constants.VALIDATE: [
+                {constants.VALIDATORS: [
                 {
                   "name": "validate selection",
                   "plugin": "non_empty"
                 }
               ],},
-                {constants.OUTPUT: [
+                {constants.OUTPUTS: [
                 {
                   "name": "thumbnail",
                   "plugin": "image",
@@ -106,7 +106,7 @@ def register_publisher(event):
               ]
             },
           ],
-          constants.PUBLISH: [
+          constants.PUBLISHERS: [
             {
               "name": "to ftrack server",
               "plugin":"to_ftrack",

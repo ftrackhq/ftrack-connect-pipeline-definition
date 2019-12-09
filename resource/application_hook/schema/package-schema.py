@@ -47,7 +47,7 @@ def register_package_schema(session, event):
             "properties": {
                 "name": {"type": "string"},
                 "type": {"type": "string", "enum": _asset_types},
-                "context": {
+                constants.CONTEXT: {
                     "type": "array",
                     'minItems': 1,
                     "items": {
@@ -55,7 +55,7 @@ def register_package_schema(session, event):
                         "enum": _context_types
                     }
                 },
-                "components": {
+                constants.COMPONENTS: {
                     "type": "array",
                     "items": {"$ref": "#/definitions/PackageComponent"},
                     'minItems': 1

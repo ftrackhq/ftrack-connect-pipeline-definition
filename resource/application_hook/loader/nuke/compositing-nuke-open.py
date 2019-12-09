@@ -13,7 +13,7 @@ def register_loader(event):
             "name":"CompositingOpen",
             "host":"nuke",
             "ui":"qt",
-            "components": [
+            constants.COMPONENTS: [
                 {
                   "name": "import render layers",
                   "plugin": "images",

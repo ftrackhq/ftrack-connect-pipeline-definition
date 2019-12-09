@@ -15,30 +15,30 @@ def register_publisher(event):
             "package": "geoPkg",
             "host": "3dsmax",
             "ui": "qt",
-            "context": [
+            constants.CONTEXT: [
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components": [
+            constants.COMPONENTS: [
                 {
                     "name": "main",
                     "stages": [
-                    {constants.COLLECT: [
+                    {constants.COLLECTORS: [
                         {
                             "name": "Pick selected object/s",
                             "plugin": "selection",
                         }
                     ],},
-                    {constants.VALIDATE: [
+                    {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],},
-                    {constants.OUTPUT: [
+                    {constants.OUTPUTS: [
                         {
                             "name": "3dsmaxalembic",
                             "plugin": "OutputMaxAlembicPlugin"
@@ -49,20 +49,20 @@ def register_publisher(event):
                 {
                     "name": "thumbnail",
                     "stages": [
-                    {constants.COLLECT: [
+                    {constants.COLLECTORS: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
                     ],},
-                    {constants.VALIDATE: [
+                    {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],},
-                    {constants.OUTPUT: [
+                    {constants.OUTPUTS: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
@@ -73,20 +73,20 @@ def register_publisher(event):
                 {
                     "name": "reviewable",
                     "stages": [
-                    {constants.COLLECT: [
+                    {constants.COLLECTORS: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
                     ],},
-                    {constants.VALIDATE: [
+                    {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
                     ],},
-                    {constants.OUTPUT: [
+                    {constants.OUTPUTS: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
@@ -95,7 +95,7 @@ def register_publisher(event):
                     ]
                 }
             ],
-            constants.PUBLISH: [
+            constants.PUBLISHERS: [
                 {
                     "name": "to ftrack server",
                     "plugin": "result",

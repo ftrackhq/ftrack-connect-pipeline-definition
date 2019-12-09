@@ -12,11 +12,11 @@ def register_asset(event):
         {
             "name":"Shading",
             "type": "shadPackage",
-            "context":[
+            constants.CONTEXT:[
                 "Task",
                 "Shading"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "main"
                 },

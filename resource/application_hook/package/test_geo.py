@@ -12,10 +12,10 @@ def register_asset(event):
         {
             "name": "geoPkg",
             "type": "geo",
-            "context":[
+            constants.CONTEXT:[
                 "Task"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "main"
                 },

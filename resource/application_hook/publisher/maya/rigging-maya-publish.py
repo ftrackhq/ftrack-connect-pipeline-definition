@@ -14,18 +14,18 @@ def register_publisher(event):
             "package": "rigPackage",
             "host":"maya",
             "ui":"qt",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "character",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect from set",
                             "plugin":"from_set",
@@ -34,13 +34,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "rig",
                             "plugin":"rig",
@@ -55,19 +55,19 @@ def register_publisher(event):
                 {
                     "name": "reviewable",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "from cache",
                             "plugin":"scene"
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "playblast",
                             "plugin":"playblast",
@@ -85,19 +85,19 @@ def register_publisher(event):
                 {
                     "name": "thumbnail",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect from viewport",
                             "plugin":"from_viewport"
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "thumbnail",
                             "plugin":"image",
@@ -109,7 +109,7 @@ def register_publisher(event):
                 ]
                 }
             ],
-            constants.PUBLISH:[
+            constants.PUBLISHERS:[
                 {
                     "name": "to ftrack server",
                     "plugin":"to_ftrack",

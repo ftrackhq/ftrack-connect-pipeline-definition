@@ -13,7 +13,7 @@ def register_loader(event):
             "name":"ShadingOpen",
             "host":"maya",
             "ui":"qt",
-            "components": [
+            constants.COMPONENTS: [
               {
                 "name": "import shading",
                 "plugin": "scene",

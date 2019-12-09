@@ -37,21 +37,21 @@ _component_schema = {
         "name": {"type": "string"},
         "stages":{"type":"array",
                   "items":{
-                    constants.COLLECT: {
+                    constants.COLLECTORS: {
                         "type": "array",
                         "items": {"$ref": "#/definitions/Plugin"},
                         "default": [],
                         'minItems': 0,
                         'uniqueItems': True
                     },
-                    constants.VALIDATE: {
+                    constants.VALIDATORS: {
                         "type": "array",
                         "items": {"$ref": "#/definitions/Plugin"},
                         "default": [],
                         'minItems': 0,
                         'uniqueItems': True
                     },
-                    constants.OUTPUT: {
+                    constants.OUTPUTS: {
                         "type": "array",
                         "items": {"$ref": "#/definitions/Plugin"},
                         "default": [],
@@ -96,7 +96,7 @@ def register_publisher_schema(event):
                     'minItems': 0,
                     'uniqueItems': True
                 },
-                constants.PUBLISH: {
+                constants.PUBLISHERS: {
                     "type": "array",
                     "items": {"$ref": "#/definitions/Plugin"},
                     'minItems': 1,

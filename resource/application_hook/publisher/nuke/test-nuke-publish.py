@@ -14,30 +14,30 @@ def register_publisher(event):
             "package": "imgPkg",
             "host":"nuke",
             "ui":"qt",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "nukescript",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect scene",
                             "plugin": "nukescene",
                         }
                         ],
-                        constants.VALIDATE:[
+                        constants.VALIDATORS:[
                             {
                                 "name": "validate selection",
                                 "plugin":"nonempty"
                             }
                         ],
-                        constants.OUTPUT:[
+                        constants.OUTPUTS:[
                             {
                                 "name": "write nuke script",
                                 "plugin": "nukescript"
@@ -48,14 +48,14 @@ def register_publisher(event):
                 {
                     "name": "sequence",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -66,7 +66,7 @@ def register_publisher(event):
                             "options": {"node_type": "Write"}
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "write sequence",
                             "plugin": "sequence"
@@ -77,14 +77,14 @@ def register_publisher(event):
                 {
                     "name": "thumbnail",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -95,7 +95,7 @@ def register_publisher(event):
                             "options": {"node_type": "Write"}
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
@@ -106,14 +106,14 @@ def register_publisher(event):
                 {
                     "name": "reviewable",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "collect write node.",
                             "plugin": "write_node",
                             "widget": "write_node"
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
@@ -124,7 +124,7 @@ def register_publisher(event):
                             "options": {"node_type": "Write"}
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
@@ -133,7 +133,7 @@ def register_publisher(event):
                     ]
                 }
             ],
-            constants.PUBLISH:[
+            constants.PUBLISHERS:[
                 {
                     "name": "to ftrack server",
                     "plugin":"result",

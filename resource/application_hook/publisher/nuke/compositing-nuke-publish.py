@@ -14,18 +14,18 @@ def register_publisher(event):
             "package": "compPackage",
             "host":"nuke",
             "ui":"qt",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "script",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "from scene",
                             "plugin":"from_scene",
@@ -34,13 +34,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "nuke file",
                             "plugin":"nuke_file",
@@ -55,7 +55,7 @@ def register_publisher(event):
                 {
                     "name": "cache",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "from nodes",
                             "plugin":"from_nodes",
@@ -64,13 +64,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "alembic",
                             "plugin":"geometry",
@@ -85,7 +85,7 @@ def register_publisher(event):
                 {
                     "name": "beauty",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -94,13 +94,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -115,7 +115,7 @@ def register_publisher(event):
                 {
                     "name": "diffuse",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -124,13 +124,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -145,7 +145,7 @@ def register_publisher(event):
                 {
                     "name": "reflection",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -154,13 +154,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -175,7 +175,7 @@ def register_publisher(event):
                 {
                     "name": "shadow",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -184,13 +184,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -205,7 +205,7 @@ def register_publisher(event):
                 {
                     "name": "specular",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -214,13 +214,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -235,19 +235,19 @@ def register_publisher(event):
                 {
                     "name": "reviewable",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "from scene",
                             "plugin":"scene"
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "playblast",
                             "plugin":"playblast",
@@ -265,19 +265,19 @@ def register_publisher(event):
                 {
                     "name": "thumbnail",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from viewport",
                             "plugin": "from_viewport"
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "thumbnail",
                             "plugin": "image",
@@ -289,7 +289,7 @@ def register_publisher(event):
                     ]
                 }
             ],
-            constants.PUBLISH:[
+            constants.PUBLISHERS:[
                 {
                     "name": "to ftrack server",
                     "plugin":"to_ftrack",

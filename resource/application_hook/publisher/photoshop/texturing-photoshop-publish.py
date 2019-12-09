@@ -14,18 +14,18 @@ def register_publisher(event):
             "package": "textPackage",
             "host":"photoshop",
             "ui":"js",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "color",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                             {
                                 "name": "collect from layer",
                                 "plugin":"from_layer",
@@ -34,13 +34,13 @@ def register_publisher(event):
                                 }
                             }
                         ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                             {
                                 "name": "validate selection",
                                 "plugin":"non_empty"
                             }
                         ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                             {
                                 "name": "texture layer",
                                 "plugin":"image",
@@ -55,7 +55,7 @@ def register_publisher(event):
                 {
                     "name": "diffuse",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -64,13 +64,13 @@ def register_publisher(event):
                             }
                         }
                         ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                         ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -85,7 +85,7 @@ def register_publisher(event):
                 {
                     "name": "specular",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                             {
                                 "name": "collect from layer",
                                 "plugin":"from_layer",
@@ -94,13 +94,13 @@ def register_publisher(event):
                                 }
                             }
                         ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                             {
                                 "name": "validate selection",
                                 "plugin":"non_empty"
                             }
                         ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                             {
                                 "name": "texture layer",
                                 "plugin":"image",
@@ -115,7 +115,7 @@ def register_publisher(event):
                 {
                     "name": "bump",
                     "stages": [
-                        {constants.COLLECT:[
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect from layer",
                             "plugin":"from_layer",
@@ -124,13 +124,13 @@ def register_publisher(event):
                             }
                         }
                     ],},
-                        {constants.VALIDATE:[
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
                     ],},
-                        {constants.OUTPUT:[
+                        {constants.OUTPUTS:[
                         {
                             "name": "texture layer",
                             "plugin":"image",
@@ -145,19 +145,19 @@ def register_publisher(event):
                 {
                     "name": "thumbnail",
                     "stages": [
-                        {constants.COLLECT: [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from viewport",
                             "plugin": "from_viewport"
                         }
                     ],},
-                        {constants.VALIDATE: [
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
                     ],},
-                        {constants.OUTPUT: [
+                        {constants.OUTPUTS: [
                         {
                             "name": "thumbnail",
                             "plugin": "image",
@@ -169,7 +169,7 @@ def register_publisher(event):
                     ]
                 }
             ],
-            constants.PUBLISH:[
+            constants.PUBLISHERS:[
                 {
                     "name": "to ftrack server",
                     "plugin":"to_ftrack",
