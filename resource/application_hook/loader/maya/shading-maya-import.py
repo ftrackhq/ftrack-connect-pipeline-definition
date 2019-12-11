@@ -13,7 +13,7 @@ def register_loader(event):
             "name":"ShadingBuilder",
             "host":"maya",
             "ui":"qt",
-            "components": [
+            constants.COMPONENTS: [
               {
                 "name": "import geometry",
                 "plugin": "geometry",

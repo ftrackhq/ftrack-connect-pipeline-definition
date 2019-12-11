@@ -13,11 +13,11 @@ def register_asset(event):
         {
             "name": "Animation",
             "type": "animPackage",
-            "context": [
+            constants.CONTEXT: [
                 "Task",
                 "Animation"
             ],
-            "components": [
+            constants.COMPONENTS: [
                 {
                     "name": "main",
                     "optional": True

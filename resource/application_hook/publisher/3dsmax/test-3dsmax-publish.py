@@ -15,78 +15,87 @@ def register_publisher(event):
             "package": "geoPkg",
             "host": "3dsmax",
             "ui": "qt",
-            "context": [
+            constants.CONTEXT: [
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components": {
-                "main": {
-                    "collect": [
+            constants.COMPONENTS: [
+                {
+                    "name": "main",
+                    "stages": [
+                    {constants.COLLECTORS: [
                         {
                             "name": "Pick selected object/s",
                             "plugin": "selection",
                         }
-                    ],
-                    "validate": [
+                    ],},
+                    {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                    {constants.OUTPUTS: [
                         {
                             "name": "3dsmaxalembic",
                             "plugin": "OutputMaxAlembicPlugin"
                         }
+                    ]},
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    "stages": [
+                    {constants.COLLECTORS: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
-                    ],
-                    "validate": [
+                    ],},
+                    {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                    {constants.OUTPUTS: [
                         {
                             "name": "write thumbnail",
                             "plugin": "thumbnail"
                         }
+                    ]},
                     ]
                 },
-                "reviewable": {
-                    "collect": [
+                {
+                    "name": "reviewable",
+                    "stages": [
+                    {constants.COLLECTORS: [
                         {
                             "name": "select viewport to playblast",
                             "plugin": "viewport",
                             "widget": "viewport",
                         }
-                    ],
-                    "validate": [
+                    ],},
+                    {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "nonempty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                    {constants.OUTPUTS: [
                         {
                             "name": "write reviewable",
                             "plugin": "reviewable"
                         }
+                    ]},
                     ]
                 }
-            },
-            "publish": [
+            ],
+            constants.PUBLISHERS: [
                 {
                     "name": "to ftrack server",
                     "plugin": "result",

@@ -12,11 +12,11 @@ def register_asset(event):
         {
             "name":"Rigging",
             "type": "rigPackage",
-            "context":[
+            constants.CONTEXT:[
                 "Task",
                 "Rigging"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "character",
                     "file_type": ["mb", "ma"]

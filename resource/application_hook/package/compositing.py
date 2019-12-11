@@ -12,11 +12,11 @@ def register_asset(event):
         {
             "name":"Compositing",
             "type": "compPackage",
-            "context":[
+            constants.CONTEXT:[
                 "Task",
                 "Compositing"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "script",
                     "file_type": ["nk"]

@@ -14,16 +14,18 @@ def register_publisher(event):
             "package": "rigPackage",
             "host":"maya",
             "ui":"qt",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":{
-                "character":{
-                    "collect":[
+            constants.COMPONENTS:[
+                {
+                    "name": "character",
+                    "stages": [
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect from set",
                             "plugin":"from_set",
@@ -31,14 +33,14 @@ def register_publisher(event):
                               "set_name": "export"
                             }
                         }
-                    ],
-                    "validate":[
+                    ],},
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    "output":[
+                    ],},
+                        {constants.OUTPUTS:[
                         {
                             "name": "rig",
                             "plugin":"rig",
@@ -47,22 +49,25 @@ def register_publisher(event):
                                 "file_type":"ma"
                             }
                         }
+                    ]},
                     ]
                 },
-                "reviewable":{
-                    "collect":[
+                {
+                    "name": "reviewable",
+                    "stages": [
+                        {constants.COLLECTORS:[
                         {
                             "name": "from cache",
                             "plugin":"scene"
                         }
-                    ],
-                    "validate":[
+                    ],},
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    "output":[
+                    ],},
+                        {constants.OUTPUTS:[
                         {
                             "name": "playblast",
                             "plugin":"playblast",
@@ -74,22 +79,25 @@ def register_publisher(event):
                                 "file_type": "mov"
                             }
                         }
+                    ]},
                     ]
                 },
-                "thumbnail": {
-                    "collect":[
+                {
+                    "name": "thumbnail",
+                    "stages": [
+                        {constants.COLLECTORS:[
                         {
                             "name": "collect from viewport",
                             "plugin":"from_viewport"
                         }
-                    ],
-                    "validate":[
+                    ],},
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    "output":[
+                    ],},
+                        {constants.OUTPUTS:[
                         {
                             "name": "thumbnail",
                             "plugin":"image",
@@ -97,10 +105,11 @@ def register_publisher(event):
                                 "file_type":"jpg"
                             }
                         }
-                    ]
+                    ]},
+                ]
                 }
-            },
-            "publish":[
+            ],
+            constants.PUBLISHERS:[
                 {
                     "name": "to ftrack server",
                     "plugin":"to_ftrack",

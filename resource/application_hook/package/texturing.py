@@ -12,11 +12,11 @@ def register_asset(event):
         {
             "name":"Texturing",
             "type": "textPackage",
-            "context":[
+            constants.CONTEXT:[
                 "Task",
                 "Texturing"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "color",
                     "file_type": ["exr"]

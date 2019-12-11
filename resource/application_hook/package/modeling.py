@@ -12,11 +12,11 @@ def register_asset(event):
         {
             "name":"Modeling",
             "type": "modelPackage",
-            "context":[
+            constants.CONTEXT:[
                 "Task",
                 "Modeling"
             ],
-            "components":[
+            constants.COMPONENTS:[
                 {
                     "name": "main",
                     "optional": True

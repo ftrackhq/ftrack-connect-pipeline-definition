@@ -14,16 +14,18 @@ def register_publisher(event):
             "package": "compPackage",
             "host":"nuke",
             "ui":"qt",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components":{
-                "script":{
-                    "collect":[
+            constants.COMPONENTS:[
+                {
+                    "name": "script",
+                    "stages": [
+                        {constants.COLLECTORS:[
                         {
                             "name": "from scene",
                             "plugin":"from_scene",
@@ -31,14 +33,14 @@ def register_publisher(event):
                               "node_type": "write"
                             }
                         }
-                    ],
-                    "validate":[
+                    ],},
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    "output":[
+                    ],},
+                        {constants.OUTPUTS:[
                         {
                             "name": "nuke file",
                             "plugin":"nuke_file",
@@ -47,10 +49,13 @@ def register_publisher(event):
                                 "file_type":"nk"
                             }
                         }
+                    ]},
                     ]
                 },
-                "cache":{
-                    "collect":[
+                {
+                    "name": "cache",
+                    "stages": [
+                        {constants.COLLECTORS:[
                         {
                             "name": "from nodes",
                             "plugin":"from_nodes",
@@ -58,14 +63,14 @@ def register_publisher(event):
                               "node_type": "geo"
                             }
                         }
-                    ],
-                    "validate":[
+                    ],},
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    "output":[
+                    ],},
+                        {constants.OUTPUTS:[
                         {
                             "name": "alembic",
                             "plugin":"geometry",
@@ -74,10 +79,13 @@ def register_publisher(event):
                                 "file_type":"abc"
                             }
                         }
+                    ]},
                     ]
                 },
-                "beauty": {
-                    "collect": [
+                {
+                    "name": "beauty",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -85,14 +93,14 @@ def register_publisher(event):
                                 "suffix": "beauty_"
                             }
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -101,10 +109,13 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
+                    ]},
                     ]
                 },
-                "diffuse": {
-                    "collect": [
+                {
+                    "name": "diffuse",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -112,14 +123,14 @@ def register_publisher(event):
                                 "prefix": "diff_"
                             }
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -128,10 +139,13 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
+                    ]},
                     ]
                 },
-                "reflection": {
-                    "collect": [
+                {
+                    "name": "reflection",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -139,14 +153,14 @@ def register_publisher(event):
                                 "prefix": "ref_"
                             }
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -155,10 +169,13 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
+                    ]},
                     ]
                 },
-                "shadow": {
-                     "collect": [
+                {
+                    "name": "shadow",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -166,14 +183,14 @@ def register_publisher(event):
                                 "prefix": "shad_"
                             }
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -182,10 +199,13 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
+                        ]},
                     ]
                 },
-                "specular": {
-                     "collect": [
+                {
+                    "name": "specular",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from prefix",
                             "plugin": "from_prefix",
@@ -193,14 +213,14 @@ def register_publisher(event):
                                 "prefix": "spec_"
                             }
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "render pass",
                             "plugin": "image",
@@ -209,22 +229,25 @@ def register_publisher(event):
                                 "color_depth": 16
                             }
                         }
+                    ]}
                     ]
                 },
-                "reviewable":{
-                    "collect":[
+                {
+                    "name": "reviewable",
+                    "stages": [
+                        {constants.COLLECTORS:[
                         {
                             "name": "from scene",
                             "plugin":"scene"
                         }
-                    ],
-                    "validate":[
+                    ],},
+                        {constants.VALIDATORS:[
                         {
                             "name": "validate selection",
                             "plugin":"non_empty"
                         }
-                    ],
-                    "output":[
+                    ],},
+                        {constants.OUTPUTS:[
                         {
                             "name": "playblast",
                             "plugin":"playblast",
@@ -236,22 +259,25 @@ def register_publisher(event):
                                 "file_type": "mov"
                             }
                         }
+                    ]},
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from viewport",
                             "plugin": "from_viewport"
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "thumbnail",
                             "plugin": "image",
@@ -259,10 +285,11 @@ def register_publisher(event):
                                 "file_type": "jpg"
                             }
                         }
+                    ]},
                     ]
                 }
-            },
-            "publish":[
+            ],
+            constants.PUBLISHERS:[
                 {
                     "name": "to ftrack server",
                     "plugin":"to_ftrack",

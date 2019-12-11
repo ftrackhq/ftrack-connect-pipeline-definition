@@ -14,28 +14,30 @@ def register_publisher(event):
             "package": "modelPackage",
             "host":"maya",
             "ui":"qt",
-            "context":[
+            constants.CONTEXT:[
                 {
                     "name": "context selector",
                     "plugin": "context.publish",
                     "widget": "context.publish"
                 }
             ],
-            "components": {
-                "main": {
-                    "collect": [
+            constants.COMPONENTS: [
+                {
+                    "name": "main",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "collect from scene",
                             "plugin":"scene"
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "maya ascii",
                             "plugin": "geometry",
@@ -45,10 +47,13 @@ def register_publisher(event):
                                 "animated": False
                             }
                         }
+                    ]},
                     ]
                 },
-                "cache": {
-                    "collect": [
+                {
+                    "name": "cache",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "collect from set",
                             "plugin": "from_set",
@@ -57,8 +62,8 @@ def register_publisher(event):
                                 "file_type": "mayaascii"
                             }
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
@@ -68,8 +73,8 @@ def register_publisher(event):
                             "plugin": "non_mainfold",
                             "editable": False
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "alembic cache",
                             "plugin": "geometry",
@@ -78,22 +83,25 @@ def register_publisher(event):
                                 "file_type": "alembic"
                             }
                         }
+                    ]}
                     ]
                 },
-                "reviewable": {
-                    "collect": [
+                {
+                    "name": "reviewable",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "from scene",
                             "plugin": "scene"
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                        {constants.OUTPUTS: [
                         {
                             "name": "playblast",
                             "plugin": "playblast",
@@ -104,22 +112,25 @@ def register_publisher(event):
                                 "file_type": "mov-h264"
                             }
                         }
+                    ]}
                     ]
                 },
-                "thumbnail": {
-                    "collect": [
+                {
+                    "name": "thumbnail",
+                    "stages": [
+                        {constants.COLLECTORS: [
                         {
                             "name": "collect from viewport",
                             "plugin": "from_viewport"
                         }
-                    ],
-                    "validate": [
+                    ],},
+                        {constants.VALIDATORS: [
                         {
                             "name": "validate selection",
                             "plugin": "non_empty"
                         }
-                    ],
-                    "output": [
+                    ],},
+                    {constants.OUTPUTS: [
                         {
                             "name": "thumbnail",
                             "plugin": "image",
@@ -127,10 +138,11 @@ def register_publisher(event):
                                 "file_type": "jpg"
                             }
                         }
+                    ]},
                     ]
                 },
-            },
-            "publish": [
+            ],
+            constants.PUBLISHERS: [
                 {
                     "name": "to ftrack server",
                     "plugin": "to_ftrack",

@@ -12,8 +12,8 @@ def register_publisher(event):
         {
             "name": "Geometry Publisher",
             "package": "geoPkg",
-            "host":"maya",
-            "ui":"qt",
+            "host":"api",
+            "ui":None,
             constants.CONTEXT:[
                 {
                     "name": "context selector",
@@ -103,7 +103,7 @@ def register_publisher(event):
                     ]
                 },
             ],
-            constants.PUBLISHERS:[
+            constants.PUBLISHERS: [
                 {
                     "name": "to ftrack server",
                     "plugin":"result",
@@ -125,6 +125,6 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=publisher and data.pipeline.host=maya'.format(constants.PIPELINE_REGISTER_TOPIC),
+        'topic={} and data.pipeline.type=publisher and data.pipeline.host=api'.format(constants.PIPELINE_REGISTER_TOPIC),
         register_publisher
     )
