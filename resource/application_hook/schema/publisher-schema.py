@@ -35,7 +35,9 @@ _component_schema = {
     "additionalProperties": False,
     "properties": {
         "name": {"type": "string"},
-        "stages":{"type":"array",
+        "stages":{"type": "array",
+                  "maxItems": 3,
+                  "uniqueItems": True,
                   "items":{
                     constants.COLLECTORS: {
                         "type": "array",

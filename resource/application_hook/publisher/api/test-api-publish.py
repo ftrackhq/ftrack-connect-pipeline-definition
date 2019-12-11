@@ -12,8 +12,8 @@ def register_publisher(event):
         {
             "name": "Geometry Publisher",
             "package": "geoPkg",
-            "host":"maya",
-            "ui":"qt",
+            "host":"api",
+            "ui":None,
             constants.CONTEXT:[
                 {
                     "name": "context selector",
