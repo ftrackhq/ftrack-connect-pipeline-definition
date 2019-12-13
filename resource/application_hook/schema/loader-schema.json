@@ -1,5 +1,6 @@
 {
     "title": "Loader",
+    "type": "object",
     "additionalProperties": false,
     "definitions": {
         "Plugin":{
