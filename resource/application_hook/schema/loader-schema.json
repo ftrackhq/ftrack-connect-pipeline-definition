@@ -1,0 +1,42 @@
+{
+    "title": "Loader",
+    "additionalProperties": false,
+    "definitions": {
+        "Plugin":{
+            "title":"Plugin",
+            "type": "object",
+            "required": [
+                "name", "plugin"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "plugin": {"type": "string"},
+                "widget": {"type": "string"},
+                "visible": {"type": "boolean"},
+                "editable": {"type": "boolean"},
+                "disabled": {"type": "boolean"},
+                "options": {"type": "object"}
+
+            }
+        }
+    },
+    "required": [
+        "host", "ui"
+    ],
+    "properties": {
+        "name": {"type": "string"},
+        "host": {"type": "string"},
+        "ui": {"type": "string"},
+        "components": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/Plugin"}
+        },
+        "post": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/Plugin"}
+        }
+    }
+}
+

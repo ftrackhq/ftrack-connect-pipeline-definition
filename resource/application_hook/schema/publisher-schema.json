@@ -1,0 +1,93 @@
+{
+    "title": "Publisher",
+    "type": "object",
+    "additionalProperties": false,
+    "definitions": {
+        "Component": {
+            "title": "Component",
+            "type": "object",
+            "required": [
+                "name", "stages"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {"type": "string"},
+                "stages":{"type": "array",
+                          "maxItems": 3,
+                          "uniqueItems": true,
+                          "items":{
+                            "collectors": {
+                                "type": "array",
+                                "items": {"$ref": "#/definitions/Plugin"},
+                                "default": [],
+                                "minItems": 0,
+                                "uniqueItems": true
+                            },
+                            "validators": {
+                                "type": "array",
+                                "items": {"$ref": "#/definitions/Plugin"},
+                                "default": [],
+                                "minItems": 0,
+                                "uniqueItems": true
+                            },
+                            "outputs": {
+                                "type": "array",
+                                "items": {"$ref": "#/definitions/Plugin"},
+                                "default": [],
+                                "minItems": 0,
+                                "uniqueItems": true
+                            }
+                          }
+                }
+            }
+        },
+        "Plugin": {
+            "title":"Plugin",
+            "type": "object",
+            "required": [
+                "name", "plugin"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {"type": "string"},
+                "description": {"type": "string"},
+                "plugin": {"type": "string"},
+                "widget": {"type": "string"},
+                "visible": {"type": "boolean"},
+                "editable": {"type": "boolean"},
+                "disabled": {"type": "boolean"},
+                "options": {"type": "object"}
+
+            }
+        }
+    },
+    "required": [
+        "name", "package", "host", "ui", "context", "components", "publishers"
+    ],
+    "properties": {
+        "name": {"type": "string"},
+        "package": {"type": "string"},
+        "host": {"type": "string"},
+        "ui": {"type": "string"},
+        "context": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/Plugin"},
+            "default": [],
+            "minItems": 0,
+            "maxItems": 1
+        },
+        "components": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/Component"},
+            "default": [],
+            "minItems": 0,
+            "uniqueItems": true
+        },
+        "publishers": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/Plugin"},
+            "minItems": 1,
+            "uniqueItems": true
+        }
+    }
+}
