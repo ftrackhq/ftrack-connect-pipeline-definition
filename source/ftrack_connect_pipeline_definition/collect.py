@@ -5,19 +5,31 @@ import json
 import glob
 import logging
 
-def collect_json(sourcePath, event):
-    logger = logging.getLogger(__name__)
-    jsonFiles_l = glob.glob(sourcePath + '/*.json')
-    loadedJsons_l = []
-    for file_s in jsonFiles_l:
-        datastore = None
-        with open(file_s, 'r') as f:
+logger = logging.getLogger(__name__)
+
+
+def collect_json(source_path, event):
+    '''
+    Return a json encoded list of all the json files discovered in the given
+    *source_path*.
+    '''
+
+    json_files = glob.glob(source_path + '/*.json')
+    loaded_jsons = []
+
+    for json_file in json_files:
+        data_store = None
+        with open(json_file, 'r') as _file:
             try:
-                datastore = json.load(f)
-            except Exception as e:
-                logger.warning("{0} could not be registered, reason: {1}".format(file_s, e))
+                data_store = json.load(_file)
+            except Exception as error:
+                logger.warning(
+                    "{0} could not be registered, reason: {1}".format(
+                        _file, str(error)
+                    )
+                )
 
-        if datastore != None:
-            loadedJsons_l.append(datastore)
+        if data_store:
+            loaded_jsons.append(data_store)
 
-    return json.dumps(loadedJsons_l)
+    return json.dumps(loaded_jsons)
