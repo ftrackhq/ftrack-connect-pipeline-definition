@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Texture Publisher",
     "package": "textPackage",
     "host":"photoshop",

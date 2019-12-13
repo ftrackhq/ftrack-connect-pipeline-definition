@@ -1,4 +1,5 @@
 {
+    "type": "loader",
     "name":"ShadingBuilder",
     "host":"maya",
     "ui":"qt",

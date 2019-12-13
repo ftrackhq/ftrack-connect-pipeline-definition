@@ -1,6 +1,7 @@
 {
     "name":"Shading",
-    "type": "shadPackage",
+    "asset_type": "shadPackage",
+    "type": "package",
     "context":[
         "Task",
         "Shading"

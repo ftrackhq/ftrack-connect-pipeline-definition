@@ -1,8 +1,9 @@
 {
+    "type": "publisher",
     "name": "Geometry Publisher",
     "package": "geoPkg",
-    "host":"api",
-    "ui":"None",
+    "host":"python",
+    "ui":null,
     "context":[
         {
             "name": "context selector",

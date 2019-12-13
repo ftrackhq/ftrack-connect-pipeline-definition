@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Lighting Publisher",
     "package": "lightPackage",
     "host":"maya",

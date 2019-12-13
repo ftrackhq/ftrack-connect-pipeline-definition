@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Model Publisher",
     "package": "modelPackage",
     "host":"maya",

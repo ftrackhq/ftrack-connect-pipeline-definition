@@ -1,6 +1,7 @@
 {
+    "type": "package",
     "name":"Lighting",
-    "type": "lightPackage",
+    "asset_type": "lightPackage",
     "context":[
         "Task",
         "Shading"

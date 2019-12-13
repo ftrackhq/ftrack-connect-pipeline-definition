@@ -1,6 +1,7 @@
 {
     "name":"imgPkg",
-    "type": "img",
+    "type": "package",
+    "asset_type": "img",
     "context":[
         "Task"
     ],

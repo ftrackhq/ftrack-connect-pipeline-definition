@@ -1,6 +1,7 @@
 {
+    "type": "package",
     "name":"Modeling",
-    "type": "modelPackage",
+    "asset_type": "modelPackage",
     "context":[
         "Task",
         "Modeling"

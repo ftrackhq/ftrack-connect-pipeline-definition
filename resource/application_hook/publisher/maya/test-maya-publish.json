@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Geometry Publisher",
     "package": "geoPkg",
     "host":"maya",
@@ -17,7 +18,7 @@
                 {"collectors":[
                     {
                         "name": "Pick selected object/s",
-                        "plugin":"selection",
+                        "plugin":"selection"
                     }
                 ]},
                 {"validators":[
@@ -37,7 +38,7 @@
                             "expressions": false,
                             "constraints": false,
                             "shaders": true,
-                            "include_scene_to_assets": false,
+                            "include_scene_to_assets": false
                         }
                     }
                 ]}

@@ -1,6 +1,7 @@
 {
+    "type": "package",
     "name":"Compositing",
-    "type": "compPackage",
+    "asset_type": "animPackage",
     "context":[
         "Task",
         "Compositing"

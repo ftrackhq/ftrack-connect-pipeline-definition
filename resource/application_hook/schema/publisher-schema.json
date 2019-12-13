@@ -62,9 +62,10 @@
         }
     },
     "required": [
-        "name", "package", "host", "ui", "context", "components", "publishers"
+        "name", "package", "host", "ui", "context", "components", "publishers", "type"
     ],
     "properties": {
+        "type": {"type": "string", "pattern": "^publisher$"},
         "name": {"type": "string"},
         "package": {"type": "string"},
         "host": {"type": "string"},

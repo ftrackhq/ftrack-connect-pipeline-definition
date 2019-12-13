@@ -1,6 +1,7 @@
 {
     "name": "geoPkg",
-    "type": "geo",
+    "type": "package",
+    "asset_type": "geo",
     "context":[
         "Task"
     ],

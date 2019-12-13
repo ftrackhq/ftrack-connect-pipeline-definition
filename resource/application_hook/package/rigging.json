@@ -1,6 +1,7 @@
 {
     "name":"Rigging",
-    "type": "rigPackage",
+    "type": "package",
+    "asset_type": "rigPackage",
     "context":[
         "Task",
         "Rigging"

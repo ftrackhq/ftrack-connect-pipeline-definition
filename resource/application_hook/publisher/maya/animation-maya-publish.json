@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Animation Publisher",
     "package": "animPackage",
     "host":"maya",

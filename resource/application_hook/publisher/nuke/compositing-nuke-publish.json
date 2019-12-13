@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Comp Publisher",
     "package": "compPackage",
     "host":"nuke",
@@ -19,7 +20,7 @@
                     "name": "from scene",
                     "plugin":"from_scene",
                     "options": {
-                      "node_type": "write"
+                        "node_type": "write"
                     }
                 }
             ]},

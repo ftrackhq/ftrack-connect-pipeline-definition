@@ -1,4 +1,5 @@
 {
+    "type": "publisher",
     "name": "Lookdev Publisher",
     "package": "shadPackage",
     "host":"maya",

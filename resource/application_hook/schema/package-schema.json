@@ -21,11 +21,12 @@
         }
     },
     "required": [
-        "name", "type", "context", "components"
+        "name", "type", "context", "components", "type"
     ],
     "properties": {
+        "type": {"type": "string", "pattern": "^package$"},
         "name": {"type": "string"},
-        "type": {"type": "string"},
+        "asset_type": {"type": "string"},
         "context": {
             "type": "array",
             "minItems": 1,

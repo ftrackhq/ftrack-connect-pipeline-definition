@@ -5,7 +5,13 @@ import ftrack_api
 from ftrack_connect_pipeline import constants
 import os
 from ftrack_connect_pipeline_definition import collect
-from functools import partial
+
+
+def collect_definitions(event):
+    definitions = collect.collect_json(
+        os.path.dirname(__file__)
+    )
+    return definitions
 
 
 def register(api_object, **kw):
@@ -19,6 +25,6 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=publisher  and data.pipeline.host=3dsmax'.format(constants.PIPELINE_REGISTER_TOPIC),
-        partial(collect.collect_json, os.path.dirname(__file__))
+        'topic={} and data.pipeline.type=definition'.format(constants.PIPELINE_REGISTER_TOPIC),
+        collect_definitions
     )
