@@ -1,0 +1,93 @@
+{
+    "name": "Geometry Publisher",
+    "package": "geoPkg",
+    "host": "3dsmax",
+    "ui": "qt",
+    "context": [
+        {
+            "name": "context selector",
+            "plugin": "context.publish",
+            "widget": "context.publish"
+        }
+    ],
+    "components": [
+        {
+            "name": "main",
+            "stages": [
+            {"collectors": [
+                {
+                    "name": "Pick selected object/s",
+                    "plugin": "selection",
+                }
+            ]},
+            {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "nonempty"
+                }
+            ]},
+            {"outputs": [
+                {
+                    "name": "3dsmaxalembic",
+                    "plugin": "OutputMaxAlembicPlugin"
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "thumbnail",
+            "stages": [
+            {"collectors": [
+                {
+                    "name": "select viewport to playblast",
+                    "plugin": "viewport",
+                    "widget": "viewport",
+                }
+            ]},
+            {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "nonempty"
+                }
+            ]},
+            {"outputs": [
+                {
+                    "name": "write thumbnail",
+                    "plugin": "thumbnail"
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "reviewable",
+            "stages": [
+            {"collectors": [
+                {
+                    "name": "select viewport to playblast",
+                    "plugin": "viewport",
+                    "widget": "viewport",
+                }
+            ]},
+            {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "nonempty"
+                }
+            ]},
+            {"outputs": [
+                {
+                    "name": "write reviewable",
+                    "plugin": "reviewable"
+                }
+            ]}
+            ]
+        }
+    ],
+    "publishers": [
+        {
+            "name": "to ftrack server",
+            "plugin": "result",
+            "visible": false
+        }
+    ]
+}

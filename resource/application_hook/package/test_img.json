@@ -1,0 +1,23 @@
+{
+    "name":"imgPkg",
+    "type": "img",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "nukescript"
+        },
+        {
+            "name": "sequence"
+        },
+        {
+            "name": "thumbnail",
+            "optional": true
+        },
+        {
+            "name": "reviewable",
+            "optional": true
+        },
+    ]
+}

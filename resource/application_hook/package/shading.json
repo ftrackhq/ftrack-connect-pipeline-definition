@@ -1,0 +1,19 @@
+{
+    "name":"Shading",
+    "type": "shadPackage",
+    "context":[
+        "Task",
+        "Shading"
+    ],
+    "components":[
+        {
+            "name": "main"
+        },
+        {
+            "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
+        }
+    ]
+}

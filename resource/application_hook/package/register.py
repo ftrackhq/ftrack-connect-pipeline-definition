@@ -3,33 +3,9 @@
 
 import ftrack_api
 from ftrack_connect_pipeline import constants
-import json
-
-
-def register_asset(event):
-    # return json so we can validate it
-    return json.dumps(
-        {
-            "name": "geoPkg",
-            "type": "geo",
-            constants.CONTEXT:[
-                "Task"
-            ],
-            constants.COMPONENTS:[
-                {
-                    "name": "main"
-                },
-                {
-                    "name": "thumbnail",
-                    "optional": True
-                },
-                {
-                    "name": "reviewable",
-                    "optional": True
-                }
-            ]
-        }
-    )
+import os
+from ftrack_connect_pipeline_definition import collect
+from functools import partial
 
 
 def register(api_object, **kw):
@@ -44,8 +20,5 @@ def register(api_object, **kw):
 
     api_object.event_hub.subscribe(
         'topic={} and data.pipeline.type=package'.format(constants.PIPELINE_REGISTER_TOPIC),
-        register_asset
+        partial(collect.collect_json, os.path.dirname(__file__))
     )
-
-
-

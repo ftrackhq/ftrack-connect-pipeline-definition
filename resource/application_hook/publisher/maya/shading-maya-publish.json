@@ -1,0 +1,105 @@
+{
+    "name": "Lookdev Publisher",
+    "package": "shadPackage",
+    "host":"maya",
+    "ui":"qt",
+    "context":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish"
+        }
+    ],
+    "components": [
+      {
+        "name": "main",
+        "stages": [
+          {"collectors": [
+          {
+            "name": "collect from scene",
+            "plugin": "scene"
+          }
+        ]},
+          {"validators": [
+          {
+            "name": "validate selection",
+            "plugin": "non_empty"
+          }
+        ]},
+          {"outputs": [
+          {
+            "name": "mayascii",
+            "plugin": "geometry",
+            "editable": false,
+            "options": {
+              "file_type": "ma",
+              "animated": false
+            }
+          }
+        ]}
+        ]
+      },
+      {
+        "name": "reviewable",
+        "stages": [
+          {"collectors": [
+          {
+            "name": "from scene",
+            "plugin": "scene"
+          }
+        ]},
+          {"validators": [
+          {
+            "name": "validate selection",
+            "plugin": "non_empty"
+          }
+        ]},
+          {"outputs": [
+          {
+            "name": "playblast",
+            "plugin": "playblast",
+            "options": {
+              "camera": "persp",
+              "start_frame": 0,
+              "end_frame": 100,
+              "file_type": "mov-h264"
+            }
+          }
+        ]}
+        ]
+      },
+      {
+        "name": "thumbnail",
+        "stages": [
+          {"collectors": [
+          {
+            "name": "from viewport",
+            "plugin": "from_viewport"
+          }
+        ]},
+          {"validators": [
+          {
+            "name": "validate selection",
+            "plugin": "non_empty"
+          }
+        ]},
+          {"outputs": [
+          {
+            "name": "thumbnail",
+            "plugin": "image",
+            "options": {
+              "file_type": "jpg"
+            }
+          }
+        ]}
+        ]
+      }
+    ],
+    "publishers": [
+      {
+        "name": "to ftrack server",
+        "plugin":"to_ftrack",
+        "visible":false
+      }
+    ]
+}

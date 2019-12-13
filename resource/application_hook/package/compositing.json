@@ -1,0 +1,50 @@
+{
+    "name":"Compositing",
+    "type": "compPackage",
+    "context":[
+        "Task",
+        "Compositing"
+    ],
+    "components":[
+        {
+            "name": "script",
+            "file_type": ["nk"]
+        },
+        {
+            "name": "cache",
+            "file_type": ["abc"]
+        },
+
+        {
+            "name": "beauty",
+            "file_type": ["exr"],
+            "optional": true
+        },
+        {
+            "name": "diffuse",
+            "file_type": ["exr"],
+            "optional": true
+        },
+        {
+            "name": "reflection",
+            "file_type": ["exr"],
+            "optional": true
+        },
+        {
+            "name": "shadow",
+            "file_type": ["exr"],
+            "optional": true
+        },
+        {
+            "name": "specular",
+            "file_type": ["exr"],
+            "optional": true
+        },
+        {
+            "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
+        }
+    ]
+}

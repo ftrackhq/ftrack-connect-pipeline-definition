@@ -1,0 +1,288 @@
+{
+    "name": "Comp Publisher",
+    "package": "compPackage",
+    "host":"nuke",
+    "ui":"qt",
+    "context":[
+        {
+            "name": "context selector",
+            "plugin": "context.publish",
+            "widget": "context.publish"
+        }
+    ],
+    "components":[
+        {
+            "name": "script",
+            "stages": [
+                {"collectors":[
+                {
+                    "name": "from scene",
+                    "plugin":"from_scene",
+                    "options": {
+                      "node_type": "write"
+                    }
+                }
+            ]},
+                {"validators":[
+                {
+                    "name": "validate selection",
+                    "plugin":"non_empty"
+                }
+            ]},
+                {"outputs":[
+                {
+                    "name": "nuke file",
+                    "plugin":"nuke_file",
+                    "editable":false,
+                    "options":{
+                        "file_type":"nk"
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "cache",
+            "stages": [
+                {"collectors":[
+                {
+                    "name": "from nodes",
+                    "plugin":"from_nodes",
+                    "options": {
+                      "node_type": "geo"
+                    }
+                }
+            ]},
+                {"validators":[
+                {
+                    "name": "validate selection",
+                    "plugin":"non_empty"
+                }
+            ]},
+                {"outputs":[
+                {
+                    "name": "alembic",
+                    "plugin":"geometry",
+                    "editable":false,
+                    "options":{
+                        "file_type":"abc"
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "beauty",
+            "stages": [
+                {"collectors": [
+                {
+                    "name": "from prefix",
+                    "plugin": "from_prefix",
+                    "options": {
+                        "suffix": "beauty_"
+                    }
+                }
+            ]},
+                {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "non_empty"
+                }
+            ]},
+                {"outputs": [
+                {
+                    "name": "render pass",
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "diffuse",
+            "stages": [
+                {"collectors": [
+                {
+                    "name": "from prefix",
+                    "plugin": "from_prefix",
+                    "options": {
+                        "prefix": "diff_"
+                    }
+                }
+            ]},
+                {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "non_empty"
+                }
+            ]},
+                {"outputs": [
+                {
+                    "name": "render pass",
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "reflection",
+            "stages": [
+                {"collectors": [
+                {
+                    "name": "from prefix",
+                    "plugin": "from_prefix",
+                    "options": {
+                        "prefix": "ref_"
+                    }
+                }
+            ]},
+                {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "non_empty"
+                }
+            ]},
+                {"outputs": [
+                {
+                    "name": "render pass",
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "shadow",
+            "stages": [
+                {"collectors": [
+                {
+                    "name": "from prefix",
+                    "plugin": "from_prefix",
+                    "options": {
+                        "prefix": "shad_"
+                    }
+                }
+            ]},
+                {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "non_empty"
+                }
+            ]},
+                {"outputs": [
+                {
+                    "name": "render pass",
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+                ]}
+            ]
+        },
+        {
+            "name": "specular",
+            "stages": [
+                {"collectors": [
+                {
+                    "name": "from prefix",
+                    "plugin": "from_prefix",
+                    "options": {
+                        "prefix": "spec_"
+                    }
+                }
+            ]},
+                {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "non_empty"
+                }
+            ]},
+                {"outputs": [
+                {
+                    "name": "render pass",
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "exr",
+                        "color_depth": 16
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "reviewable",
+            "stages": [
+                {"collectors":[
+                {
+                    "name": "from scene",
+                    "plugin":"scene"
+                }
+            ]},
+                {"validators":[
+                {
+                    "name": "validate selection",
+                    "plugin":"non_empty"
+                }
+            ]},
+                {"outputs":[
+                {
+                    "name": "playblast",
+                    "plugin":"playblast",
+                    "options":{
+                        "from_camera": "persp",
+                        "start_frame":0,
+                        "end_frame":100,
+                        "encoding":"h264",
+                        "file_type": "mov"
+                    }
+                }
+            ]}
+            ]
+        },
+        {
+            "name": "thumbnail",
+            "stages": [
+                {"collectors": [
+                {
+                    "name": "from viewport",
+                    "plugin": "from_viewport"
+                }
+            ]},
+                {"validators": [
+                {
+                    "name": "validate selection",
+                    "plugin": "non_empty"
+                }
+            ]},
+                {"outputs": [
+                {
+                    "name": "thumbnail",
+                    "plugin": "image",
+                    "options": {
+                        "file_type": "jpg"
+                    }
+                }
+            ]}
+            ]
+        }
+    ],
+    "publishers":[
+        {
+            "name": "to ftrack server",
+            "plugin":"to_ftrack",
+            "visible":false
+        }
+    ]
+}

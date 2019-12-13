@@ -1,0 +1,102 @@
+{
+    "name": "Geometry Publisher",
+    "package": "geoPkg",
+    "host":"maya",
+    "ui":"qt",
+    "context":[
+        {
+            "name": "context selector",
+            "plugin": "context.publish",
+            "widget": "context.publish"
+        }
+    ],
+    "components": [
+        {
+            "name": "main",
+            "stages": [
+                {"collectors":[
+                    {
+                        "name": "Pick selected object/s",
+                        "plugin":"selection",
+                    }
+                ]},
+                {"validators":[
+                    {
+                        "name": "validate selection",
+                        "plugin":"nonempty"
+                    }
+                ]},
+                {"outputs":[
+                    {
+                        "name": "maya",
+                        "plugin": "mayabinary",
+                        "options": {
+                            "preserve_reference": false,
+                            "history": false,
+                            "channels": true,
+                            "expressions": false,
+                            "constraints": false,
+                            "shaders": true,
+                            "include_scene_to_assets": false,
+                        }
+                    }
+                ]}
+            ]
+        },
+        {
+            "name": "thumbnail",
+            "stages": [
+                {"collectors": [
+                    {
+                        "name": "select camera to playblast",
+                        "plugin": "camera",
+                        "options": {"camera_name": "persp"}
+                    }
+                ]},
+                {"validators": [
+                    {
+                        "name": "validate selection",
+                        "plugin": "nonempty"
+                    }
+                ]},
+                {"outputs": [
+                    {
+                        "name": "write thumbnail",
+                        "plugin": "thumbnail"
+                    }
+                ]}
+            ]
+        },
+        {
+            "name": "reviewable",
+            "stages": [
+                {"collectors": [
+                    {
+                        "name": "select camera to playblast",
+                        "plugin": "camera",
+                        "options": {"camera_name": "persp"}
+                    }
+                ]},
+                {"validators": [
+                    {
+                        "name": "validate selection",
+                        "plugin": "nonempty"
+                    }
+                ]},
+                {"outputs": [
+                    {
+                        "name": "write reviewable",
+                        "plugin": "reviewable"
+                    }
+                ]}
+            ]
+        }
+    ],
+    "publishers":[
+        {
+            "name": "to ftrack server",
+            "plugin":"result",
+            "visible":false
+        }
+    ]
+}
