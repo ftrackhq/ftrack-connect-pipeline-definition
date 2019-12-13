@@ -24,4 +24,4 @@ result = session.event_hub.publish(
     synchronous=True,
 )
 
-print 'RESULTS', result[0]
+print 'RESULTS', pformat(result[0]), len(result[0])

@@ -49,6 +49,7 @@
             ],
             "additionalProperties": false,
             "properties": {
+                "type": {"type": "string", "pattern": "^plugin$"},
                 "name": {"type": "string"},
                 "description": {"type": "string"},
                 "plugin": {"type": "string"},
