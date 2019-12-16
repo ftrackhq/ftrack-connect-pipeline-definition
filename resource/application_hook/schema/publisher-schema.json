@@ -1,5 +1,5 @@
 {
-  "title": "Publisher",
+  "title": "PublisherSchema",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
@@ -14,6 +14,10 @@
       "properties": {
         "name": {
           "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^component$"
         },
         "stages": {
           "type": "array",

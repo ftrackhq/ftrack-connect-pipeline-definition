@@ -14,6 +14,7 @@
   ],
   "components": [
     {
+      "type": "component",
       "name": "nukescript",
       "stages": [
         {
@@ -42,6 +43,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "sequence",
       "stages": [
         {
@@ -83,6 +85,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
@@ -124,6 +127,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "reviewable",
       "stages": [
         {

@@ -1,5 +1,5 @@
 {
-  "title": "Loader",
+  "title": "LoaderSchema",
   "type": "object",
   "additionalProperties": false,
   "definitions": {

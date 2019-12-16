@@ -14,6 +14,7 @@
   ],
   "components": [
     {
+      "type": "component",
       "name": "main",
       "stages": [
         {
@@ -46,6 +47,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
@@ -79,6 +81,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "reviewable",
       "stages": [
         {

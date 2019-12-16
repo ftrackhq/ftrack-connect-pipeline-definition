@@ -14,6 +14,7 @@
   ],
   "components": [
     {
+      "type": "component",
       "name": "main",
       "stages": [
         {
@@ -54,6 +55,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "beauty",
       "stages": [
         {
@@ -93,6 +95,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "diffuse",
       "stages": [
         {
@@ -132,6 +135,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "reflection",
       "stages": [
         {
@@ -171,6 +175,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "shadow",
       "stages": [
         {
@@ -210,6 +215,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "specular",
       "stages": [
         {
@@ -249,6 +255,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "reviewable",
       "stages": [
         {
@@ -288,6 +295,7 @@
       ]
     },
     {
+      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
