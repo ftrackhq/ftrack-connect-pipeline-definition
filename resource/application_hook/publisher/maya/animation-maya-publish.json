@@ -1,148 +1,187 @@
 {
-    "type": "publisher",
-    "name": "Animation Publisher",
-    "package": "animPackage",
-    "host":"maya",
-    "ui":"qt",
-    "context":[
+  "type": "publisher",
+  "name": "Animation Publisher",
+  "package": "animPackage",
+  "host": "maya",
+  "ui": "qt",
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
         {
-            "name": "context selector",
-            "plugin": "context.publish",
-            "widget": "context.publish"
-        }
-    ],
-    "components":[
-        {
-            "name": "main",
-            "stages": [
-            {"collectors":[
-                {
-                    "name": "collect from scene",
-                    "plugin":"scene"
-                }
-            ]},
-            {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-            {"outputs":[
-                {
-                    "name": "maya ascii",
-                    "plugin":"geometry",
-                    "editable":false,
-                    "options":{
-                        "file_type":"ma",
-                        "animated":true,
-                        "start_frame":0,
-                        "end_frame":100
-                    }
-                }
-            ]}
-            ]
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
         },
         {
-            "name": "cache",
-            "stages": [
-            {"collectors":[
-                {
-                    "name": "collect from set",
-                    "plugin":"from_set",
-                    "editable":false,
-                    "options":{
-                        "set_name":"BAKE"
-                    }
-                }
-            ]},
-            {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                },
-                {
-                    "name": "ensure mainfold",
-                    "plugin":"non_mainfold",
-                    "editable":false
-                }
-            ]},
-            {"outputs":[
-                {
-                    "name": "alembic",
-                    "plugin":"geometry",
-                "editable":false,
-                    "options":{
-                        "file_type":"alembic",
-                        "animated":true,
-                        "start_frame":0,
-                        "end_frame":100
-                    }
-                }
-            ]}
-            ]
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
         },
         {
-            "name": "reviewable",
-            "stages": [
-            {"collectors":[
-                {
-                    "name": "collect from scene",
-                    "plugin":"scene"
-                }
-            ]},
-            {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-            {"outputs":[
-                {
-                    "name": "playblast",
-                    "plugin":"playblast",
-                    "options":{
-                        "from_camera": "persp",
-                        "start_frame":0,
-                        "end_frame":100,
-                        "encoding":"h264",
-                        "file_type": "mov"
-                    }
-                }
-            ]}
-            ]
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "maya ascii",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "ma",
+                "animated": true,
+                "start_frame": 0,
+                "end_frame": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from set",
+              "plugin": "from_set",
+              "editable": false,
+              "options": {
+                "set_name": "BAKE"
+              }
+            }
+          ]
         },
         {
-            "name": "thumbnail",
-            "stages": [
-            {"collectors":[
-                {
-                    "name": "from viewport",
-                    "plugin":"from_viewport"
-                }
-            ]},
-            {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-            {"outputs":[
-                {
-                    "name": "thumbnail",
-                    "plugin":"image",
-                    "options":{
-                        "file_type":"jpg"
-                    }
-                }
-            ]}
-            ]
-        }
-    ],
-    "publishers":[
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            },
+            {
+              "type": "plugin",
+              "name": "ensure mainfold",
+              "plugin": "non_mainfold",
+              "editable": false
+            }
+          ]
+        },
         {
-            "name": "to ftrack server",
-            "plugin":"to_ftrack",
-            "visible":false
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "alembic",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "alembic",
+                "animated": true,
+                "start_frame": 0,
+                "end_frame": 100
+              }
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "from_camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "encoding": "h264",
+                "file_type": "mov"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
 }

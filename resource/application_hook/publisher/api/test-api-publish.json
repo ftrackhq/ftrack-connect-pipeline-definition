@@ -1,132 +1,136 @@
 {
-    "type": "publisher",
-    "name": "Geometry Publisher",
-    "package": "geoPkg",
-    "host":"python",
-    "ui":null,
-    "context":[
+  "type": "publisher",
+  "name": "Geometry Publisher",
+  "package": "geoPkg",
+  "host": "python",
+  "ui": null,
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
         {
-            "type": "plugin",
-            "name": "context selector",
-            "plugin": "context.publish",
-            "widget": "context.publish"
-        }
-    ],
-    "components": [
-        {
-            "name": "main",
-            "stages": [
-                {
-                    "collectors":[
-                        {
-                            "type": "plugin",
-                            "name": "Pick selected object/s",
-                            "plugin":"selection"
-                        }
-                    ]
-                },
-                {
-                    "validators":[
-                        {
-                            "type": "plugin",
-                            "name": "validate selection",
-                            "plugin":"nonempty"
-                        }
-                    ]
-                },
-                {
-                    "outputs":[
-                        {
-                            "type": "plugin",
-                            "name": "maya",
-                            "plugin": "mayabinary",
-                            "options": {
-                                "preserve_reference": false,
-                                "history": false,
-                                "channels": true,
-                                "expressions": false,
-                                "constraints": false,
-                                "shaders": true,
-                                "include_scene_to_assets": false
-                            }
-                        }
-                    ]
-                }
-            ]
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "Pick selected object/s",
+              "plugin": "selection"
+            }
+          ]
         },
         {
-            "name": "thumbnail",
-            "stages": [
-                {
-                    "collectors": [
-                        {
-                            "type": "plugin",
-                            "name": "select camera to playblast",
-                            "plugin": "camera",
-                            "options": {"camera_name": "persp"}
-                        }
-                    ]
-                },
-                {
-                    "validators": [
-                        {
-                            "type": "plugin",
-                            "name": "validate selection",
-                            "plugin": "nonempty"
-                        }
-                    ]
-                },
-                {
-                    "outputs": [
-                        {
-                            "type": "plugin",
-                            "name": "write thumbnail",
-                            "plugin": "thumbnail"
-                        }
-                    ]
-                }
-            ]
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
         },
         {
-            "name": "reviewable",
-            "stages": [
-                {
-                    "collectors": [
-                        {
-                            "type": "plugin",
-                            "name": "select camera to playblast",
-                            "plugin": "camera",
-                            "options": {"camera_name": "persp"}
-                        }
-                    ]
-                },
-                {
-                    "validators": [
-                        {
-                            "type": "plugin",
-                            "name": "validate selection",
-                            "plugin": "nonempty"
-                        }
-                    ]
-                },
-                {
-                    "outputs": [
-                        {
-                            "type": "plugin",
-                            "name": "write reviewable",
-                            "plugin": "reviewable"
-                        }
-                    ]
-                }
-            ]
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "maya",
+              "plugin": "mayabinary",
+              "options": {
+                "preserve_reference": false,
+                "history": false,
+                "channels": true,
+                "expressions": false,
+                "constraints": false,
+                "shaders": true,
+                "include_scene_to_assets": false
+              }
+            }
+          ]
         }
-    ],
-    "publishers": [
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
         {
-            "type": "plugin",
-            "name": "to ftrack server",
-            "plugin":"result",
-            "visible":false
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "select camera to playblast",
+              "plugin": "camera",
+              "options": {
+                "camera_name": "persp"
+              }
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "write thumbnail",
+              "plugin": "thumbnail"
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "select camera to playblast",
+              "plugin": "camera",
+              "options": {
+                "camera_name": "persp"
+              }
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "write reviewable",
+              "plugin": "reviewable"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "result",
+      "visible": false
+    }
+  ]
 }

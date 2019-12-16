@@ -1,45 +1,79 @@
 {
-    "title": "Loader",
-    "type": "object",
-    "additionalProperties": false,
-    "definitions": {
-        "Plugin":{
-            "title":"Plugin",
-            "type": "object",
-            "required": [
-                "name", "plugin"
-            ],
-            "additionalProperties": false,
-            "properties": {
-                "type": {"type": "string", "pattern": "^plugin$"},
-                "name": {"type": "string"},
-                "description": {"type": "string"},
-                "plugin": {"type": "string"},
-                "widget": {"type": "string"},
-                "visible": {"type": "boolean"},
-                "editable": {"type": "boolean"},
-                "disabled": {"type": "boolean"},
-                "options": {"type": "object"}
-
-            }
-        }
-    },
-    "required": [
-        "host", "ui", "type"
-    ],
-    "properties": {
-        "type": {"type": "string", "pattern": "^loader$"},
-        "name": {"type": "string"},
-        "host": {"type": "string"},
-        "ui": {"type": "string"},
-        "components": {
-            "type": "array",
-            "items": {"$ref": "#/definitions/Plugin"}
+  "title": "Loader",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "Plugin": {
+      "title": "Plugin",
+      "type": "object",
+      "required": [
+        "name",
+        "plugin"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^plugin$"
         },
-        "post": {
-            "type": "array",
-            "items": {"$ref": "#/definitions/Plugin"}
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "plugin": {
+          "type": "string"
+        },
+        "widget": {
+          "type": "string"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "object"
         }
+      }
     }
+  },
+  "required": [
+    "host",
+    "ui",
+    "type"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "pattern": "^loader$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string"
+    },
+    "ui": {
+      "type": "string"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Plugin"
+      }
+    },
+    "post": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Plugin"
+      }
+    }
+  }
 }
 

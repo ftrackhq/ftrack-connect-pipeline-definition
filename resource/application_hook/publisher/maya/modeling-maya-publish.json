@@ -1,142 +1,181 @@
 {
-    "type": "publisher",
-    "name": "Model Publisher",
-    "package": "modelPackage",
-    "host":"maya",
-    "ui":"qt",
-    "context":[
+  "type": "publisher",
+  "name": "Model Publisher",
+  "package": "modelPackage",
+  "host": "maya",
+  "ui": "qt",
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
         {
-            "name": "context selector",
-            "plugin": "context.publish",
-            "widget": "context.publish"
-        }
-    ],
-    "components": [
-        {
-            "name": "main",
-            "stages": [
-                {"collectors": [
-                {
-                    "name": "collect from scene",
-                    "plugin":"scene"
-                }
-            ]},
-                {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "non_empty"
-                }
-            ]},
-                {"outputs": [
-                {
-                    "name": "maya ascii",
-                    "plugin": "geometry",
-                    "editable": false,
-                    "options": {
-                        "file_type": "ma",
-                        "animated": false
-                    }
-                }
-            ]}
-            ]
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
         },
         {
-            "name": "cache",
-            "stages": [
-                {"collectors": [
-                {
-                    "name": "collect from set",
-                    "plugin": "from_set",
-                    "editable": false,
-                    "options": {
-                        "file_type": "mayaascii"
-                    }
-                }
-            ]},
-                {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "non_empty"
-                },
-                {
-                    "name": "ensure mainfold",
-                    "plugin": "non_mainfold",
-                    "editable": false
-                }
-            ]},
-                {"outputs": [
-                {
-                    "name": "alembic cache",
-                    "plugin": "geometry",
-                    "editable": false,
-                    "options": {
-                        "file_type": "alembic"
-                    }
-                }
-            ]}
-            ]
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
         },
         {
-            "name": "reviewable",
-            "stages": [
-                {"collectors": [
-                {
-                    "name": "from scene",
-                    "plugin": "scene"
-                }
-            ]},
-                {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "non_empty"
-                }
-            ]},
-                {"outputs": [
-                {
-                    "name": "playblast",
-                    "plugin": "playblast",
-                    "options": {
-                        "from_camera": "persp",
-                        "start_frame": 0,
-                        "end_frame": 100,
-                        "file_type": "mov-h264"
-                    }
-                }
-            ]}
-            ]
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "maya ascii",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "ma",
+                "animated": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from set",
+              "plugin": "from_set",
+              "editable": false,
+              "options": {
+                "file_type": "mayaascii"
+              }
+            }
+          ]
         },
         {
-            "name": "thumbnail",
-            "stages": [
-                {"collectors": [
-                {
-                    "name": "collect from viewport",
-                    "plugin": "from_viewport"
-                }
-            ]},
-                {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "non_empty"
-                }
-            ]},
-            {"outputs": [
-                {
-                    "name": "thumbnail",
-                    "plugin": "image",
-                    "options": {
-                        "file_type": "jpg"
-                    }
-                }
-            ]}
-            ]
-        }
-    ],
-    "publishers": [
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            },
+            {
+              "type": "plugin",
+              "name": "ensure mainfold",
+              "plugin": "non_mainfold",
+              "editable": false
+            }
+          ]
+        },
         {
-            "name": "to ftrack server",
-            "plugin": "to_ftrack",
-            "visible": false
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "alembic cache",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "alembic"
+              }
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "from_camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "file_type": "mov-h264"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
 }

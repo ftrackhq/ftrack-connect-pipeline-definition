@@ -1,106 +1,135 @@
 {
-    "type": "publisher",
-    "name": "Lookdev Publisher",
-    "package": "shadPackage",
-    "host":"maya",
-    "ui":"qt",
-    "context":[
+  "type": "publisher",
+  "name": "Lookdev Publisher",
+  "package": "shadPackage",
+  "host": "maya",
+  "ui": "qt",
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.publish",
-          "widget": "context.publish"
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "mayascii",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "ma",
+                "animated": false
+              }
+            }
+          ]
         }
-    ],
-    "components": [
-      {
-        "name": "main",
-        "stages": [
-          {"collectors": [
-          {
-            "name": "collect from scene",
-            "plugin": "scene"
-          }
-        ]},
-          {"validators": [
-          {
-            "name": "validate selection",
-            "plugin": "non_empty"
-          }
-        ]},
-          {"outputs": [
-          {
-            "name": "mayascii",
-            "plugin": "geometry",
-            "editable": false,
-            "options": {
-              "file_type": "ma",
-              "animated": false
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "from scene",
+              "plugin": "scene"
             }
-          }
-        ]}
-        ]
-      },
-      {
-        "name": "reviewable",
-        "stages": [
-          {"collectors": [
-          {
-            "name": "from scene",
-            "plugin": "scene"
-          }
-        ]},
-          {"validators": [
-          {
-            "name": "validate selection",
-            "plugin": "non_empty"
-          }
-        ]},
-          {"outputs": [
-          {
-            "name": "playblast",
-            "plugin": "playblast",
-            "options": {
-              "camera": "persp",
-              "start_frame": 0,
-              "end_frame": 100,
-              "file_type": "mov-h264"
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
             }
-          }
-        ]}
-        ]
-      },
-      {
-        "name": "thumbnail",
-        "stages": [
-          {"collectors": [
-          {
-            "name": "from viewport",
-            "plugin": "from_viewport"
-          }
-        ]},
-          {"validators": [
-          {
-            "name": "validate selection",
-            "plugin": "non_empty"
-          }
-        ]},
-          {"outputs": [
-          {
-            "name": "thumbnail",
-            "plugin": "image",
-            "options": {
-              "file_type": "jpg"
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "file_type": "mov-h264"
+              }
             }
-          }
-        ]}
-        ]
-      }
-    ],
-    "publishers": [
-      {
-        "name": "to ftrack server",
-        "plugin":"to_ftrack",
-        "visible":false
-      }
-    ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
 }

@@ -1,27 +1,35 @@
 {
-    "type": "loader",
-    "name":"ShadingBuilder",
-    "host":"maya",
-    "ui":"qt",
-    "components": [
-      {
-        "name": "import geometry",
-        "plugin": "geometry",
-        "options":{
-          "type": "modelPackage",
-          "component": ["main"]
-        }
-      },
-      {
-        "name": "import texture",
-        "plugin": "image",
-        "options":{
-          "type": "textPackage",
-          "component": ["color", "diffuse", "specular", "bump"]
-        }
+  "type": "loader",
+  "name": "ShadingBuilder",
+  "host": "maya",
+  "ui": "qt",
+  "components": [
+    {
+      "type": "plugin",
+      "name": "import geometry",
+      "plugin": "geometry",
+      "options": {
+        "type": "modelPackage",
+        "component": [
+          "main"
+        ]
       }
-    ],
-    "post_import": [
-
-    ]
+    },
+    {
+      "type": "plugin",
+      "name": "import texture",
+      "plugin": "image",
+      "options": {
+        "type": "textPackage",
+        "component": [
+          "color",
+          "diffuse",
+          "specular",
+          "bump"
+        ]
+      }
+    }
+  ],
+  "post_import": [
+  ]
 }

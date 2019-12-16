@@ -1,109 +1,138 @@
 {
-    "type": "publisher",
-    "name": "Rig Publisher",
-    "package": "rigPackage",
-    "host":"maya",
-    "ui":"qt",
-    "context":[
+  "type": "publisher",
+  "name": "Rig Publisher",
+  "package": "rigPackage",
+  "host": "maya",
+  "ui": "qt",
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "character",
+      "stages": [
         {
-            "name": "context selector",
-            "plugin": "context.publish",
-            "widget": "context.publish"
-        }
-    ],
-    "components":[
-        {
-            "name": "character",
-            "stages": [
-                {"collectors":[
-                {
-                    "name": "collect from set",
-                    "plugin":"from_set",
-                    "options": {
-                      "set_name": "export"
-                    }
-                }
-            ]},
-                {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-                {"outputs":[
-                {
-                    "name": "rig",
-                    "plugin":"rig",
-                    "editable":false,
-                    "options":{
-                        "file_type":"ma"
-                    }
-                }
-            ]}
-            ]
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from set",
+              "plugin": "from_set",
+              "options": {
+                "set_name": "export"
+              }
+            }
+          ]
         },
         {
-            "name": "reviewable",
-            "stages": [
-                {"collectors":[
-                {
-                    "name": "from cache",
-                    "plugin":"scene"
-                }
-            ]},
-                {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-                {"outputs":[
-                {
-                    "name": "playblast",
-                    "plugin":"playblast",
-                    "options":{
-                        "from_camera": "persp",
-                        "start_frame":0,
-                        "end_frame":100,
-                        "encoding":"h264",
-                        "file_type": "mov"
-                    }
-                }
-            ]}
-            ]
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
         },
         {
-            "name": "thumbnail",
-            "stages": [
-                {"collectors":[
-                {
-                    "name": "collect from viewport",
-                    "plugin":"from_viewport"
-                }
-            ]},
-                {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-                {"outputs":[
-                {
-                    "name": "thumbnail",
-                    "plugin":"image",
-                    "options":{
-                        "file_type":"jpg"
-                    }
-                }
-            ]}
-        ]
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "rig",
+              "plugin": "rig",
+              "editable": false,
+              "options": {
+                "file_type": "ma"
+              }
+            }
+          ]
         }
-    ],
-    "publishers":[
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
         {
-            "name": "to ftrack server",
-            "plugin":"to_ftrack",
-            "visible":false
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "from cache",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "from_camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "encoding": "h264",
+                "file_type": "mov"
+              }
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
 }

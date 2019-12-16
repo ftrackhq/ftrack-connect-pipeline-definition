@@ -1,94 +1,123 @@
 {
-    "type": "publisher",
-    "name": "Geometry Publisher",
-    "package": "geoPkg",
-    "host": "3dsmax",
-    "ui": "qt",
-    "context": [
+  "type": "publisher",
+  "name": "Geometry Publisher",
+  "package": "geoPkg",
+  "host": "3dsmax",
+  "ui": "qt",
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
         {
-            "name": "context selector",
-            "plugin": "context.publish",
-            "widget": "context.publish"
-        }
-    ],
-    "components": [
-        {
-            "name": "main",
-            "stages": [
-            {"collectors": [
-                {
-                    "name": "Pick selected object/s",
-                    "plugin": "selection"
-                }
-            ]},
-            {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "nonempty"
-                }
-            ]},
-            {"outputs": [
-                {
-                    "name": "3dsmaxalembic",
-                    "plugin": "OutputMaxAlembicPlugin"
-                }
-            ]}
-            ]
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "Pick selected object/s",
+              "plugin": "selection"
+            }
+          ]
         },
         {
-            "name": "thumbnail",
-            "stages": [
-            {"collectors": [
-                {
-                    "name": "select viewport to playblast",
-                    "plugin": "viewport",
-                    "widget": "viewport"
-                }
-            ]},
-            {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "nonempty"
-                }
-            ]},
-            {"outputs": [
-                {
-                    "name": "write thumbnail",
-                    "plugin": "thumbnail"
-                }
-            ]}
-            ]
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
         },
         {
-            "name": "reviewable",
-            "stages": [
-            {"collectors": [
-                {
-                    "name": "select viewport to playblast",
-                    "plugin": "viewport",
-                    "widget": "viewport"
-                }
-            ]},
-            {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "nonempty"
-                }
-            ]},
-            {"outputs": [
-                {
-                    "name": "write reviewable",
-                    "plugin": "reviewable"
-                }
-            ]}
-            ]
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "3dsmaxalembic",
+              "plugin": "OutputMaxAlembicPlugin"
+            }
+          ]
         }
-    ],
-    "publishers": [
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
         {
-            "name": "to ftrack server",
-            "plugin": "result",
-            "visible": false
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "select viewport to playblast",
+              "plugin": "viewport",
+              "widget": "viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "write thumbnail",
+              "plugin": "thumbnail"
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "select viewport to playblast",
+              "plugin": "viewport",
+              "widget": "viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "write reviewable",
+              "plugin": "reviewable"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "result",
+      "visible": false
+    }
+  ]
 }

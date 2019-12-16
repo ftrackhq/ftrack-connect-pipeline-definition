@@ -1,169 +1,216 @@
 {
-    "type": "publisher",
-    "name": "Texture Publisher",
-    "package": "textPackage",
-    "host":"photoshop",
-    "ui":"js",
-    "context":[
+  "type": "publisher",
+  "name": "Texture Publisher",
+  "package": "textPackage",
+  "host": "photoshop",
+  "ui": "js",
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "color",
+      "stages": [
         {
-            "name": "context selector",
-            "plugin": "context.publish",
-            "widget": "context.publish"
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from layer",
+              "plugin": "from_layer",
+              "options": {
+                "prefix": "col_"
+              }
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "texture layer",
+              "plugin": "image",
+              "options": {
+                "file_type": "exr",
+                "color_depth": 16
+              }
+            }
+          ]
         }
-    ],
-    "components":[
+      ]
+    },
+    {
+      "name": "diffuse",
+      "stages": [
         {
-            "name": "color",
-            "stages": [
-                {"collectors":[
-                    {
-                        "name": "collect from layer",
-                        "plugin":"from_layer",
-                        "options": {
-                            "prefix": "col_"
-                        }
-                    }
-                ]},
-                {"validators":[
-                    {
-                        "name": "validate selection",
-                        "plugin":"non_empty"
-                    }
-                ]},
-                {"outputs":[
-                    {
-                        "name": "texture layer",
-                        "plugin":"image",
-                        "options":{
-                            "file_type":"exr",
-                            "color_depth": 16
-                        }
-                    }
-                ]}
-                ]
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from layer",
+              "plugin": "from_layer",
+              "options": {
+                "prefix": "diff_"
+              }
+            }
+          ]
         },
         {
-            "name": "diffuse",
-            "stages": [
-                {"collectors":[
-                {
-                    "name": "collect from layer",
-                    "plugin":"from_layer",
-                    "options": {
-                        "prefix": "diff_"
-                    }
-                }
-                ]},
-                {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-                ]},
-                {"outputs":[
-                {
-                    "name": "texture layer",
-                    "plugin":"image",
-                    "options":{
-                        "file_type":"exr",
-                        "color_depth": 16
-                    }
-                }
-                ]}
-            ]
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
         },
         {
-            "name": "specular",
-            "stages": [
-                {"collectors":[
-                    {
-                        "name": "collect from layer",
-                        "plugin":"from_layer",
-                        "options": {
-                            "prefix": "spec_"
-                        }
-                    }
-                ]},
-                {"validators":[
-                    {
-                        "name": "validate selection",
-                        "plugin":"non_empty"
-                    }
-                ]},
-                {"outputs":[
-                    {
-                        "name": "texture layer",
-                        "plugin":"image",
-                        "options":{
-                            "file_type":"exr",
-                            "color_depth": 16
-                        }
-                    }
-                ]}
-            ]
-        },
-        {
-            "name": "bump",
-            "stages": [
-                {"collectors":[
-                {
-                    "name": "collect from layer",
-                    "plugin":"from_layer",
-                    "options": {
-                        "prefix": "bump_"
-                    }
-                }
-            ]},
-                {"validators":[
-                {
-                    "name": "validate selection",
-                    "plugin":"non_empty"
-                }
-            ]},
-                {"outputs":[
-                {
-                    "name": "texture layer",
-                    "plugin":"image",
-                    "options":{
-                        "file_type":"exr",
-                        "color_depth": 16
-                    }
-                }
-            ]}
-        ]
-        },
-        {
-            "name": "thumbnail",
-            "stages": [
-                {"collectors": [
-                {
-                    "name": "from viewport",
-                    "plugin": "from_viewport"
-                }
-            ]},
-                {"validators": [
-                {
-                    "name": "validate selection",
-                    "plugin": "non_empty"
-                }
-            ]},
-                {"outputs": [
-                {
-                    "name": "thumbnail",
-                    "plugin": "image",
-                    "options": {
-                        "file_type": "jpg"
-                    }
-                }
-            ]}
-            ]
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "texture layer",
+              "plugin": "image",
+              "options": {
+                "file_type": "exr",
+                "color_depth": 16
+              }
+            }
+          ]
         }
-    ],
-    "publishers":[
+      ]
+    },
+    {
+      "name": "specular",
+      "stages": [
         {
-            "name": "to ftrack server",
-            "plugin":"to_ftrack",
-            "visible":false
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from layer",
+              "plugin": "from_layer",
+              "options": {
+                "prefix": "spec_"
+              }
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "texture layer",
+              "plugin": "image",
+              "options": {
+                "file_type": "exr",
+                "color_depth": 16
+              }
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "name": "bump",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from layer",
+              "plugin": "from_layer",
+              "options": {
+                "prefix": "bump_"
+              }
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "texture layer",
+              "plugin": "image",
+              "options": {
+                "file_type": "exr",
+                "color_depth": 16
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
 }
