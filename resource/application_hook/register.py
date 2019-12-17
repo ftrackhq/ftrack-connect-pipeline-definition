@@ -8,10 +8,33 @@ from ftrack_connect_pipeline_definition import collect
 
 
 def collect_definitions(event):
-    definitions = collect.collect_json(
-        os.path.dirname(__file__)
+    current_dir  = os.path.dirname(__file__)
+
+    schemas = collect.collect_json(
+        os.path.join(current_dir, 'schema')
     )
-    return definitions
+
+    loaders = collect.collect_json(
+        os.path.join(current_dir, 'loader')
+    )
+
+    packages = collect.collect_json(
+        os.path.join(current_dir, 'package')
+    )
+
+    publishers = collect.collect_json(
+        os.path.join(current_dir, 'package')
+    )
+
+    result_data = {
+        'schemas': schemas,
+        'publishers': publishers,
+        'loaders': loaders,
+        'packages': packages
+
+    }
+
+    return result_data
 
 
 def register(api_object, **kw):
