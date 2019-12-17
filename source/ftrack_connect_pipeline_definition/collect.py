@@ -55,7 +55,9 @@ def collect_and_filter_definitions(lookup_dir, host):
                 if _validate(schema, package):
                     result_data['packages'].append(package)
 
-    logger.debug('discovered : {}'.format(result_data))
+    for key, value in result_data.items():
+        logger.info('discovered : {}: {}'.format(key, len(value)))
+
     return result_data
 
 
@@ -64,6 +66,7 @@ def _collect_json(source_path, filter_host=None):
     Return a json encoded list of all the json files discovered in the given
     *source_path*.
     '''
+    logger.debug('looking for dernitions in : {}'.format(source_path))
 
     json_files = []
     for root, dirnames, filenames in os.walk(source_path):
