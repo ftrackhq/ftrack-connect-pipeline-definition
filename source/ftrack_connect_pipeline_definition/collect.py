@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def collect_and_filter_definitions(lookup_dir, host):
+    logger.debug('filter by host: {}'.format(host))
 
     schemas = _collect_json(
         os.path.join(lookup_dir, 'schema')
@@ -84,6 +85,9 @@ def _collect_json(source_path, filter_host=None):
 
         if filter_host:
             if data_store.get('host') != filter_host:
+                logger.debug('filtering out host: {}'.format(
+                    data_store.get('host')
+                ))
                 continue
 
         if data_store:
@@ -97,7 +101,7 @@ def _validate(schema, definition):
     try:
         _validate_jsonschema(instance=definition, schema=schema)
     except Exception as error:
-        print error
+        logger.error(error)
         return False
 
     return True
