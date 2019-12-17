@@ -23,7 +23,7 @@ def collect_definitions(event):
     )
 
     publishers = collect.collect_json(
-        os.path.join(current_dir, 'package')
+        os.path.join(current_dir, 'publisher')
     )
 
     result_data = {
