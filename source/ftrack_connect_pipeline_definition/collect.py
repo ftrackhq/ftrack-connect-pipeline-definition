@@ -28,35 +28,71 @@ def collect_and_filter_definitions(lookup_dir, host):
     )
 
     publishers = _collect_json(
-        os.path.join(lookup_dir, 'publisher'),host
+        os.path.join(lookup_dir, 'publisher'), host
     )
 
     result_data = {
         'schemas': schemas,
-        'publishers': [],
-        'loaders': [],
-        'packages': []
+        'publishers': publishers,
+        'loaders': loaders,
+        'packages': packages
 
     }
 
+    # validate schema
     for schema in schemas:
         if schema['title'] == constants.LOADER_SCHEMA:
             for loader in loaders:
-                if _validate(schema, loader):
-                    result_data['loaders'].append(loader)
+                if not _validate(schema, loader):
+                    result_data['loaders'].pop(loader)
 
         elif schema['title'] == constants.PUBLISHER_SCHEMA:
             for publisher in publishers:
-                if _validate(schema, publisher):
-                    result_data['publishers'].append(publisher)
+                if not _validate(schema, publisher):
+                    result_data['publishers'].pop(publisher)
 
         elif schema['title'] == constants.PACKAGE_SCHEMA:
             for package in packages:
-                if _validate(schema, package):
-                    result_data['packages'].append(package)
+                if not _validate(schema, package):
+                    result_data['packages'].pop(package)
 
+    # validate package
+    valid_packages = [str(package['name']) for package in packages]
+    for entry in ['loaders', 'publishers']:
+
+        # check package name in definitions
+        for definition in result_data[entry]:
+            if str(definition['package']) not in valid_packages:
+                logger.error(
+                    '{} {}:{} use unknown package : {} , packages: {}'.format(
+                        entry, definition['host'], definition['name'],
+                        definition['package'], valid_packages)
+                    )
+                # pop definition
+                result_data[entry].remove(definition)
+
+    # validate package vs definitions components
+    for package in packages:
+        package_component_names = [component['name'] for component in package['components']]
+        for entry in ['loaders', 'publishers']:
+            for definition in result_data[entry]:
+                if definition['package'] != package['name']:
+                    continue
+
+                definition_components = [component['name'] for component in definition['components']]
+                component_diff = set(package_component_names).difference(definition_components)
+                match = not len(component_diff)
+                if not match:
+                    logger.error(
+                        '{} {}:{} package {} components are not matching : required component: {}'.format(
+                            entry, definition['host'], definition['name'],
+                            definition['package'], component_diff)
+                    )
+                    result_data[entry].remove(definition)
+
+    # log final discovery result
     for key, value in result_data.items():
-        logger.info('discovered : {}: {}'.format(key, len(value)))
+        logger.info('discovered : {} : {}'.format(key, len(value)))
 
     return result_data
 
@@ -88,9 +124,6 @@ def _collect_json(source_path, filter_host=None):
 
         if filter_host:
             if data_store.get('host') != filter_host:
-                logger.debug('filtering out host: {}'.format(
-                    data_store.get('host')
-                ))
                 continue
 
         if data_store:
