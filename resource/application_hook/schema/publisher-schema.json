@@ -78,7 +78,7 @@
           "type": "string"
         },
         "widget": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "visible": {
           "type": "boolean"
@@ -120,7 +120,7 @@
       "type": "string"
     },
     "ui": {
-      "type": "string"
+      "type": ["string", "null"]
     },
     "context": {
       "type": "array",

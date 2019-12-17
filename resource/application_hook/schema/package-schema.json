@@ -34,8 +34,7 @@
     "name",
     "type",
     "context",
-    "components",
-    "type"
+    "components"
   ],
   "properties": {
     "type": {

@@ -135,6 +135,7 @@ setup(
         'sphinx >= 1.2.2, < 2',
         'sphinx_rtd_theme >= 0.1.6, < 2',
         'lowdown >= 0.1.0, < 2',
+        'jsonschema'
     ],
     tests_require=[
         'pytest >= 2.3.5, < 3'

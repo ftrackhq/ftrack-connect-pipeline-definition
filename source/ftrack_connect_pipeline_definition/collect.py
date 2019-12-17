@@ -5,11 +5,12 @@ import json
 import fnmatch
 import os
 import logging
+from jsonschema import validate as _validate
 
 logger = logging.getLogger(__name__)
 
 
-def collect_json(source_path):
+def collect_json(source_path, filter_host=None):
     '''
     Return a json encoded list of all the json files discovered in the given
     *source_path*.
@@ -33,7 +34,22 @@ def collect_json(source_path):
                     )
                 )
 
+        if filter_host:
+            if data_store.get('host') != filter_host:
+                continue
+
         if data_store:
             loaded_jsons.append(data_store)
 
     return loaded_jsons
+
+
+def validate(schema, definition):
+    '''Validate all the given definitions with the given schema'''
+    try:
+        _validate(instance=definition, schema=schema)
+    except Exception as error:
+        print error
+        return False
+
+    return True
