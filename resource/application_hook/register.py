@@ -7,7 +7,7 @@ import os
 from ftrack_connect_pipeline_definition import collect
 
 
-def collect_definitions(event):
+def collect_and_filter_definitions(event):
     host = event['data']['pipeline']['host']
 
     current_dir = os.path.dirname(__file__)
@@ -66,6 +66,8 @@ def register(api_object, **kw):
         return
 
     api_object.event_hub.subscribe(
-        'topic={} and data.pipeline.type=definition'.format(constants.PIPELINE_REGISTER_TOPIC),
-        collect_definitions
+        'topic={} and data.pipeline.type=definition'.format(
+            constants.PIPELINE_REGISTER_TOPIC
+        ),
+        collect_and_filter_definitions
     )
