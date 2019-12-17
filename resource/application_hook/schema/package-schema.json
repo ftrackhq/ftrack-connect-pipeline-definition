@@ -8,9 +8,13 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "name"
+        "name", "type"
       ],
       "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^package_component$"
+        },
         "name": {
           "type": "string"
         },

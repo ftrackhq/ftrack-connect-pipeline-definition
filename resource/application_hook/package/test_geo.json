@@ -7,13 +7,16 @@
     ],
     "components":[
         {
+            "type": "package_component",
             "name": "main"
         },
         {
+            "type": "package_component",
             "name": "thumbnail",
             "optional": true
         },
         {
+            "type": "package_component",
             "name": "reviewable",
             "optional": true
         }
