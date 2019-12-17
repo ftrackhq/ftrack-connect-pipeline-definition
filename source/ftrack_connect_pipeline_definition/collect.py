@@ -36,25 +36,19 @@ def collect_and_filter_definitions(lookup_dir, host):
         'publishers': publishers,
         'loaders': loaders,
         'packages': packages
-
     }
 
-    # validate schema
     for schema in schemas:
-        if schema['title'] == constants.LOADER_SCHEMA:
-            for loader in loaders:
-                if not _validate(schema, loader):
-                    result_data['loaders'].pop(loader)
-
-        elif schema['title'] == constants.PUBLISHER_SCHEMA:
-            for publisher in publishers:
-                if not _validate(schema, publisher):
-                    result_data['publishers'].pop(publisher)
-
-        elif schema['title'] == constants.PACKAGE_SCHEMA:
-            for package in packages:
-                if not _validate(schema, package):
-                    result_data['packages'].pop(package)
+        # validate schema
+        for entry in [
+            (constants.LOADER_SCHEMA, 'loaders'),
+            (constants.PUBLISHER_SCHEMA, 'publishers'),
+            (constants.PACKAGE_SCHEMA, 'packages')
+        ]:
+            if schema['title'] == entry[0]:
+                for loader in result_data[entry[1]]:
+                    if not _validate(schema, loader):
+                        result_data[entry[1]].pop(loader)
 
     # validate package
     valid_packages = [str(package['name']) for package in packages]
@@ -77,6 +71,7 @@ def collect_and_filter_definitions(lookup_dir, host):
         for entry in ['loaders', 'publishers']:
             for definition in result_data[entry]:
                 if definition['package'] != package['name']:
+                    # this is not the package you are looking for....
                     continue
 
                 definition_components = [component['name'] for component in definition['components']]
