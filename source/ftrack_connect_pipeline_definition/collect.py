@@ -5,12 +5,60 @@ import json
 import fnmatch
 import os
 import logging
-from jsonschema import validate as _validate
+from jsonschema import validate as _validate_jsonschema
+
+from ftrack_connect_pipeline import constants
 
 logger = logging.getLogger(__name__)
 
 
-def collect_json(source_path, filter_host=None):
+def collect_and_filter_definitions(lookup_dir, host):
+
+    schemas = _collect_json(
+        os.path.join(lookup_dir, 'schema')
+    )
+
+    packages = _collect_json(
+        os.path.join(lookup_dir, 'package')
+    )
+
+    loaders = _collect_json(
+        os.path.join(lookup_dir, 'loader'), host
+    )
+
+    publishers = _collect_json(
+        os.path.join(lookup_dir, 'publisher'),host
+    )
+
+    result_data = {
+        'schemas': schemas,
+        'publishers': [],
+        'loaders': [],
+        'packages': []
+
+    }
+
+    for schema in schemas:
+        if schema['title'] == constants.LOADER_SCHEMA:
+            for loader in loaders:
+                if _validate(schema, loader):
+                    result_data['loaders'].append(loader)
+
+        elif schema['title'] == constants.PUBLISHER_SCHEMA:
+            for publisher in publishers:
+                if _validate(schema, publisher):
+                    result_data['publishers'].append(publisher)
+
+        elif schema['title'] == constants.PACKAGE_SCHEMA:
+            for package in packages:
+                if _validate(schema, package):
+                    result_data['packages'].append(package)
+
+    logger.debug('discovered : {}'.format(result_data))
+    return result_data
+
+
+def _collect_json(source_path, filter_host=None):
     '''
     Return a json encoded list of all the json files discovered in the given
     *source_path*.
@@ -44,10 +92,10 @@ def collect_json(source_path, filter_host=None):
     return loaded_jsons
 
 
-def validate(schema, definition):
+def _validate(schema, definition):
     '''Validate all the given definitions with the given schema'''
     try:
-        _validate(instance=definition, schema=schema)
+        _validate_jsonschema(instance=definition, schema=schema)
     except Exception as error:
         print error
         return False
