@@ -77,7 +77,10 @@ def validate_definition_components(data):
     copy_data = copy.deepcopy(data)
     # validate package vs definitions components
     for package in data['packages']:
-        package_component_names = [component['name'] for component in package['components']]
+        package_component_names = [
+            component['name'] for component in package['components']
+            if not component.get('optional', False)
+        ]
         for entry in ['loaders', 'publishers']:
             for definition in data[entry]:
                 if definition['package'] != package['name']:
@@ -85,15 +88,15 @@ def validate_definition_components(data):
                     continue
 
                 definition_components = [component['name'] for component in definition['components']]
-                component_diff = set(package_component_names).difference(definition_components)
-                match = not len(component_diff)
-                if not match:
-                    logger.error(
-                        '{} {}:{} package {} components'
-                        ' are not matching : required component: {}'.format(
-                            entry, definition['host'], definition['name'],
-                            definition['package'], component_diff)
-                    )
-                    copy_data[entry].remove(definition)
+                for name in package_component_names:
+                    if name not in definition_components:
+                        logger.error(
+                            '{} {}:{} package {} components'
+                            ' are not matching : required component: {}'.format(
+                                entry, definition['host'], definition['name'],
+                                definition['package'], package_component_names)
+                        )
+                        copy_data[entry].remove(definition)
+                        break
 
     return copy_data
