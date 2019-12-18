@@ -13,7 +13,8 @@ event = ftrack_api.event.base.Event(
     topic='ftrack.pipeline.register',
     data={
         'pipeline': {
-            'type': "definition"
+            'type': "definition",
+            'host': 'python'
         }
     }
 )
@@ -24,4 +25,4 @@ result = session.event_hub.publish(
     synchronous=True,
 )
 
-print 'RESULTS', pformat(result[0]), len(result[0])
+print result

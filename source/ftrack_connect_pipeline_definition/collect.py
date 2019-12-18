@@ -5,16 +5,27 @@ import json
 import fnmatch
 import os
 import logging
-from jsonschema import validate as _validate_jsonschema
-
-from ftrack_connect_pipeline import constants
-
+import copy
 logger = logging.getLogger(__name__)
 
 
-def collect_and_filter_definitions(session, lookup_dir, host):
-    logger.debug('filter by host: {}'.format(host))
+def filter_definitions_by_host(data, host):
+    copy_data = copy.deepcopy(data)
+    logger.info('filtering definition for host: {}'.format(host))
+    for entry in ['loaders', 'publishers']:
+        for definition in data[entry]:
+            if str(definition.get('host')) != str(host):
+                logger.warning(
+                    'Removing definition for host: {}'.format(
+                        definition.get('host')
+                    )
+                )
+                copy_data[entry].remove(definition)
 
+    return copy_data
+
+
+def collect_definitions(lookup_dir):
     schemas = _collect_json(
         os.path.join(lookup_dir, 'schema')
     )
@@ -24,90 +35,24 @@ def collect_and_filter_definitions(session, lookup_dir, host):
     )
 
     loaders = _collect_json(
-        os.path.join(lookup_dir, 'loader'), host
+        os.path.join(lookup_dir, 'loader')
     )
 
     publishers = _collect_json(
-        os.path.join(lookup_dir, 'publisher'), host
+        os.path.join(lookup_dir, 'publisher')
     )
 
-    result_data = {
+    data = {
         'schemas': schemas,
         'publishers': publishers,
         'loaders': loaders,
         'packages': packages
     }
 
-    # validate schema
-    for schema in schemas:
-        for entry in [
-            (constants.LOADER_SCHEMA, 'loaders'),
-            (constants.PUBLISHER_SCHEMA, 'publishers'),
-            (constants.PACKAGE_SCHEMA, 'packages')
-        ]:
-            if schema['title'] == entry[0]:
-                for loader in result_data[entry[1]]:
-                    if not _validate(schema, loader):
-                        result_data[entry[1]].pop(loader)
+    return data
 
 
-    # validate package asset types:
-    valid_assets_types = [
-        type['short'] for type in session.query('AssetType').all()
-    ]
-
-    for package in packages:
-        if package['asset_type'] not in valid_assets_types:
-            logger.error(
-                'Package {} does use a non existing asset type: {}, valid assets: {}'.format(
-                    package['name'], package['asset_type'], valid_assets_types
-                    )
-            )
-            result_data['packages'].remove(package)
-
-    # validate package
-    valid_packages = [str(package['name']) for package in packages]
-    for entry in ['loaders', 'publishers']:
-
-        # check package name in definitions
-        for definition in result_data[entry]:
-            if str(definition['package']) not in valid_packages:
-                logger.error(
-                    '{} {}:{} use unknown package : {} , packages: {}'.format(
-                        entry, definition['host'], definition['name'],
-                        definition['package'], valid_packages)
-                    )
-                # pop definition
-                result_data[entry].remove(definition)
-
-    # validate package vs definitions components
-    for package in packages:
-        package_component_names = [component['name'] for component in package['components']]
-        for entry in ['loaders', 'publishers']:
-            for definition in result_data[entry]:
-                if definition['package'] != package['name']:
-                    # this is not the package you are looking for....
-                    continue
-
-                definition_components = [component['name'] for component in definition['components']]
-                component_diff = set(package_component_names).difference(definition_components)
-                match = not len(component_diff)
-                if not match:
-                    logger.error(
-                        '{} {}:{} package {} components are not matching : required component: {}'.format(
-                            entry, definition['host'], definition['name'],
-                            definition['package'], component_diff)
-                    )
-                    result_data[entry].remove(definition)
-
-    # log final discovery result
-    for key, value in result_data.items():
-        logger.info('discovered : {} : {}'.format(key, len(value)))
-
-    return result_data
-
-
-def _collect_json(source_path, filter_host=None):
+def _collect_json(source_path):
     '''
     Return a json encoded list of all the json files discovered in the given
     *source_path*.
@@ -131,23 +76,8 @@ def _collect_json(source_path, filter_host=None):
                         _file, str(error)
                     )
                 )
-
-        if filter_host:
-            if data_store.get('host') != filter_host:
-                continue
-
         if data_store:
             loaded_jsons.append(data_store)
 
     return loaded_jsons
 
-
-def _validate(schema, definition):
-    '''Validate all the given definitions with the given schema'''
-    try:
-        _validate_jsonschema(instance=definition, schema=schema)
-    except Exception as error:
-        logger.error(error)
-        return False
-
-    return True
