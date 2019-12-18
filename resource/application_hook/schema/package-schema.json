@@ -13,7 +13,8 @@
       "properties": {
         "type": {
           "type": "string",
-          "pattern": "^package_component$"
+          "pattern": "^package_component$",
+          "default": "package_component"
         },
         "name": {
           "type": "string"
@@ -39,7 +40,8 @@
   "properties": {
     "type": {
       "type": "string",
-      "pattern": "^package$"
+      "pattern": "^package$",
+      "default": "package"
     },
     "name": {
       "type": "string"

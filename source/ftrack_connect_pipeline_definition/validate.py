@@ -44,8 +44,8 @@ def validate_asset_types(data, session):
         if package['asset_type'] not in valid_assets_types:
             logger.error(
                 'Package {} does use a non existing'
-                ' asset type: {}, valid assets: {}'.format(
-                    package['name'], package['asset_type'], valid_assets_types
+                ' asset type: {}'.format(
+                    package['name'], package['asset_type']
                     )
             )
             copy_data['packages'].remove(package)
