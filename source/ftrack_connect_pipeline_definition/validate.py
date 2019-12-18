@@ -87,9 +87,12 @@ def validate_definition_components(data):
                     # this is not the package you are looking for....
                     continue
 
-                definition_components = [component['name'] for component in definition['components']]
+                definition_components_names = [
+                    component['name'] for component in definition['components']
+                ]
+
                 for name in package_component_names:
-                    if name not in definition_components:
+                    if name not in definition_components_names:
                         logger.error(
                             '{} {}:{} package {} components'
                             ' are not matching : required component: {}'.format(
@@ -98,5 +101,34 @@ def validate_definition_components(data):
                         )
                         copy_data[entry].remove(definition)
                         break
+
+    # reverse lookup for definitions components in packages
+    for entry in ['loaders', 'publishers']:
+        for definition in copy_data[entry]:
+            definition_components_names = [
+                component['name'] for component in definition['components']
+            ]
+            for package in data['packages']:
+                if definition['package'] != package['name']:
+                    # this is not the package you are looking for....
+                    continue
+
+                package_component_names = [
+                    component['name'] for component in package['components']
+                ]
+
+                component_diff = set(
+                    definition_components_names
+                ).difference(
+                    set(package_component_names)
+                )
+                if len(component_diff) != 0:
+                    logger.error(
+                        '{} {}:{} package {} components'
+                        ' are not matching : required component: {}'.format(
+                            entry, definition['host'], definition['name'],
+                            definition['package'], package_component_names)
+                    )
+                    copy_data[entry].remove(definition)
 
     return copy_data
