@@ -12,7 +12,7 @@ from ftrack_connect_pipeline import constants
 logger = logging.getLogger(__name__)
 
 
-def collect_and_filter_definitions(lookup_dir, host):
+def collect_and_filter_definitions(session, lookup_dir, host):
     logger.debug('filter by host: {}'.format(host))
 
     schemas = _collect_json(
@@ -38,8 +38,8 @@ def collect_and_filter_definitions(lookup_dir, host):
         'packages': packages
     }
 
+    # validate schema
     for schema in schemas:
-        # validate schema
         for entry in [
             (constants.LOADER_SCHEMA, 'loaders'),
             (constants.PUBLISHER_SCHEMA, 'publishers'),
@@ -49,6 +49,21 @@ def collect_and_filter_definitions(lookup_dir, host):
                 for loader in result_data[entry[1]]:
                     if not _validate(schema, loader):
                         result_data[entry[1]].pop(loader)
+
+
+    # validate package asset types:
+    valid_assets_types = [
+        type['short'] for type in session.query('AssetType').all()
+    ]
+
+    for package in packages:
+        if package['asset_type'] not in valid_assets_types:
+            logger.error(
+                'Package {} does use a non existing asset type: {}, valid assets: {}'.format(
+                    package['name'], package['asset_type'], valid_assets_types
+                    )
+            )
+            result_data['packages'].remove(package)
 
     # validate package
     valid_packages = [str(package['name']) for package in packages]
