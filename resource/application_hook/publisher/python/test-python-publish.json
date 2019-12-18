@@ -1,0 +1,61 @@
+{
+  "type": "publisher",
+  "name": "Geometry Publisher",
+  "package": "geoPkg",
+  "host": "python",
+  "ui": null,
+  "context": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "type": "component",
+      "name": "main",
+      "stages": [
+        {
+          "collectors": [
+            {
+              "type": "plugin",
+              "name": "collect from given path",
+              "plugin": "filesystem",
+              "options": {
+                "path": null
+              }
+            }
+          ]
+        },
+        {
+          "validators": [
+            {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "outputs": [
+            {
+              "type": "plugin",
+              "name": "to temp",
+              "plugin": "to_tmp"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "publishers": [
+    {
+      "type": "plugin",
+      "name": "to ftrack server",
+      "plugin": "result",
+      "visible": false
+    }
+  ]
+}
