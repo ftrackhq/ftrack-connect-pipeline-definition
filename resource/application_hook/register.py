@@ -5,37 +5,19 @@ import os
 import logging
 import ftrack_api
 import functools
-from ftrack_connect_pipeline_definition import collect, validate
 from ftrack_connect_pipeline import constants, configure_logging
+import ftrack_connect_pipeline_definition
 
 logger = logging.getLogger('ftrack_connect_pipeline_definition.register')
 
 
 def register_definitions(session, event):
+    host = event['data']['pipeline']['host']
     current_dir = os.path.dirname(__file__)
     # collect definitions
-    data = collect.collect_definitions(current_dir)
-
-    # filter definitions
-    host = event['data']['pipeline']['host']
-    data = collect.filter_definitions_by_host(data, host)
-
-    # validate schemas
-    data = validate.validate_schema(data)
-
-    # validate asset types
-    data = validate.validate_asset_types(data, session)
-
-    # validate packages
-    data = validate.validate_package_type(data)
-
-    # validate packages
-    data = validate.validate_definition_components(data)
-
-    # log final discovery result
-    for key, value in data.items():
-        logger.info('discovered : {} : {}'.format(key, len(value)))
-
+    data = ftrack_connect_pipeline_definition.collect_and_validate(
+        session, current_dir, host
+    )
     return data
 
 
