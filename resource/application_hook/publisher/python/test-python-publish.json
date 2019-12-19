@@ -7,7 +7,10 @@
     {
       "name": "context selector",
       "plugin": "context.publish",
-      "widget": "context.publish"
+      "widget": "context.publish",
+      "options":{
+        "context_id": null
+      }
     }
   ],
   "components": [
