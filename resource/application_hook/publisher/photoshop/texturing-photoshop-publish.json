@@ -6,7 +6,6 @@
   "ui": "js",
   "context": [
     {
-      "type": "plugin",
       "name": "context selector",
       "plugin": "context.publish",
       "widget": "context.publish"
@@ -14,13 +13,12 @@
   ],
   "components": [
     {
-      "type": "component",
       "name": "color",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from layer",
               "plugin": "from_layer",
               "options": {
@@ -30,18 +28,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "texture layer",
               "plugin": "image",
               "options": {
@@ -54,13 +52,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "diffuse",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from layer",
               "plugin": "from_layer",
               "options": {
@@ -70,16 +67,17 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
               "type": "plugin",
               "name": "texture layer",
@@ -94,13 +92,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "specular",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from layer",
               "plugin": "from_layer",
               "options": {
@@ -110,18 +107,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "texture layer",
               "plugin": "image",
               "options": {
@@ -134,13 +131,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "bump",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from layer",
               "plugin": "from_layer",
               "options": {
@@ -150,16 +146,17 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
               "type": "plugin",
               "name": "texture layer",
@@ -174,31 +171,30 @@
       ]
     },
     {
-      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from viewport",
               "plugin": "from_viewport"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "thumbnail",
               "plugin": "image",
               "options": {
@@ -210,9 +206,8 @@
       ]
     }
   ],
-  "publishers": [
+  "finalizers": [
     {
-      "type": "plugin",
       "name": "to ftrack server",
       "plugin": "to_ftrack",
       "visible": false

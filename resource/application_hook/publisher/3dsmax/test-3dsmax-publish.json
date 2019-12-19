@@ -6,7 +6,6 @@
   "ui": "qt",
   "context": [
     {
-      "type": "plugin",
       "name": "context selector",
       "plugin": "context.publish",
       "widget": "context.publish"
@@ -14,31 +13,30 @@
   ],
   "components": [
     {
-      "type": "component",
       "name": "main",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "Pick selected object/s",
               "plugin": "selection"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "nonempty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "3dsmaxalembic",
               "plugin": "OutputMaxAlembicPlugin"
             }
@@ -47,13 +45,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "select viewport to playblast",
               "plugin": "viewport",
               "widget": "viewport"
@@ -61,18 +58,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "nonempty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "write thumbnail",
               "plugin": "thumbnail"
             }
@@ -81,13 +78,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "reviewable",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "select viewport to playblast",
               "plugin": "viewport",
               "widget": "viewport"
@@ -95,18 +91,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "nonempty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "write reviewable",
               "plugin": "reviewable"
             }
@@ -115,9 +111,8 @@
       ]
     }
   ],
-  "publishers": [
+  "finalizers": [
     {
-      "type": "plugin",
       "name": "to ftrack server",
       "plugin": "result",
       "visible": false

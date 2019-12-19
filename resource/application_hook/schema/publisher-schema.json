@@ -62,7 +62,7 @@
             "$ref": "#/definitions/Plugin"
           },
           "default": [],
-          "minItems": 0,
+          "minItems": 1,
           "uniqueItems": true
         }
       }
@@ -185,7 +185,7 @@
         "$ref": "#/definitions/Plugin"
       },
       "default": [],
-      "minItems": 0,
+      "minItems": 1,
       "maxItems": 1
     },
     "components": {
@@ -194,7 +194,7 @@
         "$ref": "#/definitions/Component"
       },
       "default": [],
-      "minItems": 0,
+      "minItems": 1,
       "uniqueItems": true
     },
     "finalizers": {
