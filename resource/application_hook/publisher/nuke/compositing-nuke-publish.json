@@ -4,7 +4,7 @@
   "package": "compPackage",
   "host": "nuke",
   "ui": "qt",
-  "context": [
+  "contexts": [
     {
       "name": "context selector",
       "plugin": "context.publish",

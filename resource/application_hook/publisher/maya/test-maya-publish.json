@@ -4,7 +4,7 @@
   "package": "geoPkg",
   "host": "maya",
   "ui": "qt",
-  "context": [
+  "contexts": [
     {
       "name": "context selector",
       "plugin": "context.publish",

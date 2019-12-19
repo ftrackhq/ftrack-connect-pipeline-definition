@@ -4,7 +4,7 @@
   "package": "animPackage",
   "host": "maya",
   "ui": "qt",
-  "context": [
+  "contexts": [
     {
       "type": "plugin",
       "name": "context selector",

@@ -4,7 +4,7 @@
   "package": "textPackage",
   "host": "photoshop",
   "ui": "js",
-  "context": [
+  "contexts": [
     {
       "name": "context selector",
       "plugin": "context.publish",
