@@ -108,7 +108,8 @@
           "default": false
         },
         "options": {
-          "type": "object"
+          "type": "object",
+          "default": {}
         },
         "_results": {
           "type": "array",
