@@ -43,10 +43,10 @@ def collect_definitions(lookup_dir):
     )
 
     data = {
-        'schemas': schemas,
-        'publishers': publishers,
-        'loaders': loaders,
-        'packages': packages
+        'schemas': schemas or [],
+        'publishers': publishers or [],
+        'loaders': loaders or [],
+        'packages': packages or []
     }
 
     return data

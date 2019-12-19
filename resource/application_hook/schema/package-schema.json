@@ -1,5 +1,5 @@
 {
-  "title": "PackageSchema",
+  "title": "Package",
   "type": "object",
   "additionalProperties": false,
   "definitions": {

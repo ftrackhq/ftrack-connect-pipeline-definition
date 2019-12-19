@@ -1,35 +1,45 @@
 from ftrack_connect_pipeline import constants
 import copy
-from jsonschema import validate as _validate_jsonschema
+import json
+import python_jsonschema_objects as pjo
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-def _validate_schema(schema, definition):
+def _validate_and_augment_schema(schema, definition ,type):
     '''Validate all the given definitions with the given schema'''
-    try:
-        _validate_jsonschema(instance=definition, schema=schema)
-    except Exception as error:
-        logger.error(error)
-        return False
-
-    return True
+    builder = pjo.ObjectBuilder(schema)
+    ns = builder.build_classes(standardize_names=False)
+    ObjectBuilder = getattr(ns, type.capitalize())
+    klass = ObjectBuilder(**definition)
+    return json.loads(klass.serialize())
 
 
 def validate_schema(data):
     copy_data = copy.deepcopy(data)
     # validate schema
     for schema in data['schemas']:
-        for entry in [
-            (constants.LOADER_SCHEMA, 'loaders'),
-            (constants.PUBLISHER_SCHEMA, 'publishers'),
-            (constants.PACKAGE_SCHEMA, 'packages')
-        ]:
-            if schema['title'] == entry[0]:
-                for loader in data[entry[1]]:
-                    if not _validate_schema(schema, loader):
-                        copy_data[entry[1]].pop(loader)
+        for entry in ['loaders', 'publishers', 'packages']:
+            if schema['title'].lower() == entry[:-1]:
+                for definition in data[entry]:
+                    augumented_valid_data = None
+                    try:
+                        augumented_valid_data = _validate_and_augment_schema(
+                            schema, definition, entry[:-1]
+                        )
+                    except Exception as error:
+                        logger.error(
+                            'definitinon {} does not match any schema. {}'.format(
+                                definition['name'], str(error)
+                            )
+                        )
+                        copy_data[entry].remove(definition)
+                        break
+                    finally:
+                        copy_data[entry].remove(definition)
+                        copy_data[entry].append(augumented_valid_data)
+
     return copy_data
 
 

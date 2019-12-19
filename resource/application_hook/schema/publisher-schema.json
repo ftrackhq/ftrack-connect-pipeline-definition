@@ -1,58 +1,69 @@
 {
-  "title": "PublisherSchema",
+  "title": "Publisher",
   "type": "object",
   "additionalProperties": false,
   "definitions": {
-    "Component": {
-      "title": "Component",
+    "Config": {
+      "title": "Config",
       "type": "object",
       "required": [
-        "name",
-        "stages"
+        "stage_order",
+        "engine",
+        "type"
       ],
       "additionalProperties": false,
       "properties": {
-        "name": {
-          "type": "string"
-        },
         "type": {
           "type": "string",
-          "pattern": "^component$",
-          "default": "component"
+          "pattern": "^config$",
+          "default": "config"
         },
-        "stages": {
+        "stage_order": {
           "type": "array",
-          "maxItems": 3,
-          "uniqueItems": true,
+          "items": {"type": "string"},
+          "default": [
+            "collector",
+            "validator",
+            "output"
+          ]
+        },
+        "engine": {
+          "type": "string",
+          "default": "PublisherRunner"
+        }
+      }
+    },
+    "Stage": {
+      "title": "Stage",
+      "type": "object",
+      "required": [
+        "name",
+        "plugins",
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^stage$",
+          "default": "stage"
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "collector",
+            "validator",
+            "output"
+          ]
+        },
+        "plugins": {
+          "type": "array",
           "items": {
-            "collectors": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Plugin"
-              },
-              "default": [],
-              "minItems": 0,
-              "uniqueItems": true
-            },
-            "validators": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Plugin"
-              },
-              "default": [],
-              "minItems": 0,
-              "uniqueItems": true
-            },
-            "outputs": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Plugin"
-              },
-              "default": [],
-              "minItems": 0,
-              "uniqueItems": true
-            }
-          }
+            "$ref": "#/definitions/Plugin"
+          },
+          "default": [],
+          "minItems": 0,
+          "uniqueItems": true
         }
       }
     },
@@ -61,7 +72,9 @@
       "type": "object",
       "required": [
         "name",
-        "plugin"
+        "plugin",
+        "type",
+        "_results"
       ],
       "additionalProperties": false,
       "properties": {
@@ -80,51 +93,93 @@
           "type": "string"
         },
         "widget": {
-          "type": ["string", "null"]
+          "type": "string"
         },
         "visible": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true
         },
         "editable": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": true
         },
         "disabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "default": false
         },
         "options": {
           "type": "object"
+        },
+        "_results": {
+          "type": "array",
+          "default": [],
+          "items": {}
         }
       }
-    }
+    },
+    "Component": {
+      "title": "Component",
+      "type": "object",
+      "required": [
+        "name",
+        "stages",
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^component$",
+          "default": "component"
+        },
+        "stages": {
+          "type": "array",
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/Stage"
+            }
+          }
+        }
+      }
   },
   "required": [
     "name",
     "package",
     "host",
     "ui",
-    "context",
+    "contexts",
     "components",
-    "publishers",
-    "type"
+    "finalizers",
+    "type",
+    "_config"
   ],
   "properties": {
     "type": {
       "type": "string",
-      "pattern": "^publisher$"
+      "pattern": "^publisher$",
+      "default": "publisher"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "default": null
     },
     "package": {
-      "type": "string"
+      "type": "string",
+      "default": null
     },
     "host": {
-      "type": "string"
+      "type": "string",
+      "default": null
     },
     "ui": {
-      "type": ["string", "null"]
+      "type": ["string", "null"],
+      "default": null
     },
-    "context": {
+    "contexts": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/Plugin"
@@ -142,13 +197,18 @@
       "minItems": 0,
       "uniqueItems": true
     },
-    "publishers": {
+    "finalizers": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/Plugin"
       },
+      "default": [],
       "minItems": 1,
       "uniqueItems": true
-    }
+    },
+    "_config": {
+      "$ref": "#/definitions/Config",
+      "default": {}}
   }
 }
+
