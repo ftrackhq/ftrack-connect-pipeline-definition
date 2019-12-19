@@ -18,9 +18,9 @@
       "name": "main",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from set",
               "plugin": "from_set",
               "options": {
@@ -30,18 +30,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "maya ascii",
               "plugin": "geometry",
               "editable": false,
@@ -55,13 +55,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "beauty",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from prefix",
               "plugin": "from_prefix",
               "options": {
@@ -71,18 +70,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "render pass",
               "plugin": "image",
               "options": {
@@ -95,13 +94,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "diffuse",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from prefix",
               "plugin": "from_prefix",
               "options": {
@@ -111,18 +109,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "render pass",
               "plugin": "image",
               "options": {
@@ -135,13 +133,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "reflection",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from prefix",
               "plugin": "from_prefix",
               "options": {
@@ -151,18 +148,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "render pass",
               "plugin": "image",
               "options": {
@@ -175,13 +172,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "shadow",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from prefix",
               "plugin": "from_prefix",
               "options": {
@@ -191,18 +187,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "render pass",
               "plugin": "image",
               "options": {
@@ -215,13 +211,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "specular",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from prefix",
               "plugin": "from_prefix",
               "options": {
@@ -231,18 +226,18 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "render pass",
               "plugin": "image",
               "options": {
@@ -255,20 +250,20 @@
       ]
     },
     {
-      "type": "component",
       "name": "reviewable",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from scene",
               "plugin": "scene"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
               "type": "plugin",
               "name": "validate selection",
@@ -277,9 +272,9 @@
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "playblast",
               "plugin": "playblast",
               "options": {
@@ -295,31 +290,30 @@
       ]
     },
     {
-      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from viewport",
               "plugin": "from_viewport"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "thumbnail",
               "plugin": "image",
               "options": {
@@ -331,9 +325,8 @@
       ]
     }
   ],
-  "publishers": [
+  "finalizers": [
     {
-      "type": "plugin",
       "name": "to ftrack server",
       "plugin": "to_ftrack",
       "visible": false

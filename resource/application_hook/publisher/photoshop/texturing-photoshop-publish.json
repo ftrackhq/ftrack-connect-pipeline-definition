@@ -79,7 +79,6 @@
           "name": "output",
           "plugins":[
             {
-              "type": "plugin",
               "name": "texture layer",
               "plugin": "image",
               "options": {
@@ -158,7 +157,6 @@
           "name": "output",
           "plugins":[
             {
-              "type": "plugin",
               "name": "texture layer",
               "plugin": "image",
               "options": {

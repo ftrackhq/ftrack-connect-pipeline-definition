@@ -6,7 +6,6 @@
   "ui": "qt",
   "contexts": [
     {
-      "type": "plugin",
       "name": "context selector",
       "plugin": "context.publish",
       "widget": "context.publish"
@@ -18,27 +17,27 @@
       "name": "main",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from scene",
               "plugin": "scene"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "maya ascii",
               "plugin": "geometry",
               "editable": false,
@@ -52,13 +51,12 @@
       ]
     },
     {
-      "type": "component",
       "name": "cache",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from set",
               "plugin": "from_set",
               "editable": false,
@@ -69,14 +67,13 @@
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             },
             {
-              "type": "plugin",
               "name": "ensure mainfold",
               "plugin": "non_mainfold",
               "editable": false
@@ -84,9 +81,9 @@
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "alembic cache",
               "plugin": "geometry",
               "editable": false,
@@ -99,31 +96,30 @@
       ]
     },
     {
-      "type": "component",
       "name": "reviewable",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from scene",
               "plugin": "scene"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "playblast",
               "plugin": "playblast",
               "options": {
@@ -138,31 +134,30 @@
       ]
     },
     {
-      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from viewport",
               "plugin": "from_viewport"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "thumbnail",
               "plugin": "image",
               "options": {
@@ -174,9 +169,8 @@
       ]
     }
   ],
-  "publishers": [
+  "finalizers": [
     {
-      "type": "plugin",
       "name": "to ftrack server",
       "plugin": "to_ftrack",
       "visible": false

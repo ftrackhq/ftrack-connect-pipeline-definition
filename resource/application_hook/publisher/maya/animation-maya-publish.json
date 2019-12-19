@@ -6,7 +6,6 @@
   "ui": "qt",
   "contexts": [
     {
-      "type": "plugin",
       "name": "context selector",
       "plugin": "context.publish",
       "widget": "context.publish"
