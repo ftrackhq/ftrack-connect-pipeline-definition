@@ -151,7 +151,6 @@
     "name",
     "package",
     "host",
-    "ui",
     "contexts",
     "components",
     "finalisers",
