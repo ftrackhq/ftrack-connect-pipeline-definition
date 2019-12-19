@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Lookdev Publisher",
-  "package": "shadPackage",
+  "name": "Animation Publisher",
+  "package": "animPackage",
   "host": "maya",
   "ui": "qt",
   "context": [
@@ -14,37 +14,38 @@
   ],
   "components": [
     {
-      "type": "component",
       "name": "main",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "collect from scene",
               "plugin": "scene"
             }
           ]
         },
         {
-          "validators": [
+          "name":"validator",
+          "plugins": [
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name":"output",
+          "plugins": [
             {
-              "type": "plugin",
-              "name": "mayascii",
+              "name": "maya ascii",
               "plugin": "geometry",
               "editable": false,
               "options": {
                 "file_type": "ma",
-                "animated": false
+                "animated": true,
+                "start_frame": 0,
+                "end_frame": 100
               }
             }
           ]
@@ -53,37 +54,87 @@
     },
     {
       "type": "component",
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "type": "plugin",
+              "name": "collect from set",
+              "plugin": "from_set",
+              "editable": false,
+              "options": {
+                "set_name": "BAKE"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            },
+            {
+              "name": "ensure mainfold",
+              "plugin": "non_mainfold",
+              "editable": false
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "alembic",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "alembic",
+                "animated": true,
+                "start_frame": 0,
+                "end_frame": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "reviewable",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
-              "name": "from scene",
+              "name": "collect from scene",
               "plugin": "scene"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "playblast",
               "plugin": "playblast",
               "options": {
-                "camera": "persp",
+                "from_camera": "persp",
                 "start_frame": 0,
                 "end_frame": 100,
-                "file_type": "mov-h264"
+                "encoding": "h264",
+                "file_type": "mov"
               }
             }
           ]
@@ -91,31 +142,30 @@
       ]
     },
     {
-      "type": "component",
       "name": "thumbnail",
       "stages": [
         {
-          "collectors": [
+          "name": "collector",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "from viewport",
               "plugin": "from_viewport"
             }
           ]
         },
         {
-          "validators": [
+          "name": "validator",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "non_empty"
             }
           ]
         },
         {
-          "outputs": [
+          "name": "output",
+          "plugins":[
             {
-              "type": "plugin",
               "name": "thumbnail",
               "plugin": "image",
               "options": {
@@ -127,9 +177,8 @@
       ]
     }
   ],
-  "publishers": [
+  "finalizers": [
     {
-      "type": "plugin",
       "name": "to ftrack server",
       "plugin": "to_ftrack",
       "visible": false
