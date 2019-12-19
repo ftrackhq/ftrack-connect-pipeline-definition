@@ -36,9 +36,9 @@ def validate_schema(data):
                         )
                         copy_data[entry].remove(definition)
                         break
-                    finally:
-                        copy_data[entry].remove(definition)
-                        copy_data[entry].append(augumented_valid_data)
+
+                    copy_data[entry].remove(definition)
+                    copy_data[entry].append(augumented_valid_data)
 
     return copy_data
 
