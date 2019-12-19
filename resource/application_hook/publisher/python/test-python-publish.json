@@ -36,8 +36,8 @@
           "name":"validator",
           "plugins": [
             {
-              "name": "validate selection",
-              "plugin": "nonempty"
+              "name": "file exists",
+              "plugin": "file_exists"
             }
           ]
         },
@@ -45,8 +45,8 @@
           "name":"output",
           "plugins": [
             {
-              "name": "to temp",
-              "plugin": "to_tmp"
+              "name": "passthrough output",
+              "plugin": "passthrough"
             }
           ]
         }
