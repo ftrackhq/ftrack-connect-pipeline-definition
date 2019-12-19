@@ -208,7 +208,8 @@
     },
     "_config": {
       "$ref": "#/definitions/Config",
-      "default": {}}
+      "default": {}
+    }
   }
 }
 
