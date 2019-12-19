@@ -111,7 +111,7 @@
       ]
     }
   ],
-  "finalizers": [
+  "finalisers": [
     {
       "name": "to ftrack server",
       "plugin": "result",
