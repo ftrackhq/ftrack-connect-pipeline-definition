@@ -29,7 +29,7 @@
         },
         "engine": {
           "type": "string",
-          "default": "PublisherRunner"
+          "default": "PublisherEngine"
         }
       }
     },
