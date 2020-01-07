@@ -1,0 +1,121 @@
+{
+  "type": "publisher",
+  "name": "Geometry Publisher",
+  "package": "geoPkg",
+  "host": "3dsmax",
+  "ui": "qt",
+  "contexts": [
+    {
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick selected object/s",
+              "plugin": "selection"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "3dsmaxalembic",
+              "plugin": "OutputMaxAlembicPlugin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select viewport to playblast",
+              "plugin": "viewport",
+              "widget": "viewport"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write thumbnail",
+              "plugin": "thumbnail"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select viewport to playblast",
+              "plugin": "viewport",
+              "widget": "viewport"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write reviewable",
+              "plugin": "reviewable"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": [
+    {
+      "name": "to ftrack server",
+      "plugin": "result",
+      "visible": false
+    }
+  ]
+}

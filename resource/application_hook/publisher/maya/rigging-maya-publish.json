@@ -1,0 +1,138 @@
+{
+  "type": "publisher",
+  "name": "Rig Publisher",
+  "package": "rigPackage",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": [
+    {
+      "type": "plugin",
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "type": "component",
+      "name": "character",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from set",
+              "plugin": "from_set",
+              "options": {
+                "set_name": "export"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "rig",
+              "plugin": "rig",
+              "editable": false,
+              "options": {
+                "file_type": "ma"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "from cache",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "from_camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "encoding": "h264",
+                "file_type": "mov"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": [
+    {
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "loader",
+  "name": "CompositingOpen",
+  "host": "nuke",
+  "ui": "qt",
+  "components": [
+    {
+      "type": "plugin",
+      "name": "import render layers",
+      "plugin": "images",
+      "options": {
+        "type": "lightPackage",
+        "component": [
+          "beauty",
+          "diffuse",
+          "specular",
+          "reflection",
+          "shadow"
+        ]
+      }
+    }
+  ]
+}

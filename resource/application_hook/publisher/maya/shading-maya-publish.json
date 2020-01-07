@@ -1,0 +1,133 @@
+{
+  "type": "publisher",
+  "name": "Lookdev Publisher",
+  "package": "shadPackage",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": [
+    {
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "mayascii",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "ma",
+                "animated": false
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "file_type": "mov-h264"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": [
+    {
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
+}
