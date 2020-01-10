@@ -26,6 +26,6 @@ def collect_and_validate(session, current_dir, host):
 
     # log final discovery result
     for key, value in data.items():
-        logger.info('discovered : {} : {}'.format(key, len(value)))
+        logger.info('discovered : {} : {} : {}'.format(host, key, len(value)))
 
     return data

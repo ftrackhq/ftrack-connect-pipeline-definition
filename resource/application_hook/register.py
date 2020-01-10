@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2019 ftrack
 
 import os
+import json
 import logging
 import ftrack_api
 import functools
@@ -11,13 +12,31 @@ import ftrack_connect_pipeline_definition
 logger = logging.getLogger('ftrack_connect_pipeline_definition.register')
 
 
+def merge_extra_data(data, extra_data):
+    for k in data.keys():
+        data[k].extend(extra_data[k])
+        set_of_jsons = {json.dumps(d, sort_keys=True) for d in data[k]}
+        data[k] = [json.loads(t) for t in set_of_jsons]
+    return data
+
+
 def register_definitions(session, event):
     host = event['data']['pipeline']['host']
+    extra_hosts_definitions = event['data']['pipeline'][
+        'extra_hosts_definitions']
     current_dir = os.path.dirname(__file__)
     # collect definitions
     data = ftrack_connect_pipeline_definition.collect_and_validate(
         session, current_dir, host
     )
+    if extra_hosts_definitions:
+        for extra_host_definition in extra_hosts_definitions:
+            extra_data = ftrack_connect_pipeline_definition.collect_and_validate(
+                session, current_dir, extra_host_definition
+            )
+            data = merge_extra_data(data, extra_data)
+    for key, value in data.items():
+        logger.info('Total discovered : {} : {}'.format(key, len(value)))
     return data
 
 
