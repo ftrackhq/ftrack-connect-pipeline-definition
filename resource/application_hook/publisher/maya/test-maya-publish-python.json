@@ -57,7 +57,7 @@
   "finalisers": [
     {
       "name": "to ftrack server",
-      "plugin": "result",
+      "plugin": "test_result",
       "visible": false
     }
   ]
