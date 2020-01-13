@@ -14,6 +14,7 @@ logger = logging.getLogger('ftrack_connect_pipeline_definition.register')
 
 def register_definitions(session, event):
     host = event['data']['pipeline']['host']
+    print "host ---> {}".format(host)
     current_dir = os.path.dirname(__file__)
 
     data = ftrack_connect_pipeline_definition.collect_and_validate(

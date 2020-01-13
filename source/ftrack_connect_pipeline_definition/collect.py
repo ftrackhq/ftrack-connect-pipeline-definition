@@ -14,7 +14,7 @@ def filter_definitions_by_host(data, host):
     logger.info('filtering definition for host: {}'.format(host))
     for entry in ['loaders', 'publishers']:
         for definition in data[entry]:
-            if str(definition.get('host')) not in host:
+            if str(definition.get('host')) != str(host):
                 logger.warning(
                     'Removing definition for host: {}'.format(
                         definition.get('host')
