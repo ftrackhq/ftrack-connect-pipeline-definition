@@ -6,6 +6,7 @@ import json
 import logging
 import ftrack_api
 import functools
+import copy
 from ftrack_connect_pipeline import constants, configure_logging
 import ftrack_connect_pipeline_definition
 
@@ -21,20 +22,18 @@ def merge_extra_data(data, extra_data):
 
 
 def register_definitions(session, event):
-    host = event['data']['pipeline']['host']
-    extra_hosts_definitions = event['data']['pipeline'][
-        'extra_hosts_definitions']
+    hosts = event['data']['pipeline']['host']
     current_dir = os.path.dirname(__file__)
-    # collect definitions
-    data = ftrack_connect_pipeline_definition.collect_and_validate(
-        session, current_dir, host
-    )
-    if extra_hosts_definitions:
-        for extra_host_definition in extra_hosts_definitions:
-            extra_data = ftrack_connect_pipeline_definition.collect_and_validate(
-                session, current_dir, extra_host_definition
-            )
+    data = {}
+    for host in hosts:
+        # collect definitions
+        extra_data = ftrack_connect_pipeline_definition.collect_and_validate(
+            session, current_dir, host
+        )
+        if data:
             data = merge_extra_data(data, extra_data)
+        else:
+            data = copy.deepcopy(extra_data)
     for key, value in data.items():
         logger.info('Total discovered : {} : {}'.format(key, len(value)))
     return data
