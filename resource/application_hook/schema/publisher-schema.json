@@ -42,7 +42,7 @@
         "plugins",
         "type"
       ],
-      "order":["type", "stage", "plugins"],
+      "order":["type", "name", "plugins"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -162,8 +162,7 @@
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host", "ui",
-    "contexts", "components", "finalisers"
+    "type", "name", "package", "host", "contexts", "components", "finalisers"
   ],
   "properties": {
     "type": {
