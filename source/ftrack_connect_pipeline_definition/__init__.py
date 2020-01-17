@@ -24,8 +24,13 @@ def collect_and_validate(session, current_dir, host):
     # # validate packages
     data = validate.validate_definition_components(data)
 
+    # # resolve schemas
+
+    data = collect.resolve_schemas(data)
+
     # log final discovery result
     for key, value in data.items():
         logger.info('discovered : {} : {}'.format(key, len(value)))
+
 
     return data
