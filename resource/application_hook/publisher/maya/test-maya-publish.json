@@ -8,7 +8,8 @@
     {
       "name": "context selector",
       "plugin": "context.publish",
-      "widget": "context.publish"
+      "widget": "context.publish",
+      "plugin_type": "context"
     }
   ],
   "components": [
@@ -20,7 +21,8 @@
           "plugins":[
             {
               "name": "Pick selected object/s",
-              "plugin": "selection"
+              "plugin": "selection",
+              "plugin_type": "collector"
             }
           ]
         },
@@ -29,7 +31,8 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "nonempty",
+              "plugin_type": "validator"
             }
           ]
         },
@@ -47,7 +50,8 @@
                 "constraints": false,
                 "shaders": true,
                 "include_scene_to_assets": false
-              }
+              },
+              "plugin_type": "output"
             }
           ]
         }
@@ -64,7 +68,8 @@
               "plugin": "camera",
               "options": {
                 "camera_name": "persp"
-              }
+              },
+              "plugin_type": "collector"
             }
           ]
         },
@@ -74,7 +79,8 @@
             {
               "type": "plugin",
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "nonempty",
+              "plugin_type": "validator"
             }
           ]
         },
@@ -84,7 +90,8 @@
             {
               "type": "plugin",
               "name": "write thumbnail",
-              "plugin": "thumbnail"
+              "plugin": "thumbnail",
+              "plugin_type": "output"
             }
           ]
         }
@@ -101,7 +108,8 @@
               "plugin": "camera",
               "options": {
                 "camera_name": "persp"
-              }
+              },
+              "plugin_type": "collector"
             }
           ]
         },
@@ -110,7 +118,8 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "nonempty",
+              "plugin_type": "validator"
             }
           ]
         },
@@ -119,7 +128,8 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "reviewable"
+              "plugin": "reviewable",
+              "plugin_type": "output"
             }
           ]
         }
@@ -130,7 +140,8 @@
     {
       "name": "to ftrack server",
       "plugin": "result",
-      "visible": false
+      "visible": false,
+      "plugin_type": "finaliser"
     }
   ]
 }

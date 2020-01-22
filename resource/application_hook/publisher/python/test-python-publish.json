@@ -13,7 +13,8 @@
         "asset_name": "",
         "comment": "",
         "status_id": ""
-      }
+      },
+      "plugin_type": "context"
     }
   ],
   "components": [
@@ -28,7 +29,8 @@
               "plugin": "filesystem",
               "options": {
                 "path": null
-              }
+              },
+              "plugin_type": "collector"
             }
           ]
         },
@@ -37,7 +39,8 @@
           "plugins": [
             {
               "name": "file exists",
-              "plugin": "file_exists"
+              "plugin": "file_exists",
+              "plugin_type": "validator"
             }
           ]
         },
@@ -46,7 +49,8 @@
           "plugins": [
             {
               "name": "passthrough output",
-              "plugin": "passthrough"
+              "plugin": "passthrough",
+              "plugin_type": "output"
             }
           ]
         }
@@ -57,7 +61,8 @@
     {
       "name": "to ftrack server",
       "plugin": "result",
-      "visible": false
+      "visible": false,
+      "plugin_type": "finaliser"
     }
   ]
 }

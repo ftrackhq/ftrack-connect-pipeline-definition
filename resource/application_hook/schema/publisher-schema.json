@@ -76,15 +76,19 @@
         "name",
         "plugin",
         "type",
-        "_results"
+        "_results",
+        "plugin_type"
       ],
-      "order":["type", "name", "description", "plugin", "widget", "options"],
+      "order":["type", "name", "description", "plugin", "plugin_type", "widget", "options"],
       "additionalProperties": false,
       "properties": {
         "type": {
           "type": "string",
           "pattern": "^plugin$",
           "default": "plugin"
+        },
+        "plugin_type": {
+          "type": "string"
         },
         "name": {
           "type": "string"
