@@ -55,7 +55,9 @@
           "enum": [
             "collector",
             "validator",
-            "output"
+            "output",
+            "context",
+            "finaliser"
           ]
         },
         "plugins": {
@@ -76,19 +78,15 @@
         "name",
         "plugin",
         "type",
-        "_results",
-        "plugin_type"
+        "_results"
       ],
-      "order":["type", "name", "description", "plugin", "plugin_type", "widget", "options"],
+      "order":["type", "name", "description", "plugin", "widget", "options"],
       "additionalProperties": false,
       "properties": {
         "type": {
           "type": "string",
           "pattern": "^plugin$",
           "default": "plugin"
-        },
-        "plugin_type": {
-          "type": "string"
         },
         "name": {
           "type": "string"
@@ -193,7 +191,7 @@
     "contexts": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Plugin"
+        "$ref": "#/definitions/Stage"
       },
       "default": [],
       "minItems": 1,
@@ -211,7 +209,7 @@
     "finalisers": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/Plugin"
+        "$ref": "#/definitions/Stage"
       },
       "default": [],
       "minItems": 1,

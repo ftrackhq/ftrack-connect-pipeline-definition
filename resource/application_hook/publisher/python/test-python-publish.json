@@ -5,16 +5,20 @@
   "host": "python",
   "contexts": [
     {
-      "name": "context selector",
-      "plugin": "context.publish",
-      "widget": "context.publish",
-      "options":{
-        "context_id": "",
-        "asset_name": "",
-        "comment": "",
-        "status_id": ""
-      },
-      "plugin_type": "context"
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish",
+          "options":{
+            "context_id": "",
+            "asset_name": "",
+            "comment": "",
+            "status_id": ""
+          }
+        }
+      ]
     }
   ],
   "components": [
@@ -29,8 +33,7 @@
               "plugin": "filesystem",
               "options": {
                 "path": null
-              },
-              "plugin_type": "collector"
+              }
             }
           ]
         },
@@ -39,8 +42,7 @@
           "plugins": [
             {
               "name": "file exists",
-              "plugin": "file_exists",
-              "plugin_type": "validator"
+              "plugin": "file_exists"
             }
           ]
         },
@@ -49,8 +51,7 @@
           "plugins": [
             {
               "name": "passthrough output",
-              "plugin": "passthrough",
-              "plugin_type": "output"
+              "plugin": "passthrough"
             }
           ]
         }
@@ -59,10 +60,14 @@
   ],
   "finalisers": [
     {
-      "name": "to ftrack server",
-      "plugin": "result",
-      "visible": false,
-      "plugin_type": "finaliser"
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result",
+          "visible": false
+        }
+      ]
     }
   ]
 }

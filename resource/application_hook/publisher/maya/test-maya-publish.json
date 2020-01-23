@@ -6,10 +6,14 @@
   "ui": "qt",
   "contexts": [
     {
-      "name": "context selector",
-      "plugin": "context.publish",
-      "widget": "context.publish",
-      "plugin_type": "context"
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish"
+        }
+      ]
     }
   ],
   "components": [
@@ -21,8 +25,7 @@
           "plugins":[
             {
               "name": "Pick selected object/s",
-              "plugin": "selection",
-              "plugin_type": "collector"
+              "plugin": "selection"
             }
           ]
         },
@@ -31,8 +34,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty",
-              "plugin_type": "validator"
+              "plugin": "nonempty"
             }
           ]
         },
@@ -50,8 +52,7 @@
                 "constraints": false,
                 "shaders": true,
                 "include_scene_to_assets": false
-              },
-              "plugin_type": "output"
+              }
             }
           ]
         }
@@ -68,8 +69,7 @@
               "plugin": "camera",
               "options": {
                 "camera_name": "persp"
-              },
-              "plugin_type": "collector"
+              }
             }
           ]
         },
@@ -79,8 +79,7 @@
             {
               "type": "plugin",
               "name": "validate selection",
-              "plugin": "nonempty",
-              "plugin_type": "validator"
+              "plugin": "nonempty"
             }
           ]
         },
@@ -90,8 +89,7 @@
             {
               "type": "plugin",
               "name": "write thumbnail",
-              "plugin": "thumbnail",
-              "plugin_type": "output"
+              "plugin": "thumbnail"
             }
           ]
         }
@@ -108,8 +106,7 @@
               "plugin": "camera",
               "options": {
                 "camera_name": "persp"
-              },
-              "plugin_type": "collector"
+              }
             }
           ]
         },
@@ -118,8 +115,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty",
-              "plugin_type": "validator"
+              "plugin": "nonempty"
             }
           ]
         },
@@ -128,8 +124,7 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "reviewable",
-              "plugin_type": "output"
+              "plugin": "reviewable"
             }
           ]
         }
@@ -138,10 +133,14 @@
   ],
   "finalisers": [
     {
-      "name": "to ftrack server",
-      "plugin": "result",
-      "visible": false,
-      "plugin_type": "finaliser"
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result",
+          "visible": false
+        }
+      ]
     }
   ]
 }
