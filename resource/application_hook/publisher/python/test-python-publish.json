@@ -3,8 +3,7 @@
   "name": "File Publisher",
   "package": "geoPkg",
   "host": "python",
-  "contexts": [
-    {
+  "contexts": {
       "name": "context",
       "plugins":[
         {
@@ -19,8 +18,7 @@
           }
         }
       ]
-    }
-  ],
+    },
   "components": [
     {
       "name": "main",
@@ -58,8 +56,7 @@
       ]
     }
   ],
-  "finalisers": [
-    {
+  "finalisers": {
       "name": "finaliser",
       "plugins":[
         {
@@ -69,5 +66,4 @@
         }
       ]
     }
-  ]
 }

@@ -189,13 +189,7 @@
       "default": null
     },
     "contexts": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Stage"
-      },
-      "default": [],
-      "minItems": 1,
-      "maxItems": 1
+      "$ref": "#/definitions/Stage"
     },
     "components": {
       "type": "array",
@@ -207,13 +201,7 @@
       "uniqueItems": true
     },
     "finalisers": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Stage"
-      },
-      "default": [],
-      "minItems": 1,
-      "uniqueItems": true
+      "$ref": "#/definitions/Stage"
     },
     "_config": {
       "$ref": "#/definitions/Config",

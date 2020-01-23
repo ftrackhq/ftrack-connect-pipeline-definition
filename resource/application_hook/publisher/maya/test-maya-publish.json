@@ -4,8 +4,7 @@
   "package": "geoPkg",
   "host": "maya",
   "ui": "qt",
-  "contexts": [
-    {
+  "contexts": {
       "name": "context",
       "plugins":[
         {
@@ -14,8 +13,7 @@
           "widget": "context.publish"
         }
       ]
-    }
-  ],
+    },
   "components": [
     {
       "name": "main",
@@ -131,8 +129,7 @@
       ]
     }
   ],
-  "finalisers": [
-    {
+  "finalisers": {
       "name": "finaliser",
       "plugins":[
         {
@@ -142,5 +139,4 @@
         }
       ]
     }
-  ]
 }
