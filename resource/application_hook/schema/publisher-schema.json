@@ -11,6 +11,7 @@
         "engine",
         "type"
       ],
+      "order":["type", "stage_order", "engine"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -41,6 +42,7 @@
         "plugins",
         "type"
       ],
+      "order":["type", "name", "plugins"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -53,7 +55,9 @@
           "enum": [
             "collector",
             "validator",
-            "output"
+            "output",
+            "context",
+            "finaliser"
           ]
         },
         "plugins": {
@@ -76,6 +80,7 @@
         "type",
         "_results"
       ],
+      "order":["type", "name", "description", "plugin", "widget", "options"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -126,6 +131,7 @@
         "stages",
         "type"
       ],
+      "order":["type", "name", "stages"],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -157,6 +163,9 @@
     "type",
     "_config"
   ],
+  "order":[
+    "type", "name", "package", "host", "contexts", "components", "finalisers"
+  ],
   "properties": {
     "type": {
       "type": "string",
@@ -180,13 +189,7 @@
       "default": null
     },
     "contexts": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Plugin"
-      },
-      "default": [],
-      "minItems": 1,
-      "maxItems": 1
+      "$ref": "#/definitions/Stage"
     },
     "components": {
       "type": "array",
@@ -198,13 +201,7 @@
       "uniqueItems": true
     },
     "finalisers": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Plugin"
-      },
-      "default": [],
-      "minItems": 1,
-      "uniqueItems": true
+      "$ref": "#/definitions/Stage"
     },
     "_config": {
       "$ref": "#/definitions/Config",

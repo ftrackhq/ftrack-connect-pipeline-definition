@@ -6,7 +6,13 @@ import fnmatch
 import os
 import logging
 import copy
+from jsonref import JsonRef
 logger = logging.getLogger(__name__)
+
+
+def resolve_schemas(data):
+    data['schemas'] = [JsonRef.replace_refs(schema) for schema in data['schemas']]
+    return data
 
 
 def filter_definitions_by_host(data, host):

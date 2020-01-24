@@ -4,13 +4,16 @@
   "package": "geoPkg",
   "host": "maya",
   "ui": "qt",
-  "contexts": [
-    {
-      "name": "context selector",
-      "plugin": "context.publish",
-      "widget": "context.publish"
-    }
-  ],
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish"
+        }
+      ]
+    },
   "components": [
     {
       "name": "main",
@@ -126,11 +129,14 @@
       ]
     }
   ],
-  "finalisers": [
-    {
-      "name": "to ftrack server",
-      "plugin": "result",
-      "visible": false
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result",
+          "visible": false
+        }
+      ]
     }
-  ]
 }
