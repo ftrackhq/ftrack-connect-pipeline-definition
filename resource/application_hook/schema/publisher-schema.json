@@ -188,7 +188,7 @@
       "default": null
     },
     "ui": {
-      "type": ["string", "null"],
+      "type": "string",
       "default": null
     },
     "contexts": {
