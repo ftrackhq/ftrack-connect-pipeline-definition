@@ -29,6 +29,7 @@
             {
               "name": "collect from given path",
               "plugin": "filesystem",
+              "widget": "fileCollector.widget",
               "options": {
                 "path": null
               }
