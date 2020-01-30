@@ -6,7 +6,7 @@ import logging
 import ftrack_api
 import functools
 from ftrack_connect_pipeline import constants, configure_logging
-import ftrack_connect_pipeline_definition
+import ftrack_connect_pipeline.definition
 
 logger = logging.getLogger('ftrack_connect_pipeline_definition.register')
 
@@ -15,7 +15,7 @@ def register_definitions(session, event):
     host = event['data']['pipeline']['host']
     current_dir = os.path.dirname(__file__)
     # collect definitions
-    data = ftrack_connect_pipeline_definition.collect_and_validate(
+    data = ftrack_connect_pipeline.definition.collect_and_validate(
         session, current_dir, host
     )
     return data
