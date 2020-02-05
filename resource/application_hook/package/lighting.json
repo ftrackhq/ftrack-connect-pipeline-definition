@@ -8,46 +8,38 @@
     ],
     "components":[
         {
-            "type": "package_component",
             "name": "main",
             "file_type": ["mb", "ma"]
         },
         {
-            "type": "package_component",
             "name": "beauty",
             "file_type": ["exr"],
             "optional": true
         },
         {
-            "type": "package_component",
             "name": "diffuse",
             "file_type": ["exr"],
             "optional": true
         },
         {
-            "type": "package_component",
             "name": "reflection",
             "file_type": ["exr"],
             "optional": true
         },
         {
-            "type": "package_component",
             "name": "shadow",
             "file_type": ["exr"],
             "optional": true
         },
         {
-            "type": "package_component",
             "name": "specular",
             "file_type": ["exr"],
             "optional": true
         },
         {
-            "type": "package_component",
             "name": "reviewable"
         },
         {
-            "type": "package_component",
             "name": "thumbnail"
         }
     ]
