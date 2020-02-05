@@ -209,6 +209,10 @@
     "_config": {
       "$ref": "#/definitions/Config",
       "default": {}
+    },
+    "_built": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

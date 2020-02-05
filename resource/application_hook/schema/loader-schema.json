@@ -74,6 +74,10 @@
       "items": {
         "$ref": "#/definitions/Plugin"
       }
+    },
+    "_built": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
