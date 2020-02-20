@@ -9,13 +9,7 @@
         {
           "name": "context selector",
           "plugin": "context.publish",
-          "widget": "context.publish",
-          "options":{
-            "context_id": "",
-            "asset_name": "",
-            "comment": "",
-            "status_id": ""
-          }
+          "widget": "context.publish"
         }
       ]
     },
