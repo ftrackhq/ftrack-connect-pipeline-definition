@@ -70,7 +70,8 @@
               "plugin": "camera",
               "options": {
                 "camera_name": "persp"
-              }
+              },
+              "widget": "camera"
             }
           ]
         },
