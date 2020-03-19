@@ -44,16 +44,8 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "mayabinary",
-              "options": {
-                "preserve_reference": false,
-                "history": false,
-                "channels": true,
-                "expressions": false,
-                "constraints": false,
-                "shaders": true,
-                "include_scene_to_assets": false
-              }
+              "plugin": "maya_binary",
+              "widget": "maya_options"
             }
           ]
         }
