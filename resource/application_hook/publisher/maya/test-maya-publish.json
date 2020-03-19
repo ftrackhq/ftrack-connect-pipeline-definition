@@ -51,6 +51,42 @@
         }
       ]
     },
+     {
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick selected object/s",
+              "plugin": "selection",
+              "options": {
+                "path": null
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "alembic",
+              "plugin": "alembic",
+              "widget": "alembic_options"
+            }
+          ]
+        }
+      ]
+    },
     {
       "name": "thumbnail",
       "stages": [

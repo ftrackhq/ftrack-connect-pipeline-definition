@@ -16,6 +16,10 @@
         {
             "name": "reviewable",
             "optional": true
+        },
+        {
+            "name": "cache",
+            "optional": true
         }
     ]
 }
