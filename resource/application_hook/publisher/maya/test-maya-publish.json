@@ -23,9 +23,14 @@
           "plugins":[
             {
               "name": "Pick selected object/s",
-              "plugin": "selection",
+              "plugin": "selection"
+            },
+            {
+              "name": "Pick objects with prefix",
+              "plugin": "from_prefix",
               "options": {
-                "path": null
+                "prefix": "geo_",
+                "sufix": ""
               }
             }
           ]
@@ -58,10 +63,10 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Pick selected object/s",
-              "plugin": "selection",
+              "name": "Pick objects with prefix",
+              "plugin": "from_set",
               "options": {
-                "path": null
+                "set_name": "anim"
               }
             }
           ]
@@ -82,6 +87,42 @@
               "name": "alembic",
               "plugin": "alembic",
               "widget": "alembic_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick objects with regex",
+              "plugin": "from_regex",
+              "options": {
+                "expression": "^\\d+."
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "fbx",
+              "plugin": "fbx",
+              "widget": "fbx_options"
             }
           ]
         }

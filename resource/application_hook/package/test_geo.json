@@ -20,6 +20,10 @@
         {
             "name": "cache",
             "optional": true
+        },
+        {
+            "name": "game",
+            "optional": true
         }
     ]
 }
