@@ -23,9 +23,14 @@
           "plugins":[
             {
               "name": "Pick selected object/s",
-              "plugin": "selection",
+              "plugin": "selection"
+            },
+            {
+              "name": "Pick objects with prefix",
+              "plugin": "from_prefix",
               "options": {
-                "path": null
+                "prefix": "geo_",
+                "sufix": ""
               }
             }
           ]
@@ -44,16 +49,80 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "mayabinary",
+              "plugin": "maya_binary",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+     {
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick objects with prefix",
+              "plugin": "from_set",
               "options": {
-                "preserve_reference": false,
-                "history": false,
-                "channels": true,
-                "expressions": false,
-                "constraints": false,
-                "shaders": true,
-                "include_scene_to_assets": false
+                "set_name": "anim"
               }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "alembic",
+              "plugin": "alembic",
+              "widget": "alembic_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick objects with regex",
+              "plugin": "from_regex",
+              "options": {
+                "expression": "^\\w+\\d"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "fbx",
+              "plugin": "fbx",
+              "widget": "fbx_options"
             }
           ]
         }
