@@ -1,0 +1,74 @@
+{
+  "type": "loader",
+  "name": "Geometry Loader",
+  "package": "geoPkg_loader",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.load",
+          "widget": "context.load"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "geometry",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["main"],
+                "accepted_formats": [".mb"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Maya",
+              "plugin": "import_maya"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "validatorTest"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "finaliserTest",
+          "visible": false
+        }
+      ]
+    }
+}

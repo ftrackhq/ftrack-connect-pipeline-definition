@@ -1,0 +1,14 @@
+{
+    "name": "geoPkg_loader",
+    "type": "package",
+    "asset_type": "geo",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "geometry",
+            "optional": true
+        }
+    ]
+}
