@@ -9,6 +9,10 @@
         {
             "name": "geometry",
             "optional": true
+        },
+        {
+            "name": "cache",
+            "optional": true
         }
     ]
 }

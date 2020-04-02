@@ -59,6 +59,51 @@
           ]
         }
       ]
+    },
+    {
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["cache"],
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Maya",
+              "plugin": "abc_maya_import"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "validatorTest"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalisers": {
@@ -66,7 +111,7 @@
       "plugins":[
         {
           "name": "Merge scene",
-          "plugin": "finaliserTest",
+          "plugin": "merge_geo_abc",
           "visible": false
         }
       ]
