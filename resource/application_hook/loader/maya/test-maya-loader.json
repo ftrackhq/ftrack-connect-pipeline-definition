@@ -65,7 +65,7 @@
       "name": "finaliser",
       "plugins":[
         {
-          "name": "to ftrack server",
+          "name": "Merge scene",
           "plugin": "finaliserTest",
           "visible": false
         }
