@@ -25,7 +25,6 @@
           "default": [
             "collector",
             "importer",
-            "validator",
             "post_import"
           ]
         },
@@ -56,7 +55,6 @@
           "enum": [
             "collector",
             "importer",
-            "validator",
             "post_import",
             "finaliser",
             "context"
