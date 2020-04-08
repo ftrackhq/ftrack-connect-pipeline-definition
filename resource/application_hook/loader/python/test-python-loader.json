@@ -45,15 +45,6 @@
           ]
         },
         {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "validatorTest"
-            }
-          ]
-        },
-        {
           "name": "post_import",
           "plugins":[
             {
