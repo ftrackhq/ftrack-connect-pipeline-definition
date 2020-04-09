@@ -16,7 +16,7 @@
     },
   "components": [
     {
-      "name": "geometry",
+      "name": "main",
       "stages": [
         {
           "name": "collector",
