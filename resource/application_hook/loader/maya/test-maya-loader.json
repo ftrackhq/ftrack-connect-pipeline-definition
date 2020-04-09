@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Geometry Loader",
-  "package": "geoPkg_loader",
+  "package": "geoPkg",
   "host": "maya",
   "ui": "qt",
   "contexts": {
