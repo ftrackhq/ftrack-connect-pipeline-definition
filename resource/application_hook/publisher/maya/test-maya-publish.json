@@ -203,7 +203,7 @@
       "plugins":[
         {
           "name": "to ftrack server",
-          "plugin": "result",
+          "plugin": "result_maya",
           "visible": false
         }
       ]

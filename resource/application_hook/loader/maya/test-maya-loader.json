@@ -1,0 +1,101 @@
+{
+  "type": "loader",
+  "name": "Geometry Loader",
+  "package": "geoPkg",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.load",
+          "widget": "context.load"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["main"],
+                "accepted_formats": [".mb"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Maya",
+              "plugin": "import_maya"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["cache"],
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Maya",
+              "plugin": "abc_maya_import"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "Merge scene",
+          "plugin": "merge_geo_abc",
+          "visible": false
+        }
+      ]
+    }
+}
