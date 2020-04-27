@@ -98,7 +98,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "ValidateTest"
+              "plugin": "nonempty"
             }
           ]
         },
