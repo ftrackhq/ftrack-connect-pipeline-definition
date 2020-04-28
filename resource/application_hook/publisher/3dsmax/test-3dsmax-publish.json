@@ -40,8 +40,8 @@
           "name": "output",
           "plugins":[
             {
-              "name": "3dsmaxalembic",
-              "plugin": "OutputMaxAlembicPlugin"
+              "name": "3dsmaxbinary",
+              "plugin": "OutputMaxBinaryPlugin"
             }
           ]
         }
