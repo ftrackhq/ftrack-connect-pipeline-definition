@@ -1,0 +1,65 @@
+{
+  "type": "loader",
+  "name": "Geometry Loader",
+  "package": "geoPkg",
+  "host": "3dsmax",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.load",
+          "widget": "context.load"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["main"],
+                "accepted_formats": [".max"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Max",
+              "plugin": "import_max"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "max",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "Do nothing",
+          "plugin": "finaliserTest",
+          "visible": false
+        }
+      ]
+    }
+}
