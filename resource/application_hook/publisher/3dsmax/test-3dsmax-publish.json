@@ -118,8 +118,8 @@
       "name": "finaliser",
       "plugins":[
         {
-          "name": "result_test",
-          "plugin": "result",
+          "name": "finalizer max",
+          "plugin": "result.max",
           "visible": false
         }
       ]
