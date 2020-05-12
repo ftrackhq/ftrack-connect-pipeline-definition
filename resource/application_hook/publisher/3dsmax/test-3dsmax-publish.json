@@ -48,6 +48,38 @@
       ]
     },
     {
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick selected object/s",
+              "plugin": "selection"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "AlembicOutput",
+              "plugin": "OutputMaxAlembicPlugin"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "thumbnail",
       "stages": [
         {
