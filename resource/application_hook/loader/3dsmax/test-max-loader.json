@@ -50,6 +50,42 @@
           ]
         }
       ]
+    },
+    {
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["cache"],
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import abc to Max",
+              "plugin": "import_max_abc"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "max",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalisers": {
