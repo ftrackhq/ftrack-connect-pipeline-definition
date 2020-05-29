@@ -4,13 +4,16 @@
   "package": "imgPkg",
   "host": "nuke",
   "ui": "qt",
-  "contexts": [
-    {
-      "name": "context selector",
-      "plugin": "context.publish",
-      "widget": "context.publish"
-    }
-  ],
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish"
+        }
+      ]
+    },
   "components": [
     {
       "name": "nukescript",
@@ -51,7 +54,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
+              "name": "collect sequence node.",
               "plugin": "write_node",
               "widget": "write_node"
             }
@@ -63,13 +66,6 @@
             {
               "name": "validate selection",
               "plugin": "nonempty"
-            },
-            {
-              "name": "validate node type",
-              "plugin": "node_type",
-              "options": {
-                "node_type": "Write"
-              }
             }
           ]
         },
@@ -165,11 +161,14 @@
       ]
     }
   ],
-  "finalisers": [
-    {
-      "name": "to ftrack server",
-      "plugin": "result",
-      "visible": false
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result.nuke",
+          "visible": false
+        }
+      ]
     }
-  ]
 }

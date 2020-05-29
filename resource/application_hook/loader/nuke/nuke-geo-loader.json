@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "CompositingOpen",
-  "package": "imgPkg",
+  "name": "nukeGeoLoad",
+  "package": "geoPkg",
   "host": "nuke",
   "ui": "qt",
   "contexts": {
@@ -16,7 +16,7 @@
     },
   "components": [
     {
-      "name": "nukescript",
+      "name": "cache",
       "stages": [
         {
           "name": "collector",
@@ -25,8 +25,8 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "component_list": ["nukescript"],
-                "accepted_formats": [".nk"]
+                "component_list": ["cache"],
+                "accepted_formats": [".abc"]
               }
             }
           ]
@@ -36,7 +36,7 @@
           "plugins":[
             {
               "name": "Import Scene",
-              "plugin": "import_nuke"
+              "plugin": "abc_nuke_import"
             }
           ]
         },

@@ -10,7 +10,8 @@
             "name": "nukescript"
         },
         {
-            "name": "sequence"
+            "name": "sequence",
+            "optional": true
         },
         {
             "name": "thumbnail",
