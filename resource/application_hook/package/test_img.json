@@ -7,7 +7,8 @@
     ],
     "components":[
         {
-            "name": "nukescript"
+            "name": "nukescript",
+            "optional": true
         },
         {
             "name": "sequence",
