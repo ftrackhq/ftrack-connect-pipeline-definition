@@ -74,7 +74,14 @@
           "plugins":[
             {
               "name": "write sequence",
-              "plugin": "sequence"
+              "plugin": "sequence",
+              "options": {
+                "file_format": "exr",
+                "file_format_options": {
+                  "datatype": 1,
+                  "compression": 1
+                }
+              }
             }
           ]
         }
