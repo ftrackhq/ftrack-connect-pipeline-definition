@@ -9,8 +9,7 @@
       "plugins":[
         {
           "name": "context selector",
-          "plugin": "context.publish",
-          "widget": "context.publish"
+          "plugin": "context.publish"
         }
       ]
     },
@@ -32,7 +31,7 @@
           "plugins": [
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "file_exists"
             }
           ]
         },
