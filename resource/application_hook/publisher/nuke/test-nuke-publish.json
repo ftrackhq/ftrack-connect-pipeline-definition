@@ -30,6 +30,10 @@
           "name": "validator",
           "plugins": [
             {
+              "name": "Check file saved",
+              "plugin": "file_saved"
+            },
+            {
               "name": "validate selection",
               "plugin": "file_exists"
             }
