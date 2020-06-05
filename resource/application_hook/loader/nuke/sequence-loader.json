@@ -1,0 +1,65 @@
+{
+  "type": "loader",
+  "name": "SequenceLoader",
+  "package": "imgPkg",
+  "host": "nuke",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.load",
+          "widget": "context.load"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "sequence",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "component_list": ["sequence"],
+                "accepted_formats": [".exr"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import image sequence",
+              "plugin": "import_image_sequence"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "nuke",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "Do nothing",
+          "plugin": "finaliserTest",
+          "visible": false
+        }
+      ]
+    }
+}

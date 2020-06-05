@@ -4,13 +4,15 @@
   "package": "imgPkg",
   "host": "nuke",
   "ui": "qt",
-  "contexts": [
-    {
-      "name": "context selector",
-      "plugin": "context.publish",
-      "widget": "context.publish"
-    }
-  ],
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish"
+        }
+      ]
+    },
   "components": [
     {
       "name": "nukescript",
@@ -28,8 +30,12 @@
           "name": "validator",
           "plugins": [
             {
+              "name": "Check file saved",
+              "plugin": "file_saved"
+            },
+            {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "file_exists"
             }
           ]
         },
@@ -51,7 +57,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
+              "name": "collect sequence node.",
               "plugin": "write_node",
               "widget": "write_node"
             }
@@ -63,13 +69,6 @@
             {
               "name": "validate selection",
               "plugin": "nonempty"
-            },
-            {
-              "name": "validate node type",
-              "plugin": "node_type",
-              "options": {
-                "node_type": "Write"
-              }
             }
           ]
         },
@@ -78,7 +77,14 @@
           "plugins":[
             {
               "name": "write sequence",
-              "plugin": "sequence"
+              "plugin": "sequence",
+              "options": {
+                "file_format": "exr",
+                "file_format_options": {
+                  "datatype": 1,
+                  "compression": 1
+                }
+              }
             }
           ]
         }
@@ -165,11 +171,14 @@
       ]
     }
   ],
-  "finalisers": [
-    {
-      "name": "to ftrack server",
-      "plugin": "result",
-      "visible": false
+  "finalisers": {
+      "name": "finaliser",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result.nuke",
+          "visible": false
+        }
+      ]
     }
-  ]
 }
