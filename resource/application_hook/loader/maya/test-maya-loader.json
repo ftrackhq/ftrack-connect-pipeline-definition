@@ -9,8 +9,7 @@
       "plugins":[
         {
           "name": "context selector",
-          "plugin": "context.load",
-          "widget": "context.load"
+          "plugin": "context.load"
         }
       ]
     },
@@ -36,7 +35,15 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "import_maya"
+              "plugin": "load_maya",
+              "options": {
+                "load_mode": "Open",
+                "load_options": {
+                  "preserve_references": true,
+                  "add_namespace": true,
+                  "namespace_option": "file_name"
+                }
+              }
             }
           ]
         },
