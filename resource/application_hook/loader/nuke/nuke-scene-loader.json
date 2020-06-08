@@ -35,8 +35,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import Scene",
-              "plugin": "import_nuke"
+              "name": "load Scene",
+              "plugin": "load_nuke"
             }
           ]
         },
