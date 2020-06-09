@@ -35,8 +35,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import paths to Max",
-              "plugin": "import_max"
+              "name": "load paths to Max",
+              "plugin": "load_max"
             }
           ]
         },
