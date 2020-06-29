@@ -1,0 +1,7 @@
+{
+    "type": "asset_manager",
+    "host": "maya",
+    "_config": {
+        "engine": "AssetManagerMaya"
+    }
+}

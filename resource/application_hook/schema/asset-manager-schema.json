@@ -1,0 +1,55 @@
+{
+  "title": "AssetManager",
+  "type": "object",
+  "additionalProperties": false,
+    "definitions": {
+      "Config": {
+        "title": "Config",
+        "type": "object",
+        "required": [
+          "engine",
+          "type"
+        ],
+        "order": [
+          "type",
+          "engine"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "pattern": "^config$",
+            "default": "config"
+          },
+          "engine": {
+            "type": "string",
+            "default": "AssetManagerEngine"
+          }
+        }
+      }
+    },
+  "required": [
+    "host",
+    "type",
+    "_config"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "pattern": "^asset_manager$",
+      "default": "asset_manager"
+    },
+    "host": {
+      "type": "string",
+      "default": null
+    },
+    "ui": {
+      "type": "string",
+      "default": null
+    },
+    "_config": {
+      "$ref": "#/definitions/Config",
+      "default": {}
+    }
+  }
+}
