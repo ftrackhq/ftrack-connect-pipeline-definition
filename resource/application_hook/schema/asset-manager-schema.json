@@ -1,0 +1,82 @@
+{
+  "title": "Asset_manager",
+  "type": "object",
+  "additionalProperties": false,
+  "definitions": {
+    "Plugin": {
+      "title": "Plugin",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "plugin",
+        "type",
+        "_results"
+      ],
+      "order":["type", "name", "description", "plugin", "options"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^plugin$",
+          "default": "plugin"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "plugin": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "options": {
+          "type": "object",
+          "default": {}
+        },
+        "_results": {
+          "type": "array",
+          "default": [],
+          "items": {}
+        }
+      }
+    }
+  },
+  "required": [
+    "name",
+    "host",
+    "type",
+    "plugins"
+  ],
+  "order":[
+    "type", "name", "host", "plugins"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "pattern": "^package$",
+      "default": "package"
+    },
+    "name": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string",
+      "default": null
+    },
+    "ui": {
+      "type": "string",
+      "default": null
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Plugin"
+      },
+      "minItems": 1
+    }
+  }
+}

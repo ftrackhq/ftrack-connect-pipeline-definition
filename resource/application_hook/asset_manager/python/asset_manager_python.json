@@ -1,0 +1,23 @@
+{
+    "type": "asset_manager",
+    "name": "default",
+    "host": "python",
+    "asset_type": "geo",
+    "plugins":[
+        {
+            "name": "Change version of selected asset",
+            "plugin": "change_version",
+            "options": {}
+        },
+        {
+            "name": "Select asset in the scene",
+            "plugin": "select_asset",
+            "options": {}
+        },
+        {
+            "name": "Remove asset from the scene",
+            "plugin": "remove_asset",
+            "options": {}
+        }
+    ]
+}
