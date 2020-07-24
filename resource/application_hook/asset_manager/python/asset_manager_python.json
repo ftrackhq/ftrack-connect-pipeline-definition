@@ -2,22 +2,35 @@
     "type": "asset_manager",
     "name": "default",
     "host": "python",
-    "asset_type": "geo",
-    "plugins":[
+    "ui": "qt",
+    "discover": [
+        {
+            "name": "Discover the assets in the scene",
+            "plugin": "discover_assets"
+        }
+    ],
+    "actions":[
         {
             "name": "Change version of selected asset",
             "plugin": "change_version",
             "options": {}
+        }
+    ],
+    "menu_actions":[
+        {
+            "name": "Update to latest",
+            "plugin": "update_latest",
+            "ui_callback": "ctx_update_to_latest"
         },
         {
-            "name": "Select asset in the scene",
+            "name": "Select",
             "plugin": "select_asset",
-            "options": {}
+            "ui_callback": "ctx_select_action"
         },
         {
-            "name": "Remove asset from the scene",
+            "name": "Remove",
             "plugin": "remove_asset",
-            "options": {}
+            "ui_callback": "ctx_remove_action"
         }
     ]
 }
