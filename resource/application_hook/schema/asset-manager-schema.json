@@ -77,12 +77,11 @@
     "host",
     "type",
     "discover",
-    "actions",
     "menu_actions",
     "_config"
   ],
   "order":[
-    "type", "name", "host", "discover", "actions", "menu_actions"
+    "type", "name", "host", "discover", "menu_actions"
   ],
   "properties": {
     "type": {
@@ -114,19 +113,6 @@
       },
       "minItems": 1,
       "maxItems": 1
-    },
-    "actions": {
-      "type": "array",
-      "items": {
-        "allOf": [{"$ref": "#/definitions/Plugin"}],
-        "properties": {
-            "plugin_type": {
-              "pattern": "^action$",
-              "default": "action"
-            }
-          }
-      },
-      "minItems": 1
     },
     "menu_actions": {
       "type": "array",

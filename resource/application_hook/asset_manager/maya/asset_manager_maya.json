@@ -9,13 +9,6 @@
             "plugin": "discover_assets"
         }
     ],
-    "actions":[
-        {
-            "name": "Change version of selected asset",
-            "plugin": "change_version",
-            "options": {}
-        }
-    ],
     "menu_actions":[
         {
             "name": "Update to latest",
