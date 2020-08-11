@@ -77,8 +77,7 @@
       "required": [
         "name",
         "plugin",
-        "type",
-        "_results"
+        "type"
       ],
       "order":["type", "name", "description", "plugin", "widget", "options"],
       "additionalProperties": false,
@@ -118,11 +117,6 @@
         "options": {
           "type": "object",
           "default": {}
-        },
-        "_results": {
-          "type": "array",
-          "default": [],
-          "items": {}
         }
       }
     },
