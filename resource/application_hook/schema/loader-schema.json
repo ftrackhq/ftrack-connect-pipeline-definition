@@ -56,7 +56,7 @@
             "collector",
             "importer",
             "post_import",
-            "finaliser",
+            "finalizer",
             "context"
           ]
         },
@@ -156,12 +156,12 @@
     "package",
     "contexts",
     "components",
-    "finalisers",
+    "finalizers",
     "type",
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host", "contexts", "components", "finalisers"
+    "type", "name", "package", "host", "contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -197,7 +197,7 @@
       "minItems": 1,
       "uniqueItems": true
     },
-    "finalisers": {
+    "finalizers": {
       "$ref": "#/definitions/Stage"
     },
     "_config": {

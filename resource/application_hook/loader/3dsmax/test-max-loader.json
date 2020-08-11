@@ -88,12 +88,12 @@
       ]
     }
   ],
-  "finalisers": {
-      "name": "finaliser",
+  "finalizers": {
+      "name": "finalizer",
       "plugins":[
         {
           "name": "Do nothing",
-          "plugin": "finaliserTest",
+          "plugin": "finalizerTest",
           "visible": false
         }
       ]

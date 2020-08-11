@@ -198,8 +198,8 @@
       ]
     }
   ],
-  "finalisers": {
-      "name": "finaliser",
+  "finalizers": {
+      "name": "finalizer",
       "plugins":[
         {
           "name": "to ftrack server",

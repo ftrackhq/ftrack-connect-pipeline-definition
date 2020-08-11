@@ -95,8 +95,8 @@
       ]
     }
   ],
-  "finalisers": {
-      "name": "finaliser",
+  "finalizers": {
+      "name": "finalizer",
       "plugins":[
         {
           "name": "Merge scene",
