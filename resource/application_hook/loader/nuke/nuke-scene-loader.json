@@ -25,7 +25,6 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "component_list": ["nukescript"],
                 "accepted_formats": [".nk"]
               }
             }
