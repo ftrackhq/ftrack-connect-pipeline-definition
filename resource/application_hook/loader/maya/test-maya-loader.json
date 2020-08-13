@@ -24,7 +24,6 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "component_list": ["main"],
                 "accepted_formats": [".mb"]
               }
             }
@@ -68,7 +67,6 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "component_list": ["cache"],
                 "accepted_formats": [".abc"]
               }
             }
@@ -95,8 +93,8 @@
       ]
     }
   ],
-  "finalisers": {
-      "name": "finaliser",
+  "finalizers": {
+      "name": "finalizer",
       "plugins":[
         {
           "name": "Merge scene",

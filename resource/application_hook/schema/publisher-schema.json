@@ -57,7 +57,7 @@
             "validator",
             "output",
             "context",
-            "finaliser"
+            "finalizer"
           ]
         },
         "plugins": {
@@ -77,8 +77,7 @@
       "required": [
         "name",
         "plugin",
-        "type",
-        "_results"
+        "type"
       ],
       "order":["type", "name", "description", "plugin", "widget", "options"],
       "additionalProperties": false,
@@ -118,11 +117,6 @@
         "options": {
           "type": "object",
           "default": {}
-        },
-        "_results": {
-          "type": "array",
-          "default": [],
-          "items": {}
         }
       }
     },
@@ -162,12 +156,12 @@
     "host",
     "contexts",
     "components",
-    "finalisers",
+    "finalizers",
     "type",
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host", "contexts", "components", "finalisers"
+    "type", "name", "package", "host", "contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -203,7 +197,7 @@
       "minItems": 1,
       "uniqueItems": true
     },
-    "finalisers": {
+    "finalizers": {
       "$ref": "#/definitions/Stage"
     },
     "_config": {
