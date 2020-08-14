@@ -139,6 +139,10 @@
           "pattern": "^component$",
           "default": "component"
         },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
         "stages": {
           "type": "array",
           "maxItems": 3,
