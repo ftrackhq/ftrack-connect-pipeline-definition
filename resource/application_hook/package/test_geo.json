@@ -7,12 +7,10 @@
     ],
     "components":[
         {
-            "name": "main",
-            "optional": true
+            "name": "main"
         },
         {
-            "name": "thumbnail",
-            "optional": true
+            "name": "thumbnail"
         },
         {
             "name": "reviewable",
