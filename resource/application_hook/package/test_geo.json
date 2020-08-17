@@ -10,15 +10,15 @@
             "name": "main"
         },
         {
-            "name": "thumbnail"
+            "name": "thumbnail",
+            "optional": true
         },
         {
             "name": "reviewable",
             "optional": true
         },
         {
-            "name": "cache",
-            "optional": true
+            "name": "cache"
         },
         {
             "name": "game",
