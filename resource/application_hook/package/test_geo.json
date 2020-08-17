@@ -11,18 +11,18 @@
         },
         {
             "name": "thumbnail",
-            "optional": true
+            "required": false
         },
         {
             "name": "reviewable",
-            "optional": true
+            "required": false
         },
         {
             "name": "cache"
         },
         {
             "name": "game",
-            "optional": true
+            "required": false
         }
     ]
 }

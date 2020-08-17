@@ -14,27 +14,27 @@
         {
             "name": "beauty",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "diffuse",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "reflection",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "shadow",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "specular",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "reviewable"
