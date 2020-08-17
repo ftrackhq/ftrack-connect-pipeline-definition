@@ -94,6 +94,7 @@
     },
     {
       "name": "game",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
