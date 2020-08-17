@@ -110,10 +110,6 @@
           "type": "boolean",
           "default": true
         },
-        "disabled": {
-          "type": "boolean",
-          "default": false
-        },
         "options": {
           "type": "object",
           "default": {}
@@ -138,6 +134,10 @@
           "type": "string",
           "pattern": "^component$",
           "default": "component"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
         },
         "stages": {
           "type": "array",
