@@ -90,6 +90,7 @@
     },
     {
       "name": "game",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -164,6 +165,7 @@
     },
     {
       "name": "reviewable",
+      "optional": true,
       "stages": [
         {
           "name": "collector",

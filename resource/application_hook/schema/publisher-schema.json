@@ -135,6 +135,10 @@
           "pattern": "^component$",
           "default": "component"
         },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        },
         "enabled": {
           "type": "boolean",
           "default": true

@@ -8,19 +8,19 @@
     "components":[
         {
             "name": "nukescript",
-            "optional": true
+            "required": false
         },
         {
             "name": "sequence",
-            "optional": true
+            "required": false
         },
         {
             "name": "thumbnail",
-            "optional": true
+            "required": false
         },
         {
             "name": "reviewable",
-            "optional": true
+            "required": false
         }
     ]
 }

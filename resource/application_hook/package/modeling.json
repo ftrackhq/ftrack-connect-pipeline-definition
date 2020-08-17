@@ -9,7 +9,7 @@
     "components":[
         {
             "name": "main",
-            "optional": true
+            "required": false
         },
         {
             "name": "cache",

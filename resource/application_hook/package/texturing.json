@@ -14,17 +14,17 @@
         {
             "name": "diffuse",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "specular",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "bump",
             "file_type": ["exr"],
-            "optional": true
+            "required": false
         },
         {
             "name": "thumbnail"

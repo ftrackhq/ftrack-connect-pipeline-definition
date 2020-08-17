@@ -10,19 +10,19 @@
             "name": "main"
         },
         {
-            "name": "thumbnail"
+            "name": "thumbnail",
+            "required": false
         },
         {
             "name": "reviewable",
-            "optional": true
+            "required": false
         },
         {
-            "name": "cache",
-            "optional": true
+            "name": "cache"
         },
         {
             "name": "game",
-            "optional": true
+            "required": false
         }
     ]
 }
