@@ -82,7 +82,10 @@
             {
               "name": "alembic",
               "plugin": "alembic",
-              "widget": "alembic_options"
+              "widget": "alembic_options",
+              "options": {
+                "alembicAnimation": true
+              }
             }
           ]
         }
