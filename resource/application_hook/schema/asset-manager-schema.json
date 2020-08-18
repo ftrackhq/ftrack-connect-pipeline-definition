@@ -92,8 +92,8 @@
             "allOf": [{"$ref": "#/definitions/Plugin"}],
             "properties": {
                 "plugin_type": {
-                  "pattern": "^update$",
-                  "default": "update"
+                  "pattern": "^action$",
+                  "default": "action"
                 },
                 "ui_callback": {
                   "type": "string",
@@ -109,8 +109,8 @@
             "allOf": [{"$ref": "#/definitions/Plugin"}],
             "properties": {
                 "plugin_type": {
-                  "pattern": "^select$",
-                  "default": "select"
+                  "pattern": "^action$",
+                  "default": "action"
                 },
                 "ui_callback": {
                   "type": "string",
@@ -126,8 +126,8 @@
             "allOf": [{"$ref": "#/definitions/Plugin"}],
             "properties": {
                 "plugin_type": {
-                  "pattern": "^delete$",
-                  "default": "delete"
+                  "pattern": "^action$",
+                  "default": "action"
                 },
                 "ui_callback": {
                   "type": "string",
