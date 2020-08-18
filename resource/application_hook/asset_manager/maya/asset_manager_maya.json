@@ -20,13 +20,13 @@
         "select":[
             {
                 "name": "Select",
-                "plugin": "select_asset",
+                "plugin": "select_asset"
             }
         ],
         "delete":[
             {
                 "name": "Remove",
-                "plugin": "remove_asset",
+                "plugin": "remove_asset"
             }
         ]
     }
