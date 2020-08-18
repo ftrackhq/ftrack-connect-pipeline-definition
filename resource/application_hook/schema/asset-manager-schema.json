@@ -79,6 +79,11 @@
         "select",
         "delete"
       ],
+      "order":[
+        "update",
+        "select",
+        "delete"
+      ],
       "additionalProperties": false,
       "properties": {
         "update": {
@@ -140,11 +145,11 @@
     "host",
     "type",
     "discover",
-    "menu_actions",
+    "actions",
     "_config"
   ],
   "order":[
-    "type", "name", "host", "discover", "menu_actions"
+    "type", "name", "host", "discover", "actions"
   ],
   "properties": {
     "type": {
