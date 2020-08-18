@@ -70,6 +70,90 @@
           "items": {}
         }
       }
+    },
+    "Action": {
+      "title": "Action",
+      "type": "object",
+      "required": [
+        "name",
+        "stages",
+        "type"
+      ],
+      "order": [
+        "type",
+        "name",
+        "stages"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^component$",
+          "default": "component"
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "update": {
+          "type": "array",
+          "items": {
+            "allOf": [{"$ref": "#/definitions/Plugin"}],
+            "properties": {
+                "plugin_type": {
+                  "pattern": "^update$",
+                  "default": "update"
+                },
+                "ui_callback": {
+                  "type": "string",
+                  "default": "ctx_update"
+                }
+              }
+          },
+          "minItems": 1
+        },
+        "select": {
+          "type": "array",
+          "items": {
+            "allOf": [{"$ref": "#/definitions/Plugin"}],
+            "properties": {
+                "plugin_type": {
+                  "pattern": "^select$",
+                  "default": "select"
+                },
+                "ui_callback": {
+                  "type": "string",
+                  "default": "ctx_select"
+                }
+              }
+          },
+          "minItems": 1
+        },
+        "delete": {
+          "type": "array",
+          "items": {
+            "allOf": [{"$ref": "#/definitions/Plugin"}],
+            "properties": {
+                "plugin_type": {
+                  "pattern": "^delete$",
+                  "default": "delete"
+                },
+                "ui_callback": {
+                  "type": "string",
+                  "default": "ctx_remove"
+                }
+              }
+          },
+          "minItems": 1
+        }
+      }
     }
   },
   "required": [
@@ -114,21 +198,8 @@
       "minItems": 1,
       "maxItems": 1
     },
-    "menu_actions": {
-      "type": "array",
-      "items": {
-        "allOf": [{"$ref": "#/definitions/Plugin"}],
-        "properties": {
-            "plugin_type": {
-              "pattern": "^menu_action$",
-              "default": "menu_action"
-            },
-            "ui_callback": {
-              "type": "string"
-            }
-          }
-      },
-      "minItems": 1
+    "actions": {
+      "$ref": "#/definitions/Action"
     },
     "_config": {
       "$ref": "#/definitions/Config",

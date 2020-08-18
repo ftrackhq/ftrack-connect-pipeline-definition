@@ -9,22 +9,25 @@
             "plugin": "discover_assets"
         }
     ],
-    "menu_actions":[
-        {
-            "name": "Update to latest",
-            "plugin": "update_latest",
-            "ui_callback": "ctx_update_to_latest",
-            "options": {"clear_selection":  false}
-        },
-        {
-            "name": "Select",
-            "plugin": "select_asset",
-            "ui_callback": "ctx_select_action"
-        },
-        {
-            "name": "Remove",
-            "plugin": "remove_asset",
-            "ui_callback": "ctx_remove_action"
-        }
-    ]
+    "actions":{
+        "update":[
+            {
+                "name": "Update to latest",
+                "plugin": "update_latest",
+                "options": {"clear_selection":  false}
+            }
+        ],
+        "select":[
+            {
+                "name": "Select",
+                "plugin": "select_asset",
+            }
+        ],
+        "delete":[
+            {
+                "name": "Remove",
+                "plugin": "remove_asset",
+            }
+        ]
+    }
 }
