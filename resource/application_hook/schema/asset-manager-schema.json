@@ -7,10 +7,10 @@
       "title": "Config",
       "type": "object",
       "required": [
-        "engine",
+        "engine_type",
         "type"
       ],
-      "order":["type", "engine"],
+      "order":["type", "engine_type"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -18,9 +18,9 @@
           "pattern": "^config$",
           "default": "config"
         },
-        "engine": {
+        "engine_type": {
           "type": "string",
-          "default": "AssetManagerEngine"
+          "default": "asset_manager"
         }
       }
     },
