@@ -3,30 +3,12 @@
     "name": "default",
     "host": "python",
     "ui": "qt",
-    "discover": [
-        {
-            "name": "Discover the assets in the scene",
-            "plugin": "discover_assets"
-        }
-    ],
     "actions":{
         "update":[
             {
                 "name": "Update to latest",
                 "plugin": "update_latest",
                 "options": {"clear_selection":  false}
-            }
-        ],
-        "select":[
-            {
-                "name": "Select",
-                "plugin": "select_asset"
-            }
-        ],
-        "delete":[
-            {
-                "name": "Remove",
-                "plugin": "remove_asset"
             }
         ]
     }

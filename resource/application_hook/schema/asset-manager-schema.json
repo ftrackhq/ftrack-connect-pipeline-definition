@@ -77,12 +77,12 @@
       "required": [
         "update",
         "select",
-        "delete"
+        "remove"
       ],
       "order":[
         "update",
         "select",
-        "delete"
+        "remove"
       ],
       "additionalProperties": false,
       "properties": {
@@ -105,9 +105,9 @@
         },
         "select": {
           "type": "array",
+          "default": [],
           "items": {
             "allOf": [{"$ref": "#/definitions/Plugin"}],
-            "properties": {
                 "plugin_type": {
                   "pattern": "^action$",
                   "default": "action"
@@ -117,11 +117,10 @@
                   "default": "ctx_select"
                 }
               }
-          },
-          "minItems": 1
         },
-        "delete": {
+        "remove": {
           "type": "array",
+          "default": [],
           "items": {
             "allOf": [{"$ref": "#/definitions/Plugin"}],
             "properties": {
@@ -134,8 +133,7 @@
                   "default": "ctx_remove"
                 }
               }
-          },
-          "minItems": 1
+          }
         }
       }
     }
@@ -144,12 +142,11 @@
     "name",
     "host",
     "type",
-    "discover",
     "actions",
     "_config"
   ],
   "order":[
-    "type", "name", "host", "discover", "actions"
+    "type", "name", "host", "actions"
   ],
   "properties": {
     "type": {
@@ -179,7 +176,7 @@
             }
           }
       },
-      "minItems": 1,
+      "minItems": 0,
       "maxItems": 1
     },
     "actions": {
