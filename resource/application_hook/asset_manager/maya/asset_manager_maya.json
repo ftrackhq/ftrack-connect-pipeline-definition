@@ -1,0 +1,15 @@
+{
+    "type": "asset_manager",
+    "name": "default",
+    "host": "maya",
+    "ui": "qt",
+    "actions":{
+        "update":[
+            {
+                "name": "Update to latest",
+                "plugin": "update_latest",
+                "options": {"clear_selection":  false}
+            }
+        ]
+    }
+}
