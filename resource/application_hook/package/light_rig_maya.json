@@ -1,0 +1,17 @@
+{
+    "name": "light_rig_maya",
+    "type": "package",
+    "asset_type": "Light Rig",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "mayaBinary"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

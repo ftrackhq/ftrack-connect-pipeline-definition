@@ -1,0 +1,17 @@
+{
+    "name": "scene_maya",
+    "type": "package",
+    "asset_type": "Scene",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "mayaBinary"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}
