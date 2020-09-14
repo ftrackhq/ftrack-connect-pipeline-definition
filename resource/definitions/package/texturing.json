@@ -1,0 +1,33 @@
+{
+    "name":"Texturing",
+    "type": "package",
+    "asset_type": "textPackage",
+    "context":[
+        "Task",
+        "Texturing"
+    ],
+    "components":[
+        {
+            "name": "color",
+            "file_type": ["exr"]
+        },
+        {
+            "name": "diffuse",
+            "file_type": ["exr"],
+            "required": false
+        },
+        {
+            "name": "specular",
+            "file_type": ["exr"],
+            "required": false
+        },
+        {
+            "name": "bump",
+            "file_type": ["exr"],
+            "required": false
+        },
+        {
+            "name": "thumbnail"
+        }
+    ]
+}

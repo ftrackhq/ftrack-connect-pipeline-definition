@@ -1,0 +1,21 @@
+{
+    "name":"Rigging",
+    "type": "package",
+    "asset_type": "rigPackage",
+    "context":[
+        "Task",
+        "Rigging"
+    ],
+    "components":[
+        {
+            "name": "character",
+            "file_type": ["mb", "ma"]
+        },
+        {
+            "name": "reviewable"
+        },
+        {
+            "name": "thumbnail"
+        }
+    ]
+}

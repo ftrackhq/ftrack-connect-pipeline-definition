@@ -1,0 +1,19 @@
+{
+  "type": "loader",
+  "name": "ShadingOpen",
+  "host": "maya",
+  "ui": "qt",
+  "components": [
+    {
+      "type": "plugin",
+      "name": "import shading",
+      "plugin": "scene",
+      "options": {
+        "type": "shadPackage",
+        "component": [
+          "main"
+        ]
+      }
+    }
+  ]
+}

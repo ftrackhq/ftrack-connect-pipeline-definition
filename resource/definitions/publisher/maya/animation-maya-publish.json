@@ -1,0 +1,186 @@
+{
+  "type": "publisher",
+  "name": "Animation Publisher",
+  "package": "animPackage",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": [
+    {
+      "name": "context selector",
+      "plugin": "context.publish",
+      "widget": "context.publish"
+    }
+  ],
+  "components": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "name":"validator",
+          "plugins": [
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name":"output",
+          "plugins": [
+            {
+              "name": "maya ascii",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "ma",
+                "animated": true,
+                "start_frame": 0,
+                "end_frame": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "component",
+      "name": "cache",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "type": "plugin",
+              "name": "collect from set",
+              "plugin": "from_set",
+              "editable": false,
+              "options": {
+                "set_name": "BAKE"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            },
+            {
+              "name": "ensure mainfold",
+              "plugin": "non_mainfold",
+              "editable": false
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "alembic",
+              "plugin": "geometry",
+              "editable": false,
+              "options": {
+                "file_type": "alembic",
+                "animated": true,
+                "start_frame": 0,
+                "end_frame": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from scene",
+              "plugin": "scene"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "playblast",
+              "plugin": "playblast",
+              "options": {
+                "from_camera": "persp",
+                "start_frame": 0,
+                "end_frame": 100,
+                "encoding": "h264",
+                "file_type": "mov"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "from viewport",
+              "plugin": "from_viewport"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "non_empty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "thumbnail",
+              "plugin": "image",
+              "options": {
+                "file_type": "jpg"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "to ftrack server",
+      "plugin": "to_ftrack",
+      "visible": false
+    }
+  ]
+}
