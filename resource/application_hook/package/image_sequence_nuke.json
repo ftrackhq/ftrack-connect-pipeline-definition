@@ -1,13 +1,16 @@
 {
-    "name": "scene_maya",
+    "name": "image_sequence_nuke",
     "type": "package",
-    "asset_type": "Scene",
+    "asset_type": "Image Sequence",
     "context":[
         "Task"
     ],
     "components":[
         {
-            "name": "mayaBinaryScene"
+            "name": "nukescript"
+        },
+        {
+            "name": "sequence"
         },
         {
             "name": "thumbnail",

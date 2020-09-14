@@ -1,13 +1,13 @@
 {
-    "name": "scene_maya",
+    "name": "light_rig_3dsmax",
     "type": "package",
-    "asset_type": "Scene",
+    "asset_type": "Light Rig",
     "context":[
         "Task"
     ],
     "components":[
         {
-            "name": "mayaBinaryScene"
+            "name": "3dsmax"
         },
         {
             "name": "thumbnail",

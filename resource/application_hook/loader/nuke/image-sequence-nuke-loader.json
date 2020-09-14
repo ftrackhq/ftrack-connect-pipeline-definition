@@ -1,0 +1,101 @@
+{
+  "type": "loader",
+  "name": "Scene Opener",
+  "package": "image_sequence_nuke",
+  "host": "nuke",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.load",
+          "widget": "context.load"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "nukescript",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".nk"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "load Scene",
+              "plugin": "load_nuke"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "nuke",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sequence",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".exr"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import image sequence",
+              "plugin": "import_image_sequence"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "nuke",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": {
+      "name": "finalizer",
+      "plugins":[
+        {
+          "name": "Do nothing",
+          "plugin": "finalizerTest",
+          "visible": false
+        }
+      ]
+    }
+}

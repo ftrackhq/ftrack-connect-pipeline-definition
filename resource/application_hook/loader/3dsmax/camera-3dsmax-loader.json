@@ -1,8 +1,8 @@
 {
   "type": "loader",
-  "name": "nukeGeoLoad",
-  "package": "geoPkg",
-  "host": "nuke",
+  "name": "Camera Loader",
+  "package": "camera_3dsmax",
+  "host": "3dsmax",
   "ui": "qt",
   "contexts": {
       "name": "context",
@@ -16,7 +16,43 @@
     },
   "components": [
     {
-      "name": "cache",
+      "name": "3dsmax",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".max"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "load paths to Max",
+              "plugin": "load_max"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "max",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    },
+     {
+      "name": "alembic",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -34,8 +70,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import abc",
-              "plugin": "abc_nuke_import"
+              "name": "Import abc to Max",
+              "plugin": "import_max_abc"
             }
           ]
         },
@@ -43,7 +79,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "nuke",
+              "name": "max",
               "plugin": "postImportTest"
             }
           ]

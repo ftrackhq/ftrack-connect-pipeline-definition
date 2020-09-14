@@ -1,13 +1,16 @@
 {
-    "name": "scene_maya",
+    "name": "camera_3dsmax",
     "type": "package",
-    "asset_type": "Scene",
+    "asset_type": "Camera",
     "context":[
         "Task"
     ],
     "components":[
         {
-            "name": "mayaBinaryScene"
+            "name": "3dsmax"
+        },
+        {
+            "name": "alembic"
         },
         {
             "name": "thumbnail",

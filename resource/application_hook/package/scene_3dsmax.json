@@ -1,5 +1,5 @@
 {
-    "name": "scene_maya",
+    "name": "scene_3dsmax",
     "type": "package",
     "asset_type": "Scene",
     "context":[
@@ -7,7 +7,7 @@
     ],
     "components":[
         {
-            "name": "mayaBinaryScene"
+            "name": "3dsmaxScene"
         },
         {
             "name": "thumbnail",
