@@ -1,7 +1,7 @@
 {
     "name": "geometry_3dsmax",
     "type": "package",
-    "asset_type": "Geometry",
+    "asset_type": "geo",
     "context":[
         "Task"
     ],

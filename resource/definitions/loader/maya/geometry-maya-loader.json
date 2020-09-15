@@ -105,7 +105,7 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "accepted_formats": [".mb"]
+                "accepted_formats": [".fbx"]
               }
             }
           ]

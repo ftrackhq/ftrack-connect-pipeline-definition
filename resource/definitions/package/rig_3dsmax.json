@@ -1,7 +1,7 @@
 {
     "name": "rig_3dsmax",
     "type": "package",
-    "asset_type": "Rig",
+    "asset_type": "rig",
     "context":[
         "Task"
     ],

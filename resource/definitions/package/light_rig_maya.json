@@ -1,7 +1,7 @@
 {
     "name": "light_rig_maya",
     "type": "package",
-    "asset_type": "Light Rig",
+    "asset_type": "lgt",
     "context":[
         "Task"
     ],

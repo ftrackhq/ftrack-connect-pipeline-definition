@@ -23,7 +23,7 @@
           "plugins":[
             {
               "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
+              "plugin": "all_or_selection",
               "options": {
                 "export": ["all", "selection"]
               }

@@ -3,6 +3,8 @@
 
 import os
 
+import maya.cmds as cmds
+
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 import ftrack_api
@@ -23,6 +25,7 @@ class LoadMayaPlugin(plugin.LoaderImporterMayaPlugin):
         return maya_options
 
     def run(self, context=None, data=None, options=None):
+        cmds.loadPlugin('fbxmaya.so', qt=1)
         load_mode = options.get('load_mode', self.load_modes.keys()[0])
         load_options = options.get('load_options', {})
         load_mode_fn = self.load_modes.get(load_mode, self.load_modes.keys()[0])

@@ -1,6 +1,6 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
+  "name": "Geometry Publisher (test)",
   "package": "geoPkg",
   "host": "maya",
   "ui": "qt",

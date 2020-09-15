@@ -49,7 +49,8 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
             )
         )
 
-        cmd.select(data, r=True)
+        cmd.select(data, cl=True)
+        cmd.select(data)
         selectednodes = cmd.ls(sl=True, long=True)
         nodes = cmd.ls(selectednodes, type='transform', long=True)
 
@@ -78,7 +79,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
             )
 
         alembicJobArgs = ' '.join(alembicJobArgs)
-        alembicJobArgs += ' ' + objCommand + '-file ' + new_file_path
+        alembicJobArgs += ' ' + objCommand + '-sl -file ' + new_file_path
         cmd.AbcExport(j=alembicJobArgs)
 
         if selectednodes:

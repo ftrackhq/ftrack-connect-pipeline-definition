@@ -1,7 +1,7 @@
 {
     "name": "camera_maya",
     "type": "package",
-    "asset_type": "Camera",
+    "asset_type": "cam",
     "context":[
         "Task"
     ],

@@ -1,6 +1,6 @@
 {
   "type": "loader",
-  "name": "Geometry Loader",
+  "name": "Geometry Loader (test)",
   "package": "geoPkg",
   "host": "maya",
   "ui": "qt",
@@ -103,7 +103,7 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "accepted_formats": [".mb"]
+                "accepted_formats": [".fbx"]
               }
             }
           ]

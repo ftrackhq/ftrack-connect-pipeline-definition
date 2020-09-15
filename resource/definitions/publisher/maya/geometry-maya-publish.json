@@ -22,11 +22,9 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
-              "options": {
-                "export": ["all", "selection"]
-              }
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector",
+              "widget": "geometry_collector"
             }
           ]
         },
@@ -35,7 +33,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "is_geometry"
             }
           ]
         },
@@ -59,11 +57,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
-              "options": {
-                "export": ["all", "selection"]
-              }
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector"
             }
           ]
         },
@@ -72,7 +67,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "is_geometry"
             }
           ]
         },
@@ -99,11 +94,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
-              "options": {
-                "export": ["all", "selection"]
-              }
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector"
             }
           ]
         },
@@ -112,7 +104,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "is_geometry"
             }
           ]
         },
