@@ -31,16 +31,17 @@
           "name": "validator",
           "plugins":[
             {
+              "type": "plugin",
+              "name": "validate selection",
+              "plugin": "nonempty"
+            },
+            {
               "name": "Check file saved",
               "plugin": "file_saved"
             },
             {
               "name": "validate selection",
               "plugin": "file_exists"
-            },
-            {
-              "name": "validate selection",
-              "plugin": "nonempty"
             }
           ]
         },
