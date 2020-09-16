@@ -7,13 +7,13 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class CollectAllOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
-    plugin_name = 'all_or_selection'
+class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
+    plugin_name = 'scene_or_selection'
 
     def run(self, context=None, data=None, options=None):
-        export_option = options.get("export", 'all')
-        if export_option == 'all':
-            export_object = cmds.ls(ap=True, assemblies=True, dag=True)
+        export_option = options.get("export", 'scene')
+        if export_option == 'scene':
+            export_object = ['export_scene']
         else:
             export_object = cmds.ls(sl=True)
         return export_object
@@ -23,6 +23,6 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CollectAllOrSelectionMayaPlugin(api_object)
+    plugin = CollectSceneOrSelectionMayaPlugin(api_object)
     plugin.register()
 

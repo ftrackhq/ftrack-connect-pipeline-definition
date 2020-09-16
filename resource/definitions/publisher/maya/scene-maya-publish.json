@@ -22,10 +22,10 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "all_or_selection",
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
               "options": {
-                "export": ["all", "selection"]
+                "export": ["scene", "export_selected"]
               }
             }
           ]

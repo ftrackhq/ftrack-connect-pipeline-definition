@@ -11,7 +11,7 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'geometry_collector'
 
     def run(self, context=None, data=None, options=None):
-        geo_objects = options.get('geometry_objects', [])
+        geo_objects = options.get('collected_objects', [])
         # geo_objects = cmds.ls(geometry=True)
         return geo_objects
 

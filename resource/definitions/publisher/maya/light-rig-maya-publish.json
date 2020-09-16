@@ -22,8 +22,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "selection",
-              "plugin": "selection"
+              "name": "generic_collector",
+              "plugin": "generic_collector"
             }
           ]
         },

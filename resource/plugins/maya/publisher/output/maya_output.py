@@ -17,6 +17,12 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
     filetype = None
 
     def extract_options(self, options):
+        publish_scene = bool(options.get('export', 'selected'))
+        if publish_scene:
+            return {
+                'typ': self.filetype,
+                'save': True
+            }
 
         return {
             'op': 'v=0',
@@ -28,12 +34,13 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             'constraints' : bool(options.get('constraints', False)),
             'expressions' : bool(options.get('expressions', False)),
             'exportSelected': True,
-            'exportAll':False,
+            'exportAll': False,
             'force': True
         }
 
     def run(self, context=None, data=None, options=None):
         component_name = options['component_name']
+
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False,
             suffix=self.extension
@@ -47,11 +54,18 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             )
         )
 
-        cmd.select(data, r=True)
-        cmd.file(
-            new_file_path,
-            **options
-        )
+        publish_scene = bool(options.get('export', 'selected'))
+        if publish_scene:
+            scene_name = cmd.file(q=True, sceneName=True)
+            cmd.file(rename=new_file_path)
+            cmd.file(**options)
+            cmd.file(rename=scene_name)
+        else:
+            cmd.select(data, r=True)
+            cmd.file(
+                new_file_path,
+                **options
+            )
 
         return {component_name: new_file_path}
 
