@@ -40,7 +40,7 @@
               "plugin": "file_saved"
             },
             {
-              "name": "validate selection",
+              "name": "validate file exists",
               "plugin": "file_exists"
             }
           ]
@@ -65,8 +65,7 @@
           "plugins":[
             {
               "name": "collect sequence node.",
-              "plugin": "write_node",
-              "widget": "write_node"
+              "plugin": "selection"
             }
           ]
         },
@@ -75,7 +74,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "writable_node"
             }
           ]
         },
@@ -105,8 +104,7 @@
           "plugins":[
             {
               "name": "collect write node.",
-              "plugin": "write_node",
-              "widget": "write_node"
+              "plugin": "selection"
             }
           ]
         },
@@ -114,16 +112,8 @@
           "name": "validator",
           "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
-              "plugin": "nonempty"
-            },
-            {
-              "name": "validate node type",
-              "plugin": "node_type",
-              "options": {
-                "node_type": "Write"
-              }
+              "plugin": "writable_node"
             }
           ]
         },
