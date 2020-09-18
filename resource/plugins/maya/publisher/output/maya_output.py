@@ -17,13 +17,6 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
     filetype = None
 
     def extract_options(self, options):
-        publish_scene = bool(options.get('export', 'export_selected'))
-        if publish_scene == "scene":
-            return {
-                'typ': self.filetype,
-                'save': True
-            }
-
         return {
             'op': 'v=0',
             'typ': self.filetype,
@@ -46,21 +39,29 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             suffix=self.extension
         ).name
 
-        options = self.extract_options(options)
+        #TODO: Temporal fix think in a better solution.
+        publish_scene = False
+        if data[0] == "export_scene":
+            publish_scene = True
+        # publish_scene = options.get('export', 'export_selected')
 
-        self.logger.debug(
-            'Calling output options: data {}. options {}'.format(
-                data, options
-            )
-        )
-
-        publish_scene = bool(options.get('export', 'export_selected'))
-        if publish_scene == "scene":
+        if publish_scene:
+            options = {
+                'typ': self.filetype,
+                'save': True
+            }
             scene_name = cmd.file(q=True, sceneName=True)
             cmd.file(rename=new_file_path)
             cmd.file(**options)
             cmd.file(rename=scene_name)
         else:
+            options = self.extract_options(options)
+
+            self.logger.debug(
+                'Calling output options: data {}. options {}'.format(
+                    data, options
+                )
+            )
             cmd.select(data, r=True)
             cmd.file(
                 new_file_path,

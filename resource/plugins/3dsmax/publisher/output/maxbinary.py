@@ -20,8 +20,10 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
             delete=False, suffix='.max'
         ).name
 
-        publish_scene = bool(options.get('export', 'export_selected'))
-        if publish_scene == "scene":
+        publish_scene = False
+        if data[0] == "export_scene":
+            publish_scene = True
+        if publish_scene:
             pymxs.runtime.savemaxFile(new_file_path, useNewFile=False)
         else:
             self.logger.debug('Calling extractor options: data {}'.format(data))
