@@ -8,7 +8,7 @@ from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
 
 from Qt import QtWidgets
 
-import maya.cmds as mcd
+import maya.cmds as cmds
 import ftrack_api
 
 
@@ -20,7 +20,7 @@ class CameraCollectorWidget(BaseOptionsWidget):
     ):
 
         # list all perspective camera
-        self.maya_cameras = mcd.listCameras(p=True)
+        self.maya_cameras = cmds.listCameras(p=True)
 
         super(CameraCollectorWidget, self).__init__(
             parent=parent,

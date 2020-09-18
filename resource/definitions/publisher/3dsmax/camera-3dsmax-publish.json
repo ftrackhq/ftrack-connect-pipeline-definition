@@ -22,11 +22,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
-              "options": {
-                "export": ["all", "selection"]
-              }
+              "name": "camera",
+              "plugin": "camera"
             }
           ]
         },
@@ -35,7 +32,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "is_camera"
             }
           ]
         },
@@ -58,11 +55,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
-              "options": {
-                "export": ["all", "selection"]
-              }
+              "name": "camera",
+              "plugin": "camera"
             }
           ]
         },
@@ -71,7 +65,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "is_camera"
             }
           ]
         },

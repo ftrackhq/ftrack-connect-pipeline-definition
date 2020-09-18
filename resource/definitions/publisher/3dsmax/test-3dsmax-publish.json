@@ -1,6 +1,6 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
+  "name": "Geometry Publisher (Test)",
   "package": "geoPkg",
   "host": "3dsmax",
   "ui": "qt",

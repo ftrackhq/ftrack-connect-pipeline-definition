@@ -22,11 +22,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_all_selection",
-              "plugin": "collect_all_selection",
-              "options": {
-                "export": ["all", "selection"]
-              }
+              "name": "generic_collector",
+              "plugin": "generic_collector"
             }
           ]
         },
