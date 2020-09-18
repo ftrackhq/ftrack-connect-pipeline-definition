@@ -21,8 +21,8 @@ class GeometryCollectorWidget(BaseCollectorWidget):
         )
 
     def collect_objects(self):
-        collected_objects=[]
-        all_objects = rt.select(rt.objects)
+        collected_objects = []
+        all_objects = rt.objects
         for obj in all_objects:
             if rt.superClassOf(obj) == rt.GeometryClass:
                 collected_objects.append(obj.name)

@@ -13,8 +13,7 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMaxPlugin):
     def run(self, context=None, data=None, options=None):
         for obj in data:
             node = rt.getNodeByName(obj)
-            is_geometry = rt.superClassOf(node, rt.GeometryClass)
-            if not is_geometry:
+            if not rt.superClassOf(node) == rt.GeometryClass:
                 return False
         return True
 
