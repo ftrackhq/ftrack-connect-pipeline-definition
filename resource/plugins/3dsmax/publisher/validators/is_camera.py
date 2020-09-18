@@ -3,7 +3,7 @@
 
 from ftrack_connect_pipeline_3dsmax import plugin
 
-import pymxs
+from pymxs import runtime as rt
 import ftrack_api
 
 
@@ -12,7 +12,8 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMaxPlugin):
 
     def run(self, context=None, data=None, options=None):
         for obj in data:
-            is_camera = pymxs.runtime.isKindOf(obj, pymxs.runtime.Camera)
+            node = rt.getNodeByName(obj)
+            is_camera = rt.isKindOf(node, rt.Camera)
             if not is_camera:
                 return False
         return True

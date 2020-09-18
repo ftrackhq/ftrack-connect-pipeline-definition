@@ -1,18 +1,20 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-from ftrack_connect_pipeline_maya import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 
-import maya.cmds as cmds
+from pymxs import runtime as rt
 import ftrack_api
 
 
-class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
+class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMaxPlugin):
     plugin_name = 'is_geometry'
 
     def run(self, context=None, data=None, options=None):
         for obj in data:
-            if not cmds.objectType(obj, isAType='geometryShape'):
+            node = rt.getNodeByName(obj)
+            is_geometry = rt.superClassOf(node, rt.GeometryClass)
+            if not is_geometry:
                 return False
         return True
 
