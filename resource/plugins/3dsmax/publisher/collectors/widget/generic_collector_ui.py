@@ -24,8 +24,7 @@ class GenericCollectorWidget(BaseCollectorWidget):
         collected_objects = []
         selected_objects = rt.selection
         for obj in selected_objects:
-            if rt.superClassOf(obj) == rt.GeometryClass:
-                collected_objects.append(obj.name)
+            collected_objects.append(obj.name)
 
         self._collected_objects = collected_objects
 

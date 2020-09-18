@@ -17,8 +17,8 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
     filetype = None
 
     def extract_options(self, options):
-        publish_scene = bool(options.get('export', 'selected'))
-        if publish_scene:
+        publish_scene = bool(options.get('export', 'export_selected'))
+        if publish_scene == "scene":
             return {
                 'typ': self.filetype,
                 'save': True
@@ -54,8 +54,8 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             )
         )
 
-        publish_scene = bool(options.get('export', 'selected'))
-        if publish_scene:
+        publish_scene = bool(options.get('export', 'export_selected'))
+        if publish_scene == "scene":
             scene_name = cmd.file(q=True, sceneName=True)
             cmd.file(rename=new_file_path)
             cmd.file(**options)
