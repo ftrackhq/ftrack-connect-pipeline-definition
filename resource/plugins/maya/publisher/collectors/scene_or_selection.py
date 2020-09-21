@@ -13,7 +13,8 @@ class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     def run(self, context=None, data=None, options=None):
         export_option = options.get("export", 'scene')
         if export_option == 'scene':
-            export_object = ['export_scene']
+            scene_name = cmds.file(q=True, sceneName=True)
+            export_object = [scene_name]
         else:
             export_object = cmds.ls(sl=True)
         return export_object

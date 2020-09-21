@@ -13,7 +13,8 @@ class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMaxPlugin):
     def run(self, context=None, data=None, options=None):
         export_option = options.get("export", 'scene')
         if export_option == 'scene':
-            export_object = ['export_scene']
+            scene_name = rt.maxFilePath + rt.maxFileName
+            export_object = [scene_name]
         else:
             export_object = [node.getmxsprop('name') for node in rt.selection]
         return export_object

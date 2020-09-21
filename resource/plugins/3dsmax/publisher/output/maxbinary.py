@@ -3,6 +3,7 @@
 
 import ftrack_api
 
+import os
 import tempfile
 
 import MaxPlus
@@ -20,10 +21,7 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
             delete=False, suffix='.max'
         ).name
 
-        publish_scene = False
-        if data[0] == "export_scene":
-            publish_scene = True
-        if publish_scene:
+        if os.path.isfile(data[0]):
             pymxs.runtime.savemaxFile(new_file_path, useNewFile=False)
         else:
             self.logger.debug('Calling extractor options: data {}'.format(data))

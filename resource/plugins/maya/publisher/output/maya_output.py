@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import tempfile
+import os
 
 import maya.cmds as cmd
 import maya
@@ -39,13 +40,7 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             suffix=self.extension
         ).name
 
-        #TODO: Temporal fix think in a better solution.
-        publish_scene = False
-        if data[0] == "export_scene":
-            publish_scene = True
-        # publish_scene = options.get('export', 'export_selected')
-
-        if publish_scene:
+        if os.path.isfile(data[0]):
             options = {
                 'typ': self.filetype,
                 'save': True
