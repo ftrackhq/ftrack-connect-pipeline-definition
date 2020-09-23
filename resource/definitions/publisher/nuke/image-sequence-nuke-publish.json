@@ -31,11 +31,6 @@
           "name": "validator",
           "plugins":[
             {
-              "type": "plugin",
-              "name": "validate selection",
-              "plugin": "nonempty"
-            },
-            {
               "name": "Check file saved",
               "plugin": "file_saved"
             },
@@ -73,8 +68,13 @@
           "name": "validator",
           "plugins":[
             {
+              "type": "plugin",
               "name": "validate selection",
-              "plugin": "writable_node"
+              "plugin": "nonempty"
+            },
+            {
+              "name": "Can connect to write node",
+              "plugin": "can_connect_to_write_node"
             }
           ]
         },

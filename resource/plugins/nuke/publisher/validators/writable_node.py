@@ -10,7 +10,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 import nuke
 
 class WritableNodeValidatorPlugin(plugin.PublisherValidatorNukePlugin):
-    plugin_name = 'writable_node'
+    plugin_name = 'can_connect_to_write_node'
 
     def run(self, context=None, data=None, options=None):
         scene_node = nuke.toNode(data[0])
