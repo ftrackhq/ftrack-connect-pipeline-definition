@@ -68,7 +68,6 @@
           "name": "validator",
           "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "nonempty"
             },

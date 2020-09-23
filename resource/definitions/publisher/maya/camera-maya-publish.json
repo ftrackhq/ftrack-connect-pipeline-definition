@@ -105,7 +105,6 @@
           "name": "validator",
           "plugins":[
             {
-              "type": "plugin",
               "name": "validate selection",
               "plugin": "nonempty"
             }
@@ -115,7 +114,6 @@
           "name": "output",
           "plugins":[
             {
-              "type": "plugin",
               "name": "write thumbnail",
               "plugin": "thumbnail"
             }
