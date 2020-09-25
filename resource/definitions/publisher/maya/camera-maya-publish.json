@@ -1,0 +1,135 @@
+{
+  "type": "publisher",
+  "name": "Camera Publisher",
+  "package": "camera_maya",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "mayaBinary",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "camera",
+              "plugin": "camera"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "is_camera"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "output_maya",
+              "plugin": "maya_binary",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+     {
+      "name": "alembic",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "camera",
+              "plugin": "camera"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "is_camera"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "alembic",
+              "plugin": "alembic",
+              "widget": "alembic_options",
+              "options": {
+                "alembicAnimation": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select camera to playblast",
+              "plugin": "camera",
+              "options": {
+                "camera_name": "persp"
+              },
+              "widget": "camera"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write thumbnail",
+              "plugin": "thumbnail"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": {
+      "name": "finalizer",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result_maya",
+          "visible": false
+        }
+      ]
+    }
+}

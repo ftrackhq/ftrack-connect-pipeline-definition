@@ -1,0 +1,17 @@
+{
+    "name": "scene_3dsmax",
+    "type": "package",
+    "asset_type": "scene",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "3dsmaxScene"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

@@ -1,0 +1,98 @@
+{
+  "type": "publisher",
+  "name": "Light Rig Publisher",
+  "package": "light_rig_maya",
+  "host": "maya",
+  "ui": "qt",
+  "contexts": {
+      "name": "context",
+      "plugins":[
+        {
+          "name": "context selector",
+          "plugin": "context.publish",
+          "widget": "context.publish"
+        }
+      ]
+    },
+  "components": [
+    {
+      "name": "mayaBinary",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "generic_collector",
+              "plugin": "generic_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "maya_binary",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select camera to playblast",
+              "plugin": "camera",
+              "options": {
+                "camera_name": "persp"
+              },
+              "widget": "camera"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write thumbnail",
+              "plugin": "thumbnail"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": {
+      "name": "finalizer",
+      "plugins":[
+        {
+          "name": "to ftrack server",
+          "plugin": "result_maya",
+          "visible": false
+        }
+      ]
+    }
+}

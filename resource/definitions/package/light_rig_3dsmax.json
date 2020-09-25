@@ -1,0 +1,17 @@
+{
+    "name": "light_rig_3dsmax",
+    "type": "package",
+    "asset_type": "lgt",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "3dsmax"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

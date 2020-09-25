@@ -1,0 +1,20 @@
+{
+    "name": "geometry_3dsmax",
+    "type": "package",
+    "asset_type": "geo",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "3dsmax"
+        },
+        {
+            "name": "alembic"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

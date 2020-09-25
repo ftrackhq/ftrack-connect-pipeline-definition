@@ -7,6 +7,7 @@ import clique
 import tempfile
 
 from ftrack_connect_pipeline_nuke import plugin
+from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 import nuke
 
@@ -16,10 +17,12 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
 
     def run(self, context=None, data=None, options=None):
         node_name = data[0]
-        write_node = nuke.toNode(node_name)
+        input_node = nuke.toNode(node_name)
+        selected_nodes = nuke.selectedNodes()
+        nuke_utils.cleanSelection()
 
-        # Get the input of the given write ftrack_object.
-        input_node = write_node.input(0)
+        write_node = nuke.createNode('Write')
+        write_node.setInput(0, input_node)
 
         default_file_format = str(options.get('file_format'))
         selected_file_format = str(options.get('image_format'))
@@ -50,6 +53,14 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
         nuke.render(write_node, ranges)
 
         component_name = options['component_name']
+
+        #delete temporal write node
+        nuke.delete(write_node)
+        #restore selection
+        nuke_utils.cleanSelection()
+        for node in selected_nodes:
+            node['selected'].setValue(True)
+
         return {component_name: str(sequence_path)}
 
 

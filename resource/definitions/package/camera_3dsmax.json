@@ -1,0 +1,20 @@
+{
+    "name": "camera_3dsmax",
+    "type": "package",
+    "asset_type": "cam",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "3dsmax"
+        },
+        {
+            "name": "alembic"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

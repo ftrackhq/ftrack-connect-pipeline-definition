@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import tempfile
+import os
 
 import maya.cmds as cmd
 import maya
@@ -17,7 +18,6 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
     filetype = None
 
     def extract_options(self, options):
-
         return {
             'op': 'v=0',
             'typ': self.filetype,
@@ -28,30 +28,40 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             'constraints' : bool(options.get('constraints', False)),
             'expressions' : bool(options.get('expressions', False)),
             'exportSelected': True,
-            'exportAll':False,
+            'exportAll': False,
             'force': True
         }
 
     def run(self, context=None, data=None, options=None):
         component_name = options['component_name']
+
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False,
             suffix=self.extension
         ).name
 
-        options = self.extract_options(options)
+        if os.path.isfile(data[0]):
+            options = {
+                'typ': self.filetype,
+                'save': True
+            }
+            scene_name = cmd.file(q=True, sceneName=True)
+            cmd.file(rename=new_file_path)
+            cmd.file(**options)
+            cmd.file(rename=scene_name)
+        else:
+            options = self.extract_options(options)
 
-        self.logger.debug(
-            'Calling output options: data {}. options {}'.format(
-                data, options
+            self.logger.debug(
+                'Calling output options: data {}. options {}'.format(
+                    data, options
+                )
             )
-        )
-
-        cmd.select(data, r=True)
-        cmd.file(
-            new_file_path,
-            **options
-        )
+            cmd.select(data, r=True)
+            cmd.file(
+                new_file_path,
+                **options
+            )
 
         return {component_name: new_file_path}
 

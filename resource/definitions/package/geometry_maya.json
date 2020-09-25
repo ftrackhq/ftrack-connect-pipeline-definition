@@ -1,0 +1,24 @@
+{
+    "name": "geometry_maya",
+    "type": "package",
+    "asset_type": "geo",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "mayaBinary"
+        },
+        {
+            "name": "fbx",
+            "required": false
+        },
+        {
+            "name": "alembic"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

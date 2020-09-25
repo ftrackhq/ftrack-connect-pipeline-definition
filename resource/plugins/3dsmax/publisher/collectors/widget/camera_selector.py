@@ -25,7 +25,7 @@ class Camera3dsMaxWidget(BaseOptionsWidget):
 
         for node in root.Children:
             if node.Object.SuperClassID == self.MAX_CAMERA_CLASS_ID:
-                self.cameras.append(node.name)
+                self.cameras.append(node.Name)
 
         super(Camera3dsMaxWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,

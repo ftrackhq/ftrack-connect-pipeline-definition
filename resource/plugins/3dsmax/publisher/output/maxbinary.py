@@ -3,6 +3,7 @@
 
 import ftrack_api
 
+import os
 import tempfile
 
 import MaxPlus
@@ -19,13 +20,17 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.max'
         ).name
-        self.logger.debug('Calling extractor options: data {}'.format(data))
-        self.logger.debug('Writing Max file to {}'.format(new_file_path))
-        with pymxs.mxstoken():
-            pymxs.runtime.execute('clearSelection()')
-        for node_name in data:
-            MaxPlus.Core.EvalMAXScript('selectMore ${}'.format(node_name))
-        MaxPlus.FileManager.SaveSelected(new_file_path)
+
+        if os.path.isfile(data[0]):
+            pymxs.runtime.savemaxFile(new_file_path, useNewFile=False)
+        else:
+            self.logger.debug('Calling extractor options: data {}'.format(data))
+            self.logger.debug('Writing Max file to {}'.format(new_file_path))
+            with pymxs.mxstoken():
+                pymxs.runtime.execute('clearSelection()')
+            for node_name in data:
+                MaxPlus.Core.EvalMAXScript('selectMore ${}'.format(node_name))
+            MaxPlus.FileManager.SaveSelected(new_file_path)
         return {component_name: new_file_path}
 
 
