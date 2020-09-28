@@ -54,6 +54,7 @@ def on_discover_pipeline(event):
         'FTRACK_DEFINITION_PLUGIN_PATH',
         event['data']['options']['env']
     )
+    return event['data']['options']
 
 
 def register(session):
