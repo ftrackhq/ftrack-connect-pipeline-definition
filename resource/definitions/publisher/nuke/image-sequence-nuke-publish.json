@@ -112,7 +112,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "writable_node"
+              "plugin": "can_connect_to_write_node"
             }
           ]
         },
