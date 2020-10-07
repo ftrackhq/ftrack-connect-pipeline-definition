@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Geo Loader",
-  "package": "geoPkg",
+  "package": "pythonPkg",
   "host": "python",
   "ui": "qt",
   "contexts": {
