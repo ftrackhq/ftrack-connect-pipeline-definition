@@ -1,9 +1,8 @@
 {
   "type": "loader",
-  "name": "Geo Loader",
+  "name": "File Loader",
   "package": "pythonPkg",
   "host": "python",
-  "ui": "qt",
   "contexts": {
       "name": "context",
       "plugins":[

@@ -62,9 +62,7 @@
         },
         "plugins": {
           "type": "array",
-          "items": {
-            "$ref": "#/definitions/Plugin"
-          },
+          "items": {"$ref": "#/definitions/Plugin"},
           "default": [],
           "minItems": 1,
           "uniqueItems": true
@@ -95,7 +93,11 @@
                 "default": "collector"
               }
             }
-          }
+          },
+          "type": "array",
+          "default": [],
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },
@@ -123,7 +125,11 @@
                 "default": "validator"
               }
             }
-          }
+          },
+          "type": "array",
+          "default": [],
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },
@@ -151,7 +157,11 @@
                 "default": "output"
               }
             }
-          }
+          },
+          "type": "array",
+          "default": [],
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },
@@ -160,13 +170,14 @@
         {
           "$ref": "#/definitions/Stage"
         }],
-        "properties": {
+      "properties": {
           "name": {
             "pattern": "^context$",
             "default": "context"
           },
           "plugins": {
-          "items": {
+            "type": "array",
+            "items": {
             "allOf": [
               {
                 "$ref": "#/definitions/Plugin"
@@ -178,7 +189,10 @@
                 "default": "context"
               }
             }
-          }
+          },
+            "default": [],
+            "minItems": 1,
+            "uniqueItems": true
         }
         }
     },
@@ -194,6 +208,7 @@
           "default": "finalizer"
         },
         "plugins": {
+          "type": "array",
           "items": {
             "allOf": [
               {
@@ -206,7 +221,10 @@
                 "default": "finalizer"
               }
             }
-          }
+          },
+          "default": [],
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },
@@ -228,8 +246,14 @@
           "default": "plugin"
         },
         "plugin_type": {
-          "type": "string",
-          "default": "base"
+              "type": "string",
+              "enum": [
+                "collector",
+                "validator",
+                "output",
+                "context",
+                "finalizer"
+              ]
         },
         "name": {
           "type": "string"
@@ -292,12 +316,12 @@
           "maxItems": 3,
           "uniqueItems": true,
           "items": {
-                  "oneOf": [
+            "oneOf":[
                       {"$ref": "#/definitions/CollectorStage"},
                       {"$ref": "#/definitions/ValidatorStage"},
                     {"$ref": "#/definitions/OutputStage"}
                   ]
-              }
+          }
         }
       }
     }
@@ -335,7 +359,7 @@
     },
     "ui": {
       "type": "string",
-      "default": null
+      "default": ""
     },
     "contexts": {
       "$ref": "#/definitions/ContextStage"
@@ -354,7 +378,7 @@
     },
     "_config": {
       "$ref": "#/definitions/Config",
-      "default": {"$ref": "#/definitions/Config"}
+      "default": {}
     }
   }
 }

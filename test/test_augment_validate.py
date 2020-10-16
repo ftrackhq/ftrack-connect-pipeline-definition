@@ -230,9 +230,15 @@ orig_schema= {
           "default": "plugin"
         },
         "plugin_type": {
-          "type": "string",
-          "default": "base"
-        },
+              "type": "string",
+              "enum": [
+                "collector",
+                "validator",
+                "output",
+                "context",
+                "finalizer"
+              ]
+            },
         "name": {
           "type": "string"
         },
@@ -298,6 +304,7 @@ orig_schema= {
                       {"$ref": "#/definitions/ValidatorStage"},
                     {"$ref": "#/definitions/OutputStage"}
                   ]
+
         }
       }
     }
@@ -335,7 +342,7 @@ orig_schema= {
     },
     "ui": {
       "type": "string",
-      "default": None
+      "default": ""
     },
     "contexts": {
       "$ref": "#/definitions/ContextStage"
@@ -393,12 +400,167 @@ simple_schema= {
           "default": "publisher"
         }
       }
-    }
+    },
+    "Stage": {
+          "title": "Stage",
+          "type": "object",
+          "required": [
+            "name",
+            "plugins",
+            "type"
+          ],
+          "order":["type", "name", "plugins"],
+          "additionalProperties": False,
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^stage$",
+              "default": "stage"
+            },
+            "name": {
+              "type": "string",
+              "enum": [
+                "collector",
+                "validator",
+                "output",
+                "context",
+                "finalizer"
+              ]
+            },
+            "plugins": {
+              "type": "array",
+              "items": {"$ref": "#/definitions/Plugin"},
+              "default": [],
+              "minItems": 1,
+              "uniqueItems": True
+            }
+          }
+        },
+    "ValidatorStage": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Stage"
+            }
+          ],
+          "properties": {
+            "name": {
+              "pattern": "^validator$",
+              "default": "validator"
+            },
+            "plugins": {
+              "items": {
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/Plugin"
+                  }
+                ],
+                "properties": {
+                  "plugin_type": {
+                    "pattern": "^validator$",
+                    "default": "validator"
+                  },
+                }
+              },
+            }
+          }
+        },
+    "Plugin": {
+          "title": "Plugin",
+          "type": "object",
+          "required": [
+            "name",
+            "plugin",
+            "type",
+            "plugin_type"
+          ],
+          "order":["type", "plugin_type", "name", "description", "plugin", "widget", "options"],
+          "additionalProperties": True,
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^plugin$",
+              "default": "plugin"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "plugin": {
+              "type": "string"
+            },
+            "plugin_type": {
+              "type": "string",
+              "enum": [
+                "collector",
+                "validator",
+                "output",
+                "context",
+                "finalizer"
+              ]
+            },
+            "widget": {
+              "type": "string"
+            },
+            "widget_ref": {
+              "type": "string"
+            },
+            "visible": {
+              "type": "boolean",
+              "default": True
+            },
+            "editable": {
+              "type": "boolean",
+              "default": True
+            },
+            "options": {
+              "type": "object",
+              "default": {}
+            }
+          }
+        },
+    "Component": {
+          "title": "Component",
+          "type": "object",
+          "required": [
+            "name",
+            "stages",
+            "type"
+          ],
+          "order":["type", "name", "stages"],
+          "additionalProperties": False,
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^component$",
+              "default": "component"
+            },
+            "optional": {
+              "type": "boolean",
+              "default": False
+            },
+            "enabled": {
+              "type": "boolean",
+              "default": True
+            },
+            "stages": {
+              "type": "array",
+              "maxItems": 3,
+              "uniqueItems": True,
+              "items":{"$ref": "#/definitions/ValidatorStage"}
+            }
+          }
+        }
   },
   "required": [
     "name",
     "type",
-    "_config"
+    "_config",
+    "components",
   ],
   "order":[
     "name"
@@ -416,7 +578,16 @@ simple_schema= {
     "_config": {
       "$ref": "#/definitions/Config",
         "default":{}
-    }
+    },
+    "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Component"
+          },
+          "default": [],
+          "minItems": 1,
+          "uniqueItems": True
+        },
   }
 }
 orig_definition= {
@@ -484,7 +655,23 @@ orig_definition= {
     }
 }
 simple_definition= {
-  "name": "File Publisher"
+  "name": "File Publisher",
+"components": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name":"validator",
+          "plugins": [
+            {
+              "name": "file exists",
+              "plugin": "file_exists"
+            }
+          ]
+        }
+      ]
+    }
+  ],
 }
 
 ######### TEST 1 #############
@@ -492,27 +679,29 @@ simple_definition= {
 def extend_with_default(validator_class):
     validate_properties = validator_class.VALIDATORS["properties"]
     validate_required = validator_class.VALIDATORS["required"]
+    validate_ref = validator_class.VALIDATORS["$ref"]
 
-    def set_defaults(validator, properties, instance, schema):
+    def set_default_property(validator, properties, instance, schema):
         for property, subschema in properties.items():
-            if "default" in subschema:
-                instance.setdefault(property, subschema["default"])
+            if "default" in subschema and not instance.get(property):
+              instance.setdefault(property, subschema["default"])
 
         for error in validate_properties(
-            validator, properties, instance, schema,
+                validator, properties, instance, schema,
         ):
             yield error
-    def set_required(validator, required, instance, schema):
+
+    def set_default_required(validator, required, instance, schema):
         if validator.is_type(instance, "object"):
             print "instance --> {}".format(instance)
             print "schema --> {}".format(schema)
             for property in required:
                 if not instance.get(property):
-                  default_value = schema['properties'][property].get('default')
-                  print "default_value --> {}".format(default_value)
-                  print "property --> {}".format(property)
-                  if default_value is not None:
-                    instance[property] = default_value
+                    default_value = schema['properties'][property].get('default')
+                    print "default_value --> {}".format(default_value)
+                    print "property --> {}".format(property)
+                    if default_value is not None:
+                      instance[property] = default_value
 
         for error in validate_required(
             validator, required, instance, schema,
@@ -520,7 +709,7 @@ def extend_with_default(validator_class):
             yield error
 
     return validators.extend(
-        validator_class, {"required" : set_required},
+        validator_class, {"required" : set_default_required, "properties" : set_default_property},
     )
 
 
