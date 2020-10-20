@@ -20,32 +20,7 @@ class GeometryCollectorWidget(BaseCollectorWidget):
             description=description, options=options, context=context
         )
 
-    # def collect_objects(self):
-    #     self._collected_objects = cmds.ls(geometry=True, l=True)
-
-    def _on_add_objects(self):
-        selected_objects = cmds.ls(sl=True, l=True)
-        check_type = "geometryShape"
-        current_objects = self.get_current_objects()
-        for obj in selected_objects:
-            if not cmds.objectType(obj, isAType=check_type):
-                relatives = cmds.listRelatives(obj, f=True)
-                for relative in relatives:
-                    if cmds.objectType(relative, isAType=check_type):
-                        obj = relative
-            if obj in current_objects:
-                continue
-            self.add_object(obj)
-
-    def ctx_select(self):
-        '''
-        Triggered when select action menu been clicked.
-        '''
-        selected_items  = super(GeometryCollectorWidget, self).ctx_select()
-        cmds.select(cl=True)
-        for item in selected_items:
-            cmds.select(item.text(), add=True)
-
+        self.on_run_plugin('fetch')
 
 
 class GeometryCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):

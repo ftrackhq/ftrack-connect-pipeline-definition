@@ -19,20 +19,21 @@ class CameraCollectorWidget(BaseOptionsWidget):
         description=None, options=None, context=None
     ):
 
-        # list all perspective camera
-        # self.maya_cameras = cmds.listCameras(p=True)
-        self.maya_cameras=[]
-
+        self.maya_cameras = []
         super(CameraCollectorWidget, self).__init__(
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
             context=context)
 
-    def _set_internal_pre_run_result(self, data):
-        '''set collected_objects with the provided *data*'''
+        self.on_run_plugin('fetch')
+
+    def on_fetch_callback(self, result):
+        ''' This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.maya_cameras = result
         self.cameras.clear()
-        self.cameras.addItems(data)
+        self.cameras.addItems(result)
 
     def build(self):
         '''build function , mostly used to create the widgets.'''

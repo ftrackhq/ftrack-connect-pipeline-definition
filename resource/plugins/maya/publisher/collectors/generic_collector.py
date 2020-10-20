@@ -10,22 +10,20 @@ import ftrack_api
 class CollectGenericMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'generic_collector'
 
-    def fetch(self, context=None, data=None, options=None):
-        # selected_objects = cmds.ls(sl=True, l=True)
-        # check_type = "geometryShape"
-        # current_objects = self.get_current_objects()
-        # for obj in selected_objects:
-        #     if not cmds.objectType(obj, isAType=check_type):
-        #         relatives = cmds.listRelatives(obj, f=True)
-        #         for relative in relatives:
-        #             if cmds.objectType(relative, isAType=check_type):
-        #                 obj = relative
-        #     if obj in current_objects:
-        #         continue
-        #     self.add_object(obj)
+    def select(self, context=None, data=None, options=None):
+        selected_items = options.get('selected_items', [])
+        cmds.select(cl=True)
+        for item in selected_items:
+            cmds.select(item, add=True)
+        return selected_items
 
+    def fetch(self, context=None, data=None, options=None):
         collected_objects = cmds.ls(sl=True, l=True)
         return collected_objects
+
+    def add(self, context=None, data=None, options=None):
+        selected_objects = cmds.ls(sl=True, l=True)
+        return selected_objects
 
     def run(self, context=None, data=None, options=None):
         collected_objects = options.get('collected_objects', [])
