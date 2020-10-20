@@ -9,6 +9,8 @@ import ftrack_api
 
 class FileCollectorWidget(BaseOptionsWidget):
     '''Main class to represent a context widget on a publish process'''
+    pre_run_text = 'fetch'
+    enable_pre_run = True
 
     def __init__(
             self, parent=None, context=None, session=None, data=None, name=None,
@@ -21,6 +23,11 @@ class FileCollectorWidget(BaseOptionsWidget):
             parent=parent, context=context, session=session, data=data, name=name,
             description=description, options=options
         )
+
+    def _set_internal_pre_run_result(self, data):
+        '''set the status icon with the provided *data*'''
+        self.line_edit.clear()
+        self.line_edit.setText(data)
 
     def build(self):
         '''build function widgets.'''

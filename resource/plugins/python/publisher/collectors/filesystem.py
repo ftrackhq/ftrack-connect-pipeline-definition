@@ -7,6 +7,9 @@ import ftrack_api
 class FilesystemCollectPlugin(plugin.PublisherCollectorPlugin):
     plugin_name = 'filesystem'
 
+    def fetch(self, context=None, data=None, options=None):
+        return "example/path/to/your/file.txt"
+
     def run(self, context=None, data=None, options=None):
         output = self.output
         output.append(options['path'])

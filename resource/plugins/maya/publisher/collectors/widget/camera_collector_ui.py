@@ -20,13 +20,19 @@ class CameraCollectorWidget(BaseOptionsWidget):
     ):
 
         # list all perspective camera
-        self.maya_cameras = cmds.listCameras(p=True)
+        # self.maya_cameras = cmds.listCameras(p=True)
+        self.maya_cameras=[]
 
         super(CameraCollectorWidget, self).__init__(
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
             context=context)
+
+    def _set_internal_pre_run_result(self, data):
+        '''set collected_objects with the provided *data*'''
+        self.cameras.clear()
+        self.cameras.addItems(data)
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -46,7 +52,7 @@ class CameraCollectorWidget(BaseOptionsWidget):
         update_fn = partial(self.set_option_result, key='camera_name')
 
         self.cameras.editTextChanged.connect(update_fn)
-        self.set_option_result(self.maya_cameras[0], key='camera_name')
+        #self.set_option_result(self.maya_cameras[0], key='camera_name')
 
 
 class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):

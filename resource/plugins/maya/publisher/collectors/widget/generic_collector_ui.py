@@ -20,8 +20,8 @@ class GenericCollectorWidget(BaseCollectorWidget):
             description=description, options=options, context=context
         )
 
-    def collect_objects(self):
-        self._collected_objects = cmds.ls(sl=True, l=True)
+    # def collect_objects(self):
+    #     self._collected_objects = cmds.ls(sl=True, l=True)
 
     def _on_add_objects(self):
         selected_objects = cmds.ls(sl=True, l=True)

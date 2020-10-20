@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import maya.cmds as cmd
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -9,6 +9,23 @@ import ftrack_api
 
 class CollectGenericMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'generic_collector'
+
+    def fetch(self, context=None, data=None, options=None):
+        # selected_objects = cmds.ls(sl=True, l=True)
+        # check_type = "geometryShape"
+        # current_objects = self.get_current_objects()
+        # for obj in selected_objects:
+        #     if not cmds.objectType(obj, isAType=check_type):
+        #         relatives = cmds.listRelatives(obj, f=True)
+        #         for relative in relatives:
+        #             if cmds.objectType(relative, isAType=check_type):
+        #                 obj = relative
+        #     if obj in current_objects:
+        #         continue
+        #     self.add_object(obj)
+
+        collected_objects = cmds.ls(sl=True, l=True)
+        return collected_objects
 
     def run(self, context=None, data=None, options=None):
         collected_objects = options.get('collected_objects', [])

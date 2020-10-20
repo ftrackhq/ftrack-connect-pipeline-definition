@@ -10,6 +10,10 @@ import ftrack_api
 class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'geometry_collector'
 
+    def fetch(self, context=None, data=None, options=None):
+        collected_objects = cmds.ls(geometry=True, l=True)
+        return collected_objects
+
     def run(self, context=None, data=None, options=None):
         geo_objects = options.get('collected_objects', [])
         # geo_objects = cmds.ls(geometry=True)
