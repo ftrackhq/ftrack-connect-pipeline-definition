@@ -11,6 +11,7 @@ import ftrack_api
 
 class FileCollectorWidget(BaseOptionsWidget):
     '''Main class to represent a context widget on a publish process'''
+    #We are enabling the run button for this single widget
     enable_run_plugin = True
 
     def __init__(
@@ -24,6 +25,9 @@ class FileCollectorWidget(BaseOptionsWidget):
             parent=parent, context=context, session=session, data=data, name=name,
             description=description, options=options
         )
+        #We add a new button to fetch the data, we could also override the run_
+        # build bunction or simply add a new button whatever we want, calling
+        # the self.on_run_plugin() function
         self.fetch_build()
 
     def build(self):
