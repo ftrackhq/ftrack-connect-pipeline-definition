@@ -5,11 +5,11 @@ from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
     import BaseCollectorWidget
 
-import maya.cmds as cmds
 import ftrack_api
 
 
 class GeometryCollectorWidget(BaseCollectorWidget):
+    auto_fetch_on_init = True
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
@@ -19,8 +19,6 @@ class GeometryCollectorWidget(BaseCollectorWidget):
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
-
-        self.on_run_plugin('fetch')
 
 
 class GeometryCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
