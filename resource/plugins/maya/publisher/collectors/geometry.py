@@ -42,7 +42,6 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
         Return the collected objects in the widget from the plugin *options*
         '''
         geo_objects = options.get('collected_objects', [])
-        # geo_objects = cmds.ls(geometry=True)
         return geo_objects
 
 
