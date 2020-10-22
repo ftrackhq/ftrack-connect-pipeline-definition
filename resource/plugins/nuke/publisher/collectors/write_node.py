@@ -11,8 +11,14 @@ from ftrack_connect_pipeline_nuke import plugin
 class CollectWriteNodeNukePlugin(plugin.PublisherCollectorNukePlugin):
     plugin_name = 'write_node'
 
-    def run(self, context=None, data=None, options=None):
+    def fetch(self, context=None, data=None, options=None):
+        '''Fetch all write nodes in nuke'''
+        write_nodes = nuke.allNodes('Write')
+        node_names = [node.name() for node in write_nodes]
+        return node_names
 
+    def run(self, context=None, data=None, options=None):
+        '''Return the node name passed on the plugin *options*'''
         node_name = options['node_name']
         return [node_name]
 
