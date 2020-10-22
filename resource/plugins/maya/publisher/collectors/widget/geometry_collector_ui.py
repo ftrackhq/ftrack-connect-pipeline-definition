@@ -9,6 +9,7 @@ import ftrack_api
 
 
 class GeometryCollectorWidget(BaseCollectorWidget):
+    # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
     def __init__(

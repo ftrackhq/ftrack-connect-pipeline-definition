@@ -5,11 +5,11 @@ from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
     import BaseCollectorWidget
 
-import maya.cmds as cmds
 import ftrack_api
 
 
 class GenericCollectorWidget(BaseCollectorWidget):
+    # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
     def __init__(

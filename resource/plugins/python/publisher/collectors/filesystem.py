@@ -8,6 +8,7 @@ class FilesystemCollectPlugin(plugin.PublisherCollectorPlugin):
     plugin_name = 'filesystem'
 
     def fetch(self, context=None, data=None, options=None):
+        '''Fetch the test path'''
         return "example/path/to/your/file.txt"
 
     def run(self, context=None, data=None, options=None):

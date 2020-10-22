@@ -12,6 +12,7 @@ import ftrack_api
 
 
 class CameraCollectorWidget(BaseOptionsWidget):
+    # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
     def __init__(
