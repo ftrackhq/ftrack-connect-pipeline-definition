@@ -34,7 +34,8 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
                 for relative in relatives:
                     if cmds.objectType(relative, isAType=check_type):
                         collected_objects.append(relative)
-            collected_objects.append(obj)
+            else:
+                collected_objects.append(obj)
         return collected_objects
 
     def run(self, context=None, data=None, options=None):

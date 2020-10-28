@@ -126,6 +126,42 @@
           ]
         }
       ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect sequence node.",
+              "plugin": "selection"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            },
+            {
+              "name": "Can connect to write node",
+              "plugin": "can_connect_to_write_node"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write reviewable",
+              "plugin": "reviewable"
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalizers": {

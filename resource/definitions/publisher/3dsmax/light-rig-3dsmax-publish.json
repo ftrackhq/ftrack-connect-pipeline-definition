@@ -79,6 +79,39 @@
           ]
         }
       ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select viewport to playblast",
+              "plugin": "viewport",
+              "widget": "viewport"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write reviewable",
+              "plugin": "thumbnail"
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalizers": {

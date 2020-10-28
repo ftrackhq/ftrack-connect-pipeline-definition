@@ -10,7 +10,7 @@ import ftrack_api
 
 class GenericCollectorWidget(BaseCollectorWidget):
     # Run fetch function on widget initialization
-    auto_fetch_on_init = True
+    auto_fetch_on_init = False
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
@@ -20,7 +20,6 @@ class GenericCollectorWidget(BaseCollectorWidget):
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
-
 
 
 class GenericCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
