@@ -8,25 +8,35 @@ from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
 
 from Qt import QtWidgets
 
-import maya.cmds as cmds
 import ftrack_api
 
 
 class CameraCollectorWidget(BaseOptionsWidget):
+    # Run fetch function on widget initialization
+    auto_fetch_on_init = True
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
         description=None, options=None, context=None
     ):
 
-        # list all perspective camera
-        self.maya_cameras = cmds.listCameras(p=True)
-
+        self.maya_cameras = []
         super(CameraCollectorWidget, self).__init__(
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
             context=context)
+
+    def on_fetch_callback(self, result):
+        ''' This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.maya_cameras = result
+        if self.maya_cameras:
+            self.cameras.setDisabled(False)
+        else:
+            self.cameras.setDisabled(True)
+        self.cameras.clear()
+        self.cameras.addItems(result)
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -34,6 +44,9 @@ class CameraCollectorWidget(BaseOptionsWidget):
         self.cameras = QtWidgets.QComboBox()
         self.cameras.setToolTip(self.description)
         self.layout().addWidget(self.cameras)
+
+        if self.options.get('camera_name'):
+            self.maya_cameras.append(self.options.get('camera_name'))
 
         if not self.maya_cameras:
             self.cameras.setDisabled(True)
@@ -46,7 +59,8 @@ class CameraCollectorWidget(BaseOptionsWidget):
         update_fn = partial(self.set_option_result, key='camera_name')
 
         self.cameras.editTextChanged.connect(update_fn)
-        self.set_option_result(self.maya_cameras[0], key='camera_name')
+        if self.maya_cameras:
+            self.set_option_result(self.maya_cameras[0], key='camera_name')
 
 
 class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):

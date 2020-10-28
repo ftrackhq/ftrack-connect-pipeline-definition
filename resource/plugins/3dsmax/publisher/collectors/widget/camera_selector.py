@@ -10,44 +10,54 @@ from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
 
 from Qt import QtWidgets
 
-import MaxPlus
-
 
 class Camera3dsMaxWidget(BaseOptionsWidget):
-    MAX_CAMERA_CLASS_ID = 32
+    # Run fetch function on widget initialization
+    auto_fetch_on_init = True
 
     def __init__(
             self, parent=None, session=None, data=None, name=None,
             description=None, options=None, context=None
     ):
         self.cameras = []
-        root = MaxPlus.Core.GetRootNode()
-
-        for node in root.Children:
-            if node.Object.SuperClassID == self.MAX_CAMERA_CLASS_ID:
-                self.cameras.append(node.Name)
 
         super(Camera3dsMaxWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
 
+    def on_fetch_callback(self, result):
+        ''' This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.cameras = result
+        if self.cameras:
+            self.cameras_cb.setDisabled(False)
+        else:
+            self.cameras_cb.setDisabled(True)
+        self.cameras_cb.clear()
+        self.cameras_cb.addItems(result)
+
     def build(self):
         super(Camera3dsMaxWidget, self).build()
-        self.nodes_cb = QtWidgets.QComboBox()
-        self.layout().addWidget(self.nodes_cb)
+        self.cameras_cb = QtWidgets.QComboBox()
+        self.layout().addWidget(self.cameras_cb)
+
+        if self.options.get('camera_name'):
+            self.cameras.append(self.options.get('camera_name'))
+
+        if not self.cameras:
+            self.cameras_cb.setDisabled(True)
+            self.cameras_cb.addItem('No Suitable Cameras found.')
+        else:
+            self.cameras_cb.addItems(self.cameras)
 
     def post_build(self):
         super(Camera3dsMaxWidget, self).post_build()
-        camera_names = self.cameras
-        if camera_names:
-            self.nodes_cb.addItems(camera_names)
-            update_fn = partial(self.set_option_result, key='camera_name')
-            self.nodes_cb.editTextChanged.connect(update_fn)
-            self.set_option_result(camera_names[0], 'camera_name')
-        else:
-            self.nodes_cb.addItem('No Camera found.')
-            self.nodes_cb.setDisabled(True)
+        update_fn = partial(self.set_option_result, key='camera_name')
+
+        self.cameras_cb.editTextChanged.connect(update_fn)
+        if self.cameras:
+            self.set_option_result(self.cameras[0], key='camera_name')
 
 
 class Camera3dsMaxPluginWidget(plugin.PublisherCollectorMaxWidget):

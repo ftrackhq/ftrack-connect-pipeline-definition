@@ -6,10 +6,11 @@ from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
     import BaseCollectorWidget
 
 import ftrack_api
-from pymxs import runtime as rt
 
 
 class GenericCollectorWidget(BaseCollectorWidget):
+    # Run fetch function on widget initialization
+    auto_fetch_on_init = True
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
@@ -19,33 +20,6 @@ class GenericCollectorWidget(BaseCollectorWidget):
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
-
-    def collect_objects(self):
-        collected_objects = []
-        selected_objects = rt.selection
-        for obj in selected_objects:
-            collected_objects.append(obj.name)
-
-        self._collected_objects = collected_objects
-
-    def _on_add_objects(self):
-        selected_objects = rt.selection
-        current_objects = self.get_current_objects()
-        for obj in selected_objects:
-            if obj.name in current_objects:
-                continue
-            self.add_object(obj)
-
-    def ctx_select(self):
-        '''
-        Triggered when select action menu been clicked.
-        '''
-        selected_items  = super(GenericCollectorWidget, self).ctx_select()
-        nodes_to_select = []
-        for item in selected_items:
-            nodes_to_select.append(rt.getNodeByName(item))
-        rt.select(nodes_to_select)
-
 
 
 class GenericCollectorPluginWidget(plugin.PublisherCollectorMaxWidget):

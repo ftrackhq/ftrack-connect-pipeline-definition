@@ -11,8 +11,23 @@ from ftrack_connect_pipeline_nuke import plugin
 class NodeSelectorNukePlugin(plugin.PublisherCollectorNukePlugin):
     plugin_name = 'node_selector'
 
-    def run(self, context=None, data=None, options=None):
+    def fetch(self, context=None, data=None, options=None):
+        '''Return a dictionary with all the nodes in nuke and if some are
+        selected, the last one is added on last_selected_node'''
+        result = {}
+        all_nodes = nuke.allNodes()
+        node_names = [node.name() for node in all_nodes]
+        last_selected_node = None
+        if nuke.selectedNodes():
+            last_selected_node = nuke.selectedNodes()[0]
+        result = {
+            'all_nodes':node_names,
+            'last_selected_node':last_selected_node.name()
+        }
+        return result
 
+    def run(self, context=None, data=None, options=None):
+        '''Return the node name passed on the plugin *options*'''
         node_name = options['node_name']
         return [node_name]
 
