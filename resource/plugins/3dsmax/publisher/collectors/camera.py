@@ -3,8 +3,8 @@
 
 import ftrack_api
 
-import pymxs
-import MaxPlus
+from pymxs import mxstoken
+from pymxs import runtime as rt
 
 from ftrack_connect_pipeline_3dsmax import plugin
 
@@ -15,17 +15,16 @@ class CollectCameraMaxPlugin(plugin.PublisherCollectorMaxPlugin):
 
     def fetch(self, context=None, data=None, options=None):
         '''Fetch all cameras from the scene'''
-        root = MaxPlus.Core.GetRootNode()
         cameras = []
-        for node in root.Children:
-            if node.Object.SuperClassID == self.MAX_CAMERA_CLASS_ID:
-                cameras.append(node.Name)
+        for obj in rt.rootScene.world.children:
+            if rt.SuperClassOf(obj) == self.MAX_CAMERA_CLASS_ID:
+                cameras.append(obj.name)
         return cameras
 
     def run(self, context=None, data=None, options=None):
         camera_name = options.get('camera_name', 'persp')
-        with pymxs.mxstoken():
-            camera = pymxs.runtime.getNodeByName(camera_name)
+        with mxstoken():
+            camera = rt.getNodeByName(camera_name)
         if camera:
             return [camera.name]
         return []
