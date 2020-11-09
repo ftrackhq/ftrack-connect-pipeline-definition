@@ -34,7 +34,8 @@ class Viewport3dsMaxWidget(BaseOptionsWidget):
         else:
             self.nodes_cb.setDisabled(True)
         self.nodes_cb.clear()
-        self.nodes_cb.addItems(result)
+        for item in self.viewports:
+            self.nodes_cb.addItem(item[0], item[1])
 
     def build(self):
         super(Viewport3dsMaxWidget, self).build()
@@ -48,7 +49,8 @@ class Viewport3dsMaxWidget(BaseOptionsWidget):
             self.nodes_cb.setDisabled(True)
             self.nodes_cb.addItem('No Suitable Cameras found.')
         else:
-            self.nodes_cb.addItems(self.viewports)
+            for item in self.viewports:
+                self.nodes_cb.addItem(item[0], item[1])
 
     def post_build(self):
         super(Viewport3dsMaxWidget, self).post_build()

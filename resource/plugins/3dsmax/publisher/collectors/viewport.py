@@ -14,8 +14,8 @@ class CollectViewportMaxPlugin(plugin.PublisherCollectorMaxPlugin):
         viewports = []
         for idx in range(1, (rt.viewport.numViewEx() + 1)):
             view_type = rt.viewport.getType(index=idx)
-            entry = (view_type, idx)
-            if view_type == 'view_persp_user':  # USER_PERSP
+            entry = (str(view_type), idx)
+            if str(view_type) == 'view_persp_user':  # USER_PERSP
                 viewports.insert(0, entry)
             else:
                 viewports.append(entry)

@@ -29,7 +29,8 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
             with mxstoken():
                 rt.clearSelection()
             for node_name in data:
-                rt.selectMore(node_name)
+                node = rt.getNodeByName(node_name, exact=True)
+                rt.selectMore(node)
             rt.saveNodes(rt.selection, new_file_path, quiet=True)
         return {component_name: new_file_path}
 
