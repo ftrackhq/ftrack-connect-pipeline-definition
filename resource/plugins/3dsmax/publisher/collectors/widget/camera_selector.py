@@ -35,7 +35,8 @@ class Camera3dsMaxWidget(BaseOptionsWidget):
         else:
             self.cameras_cb.setDisabled(True)
         self.cameras_cb.clear()
-        self.cameras_cb.addItems(result)
+        self.cameras_cb.addItems(self.cameras)
+        self.set_option_result(self.cameras[0], key='camera_name')
 
     def build(self):
         super(Camera3dsMaxWidget, self).build()
@@ -54,7 +55,6 @@ class Camera3dsMaxWidget(BaseOptionsWidget):
     def post_build(self):
         super(Camera3dsMaxWidget, self).post_build()
         update_fn = partial(self.set_option_result, key='camera_name')
-
         self.cameras_cb.editTextChanged.connect(update_fn)
         if self.cameras:
             self.set_option_result(self.cameras[0], key='camera_name')

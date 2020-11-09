@@ -3,7 +3,6 @@
 
 import ftrack_api
 
-from pymxs import mxstoken
 from pymxs import runtime as rt
 
 from ftrack_connect_pipeline_3dsmax import plugin
@@ -17,14 +16,14 @@ class CollectCameraMaxPlugin(plugin.PublisherCollectorMaxPlugin):
         '''Fetch all cameras from the scene'''
         cameras = []
         for obj in rt.rootScene.world.children:
-            if rt.SuperClassOf(obj) == self.MAX_CAMERA_CLASS_ID:
+            if rt.SuperClassOf(obj) == rt.camera:
                 cameras.append(obj.name)
         return cameras
 
     def run(self, context=None, data=None, options=None):
+        self.logger.debug("camera Run options: {}".format(options))
         camera_name = options.get('camera_name', 'persp')
-        with mxstoken():
-            camera = rt.getNodeByName(camera_name)
+        camera = rt.getNodeByName(camera_name)
         if camera:
             return [camera.name]
         return []
