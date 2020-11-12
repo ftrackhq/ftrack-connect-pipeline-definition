@@ -54,6 +54,23 @@ def on_discover_pipeline(event):
         'FTRACK_DEFINITION_PLUGIN_PATH',
         event['data']['options']['env']
     )
+    # return event['data']['options']
+
+    ######################
+    data = {
+        'integration': {
+            "name": 'ftrack-connect-pipeline-definition',
+            'version': '0.0.0'
+        },
+        'env': {
+            'PYTHONPATH.prepend': python_dependencies,
+            'FTRACK_EVENT_PLUGIN_PATH': pipeline_definitions,
+            'FTRACK_DEFINITION_PLUGIN_PATH': pipeline_plugins
+        }
+    }
+    return data
+
+    ######################
 
 
 def register(session):
