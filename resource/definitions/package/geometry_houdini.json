@@ -1,0 +1,17 @@
+{
+    "name": "geometry_houdini",
+    "type": "package",
+    "asset_type": "geo",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "houdiniPublishScene"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}
