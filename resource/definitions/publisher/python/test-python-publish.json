@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "File Publisher",
-  "package": "geoPkg",
+  "package": "pythonPkg",
   "host": "python",
   "contexts": {
       "name": "context",

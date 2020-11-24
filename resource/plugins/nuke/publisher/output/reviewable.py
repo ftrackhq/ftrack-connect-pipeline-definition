@@ -7,6 +7,7 @@ import tempfile
 import nuke
 
 from ftrack_connect_pipeline_nuke import plugin
+from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
@@ -14,10 +15,23 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
 
     def run(self, context=None, data=None, options=None):
         node_name = data[0]
-        write_node = nuke.toNode(node_name)
+        input_node = nuke.toNode(node_name)
+        selected_nodes = nuke.selectedNodes()
+        nuke_utils.cleanSelection()
+
+        if input_node.Class() == 'Write':
+            write_node = input_node
+        else:
+            has_to_clean = True
+            write_node = nuke.createNode('Write')
+            write_node.setInput(0, input_node)
+
+
+        # node_name = data[0]
+        # write_node = nuke.toNode(node_name)
 
         # Get the input of the given write ftrack_object.
-        input_node = write_node.input(0)
+        w_input_node = write_node.input(0)
 
         # Generate output file name for mov.
         temp_review_mov = tempfile.NamedTemporaryFile(
@@ -29,7 +43,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
 
         # Create a new write_node.
         review_node = nuke.createNode('Write')
-        review_node.setInput(0, input_node)
+        review_node.setInput(0, w_input_node)
         review_node['file'].setValue(temp_review_mov)
         review_node['file_type'].setValue('mov')
         review_node['mov64_codec'].setValue('png')
@@ -49,6 +63,14 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
 
         # delete thumbnail network after render
         nuke.delete(review_node)
+
+        # delete temporal write node
+        if has_to_clean:
+            nuke.delete(write_node)
+        # restore selection
+        nuke_utils.cleanSelection()
+        for node in selected_nodes:
+            node['selected'].setValue(True)
 
         component_name = options['component_name']
         return {component_name: temp_review_mov}

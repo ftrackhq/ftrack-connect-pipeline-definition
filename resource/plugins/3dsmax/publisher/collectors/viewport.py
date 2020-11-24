@@ -4,10 +4,22 @@
 import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
+import MaxPlus
 
 
 class CollectViewportMaxPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'viewport'
+
+    def fetch(self, context=None, data=None, options=None):
+        viewports = []
+        for index, view in enumerate(MaxPlus.ViewportManager.Viewports):
+            entry = (MaxPlus.ViewportManager.getViewportLabel(index), index)
+            view_type = view.GetViewType()
+            if view_type == 7:  # USER_PERSP
+                viewports.insert(0, entry)
+            else:
+                viewports.append(entry)
+        return viewports
 
     def run(self, context=None, data=None, options=None):
         viewport_index = options.get('viewport_index', -1)

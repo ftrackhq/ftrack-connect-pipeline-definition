@@ -5,11 +5,12 @@ from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
     import BaseCollectorWidget
 
-import maya.cmds as cmds
 import ftrack_api
 
 
 class GenericCollectorWidget(BaseCollectorWidget):
+    # Run fetch function on widget initialization
+    auto_fetch_on_init = False
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
@@ -19,27 +20,6 @@ class GenericCollectorWidget(BaseCollectorWidget):
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
-
-    def collect_objects(self):
-        self._collected_objects = cmds.ls(sl=True, l=True)
-
-    def _on_add_objects(self):
-        selected_objects = cmds.ls(sl=True, l=True)
-        current_objects = self.get_current_objects()
-        for obj in selected_objects:
-            if obj in current_objects:
-                continue
-            self.add_object(obj)
-
-    def ctx_select(self):
-        '''
-        Triggered when select action menu been clicked.
-        '''
-        selected_items  = super(GenericCollectorWidget, self).ctx_select()
-        cmds.select(cl=True)
-        for item in selected_items:
-            cmds.select(item.text(), add=True)
-
 
 
 class GenericCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):

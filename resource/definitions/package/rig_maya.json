@@ -12,6 +12,10 @@
         {
             "name": "thumbnail",
             "required": false
+        },
+        {
+            "name": "reviewable",
+            "required": false
         }
     ]
 }

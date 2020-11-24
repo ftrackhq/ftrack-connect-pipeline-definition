@@ -1,6 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2019 ftrack
 
+from functools import partial
+
 from Qt import QtWidgets, QtCore, QtGui
 from ftrack_connect_pipeline_qt import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
@@ -9,6 +11,8 @@ import ftrack_api
 
 class FileCollectorWidget(BaseOptionsWidget):
     '''Main class to represent a context widget on a publish process'''
+    #We are enabling the run button for this single widget
+    enable_run_plugin = True
 
     def __init__(
             self, parent=None, context=None, session=None, data=None, name=None,
@@ -21,6 +25,10 @@ class FileCollectorWidget(BaseOptionsWidget):
             parent=parent, context=context, session=session, data=data, name=name,
             description=description, options=options
         )
+        #We add a new button to fetch the data, we could also override the run_
+        # build bunction or simply add a new button whatever we want, calling
+        # the self.on_run_plugin() function
+        self.fetch_build()
 
     def build(self):
         '''build function widgets.'''
@@ -50,6 +58,20 @@ class FileCollectorWidget(BaseOptionsWidget):
         self.browser_button.clicked.connect(self._show_file_dialog)
         self.file_selector.fileSelected.connect(self._on_select_file)
         self.line_edit.textChanged.connect(self._on_path_changed)
+
+    def fetch_build(self):
+        '''post build function , mostly used connect widgets events.'''
+        self.fetch_plugin_button = QtWidgets.QPushButton('fetch')
+        self.fetch_plugin_button.clicked.connect(
+            partial(self.on_run_plugin, 'fetch')
+        )
+        self.layout().addWidget(self.fetch_plugin_button)
+
+    def on_fetch_callback(self, result):
+        ''' This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.line_edit.clear()
+        self.line_edit.setText(result)
 
     def _show_file_dialog(self):
         ''' Shows the file dialog'''
