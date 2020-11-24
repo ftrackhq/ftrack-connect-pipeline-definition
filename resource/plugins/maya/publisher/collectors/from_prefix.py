@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import maya.cmds as cmd
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -11,11 +11,11 @@ class CollectFromPrefixMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'from_prefix'
 
     def run(self, context=None, data=None, options=None):
-        cmd.select(cl=True)
+        cmds.select(cl=True)
         prefix = str(options['prefix'])
         sufix = str(options['sufix'])
-        cmd.select((prefix + '*' + sufix), r=True)
-        selection = cmd.ls(sl=True)
+        cmds.select((prefix + '*' + sufix), r=True)
+        selection = cmds.ls(sl=True)
         return selection
 
 

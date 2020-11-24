@@ -2,12 +2,9 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import tempfile
-import os
-import uuid
 import glob
 
-import maya.cmds as cmd
-import maya
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -19,28 +16,28 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
         component_name = options['component_name']
         camera_name = options.get('camera_name', 'persp')
 
-        nodes = cmd.ls(sl=True)
-        cmd.select(cl=True)
+        nodes = cmds.ls(sl=True)
+        cmds.select(cl=True)
 
-        current_panel = cmd.getPanel(wf=True)
-        panel_type = cmd.getPanel(to=current_panel)  # scriptedPanel
+        current_panel = cmds.getPanel(wf=True)
+        panel_type = cmds.getPanel(to=current_panel)  # scriptedPanel
         if panel_type != 'modelPanel':
-            visible_panels = cmd.getPanel(vis=True)
+            visible_panels = cmds.getPanel(vis=True)
             for _panel in visible_panels:
-                if cmd.getPanel(to=_panel) == 'modelPanel':
+                if cmds.getPanel(to=_panel) == 'modelPanel':
                     current_panel = _panel
                     break
                 else:
                     current_panel = None
         previous_camera = 'presp'
         if current_panel:
-            previous_camera = cmd.modelPanel(current_panel, q=True, camera=True)
+            previous_camera = cmds.modelPanel(current_panel, q=True, camera=True)
 
-        cmd.lookThru(camera_name)
+        cmds.lookThru(camera_name)
 
         # Ensure JPEG is set in renderglobals.
         # Only used on windows for some reason
-        currentFormatStr = cmd.getAttr(
+        currentFormatStr = cmds.getAttr(
             'defaultRenderGlobals.imageFormat',
             asString=True
         )
@@ -50,17 +47,17 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
                 'jpg' in currentFormatStr.lower() or
                 'jpeg' in currentFormatStr.lower()
         ):
-            currentFormatInt = cmd.getAttr('defaultRenderGlobals.imageFormat')
-            cmd.setAttr('defaultRenderGlobals.imageFormat', 8)
+            currentFormatInt = cmds.getAttr('defaultRenderGlobals.imageFormat')
+            cmds.setAttr('defaultRenderGlobals.imageFormat', 8)
             restoreRenderGlobals = True
 
         filename = tempfile.NamedTemporaryFile(
             suffix='.jpg'
         ).name
 
-        res = cmd.playblast(
+        res = cmds.playblast(
             format='image',
-            frame=cmd.currentTime(query=True),
+            frame=cmds.currentTime(query=True),
             compression='jpg',
             quality=80,
             showOrnaments=False,
@@ -70,14 +67,14 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
         )
 
         if restoreRenderGlobals:
-            cmd.setAttr('defaultRenderGlobals.imageFormat', currentFormatInt)
+            cmds.setAttr('defaultRenderGlobals.imageFormat', currentFormatInt)
 
         if nodes is not None and len(nodes):
-            cmd.select(nodes)
+            cmds.select(nodes)
         res = res.replace('####', '*')
         path = glob.glob(res)[0]
 
-        cmd.lookThru(previous_camera)
+        cmds.lookThru(previous_camera)
 
         return {component_name: path}
 
