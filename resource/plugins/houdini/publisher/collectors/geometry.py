@@ -6,7 +6,6 @@ import hou
 from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
 
-
 class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
     plugin_name = 'geometry_collector'
 
@@ -14,13 +13,13 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         for obj in hou.node('/').allSubChildren():
-            obj.setSelected(1, obj in selected_items)
+            obj.setSelected(1, obj in selected_items or obj.path() in selected_items)
         return selected_items
 
     def fetch(self, context=None, data=None, options=None):
         '''Fetch all the geometries in the scene'''
         collected_objects = hou.node('/').allSubChildren()
-        return collected_objects
+        return [n.path() for n in collected_objects]
 
     def add(self, context=None, data=None, options=None):
         '''Return the selected geometries'''
@@ -31,7 +30,7 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
         collected_objects = []
         for obj in selected_objects:
             if obj in geometry_objects:
-                collected_objects.append(obj)
+                collected_objects.append(obj.path())
         return collected_objects
 
     def run(self, context=None, data=None, options=None):

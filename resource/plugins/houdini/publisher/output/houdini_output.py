@@ -3,6 +3,7 @@
 
 import tempfile
 import os
+import subprocess
 
 import hou
 
@@ -28,14 +29,20 @@ class OutputHoudiniPlugin(plugin.PublisherOutputHoudiniPlugin):
             hou.hipFile.save(new_file_path)
         else:
 
-            hou.copyNodesToClipboard(hou.selectedNodes())
+            hou.copyNodesToClipboard([hou.node(obj_name) for obj_name in data])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
-                            hou.hipFile.save('%s')" % (new_file_path)
+                            hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
 
             cmd = '%s -c "%s"' % (os.path.join(
                 os.getenv('HFS'), 'bin', 'hython'), command)
-            os.system(cmd)
+
+            my_env = os.environ.copy()
+            if 'HOUDINI_PATH' in my_env:
+                del my_env['HOUDINI_PATH']
+            subprocess.Popen(cmd, env=my_env)
+
+            #os.system(cmd)
 
         return {component_name: new_file_path}
 

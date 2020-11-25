@@ -17,16 +17,12 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
     def run(self, context=None, data=None, options=None):
         component_name = options['component_name']
 
-        filename = tempfile.NamedTemporaryFile(
-            suffix='.jpg'
-        ).name
-
         res = [1024, 768]
 
         path = "%s.jpg" % (os.path.join(
             tempfile.gettempdir(), str(uuid.uuid4())))
         if os.name == "nt":
-            filename = filename.replace('\\', '\\\\')
+            path = path.replace('\\', '\\\\')
 
         desktop = hou.ui.curDesktop()
         scene_view = toolutils.sceneViewer()
@@ -43,8 +39,10 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
         view = '%s.%s.world.%s' % (
             desktop.name(), scene_view.name(), viewport.name())
 
+        self.logger.info('Creating thumbnail from view {} to {}.'.format(view, path))
+
         executeCommand = "viewwrite -c -f 0 1 -r %s %s %s %s" % (
-            res[0], res[1], view, filename)
+            res[0], res[1], view, path)
 
         hou.hscript(executeCommand)
 
