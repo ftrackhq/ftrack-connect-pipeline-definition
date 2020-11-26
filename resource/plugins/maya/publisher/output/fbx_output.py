@@ -3,10 +3,8 @@
 
 import tempfile
 
-import maya.cmds as cmd
+import maya.cmds as cmds
 import maya.mel as mel
-
-import maya
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -38,7 +36,7 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
 
     def run(self, context=None, data=None, options=None):
         # ensure to load the alembic plugin
-        cmd.loadPlugin('fbxmaya.so', qt=1)
+        cmds.loadPlugin('fbxmaya.so', qt=1)
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
@@ -106,10 +104,10 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
         # fbx export command
         mel.eval('FBXExport -s -f "{}"'.format(new_file_path.replace("\\", "\\\\")))
 
-        cmd.select(data, r=True)
-        selectednodes = cmd.ls(sl=True, long=True)
+        cmds.select(data, r=True)
+        selectednodes = cmds.ls(sl=True, long=True)
         if selectednodes:
-            cmd.select(selectednodes)
+            cmds.select(selectednodes)
 
         return {component_name: new_file_path}
 
