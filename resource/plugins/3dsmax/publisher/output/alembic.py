@@ -5,8 +5,8 @@ import ftrack_api
 
 import tempfile
 
-import MaxPlus
-import pymxs
+from pymxs import mxstoken
+from pymxs import runtime as rt
 
 from ftrack_connect_pipeline_3dsmax import plugin
 
@@ -22,21 +22,21 @@ class OutputMaxAlembicPlugin(plugin.PublisherOutputMaxPlugin):
         self.logger.debug('Calling extractor options: data {}'.format(data))
         self.logger.debug('Writing Alembic file to {}'.format(new_file_path))
 
-        saved_selection = MaxPlus.SelectionManager.GetNodes()
+        saved_selection = rt.GetCurrentSelection()
         self.logger.debug('Post SM1')
 
-        with pymxs.mxstoken():
-            MaxPlus.SelectionManager.ClearNodeSelection()
+        with mxstoken():
+            rt.clearSelection()
             self.logger.debug('Post SM2')
 
-            nodes = MaxPlus.INodeTab()
+            nodes = []
             for node_name in data:
-                node = MaxPlus.INode.GetINodeByName(node_name)
+                node = rt.getNodeByName(node_name)
                 if node:
-                    nodes.Append(node)
-            MaxPlus.SelectionManager.SelectNodes(nodes)
-            pymxs.runtime.exportFile(
-                new_file_path, pymxs.runtime.Name("noPrompt"), selectedOnly=True
+                    nodes.append(node)
+            rt.select(nodes)
+            rt.exportFile(
+                new_file_path, rt.Name("noPrompt"), selectedOnly=True
             )
         return {component_name: new_file_path}
 

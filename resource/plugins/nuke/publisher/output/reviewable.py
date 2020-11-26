@@ -14,6 +14,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
     plugin_name = 'reviewable'
 
     def run(self, context=None, data=None, options=None):
+        has_to_clean = False
         node_name = data[0]
         input_node = nuke.toNode(node_name)
         selected_nodes = nuke.selectedNodes()

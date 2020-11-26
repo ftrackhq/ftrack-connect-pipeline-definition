@@ -4,7 +4,7 @@
 import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
-import MaxPlus
+from pymxs import runtime as rt
 
 
 class CollectViewportMaxPlugin(plugin.PublisherCollectorMaxPlugin):
@@ -12,10 +12,10 @@ class CollectViewportMaxPlugin(plugin.PublisherCollectorMaxPlugin):
 
     def fetch(self, context=None, data=None, options=None):
         viewports = []
-        for index, view in enumerate(MaxPlus.ViewportManager.Viewports):
-            entry = (MaxPlus.ViewportManager.getViewportLabel(index), index)
-            view_type = view.GetViewType()
-            if view_type == 7:  # USER_PERSP
+        for idx in range(1, (rt.viewport.numViewEx() + 1)):
+            view_type = rt.viewport.getType(index=idx)
+            entry = (str(view_type), idx)
+            if str(view_type) == 'view_persp_user':  # USER_PERSP
                 viewports.insert(0, entry)
             else:
                 viewports.append(entry)

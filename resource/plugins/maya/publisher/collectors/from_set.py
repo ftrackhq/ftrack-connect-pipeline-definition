@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import maya.cmds as cmd
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -13,7 +13,7 @@ class CollectFromSetMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     def run(self, context=None, data=None, options=None):
 
         set_name = options['set_name']
-        return cmd.sets(set_name, q=True)
+        return cmds.sets(set_name, q=True)
 
 
 def register(api_object, **kw):
