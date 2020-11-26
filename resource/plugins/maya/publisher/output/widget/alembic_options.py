@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
 
 from Qt import QtWidgets
 
-import maya.cmds as cmd
+import maya.cmds as cmds
 import ftrack_api
 
 
@@ -21,12 +21,12 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         _frames_option = {
             'frameStart': str(
                 self.options.get(
-                    'frameStart', cmd.playbackOptions(q=True, ast=True)
+                    'frameStart', cmds.playbackOptions(q=True, ast=True)
                 )
             ),
             'frameEnd': str(
                 self.options.get(
-                    'frameEnd', cmd.playbackOptions(q=True, aet=True)
+                    'frameEnd', cmds.playbackOptions(q=True, aet=True)
                 )
             ),
             'alembicEval': str(self.options.get('alembicEval', '1.0'))

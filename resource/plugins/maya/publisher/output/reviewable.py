@@ -4,8 +4,7 @@
 import tempfile
 import glob
 
-import maya.cmds as cmd
-import maya
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -17,12 +16,12 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
         component_name = options['component_name']
         camera_name = options.get('camera_name', 'persp')
 
-        current_panel = cmd.getPanel(wf=True)
-        panel_type = cmd.getPanel(to=current_panel)  # scriptedPanel
+        current_panel = cmds.getPanel(wf=True)
+        panel_type = cmds.getPanel(to=current_panel)  # scriptedPanel
         if panel_type != 'modelPanel':
-            visible_panels = cmd.getPanel(vis=True)
+            visible_panels = cmds.getPanel(vis=True)
             for _panel in visible_panels:
-                if cmd.getPanel(to=_panel) == 'modelPanel':
+                if cmds.getPanel(to=_panel) == 'modelPanel':
                     current_panel = _panel
                     break
                 else:
@@ -30,22 +29,22 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
 
         previous_camera = 'persp'
         if current_panel:
-            previous_camera = cmd.modelPanel(current_panel, q=True, camera=True)
+            previous_camera = cmds.modelPanel(current_panel, q=True, camera=True)
 
-        cmd.lookThru(camera_name)
+        cmds.lookThru(camera_name)
 
-        res_w = int(cmd.getAttr('defaultResolution.width'))
-        res_h = int(cmd.getAttr('defaultResolution.height'))
+        res_w = int(cmds.getAttr('defaultResolution.width'))
+        res_h = int(cmds.getAttr('defaultResolution.height'))
 
-        start_frame = cmd.playbackOptions(q=True, min=True)
-        end_frame = cmd.playbackOptions(q=True, max=True)
+        start_frame = cmds.playbackOptions(q=True, min=True)
+        end_frame = cmds.playbackOptions(q=True, max=True)
 
-        prev_selection = cmd.ls(sl=True)
-        cmd.select(cl=True)
+        prev_selection = cmds.ls(sl=True)
+        cmds.select(cl=True)
 
         filename = tempfile.NamedTemporaryFile().name
 
-        cmd.playblast(
+        cmds.playblast(
             format='movie',
             sequenceTime=0,
             clearCache=1,
@@ -62,9 +61,9 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
         )
 
         if len(prev_selection):
-            cmd.select(prev_selection)
+            cmds.select(prev_selection)
 
-        cmd.lookThru(previous_camera)
+        cmds.lookThru(previous_camera)
 
         temp_files = glob.glob(filename + '.*')
         #TODO:
