@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2016 ftrack
 
-import os,
+import os
 import sys
 import ftrack_api
 import logging
