@@ -43,8 +43,7 @@ def on_discover_pipeline(event):
             'version': integration_version.__version__,
             'env': {
                 'PYTHONPATH.prepend': python_dependencies,
-                'FTRACK_EVENT_PLUGIN_PATH': pipeline_definitions,
-                'FTRACK_DEFINITION_PLUGIN_PATH.set': pipeline_plugins
+                'FTRACK_EVENT_PLUGIN_PATH': os.pathsep.join([pipeline_definitions,pipeline_plugins])
             }
         }
     }
