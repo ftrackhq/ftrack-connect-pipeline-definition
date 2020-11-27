@@ -11,9 +11,10 @@ class CollectFromContextPlugin(plugin.LoaderCollectorPlugin):
 
     def run(self, context=None, data=None, options=None):
         version_id = context.get('version_id', [])
-        asset_version = self.session.get(
-            'AssetVersion', version_id
-        )
+        
+        asset_version = self.session.query(
+            'AssetVersion where id is "{}"'.format(version_id)
+        ).one()
 
         component_name = options['component_name']
         accepted_formats = options.get('accepted_formats', [])
