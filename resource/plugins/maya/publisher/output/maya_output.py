@@ -4,8 +4,7 @@
 import tempfile
 import os
 
-import maya.cmds as cmd
-import maya
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -45,10 +44,10 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
                 'typ': self.filetype,
                 'save': True
             }
-            scene_name = cmd.file(q=True, sceneName=True)
-            cmd.file(rename=new_file_path)
-            cmd.file(**options)
-            cmd.file(rename=scene_name)
+            scene_name = cmds.file(q=True, sceneName=True)
+            cmds.file(rename=new_file_path)
+            cmds.file(**options)
+            cmds.file(rename=scene_name)
         else:
             options = self.extract_options(options)
 
@@ -57,8 +56,8 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
                     data, options
                 )
             )
-            cmd.select(data, r=True)
-            cmd.file(
+            cmds.select(data, r=True)
+            cmds.file(
                 new_file_path,
                 **options
             )

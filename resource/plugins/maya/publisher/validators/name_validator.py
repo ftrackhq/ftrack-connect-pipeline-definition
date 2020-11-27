@@ -3,7 +3,7 @@
 
 from ftrack_connect_pipeline_maya import plugin
 
-import maya.cmds as mc
+import maya.cmds as cmds
 import ftrack_api
 
 
@@ -11,7 +11,7 @@ class CheckGeoNamesValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'name_validator'
 
     def run(self, context=None, data=None, options=None):
-        allObj = mc.ls(data, tr=True)
+        allObj = cmds.ls(data, tr=True)
         for obj in allObj:
             if obj.startswith('ftrack_') == False:
                 return False

@@ -3,7 +3,7 @@
 
 import ftrack_api
 
-import pymxs
+from pymxs import runtime as rt
 
 from ftrack_connect_pipeline_3dsmax import plugin
 
@@ -12,7 +12,7 @@ class CollectSelectionMaxPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'selection'
 
     def run(self, context=None, data=None, options=None):
-        selection = [node.getmxsprop('name') for node in pymxs.runtime.selection]
+        selection = [node.getmxsprop('name') for node in rt.selection]
         return selection
 
 
