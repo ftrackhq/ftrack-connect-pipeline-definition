@@ -14,6 +14,14 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
     plugin_name = 'alembic'
 
+    def fetch(self, context=None, data=None, options=None):
+        '''Fetch start and end frames from the scene'''
+        frame_info = {
+            "frameStart": cmds.playbackOptions(q=True, ast=True),
+            "frameEnd": cmds.playbackOptions(q=True, aet=True)
+        }
+        return frame_info
+
     def extract_options(self, options):
 
         return {
