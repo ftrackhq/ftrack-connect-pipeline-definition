@@ -28,6 +28,7 @@ def on_discover_pipeline(event):
     pipeline_plugins = os.path.join(
         plugin_base_dir, 'resource', 'plugins'
     )
+    os.environ['FTRACK_DEFINITION_PLUGIN_PATH'] = pipeline_plugins
 
     python_dependencies = os.path.join(
         plugin_base_dir, 'dependencies'
@@ -35,12 +36,12 @@ def on_discover_pipeline(event):
     sys.path.append(python_dependencies)
 
     # extract version
-    from ftrack_connect_pipeline_definition import _version as integration_version
+    #from ftrack_connect_pipeline_definition import _version as integration_version
 
     data = {
         'integration': {
             'name': 'ftrack-connect-pipeline-definition',
-            'version': integration_version.__version__,
+            'version': '0.0.0',
             'env': {
                 'PYTHONPATH.prepend': python_dependencies,
                 'FTRACK_EVENT_PLUGIN_PATH': os.pathsep.join([pipeline_definitions,pipeline_plugins])
