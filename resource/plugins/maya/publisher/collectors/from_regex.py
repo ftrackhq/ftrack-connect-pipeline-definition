@@ -2,7 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 import re
 
-import maya.cmds as cmd
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -13,19 +13,19 @@ class CollectFromRegexMayaPlugin(plugin.PublisherCollectorMayaPlugin):
 
     def run(self, context=None, data=None, options=None):
         expr = options['expression']
-        dag_objs = cmd.ls(ap=True, assemblies=True, dag=True)
+        dag_objs = cmds.ls(ap=True, assemblies=True, dag=True)
         matched_objs = []
         for obj in dag_objs:
             matched_obj = re.findall(expr, obj)
             matched_objs += matched_obj
         if matched_objs:
-            cmd.select(matched_objs, r=True)
+            cmds.select(matched_objs, r=True)
         else:
             self.logger.error(
                 'No objects matched the expression {}'.format(expr)
             )
             return []
-        selection = cmd.ls(sl=True)
+        selection = cmds.ls(sl=True)
         return selection
 
 

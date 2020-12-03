@@ -11,8 +11,6 @@ from Qt import QtWidgets
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
 
-import nuke
-
 
 class SequenceWidget(BaseOptionsWidget):
 

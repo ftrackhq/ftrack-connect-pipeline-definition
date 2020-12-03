@@ -8,7 +8,6 @@ from ftrack_connect_pipeline_qt.client.widgets.options.dynamic import DynamicWid
 
 from Qt import QtWidgets
 
-import maya.cmds as mcd
 import ftrack_api
 
 class MayaOptionsWidget(DynamicWidget):

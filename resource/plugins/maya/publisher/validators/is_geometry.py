@@ -7,7 +7,7 @@ import maya.cmds as cmds
 import ftrack_api
 
 
-class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
+class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'is_geometry'
 
     def run(self, context=None, data=None, options=None):
@@ -21,5 +21,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CheckCamerasValidatorPlugin(api_object)
+    plugin = CheckGeometryValidatorPlugin(api_object)
     plugin.register()

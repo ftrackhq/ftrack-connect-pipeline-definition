@@ -3,8 +3,7 @@
 
 import tempfile
 
-import maya.cmds as cmd
-import maya
+import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -15,15 +14,23 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
     plugin_name = 'alembic'
 
+    def fetch(self, context=None, data=None, options=None):
+        '''Fetch start and end frames from the scene'''
+        frame_info = {
+            "frameStart": cmds.playbackOptions(q=True, ast=True),
+            "frameEnd": cmds.playbackOptions(q=True, aet=True)
+        }
+        return frame_info
+
     def extract_options(self, options):
 
         return {
             'alembicAnimation' : bool(options.get('alembicAnimation', True)),
             'frameStart': float(
-                options.get('frameStart', cmd.playbackOptions(q=True, ast=True))
+                options.get('frameStart', cmds.playbackOptions(q=True, ast=True))
             ),
             'frameEnd': float(
-                options.get('frameEnd', cmd.playbackOptions(q=True, aet=True))
+                options.get('frameEnd', cmds.playbackOptions(q=True, aet=True))
             ),
             'alembicUvwrite': bool(options.get('alembicUvwrite', True)),
             'alembicWorldspace': bool(options.get('alembicWorldspace', False)),
@@ -33,7 +40,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
     def run(self, context=None, data=None, options=None):
         # ensure to load the alembic plugin
-        cmd.loadPlugin('AbcExport.so', qt=1)
+        cmds.loadPlugin('AbcExport.so', qt=1)
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
@@ -49,10 +56,10 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
             )
         )
 
-        cmd.select(data, cl=True)
-        cmd.select(data)
-        selectednodes = cmd.ls(sl=True, long=True)
-        nodes = cmd.ls(selectednodes, type='transform', long=True)
+        cmds.select(data, cl=True)
+        cmds.select(data)
+        selectednodes = cmds.ls(sl=True, long=True)
+        nodes = cmds.ls(selectednodes, type='transform', long=True)
 
         objCommand = ''
         for n in nodes:
@@ -80,10 +87,10 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
         alembicJobArgs = ' '.join(alembicJobArgs)
         alembicJobArgs += ' ' + objCommand + '-sl -file ' + new_file_path
-        cmd.AbcExport(j=alembicJobArgs)
+        cmds.AbcExport(j=alembicJobArgs)
 
         if selectednodes:
-            cmd.select(selectednodes)
+            cmds.select(selectednodes)
 
         return {component_name: new_file_path}
 
