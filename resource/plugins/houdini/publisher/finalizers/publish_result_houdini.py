@@ -5,7 +5,7 @@ import os
 from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
 
-class FtrackPublishHoudiniPlugin(plugin.PublisherFinalizerHoudiniPlugin):
+class FtrackPublishResultHoudiniPlugin(plugin.PublisherFinalizerHoudiniPlugin):
     plugin_name = 'result_houdini'
 
     def run(self, context=None, data=None, options=None):
@@ -16,5 +16,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = FtrackPublishHoudiniPlugin(api_object)
+    plugin = FtrackPublishResultHoudiniPlugin(api_object)
     plugin.register()
