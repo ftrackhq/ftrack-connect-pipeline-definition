@@ -10,7 +10,7 @@ from Qt import QtWidgets
 
 import ftrack_api
 
-class HoudiniOptionsWidget(DynamicWidget):
+class HoudiniSceneOptionsWidget(DynamicWidget):
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
@@ -19,7 +19,7 @@ class HoudiniOptionsWidget(DynamicWidget):
 
         self.options_cb = {}
 
-        super(HoudiniOptionsWidget, self).__init__(
+        super(HoudiniSceneOptionsWidget, self).__init__(
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
@@ -27,10 +27,11 @@ class HoudiniOptionsWidget(DynamicWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(HoudiniOptionsWidget, self).build()
+        super(HoudiniSceneOptionsWidget, self).build()
 
         options = [
         ]
+
         self.option_group = QtWidgets.QGroupBox('Houdini Output Options')
         self.option_group.setToolTip(self.description)
 
@@ -46,7 +47,7 @@ class HoudiniOptionsWidget(DynamicWidget):
 
 
     def post_build(self):
-        super(HoudiniOptionsWidget, self).post_build()
+        super(HoudiniSceneOptionsWidget, self).post_build()
 
         for option, widget in self.options_cb.items():
             update_fn = partial(self.set_option_result, key=option)
@@ -54,14 +55,14 @@ class HoudiniOptionsWidget(DynamicWidget):
 
 
 
-class HoudiniOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
-    plugin_name = 'houdini_options'
-    widget = HoudiniOptionsWidget
+class HoudiniSceneOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
+    plugin_name = 'houdini_scene_options'
+    widget = HoudiniSceneOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = HoudiniOptionsPluginWidget(api_object)
+    plugin = HoudiniSceneOptionsPluginWidget(api_object)
     plugin.register()

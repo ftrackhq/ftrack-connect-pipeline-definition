@@ -13,9 +13,42 @@
           "widget": "context.publish"
         }
       ]
-    },
+  },
   "components": [
     {
+      "name": "houdiniPublishNodes",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector",
+              "widget": "geometry_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "is_geometry"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "houdini_nodes",
+              "widget": "houdini_nodes_options"
+            }
+          ]
+        }
+      ]
+    },{
       "name": "houdiniPublishScene",
       "stages": [
         {
@@ -43,7 +76,78 @@
             {
               "name": "houdini",
               "plugin": "houdini_scene",
-              "widget": "houdini_options"
+              "widget": "houdini_scene_options"
+            }
+          ]
+        }
+      ]
+    },
+     {
+      "name": "alembic",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "is_geometry"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "alembic",
+              "plugin": "alembic",
+              "widget": "alembic_options",
+              "options": {
+                "alembicAnimation": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fbx",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "is_geometry"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "fbx",
+              "plugin": "fbx",
+              "widget": "fbx_options"
             }
           ]
         }
