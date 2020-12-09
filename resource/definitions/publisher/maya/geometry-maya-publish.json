@@ -2,8 +2,8 @@
   "type": "publisher",
   "name": "Geometry Publisher",
   "package": "geometry_maya",
-  "host": "maya",
-  "ui": "qt",
+  "host_type": "maya",
+  "ui_type": "qt",
   "contexts": {
       "name": "context",
       "plugins":[
