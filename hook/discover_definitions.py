@@ -36,12 +36,12 @@ def on_discover_pipeline(event):
     sys.path.append(python_dependencies)
 
     # extract version
-    from ftrack_connect_pipeline_definition import _version as integration_version
+    # from ftrack_connect_pipeline_definition import _version as integration_version
 
     data = {
         'integration': {
             'name': 'ftrack-connect-pipeline-definition',
-            'version': integration_version,
+            'version': '0.0.0',
             'env': {
                 'PYTHONPATH.prepend': python_dependencies,
                 'FTRACK_EVENT_PLUGIN_PATH':pipeline_definitions
