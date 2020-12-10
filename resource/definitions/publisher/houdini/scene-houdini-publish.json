@@ -2,8 +2,8 @@
   "type": "publisher",
   "name": "Scene Publisher",
   "package": "scene_houdini",
-  "host": "houdini",
-  "ui": "qt",
+  "ui_type": "houdini",
+  "ui_type": "qt",
   "contexts": {
       "name": "context",
       "plugins":[
@@ -44,7 +44,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_scene_output",
+              "plugin": "houdini_scene_output"
             }
           ]
         }

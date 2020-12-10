@@ -2,8 +2,8 @@
   "type": "loader",
   "name": "Geometry Loader",
   "package": "geometry_houdini",
-  "host": "houdini",
-  "ui": "qt",
+  "host_type": "houdini",
+  "ui_type": "qt",
   "contexts": {
       "name": "context",
       "plugins":[

@@ -2,8 +2,8 @@
   "type": "publisher",
   "name": "Geometry Publisher",
   "package": "geometry_houdini",
-  "host": "houdini",
-  "ui": "qt",
+  "host_type": "houdini",
+  "ui_type": "qt",
   "contexts": {
       "name": "context",
       "plugins":[
@@ -43,7 +43,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_nodes_output",
+              "plugin": "houdini_nodes_output"
             }
           ]
         }
@@ -76,7 +76,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_scene_output",
+              "plugin": "houdini_scene_output"
             }
           ]
         }
@@ -145,7 +145,7 @@
           "plugins":[
             {
               "name": "FBX output options:",
-              "plugin": "fbx_output",
+              "plugin": "fbx_output"
             }
           ]
         }
