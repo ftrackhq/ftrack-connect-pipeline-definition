@@ -1,8 +1,8 @@
 {
     "type": "asset_manager",
     "name": "default",
-    "host": "python",
-    "ui": "qt",
+    "host_type": "python",
+    "ui_type": "qt",
     "actions":{
         "update":[
             {

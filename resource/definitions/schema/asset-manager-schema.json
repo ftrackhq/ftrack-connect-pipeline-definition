@@ -153,13 +153,13 @@
   },
   "required": [
     "name",
-    "host",
+    "host_type",
     "type",
     "actions",
     "_config"
   ],
   "order":[
-    "type", "name", "host", "actions"
+    "type", "name", "host_type", "actions"
   ],
   "properties": {
     "type": {
@@ -170,11 +170,11 @@
     "name": {
       "type": "string"
     },
-    "host": {
+    "host_type": {
       "type": "string",
       "default": null
     },
-    "ui": {
+    "ui_type": {
       "type": "string",
       "default": null
     },

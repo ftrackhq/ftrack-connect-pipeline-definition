@@ -2,7 +2,7 @@
   "type": "loader",
   "name": "File Loader",
   "package": "pythonPkg",
-  "host": "python",
+  "host_type": "python",
   "contexts": {
       "name": "context",
       "plugins":[
