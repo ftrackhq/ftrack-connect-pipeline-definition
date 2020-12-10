@@ -9,26 +9,18 @@ from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
 
 from Qt import QtWidgets
 
-import maya.cmds as cmds
 import ftrack_api
 
 
 class AlembicOptionsWidget(BaseOptionsWidget):
+    auto_fetch_on_init = True
 
     @property
     def frames_option(self):
         '''Return current frames_option'''
         _frames_option = {
-            'frameStart': str(
-                self.options.get(
-                    'frameStart', cmds.playbackOptions(q=True, ast=True)
-                )
-            ),
-            'frameEnd': str(
-                self.options.get(
-                    'frameEnd', cmds.playbackOptions(q=True, aet=True)
-                )
-            ),
+            'frameStart': str(self.options.get('frameStart')),
+            'frameEnd': str(self.options.get('frameEnd')),
             'alembicEval': str(self.options.get('alembicEval', '1.0'))
         }
         return _frames_option
@@ -52,12 +44,23 @@ class AlembicOptionsWidget(BaseOptionsWidget):
     ):
         self.options_cb = {}
         self.options_le = {}
+        self.frame_info = {}
 
         super(AlembicOptionsWidget, self).__init__(
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
             context=context)
+
+    def on_fetch_callback(self, result):
+        ''' This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        for k, v in self.options_le.iteritems():
+            if v.text() == "None":
+                if k in result.keys():
+                    self.options_le[k].setText(str(result[k]))
+                else:
+                    self.options_le[k].setText("0")
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -87,7 +90,6 @@ class AlembicOptionsWidget(BaseOptionsWidget):
                 self.animation_layout.addWidget(self.frames_widget)
             else:
                 self.option_layout.addWidget(option_check)
-
         for option, default_value in sorted(self.frames_option.items(), reverse=True):
             frames_V_layout = QtWidgets.QVBoxLayout()
             option_label = QtWidgets.QLabel(option)

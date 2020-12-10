@@ -61,8 +61,8 @@ Defines what components to publish and how.
     {
       * "name": "<display name>",
       * "package": "<asset Type [modelPkg, rigPkg, ...]>",
-      * "host": "<host Type [maya, nuke, ...]>",
-      * "ui": "<ui Type [qt, js, ...]>",
+      * "host_type": "<host Type [maya, nuke, ...]>",
+      * "ui_type": "<ui Type [qt, js, ...]>",
       * "context": [
           * "<context plugin Type>"
         ],
@@ -93,8 +93,8 @@ Defines how to re load published packages.
 
     {
        * "name": "<display name>",
-       * "host": "<host Type [maya, nuke, ...]>",
-       * "ui": "<ui Type [qt, js, ...]>",
+       * "host_type": "<host Type [maya, nuke, ...]>",
+       * "ui_type": "<ui Type [qt, js, ...]>",
        * "context": [
           * "<context plugin Type>"
        ],
