@@ -1,8 +1,8 @@
 {
     "type": "asset_manager",
     "name": "default",
-    "host": "3dsmax",
-    "ui": "qt",
+    "host_type": "3dsmax",
+    "ui_type": "qt",
     "actions":{
         "update":[
             {

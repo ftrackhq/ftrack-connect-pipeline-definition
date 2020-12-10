@@ -2,7 +2,7 @@
   "type": "publisher",
   "name": "File Publisher",
   "package": "pythonPkg",
-  "host": "python",
+  "host_type": "python",
   "contexts": {
       "name": "context",
       "plugins":[

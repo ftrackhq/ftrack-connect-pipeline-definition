@@ -312,7 +312,7 @@ orig_schema= {
   "required": [
     "name",
     "package",
-    "host",
+    "host_type",
     "contexts",
     "components",
     "finalizers",
@@ -320,7 +320,7 @@ orig_schema= {
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host", "contexts", "components", "finalizers"
+    "type", "name", "package", "host_type", "contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -336,11 +336,11 @@ orig_schema= {
       "type": "string",
       "default": None
     },
-    "host": {
+    "host_type": {
       "type": "string",
       "default": None
     },
-    "ui": {
+    "ui_type": {
       "type": "string",
       "default": ""
     },
@@ -594,7 +594,7 @@ orig_definition= {
   "type": "publisher",
   "name": "File Publisher",
   "package": "pythonPkg",
-  "host": "python",
+  "host_type": "python",
   "contexts": {
       "name": "context",
       "plugins":[
