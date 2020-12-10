@@ -2,8 +2,8 @@
   "type": "publisher",
   "name": "Scene Publisher",
   "package": "image_sequence_nuke",
-  "host": "nuke",
-  "ui": "qt",
+  "host_type": "nuke",
+  "ui_type": "qt",
   "contexts": {
       "name": "context",
       "plugins":[
