@@ -11,7 +11,7 @@ import ftrack_api
 
 class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
 
-    plugin_name = 'fbx'
+    plugin_name = 'fbx_output'
 
     def extract_options(self, options):
 

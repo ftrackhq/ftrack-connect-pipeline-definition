@@ -3,44 +3,35 @@
 
 import tempfile
 
-import maya.cmds as cmds
+import hou
 
-from ftrack_connect_pipeline_maya import plugin
+from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
 
 
+class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
 
-class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
-
-    plugin_name = 'alembic'
+    plugin_name = 'alembic_output'
 
     def fetch(self, context=None, data=None, options=None):
         '''Fetch start and end frames from the scene'''
+        r = hou.playbar.frameRange()
         frame_info = {
-            "frameStart": cmds.playbackOptions(q=True, ast=True),
-            "frameEnd": cmds.playbackOptions(q=True, aet=True)
+            "frameStart": r[0],
+            "frameEnd": r[1]
         }
         return frame_info
 
     def extract_options(self, options):
-
+        r = hou.playbar.frameRange()
         return {
-            'alembicAnimation' : bool(options.get('alembicAnimation', True)),
-            'frameStart': float(
-                options.get('frameStart', cmds.playbackOptions(q=True, ast=True))
-            ),
-            'frameEnd': float(
-                options.get('frameEnd', cmds.playbackOptions(q=True, aet=True))
-            ),
-            'alembicUvwrite': bool(options.get('alembicUvwrite', True)),
-            'alembicWorldspace': bool(options.get('alembicWorldspace', False)),
-            'alembicWritevisibility': bool(options.get('alembicWritevisibility', False)),
-            'alembicEval': float(options.get('alembicEval', 1.0))
+            'ABCAnimation' : bool(options.get('ABCAnimation', True)),
+            'ABCFrameRangeStart': float(options.get('ABCFrameRangeStart', r[0])),
+            'ABCFrameRangeEnd': float(options.get('ABCFrameRangeEnd', r[1])),
+            'ABCFrameRangeBy': float(options.get('ABCFrameRangeBy', '1.0')),
         }
 
     def run(self, context=None, data=None, options=None):
-        # ensure to load the alembic plugin
-        cmds.loadPlugin('AbcExport.so', qt=1)
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
@@ -56,41 +47,31 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
             )
         )
 
-        cmds.select(data, cl=True)
-        cmds.select(data)
-        selectednodes = cmds.ls(sl=True, long=True)
-        nodes = cmds.ls(selectednodes, type='transform', long=True)
+        bcam = self.bakeCamAnim(cam,
+                                [options['frameStart'],
+                                 options['frameEnd']])
 
-        objCommand = ''
-        for n in nodes:
-            objCommand = objCommand + '-root ' + n + ' '
+        # Create Rop Net
+        ropNet = objPath.createNode('ropnet')
 
-        alembicJobArgs = []
+        abcRopnet = ropNet.createNode('alembic')
 
-        if options.get('alembicUvwrite'):
-            alembicJobArgs.append('-uvWrite')
+        if iAObj.options.get('alembicAnimation'):
+            # Check Alembic for animation option
+            abcRopnet.parm('trange').set(1)
+            for i, x in enumerate(
+                    ['frameStart', 'frameEnd', 'alembicEval']):
+                abcRopnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
+                abcRopnet.parm('f%d' % (i + 1)).set(iAObj.options[x])
+        else:
+            abcRopnet.parm('trange').set(0)
 
-        if options.get('alembicWorldspace'):
-            alembicJobArgs.append('-worldSpace')
-
-        if options.get('alembicWritevisibility'):
-            alembicJobArgs.append('-writeVisibility')
-
-        if options.get('alembicAnimation'):
-            alembicJobArgs.append(
-                '-frameRange {0} {1} -step {2} '.format(
-                    options['frameStart'],
-                    options['frameEnd'],
-                    options['alembicEval']
-                )
-            )
-
-        alembicJobArgs = ' '.join(alembicJobArgs)
-        alembicJobArgs += ' ' + objCommand + '-sl -file ' + new_file_path
-        cmds.AbcExport(j=alembicJobArgs)
-
-        if selectednodes:
-            cmds.select(selectednodes)
+        abcRopnet.parm('filename').set(new_file_path)
+        abcRopnet.parm('root').set(bcam.parent().path())
+        abcRopnet.parm('objects').set(bcam.path())
+        abcRopnet.parm('format').set('hdf5')
+        abcRopnet.render()
+        ropNet.destroy()
 
         return {component_name: new_file_path}
 
@@ -99,5 +80,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    ma_plugin = OutputMayaAlembicPlugin(api_object)
+    ma_plugin = OutputHoudiniAlembicPlugin(api_object)
     ma_plugin.register()

@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
-  "package": "geometry_houdini",
+  "name": "Camera Publisher",
+  "package": "camera_houdini",
   "host": "houdini",
   "ui": "qt",
   "contexts": {
@@ -13,19 +13,17 @@
           "widget": "context.publish"
         }
       ]
-  },
+    },
   "components": [
     {
-      "name": "houdiniPublishNodes",
-      "optional": true,
+      "name": "houdiniScene",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
+              "name": "camera",
+              "plugin": "camera"
             }
           ]
         },
@@ -34,7 +32,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "is_geometry"
+              "plugin": "is_camera"
             }
           ]
         },
@@ -42,41 +40,8 @@
           "name": "output",
           "plugins":[
             {
-              "name": "houdini",
-              "plugin": "houdini_nodes_output",
-            }
-          ]
-        }
-      ]
-    },{
-      "name": "houdiniPublishScene",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "is_geometry"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "houdini",
-              "plugin": "houdini_scene_output",
+              "name": "output_houdini",
+              "plugin": "houdini_scene",
             }
           ]
         }
@@ -90,8 +55,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector"
+              "name": "camera",
+              "plugin": "camera"
             }
           ]
         },
@@ -100,7 +65,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "is_geometry"
+              "plugin": "is_camera"
             }
           ]
         },
@@ -108,7 +73,7 @@
           "name": "output",
           "plugins":[
             {
-              "name": "Alembic output options:",
+              "name": "alembic",
               "plugin": "alembic_output",
               "options": {
                 "ABCAnimation": true
@@ -118,7 +83,7 @@
         }
       ]
     },
-    {
+     {
       "name": "fbx",
       "optional": true,
       "stages": [
@@ -126,8 +91,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector"
+              "name": "camera",
+              "plugin": "camera"
             }
           ]
         },
@@ -136,7 +101,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "is_geometry"
+              "plugin": "is_camera"
             }
           ]
         },
@@ -144,8 +109,10 @@
           "name": "output",
           "plugins":[
             {
-              "name": "FBX output options:",
+              "name": "fbx",
               "plugin": "fbx_output",
+              "options": {
+              }
             }
           ]
         }

@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
-  "package": "geometry_houdini",
+  "name": "Scene Publisher",
+  "package": "scene_houdini",
   "host": "houdini",
   "ui": "qt",
   "contexts": {
@@ -16,15 +16,17 @@
     },
   "components": [
     {
-      "name": "houdiniPublishScene",
+      "name": "houdiniScene",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
+              "options": {
+                "export": ["scene", "export_selected"]
+              }
             }
           ]
         },
@@ -33,7 +35,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "is_geometry"
+              "plugin": "nonempty"
             }
           ]
         },
@@ -42,8 +44,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_scene",
-              "widget": "houdini_options"
+              "plugin": "houdini_scene_output",
             }
           ]
         }
@@ -56,9 +57,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "take screenshot",
-              "widget": "nonempty",
-              "plugin": "nonempty"
+              "name": "empty collector",
+              "plugin": "publish_collector_test"
             }
           ]
         },
@@ -67,7 +67,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "publish_validator_test"
             }
           ]
         },

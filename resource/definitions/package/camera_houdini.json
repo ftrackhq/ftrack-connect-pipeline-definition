@@ -1,0 +1,23 @@
+{
+    "name": "camera_houdini",
+    "type": "package",
+    "asset_type": "cam",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "houdiniScene"
+        },
+        {
+            "name": "alembic"
+        },
+        {
+            "name": "fbx"
+        ,
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}

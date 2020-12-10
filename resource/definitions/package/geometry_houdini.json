@@ -18,7 +18,8 @@
             "required": false
         },
         {
-            "name": "alembic"
+            "name": "alembic",
+            "required": false
         },
         {
             "name": "thumbnail",
