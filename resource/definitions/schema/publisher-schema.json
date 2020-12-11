@@ -329,7 +329,7 @@
   "required": [
     "name",
     "package",
-    "host",
+    "host_type",
     "contexts",
     "components",
     "finalizers",
@@ -337,7 +337,7 @@
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host", "contexts", "components", "finalizers"
+    "type", "name", "package", "host_type", "contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -353,11 +353,11 @@
       "type": "string",
       "default": null
     },
-    "host": {
+    "host_type": {
       "type": "string",
       "default": null
     },
-    "ui": {
+    "ui_type": {
       "type": "string",
       "default": ""
     },

@@ -2,8 +2,8 @@
   "type": "publisher",
   "name": "Scene Publisher",
   "package": "scene_3dsmax",
-  "host": "3dsmax",
-  "ui": "qt",
+  "host_type": "3dsmax",
+  "ui_type": "qt",
   "contexts": {
       "name": "context",
       "plugins":[

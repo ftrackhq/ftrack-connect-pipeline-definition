@@ -12,6 +12,8 @@ class CheckGeoNamesValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
 
     def run(self, context=None, data=None, options=None):
         allObj = cmds.ls(data, tr=True)
+        if not allObj:
+            return False
         for obj in allObj:
             if obj.startswith('ftrack_') == False:
                 return False
