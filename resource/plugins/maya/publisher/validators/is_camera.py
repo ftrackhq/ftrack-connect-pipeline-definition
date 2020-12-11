@@ -11,6 +11,8 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'is_camera'
 
     def run(self, context=None, data=None, options=None):
+        if not data:
+            return False
         for obj in data:
             is_camera = False
             relatives = cmds.listRelatives(obj, f=True)
