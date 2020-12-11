@@ -1,8 +1,8 @@
 {
     "type": "asset_manager",
     "name": "default",
-    "host": "maya",
-    "ui": "qt",
+    "host_type": "maya",
+    "ui_type": "qt",
     "actions":{
         "update":[
             {
