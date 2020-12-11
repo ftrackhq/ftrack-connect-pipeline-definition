@@ -13,15 +13,14 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
 
     def run(self, context=None, data=None, options=None):
         print('@@@ CheckGeometryValidatorPlugin; data: {}({})'.format(data, data.__class__.__name__))
-        if 0<len(data):
-            for obj_path in data:
-                print('@@@ CheckGeometryValidatorPlugin; obj_path: {}({})'.format(obj_path, obj_path.__class__.__name__))
-                obj = hou.node(obj_path)
-                if obj.type().name() != 'geo':
-                    return False
-            return True
-        else:
+        if not data:
             return False
+        for obj_path in data:
+            print('@@@ CheckGeometryValidatorPlugin; obj_path: {}({})'.format(obj_path, obj_path.__class__.__name__))
+            obj = hou.node(obj_path)
+            if obj.type().name() != 'geo':
+                return False
+        return True
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
