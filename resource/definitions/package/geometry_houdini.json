@@ -9,9 +9,6 @@
         {
             "name": "houdiniPublishNodes",
             "required": false
-        },{
-            "name": "houdiniPublishScene",
-            "required": false
         },
         {
             "name": "fbx",

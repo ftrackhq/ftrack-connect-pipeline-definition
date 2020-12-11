@@ -24,8 +24,7 @@
           "plugins":[
             {
               "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
+              "plugin": "geometry_collector"
             }
           ]
         },
@@ -44,39 +43,6 @@
             {
               "name": "houdini",
               "plugin": "houdini_nodes_output"
-            }
-          ]
-        }
-      ]
-    },{
-      "name": "houdiniPublishScene",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "is_geometry"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "houdini",
-              "plugin": "houdini_scene_output"
             }
           ]
         }

@@ -12,8 +12,9 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
     plugin_name = 'is_geometry'
 
     def run(self, context=None, data=None, options=None):
+        print('@@@ CheckGeometryValidatorPlugin; data: {}({})'.format(data, data.__class__.__name__))
         for obj_path in data:
-            print('@@@ CheckGeometryValidatorPlugin; {}'.format(obj_path.__class__.__name__))
+            print('@@@ CheckGeometryValidatorPlugin; obj_path: {}({})'.format(obj_path, obj_path.__class__.__name__))
             obj = hou.node(obj_path)
             if obj.type().name() != 'geo':
                 return False

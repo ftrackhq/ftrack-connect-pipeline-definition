@@ -17,6 +17,7 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     filetype = 'hip'
 
     def run(self, context=None, data=None, options=None):
+        self.logger.info('@@@ OutputHoudiniScenePlugin::run({},{},{})'.format(context, data, options))
         component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(
@@ -34,12 +35,14 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
 
-            cmd = '%s -c "%s"' % (os.path.join(
-                os.getenv('HFS'), 'bin', 'hython'), command)
+            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c', command]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
+
+            self.logger.info('Exporting scene with command: "{}".'.format(cmd))
+
             subprocess.Popen(cmd, env=my_env)
 
             #os.system(cmd)
@@ -70,8 +73,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
 
-            cmd = '%s -c "%s"' % (os.path.join(
-                os.getenv('HFS'), 'bin', 'hython'), command)
+            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c', command]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:

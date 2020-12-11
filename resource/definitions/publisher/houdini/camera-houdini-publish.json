@@ -16,7 +16,7 @@
     },
   "components": [
     {
-      "name": "houdiniScene",
+      "name": "houdiniNodes",
       "stages": [
         {
           "name": "collector",
@@ -41,7 +41,7 @@
           "plugins":[
             {
               "name": "output_houdini",
-              "plugin": "houdini_scene"
+              "plugin": "houdini_nodes_output"
             }
           ]
         }
