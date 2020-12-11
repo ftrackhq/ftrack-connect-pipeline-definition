@@ -11,6 +11,8 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'is_geometry'
 
     def run(self, context=None, data=None, options=None):
+        if not data:
+            return False
         for obj in data:
             if not cmds.objectType(obj, isAType='geometryShape'):
                 return False
