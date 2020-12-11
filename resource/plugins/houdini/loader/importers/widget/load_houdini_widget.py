@@ -1,6 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
+from functools import partial
+
 from ftrack_connect_pipeline_houdini import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
     LoadBaseWidget
@@ -25,10 +27,13 @@ class LoadHoudiniWidget(LoadBaseWidget):
             self, parent=None, session=None, data=None, name=None,
             description=None, options=None, context=None
     ):
+        self.widgets = {}
+
         super(LoadHoudiniWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
+
 
     def build(self):
         super(LoadHoudiniWidget, self).build()
@@ -75,7 +80,7 @@ class LoadHoudiniWidget(LoadBaseWidget):
             option = OPTIONS[name]
 
             if name in self.default_options:
-                default = self.default_options
+                default = self.default_options[name]
             else:
                 default_option = option.get('default_option')
                 default = None

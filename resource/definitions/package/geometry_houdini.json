@@ -7,7 +7,7 @@
     ],
     "components":[
         {
-            "name": "houdiniPublishNodes",
+            "name": "houdiniNodes",
             "required": false
         },
         {

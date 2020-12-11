@@ -20,8 +20,11 @@ class CollectCameraHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
 
     def run(self, context=None, data=None, options=None):
         '''Return the long name of the camera from the plugin *options*'''
-        cam = hou.selectedNodes()[0]
-        return [cam.path()]
+        collected_objects = []
+        for obj in hou.selectedNodes():
+            if 'cam' in obj.type().name():
+                collected_objects.append(obj.path())
+        return collected_objects
 
 
 def register(api_object, **kw):

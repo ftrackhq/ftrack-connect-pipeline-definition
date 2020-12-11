@@ -8,7 +8,7 @@ import ftrack_api
 
 
 class FBXHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
-    plugin_name = 'abc_houdini_import'
+    plugin_name = 'fbx_houdini_import'
 
     def run(self, context=None, data=None, options=None):
         # ensure to load the alembic plugin

@@ -12,11 +12,14 @@ class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
     plugin_name = 'is_camera'
 
     def run(self, context=None, data=None, options=None):
-        for obj_path in data:
-            obj = hou.node(obj_path)
-            if not 'cam' in obj.type().name():
-                return False
-        return True
+        if 0<len(data):
+            for obj_path in data:
+                obj = hou.node(obj_path)
+                if not 'cam' in obj.type().name():
+                    raise Exception('{}; {} is not a camera!'.format(obj_path, self.plugin_name))
+                return True
+        else:
+            raise Exception('{}; Nothing to export!'.format(self.plugin_name))
 
 
 def register(api_object, **kw):

@@ -16,7 +16,7 @@
   },
   "components": [
     {
-      "name": "houdiniPublishNodes",
+      "name": "houdiniNodes",
       "optional": true,
       "stages": [
         {
