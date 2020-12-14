@@ -17,7 +17,6 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     filetype = 'hip'
 
     def run(self, context=None, data=None, options=None):
-        self.logger.info('@@@ OutputHoudiniScenePlugin::run({},{},{})'.format(context, data, options))
         component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(

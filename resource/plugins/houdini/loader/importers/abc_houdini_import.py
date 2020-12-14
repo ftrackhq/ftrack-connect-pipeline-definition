@@ -13,8 +13,6 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
     def run(self, context=None, data=None, options=None):
         # ensure to load the alembic plugin
 
-        print('@@@ AbcHoudiniImportPlugin::run; context: {}'.format(context))
-
         results = {}
         paths_to_import = data
         for component_path in paths_to_import:

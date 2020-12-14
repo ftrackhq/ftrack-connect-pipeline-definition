@@ -24,29 +24,23 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
 
     def run(self, context=None, data=None, options=None):
 
-        try:
-            load_mode = options.get('load_mode', self.load_modes.keys()[0])
-            load_options = options.get('load_options', {})
-            load_mode_fn = self.load_modes.get(load_mode, self.load_modes.keys()[0])
+        load_mode = options.get('load_mode', self.load_modes.keys()[0])
+        load_options = options.get('load_options', {})
+        load_mode_fn = self.load_modes.get(load_mode, self.load_modes.keys()[0])
 
-            houdini_options = {}
-            if load_options:
-                houdini_options = self._get_houdini_options(load_options)
-            houdini_options['context'] = context
+        houdini_options = {}
+        if load_options:
+            houdini_options = self._get_houdini_options(load_options)
+        houdini_options['context'] = context
 
-            results = {}
-            paths_to_import = data
-            for component_path in paths_to_import:
-                self.logger.debug('Loading path {}'.format(component_path))
+        results = {}
+        paths_to_import = data
+        for component_path in paths_to_import:
+            self.logger.debug('Loading path {}'.format(component_path))
 
-                load_result = load_mode_fn(component_path, context=context, options=houdini_options)
+            load_result = load_mode_fn(component_path, context=context, options=houdini_options)
 
-                results[component_path] = load_result
-
-        except:
-            import traceback
-            print(traceback.format_exc())
-            raise
+            results[component_path] = load_result
 
         return results
 

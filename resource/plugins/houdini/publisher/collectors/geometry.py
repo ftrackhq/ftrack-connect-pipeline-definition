@@ -11,7 +11,6 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
 
     def select(self, context=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
-        self.logger.info('@@@ CollectGeometryHoudiniPlugin::select({},{},{})'.format(context, data, options))
         selected_items = options.get('selected_items', [])
         for obj in hou.node('/').allSubChildren():
             obj.setSelected(1, obj in selected_items or obj.path() in selected_items)
@@ -19,13 +18,11 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
 
     def fetch(self, context=None, data=None, options=None):
         '''Fetch all the geometries in the scene'''
-        self.logger.info('@@@ CollectGeometryHoudiniPlugin::fetch({},{},{})'.format(context, data, options))
         collected_objects = hou.node('/').allSubChildren()
         return [obj.path() for obj in collected_objects]
 
     def add(self, context=None, data=None, options=None):
         '''Return the selected geometries'''
-        self.logger.info('@@@ CollectGeometryHoudiniPlugin::add({},{},{})'.format(context, data, options))
         check_type = "geometryShape"
         selected_objects = hou.selectedNodes()
         objPath = hou.node('/obj')
@@ -41,7 +38,6 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
         Return the collected objects in the widget from the plugin *options*
         '''
         geo_objects = options.get('collected_objects', [])
-        self.logger.info('@@@ CollectGeometryHoudiniPlugin::run({},{},{}), geo_objects: {}'.format(context, data, options, geo_objects))
         return geo_objects
 
 
