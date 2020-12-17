@@ -1,0 +1,64 @@
+{
+  "type": "loader",
+  "name": "Animation Loader",
+  "package": "scene_unreal",
+  "host_type": "unreal",
+  "ui_type": "qt",
+  "contexts": {
+    "name": "context",
+    "plugins":[
+      {
+        "name": "context selector",
+        "plugin": "context.load",
+        "widget": "context.load"
+      }
+    ]
+  },
+  "components": [
+      {
+      "name": "alembic",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import Alembic paths to unreal",
+              "plugin": "abc_unreal_import"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "unreal",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": {
+      "name": "finalizer",
+      "plugins":[
+        {
+          "name": "Do nothing",
+          "plugin": "finalizerTest",
+          "visible": false
+        }
+      ]
+    }
+}
