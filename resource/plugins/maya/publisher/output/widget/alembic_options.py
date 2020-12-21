@@ -57,7 +57,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         the BaseOptionsWidget'''
         for k, v in self.options_le.iteritems():
             if v.text() == "None":
-                if k in result.keys():
+                if k in list(result.keys()):
                     self.options_le[k].setText(str(result[k]))
                 else:
                     self.options_le[k].setText("0")
