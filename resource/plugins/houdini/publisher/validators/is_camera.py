@@ -1,11 +1,15 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
+import logging
+
 import hou
 
+import ftrack_api
 from ftrack_connect_pipeline_houdini import plugin
 
-import ftrack_api
+
+logger = logging.getLogger('ftrack_connect_pipeline_houdini')
 
 
 class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
@@ -13,11 +17,17 @@ class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
 
     def run(self, context=None, data=None, options=None):
         if not data:
-            return False
+            return (
+                False,
+                'Please add objects for publishing!'
+            )
         for obj_path in data:
             obj = hou.node(obj_path)
             if not 'cam' in obj.type().name():
-                raise Exception('{}; {} is not a camera!'.format(obj_path, self.plugin_name))
+                return (
+                    False, 
+                    '({}) Only cameras can be published!'.format(obj_path)
+                )
             return True
 
 
