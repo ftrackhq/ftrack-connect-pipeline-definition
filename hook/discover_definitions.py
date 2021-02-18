@@ -79,5 +79,5 @@ def register(session):
     session.event_hub.subscribe(
         'topic=ftrack.connect.application.launch '
         'and data.application.identifier=*',
-        on_discover_pipeline, priority=10
+        on_application_launch, priority=10
     )
