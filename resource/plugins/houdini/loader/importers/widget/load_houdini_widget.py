@@ -21,7 +21,7 @@ OPTIONS = {
 
 
 class LoadHoudiniWidget(LoadBaseWidget):
-    load_modes = load_const.LOAD_MODES.keys()
+    load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
             self, parent=None, session=None, data=None, name=None,

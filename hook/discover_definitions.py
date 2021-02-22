@@ -9,7 +9,7 @@ import logging
 NAME = 'ftrack-connect-pipeline-definition'
 VERSION = '0.1.0'
 
-logger = logging.getLogger('{}.discover'.format(NAME.replace('-','_')))
+logger = logging.getLogger('{}.hook'.format(NAME.replace('-','_')))
 
 def on_discover_pipeline(event):
     ''' Report back plugin/integration existance '''
