@@ -15,7 +15,10 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
             return False
         for obj in data:
             if not cmds.objectType(obj, isAType='geometryShape'):
-                return False
+                return (
+                    False,
+                    "the object: {} is not a geometry shape type".format(obj)
+                )
         return True
 
 
