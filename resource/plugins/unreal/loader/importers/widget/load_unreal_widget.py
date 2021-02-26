@@ -3,11 +3,11 @@
 
 from functools import partial
 
-from ftrack_connect_unreal_engine import plugin
+from ftrack_connect_pipeline_unreal_engine import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
     LoadBaseWidget
 )
-from ftrack_connect_unreal_engine.constants.asset import modes as load_const
+from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_const
 
 from Qt import QtCore, QtWidgets
 import ftrack_api

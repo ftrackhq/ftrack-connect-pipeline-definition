@@ -3,7 +3,7 @@
 
 import unreal
 
-from ftrack_connect_unreal_engine import plugin
+from ftrack_connect_pipeline_unreal_engine import plugin
 import ftrack_api
 
 
