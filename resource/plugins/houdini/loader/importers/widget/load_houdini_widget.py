@@ -3,11 +3,11 @@
 
 from functools import partial
 
-from ftrack_connect_pipeline_unreal_engine import plugin
+from ftrack_connect_pipeline_houdini import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
     LoadBaseWidget
 )
-from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_const
+from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 
 from Qt import QtCore, QtWidgets
 import ftrack_api
@@ -20,8 +20,8 @@ OPTIONS = {
 }
 
 
-class LoadUnrealWidget(LoadBaseWidget):
-    load_modes = load_const.LOAD_MODES.keys()
+class LoadHoudiniWidget(LoadBaseWidget):
+    load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
             self, parent=None, session=None, data=None, name=None,
@@ -29,14 +29,14 @@ class LoadUnrealWidget(LoadBaseWidget):
     ):
         self.widgets = {}
 
-        super(LoadUnrealWidget, self).__init__(
+        super(LoadHoudiniWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context=context
         )
 
 
     def build(self):
-        super(LoadUnrealWidget, self).build()
+        super(LoadHoudiniWidget, self).build()
 
         for name, option in OPTIONS.items():
             default = None
@@ -56,7 +56,7 @@ class LoadUnrealWidget(LoadBaseWidget):
             self.layout().addWidget(widget)
 
     def post_build(self):
-        super(LoadUnrealWidget, self).post_build()
+        super(LoadHoudiniWidget, self).post_build()
 
         for name, widget in self.widgets.items():
             option = OPTIONS[name]
@@ -74,7 +74,7 @@ class LoadUnrealWidget(LoadBaseWidget):
                 widget.textChanged.connect(update_fn)
 
     def set_defaults(self):
-        super(LoadUnrealWidget, self).set_defaults()
+        super(LoadHoudiniWidget, self).set_defaults()
 
         for name, widget in self.widgets.items():
             option = OPTIONS[name]
@@ -111,18 +111,18 @@ class LoadUnrealWidget(LoadBaseWidget):
 
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
-        super(LoadUnrealWidget, self)._on_load_mode_changed(radio_button)
+        super(LoadHoudiniWidget, self)._on_load_mode_changed(radio_button)
 
 
 
-class LoadUnrealPluginWidget(plugin.LoaderImporterUnrealWidget):
-    plugin_name = 'load_unreal'
-    widget = LoadUnrealWidget
+class LoadHoudiniPluginWidget(plugin.LoaderImporterHoudiniWidget):
+    plugin_name = 'load_houdini'
+    widget = LoadHoudiniWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = LoadUnrealPluginWidget(api_object)
+    plugin = LoadHoudiniPluginWidget(api_object)
     plugin.register()

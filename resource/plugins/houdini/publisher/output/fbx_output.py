@@ -3,7 +3,7 @@
 
 import tempfile
 
-import unreal
+import hou
 
 from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
@@ -100,5 +100,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    ma_plugin = OutputHoudiniFbxPlugin(api_object)
-    ma_plugin.register()
+    fbx_plugin = OutputHoudiniFbxPlugin(api_object)
+    fbx_plugin.register()

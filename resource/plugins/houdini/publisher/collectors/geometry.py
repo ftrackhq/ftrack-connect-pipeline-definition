@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import unreal
+import hou
 
 from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api

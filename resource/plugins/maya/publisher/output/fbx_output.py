@@ -35,7 +35,7 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
         }
 
     def run(self, context=None, data=None, options=None):
-        # ensure to load the alembic plugin
+        # ensure to load the fbx plugin
         cmds.loadPlugin('fbxmaya.so', qt=1)
 
         component_name = options['component_name']

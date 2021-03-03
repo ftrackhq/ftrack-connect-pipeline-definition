@@ -1,0 +1,21 @@
+{
+    "name": "img_unreal",
+    "type": "package",
+    "asset_type": "img",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "image_sequence"
+        },
+        {
+            "name": "reviewable_asset",
+            "required": false
+        },
+        {
+            "name": "package_asset",
+            "required": false
+        }
+    ]
+}
