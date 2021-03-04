@@ -1,10 +1,11 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import unreal
+import unreal as ue
 
 try:
     from ftrack_connect_pipeline_unreal_engine import plugin
+    
     import ftrack_api
 
 
@@ -19,8 +20,8 @@ try:
             for component_path in paths_to_import:
                 self.logger.debug('Importing path {}'.format(component_path))
 
-                task = unreal.AssetImportTask()
-                task.options = unreal.FbxImportUI()
+                task = ue.AssetImportTask()
+                task.options = ue.FbxImportUI()
                 task.options.import_mesh = True #iAObj.options['ImportMesh']
                 task.options.import_materials = True #iAObj.options['ImportMaterial']
                 task.options.import_animations = False
@@ -35,7 +36,7 @@ try:
                 # save the file when it is imported, that's right!
                 task.save = True
 
-                imported_asset = unreal.AssetToolsHelpers.get_asset_tools().import_asset_tasks(
+                imported_asset = ue.AssetToolsHelpers.get_asset_tools().import_asset_tasks(
                     [task]
                 )
 

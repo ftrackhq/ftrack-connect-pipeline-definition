@@ -1,7 +1,7 @@
 {
-    "name": "img_unreal",
+    "name": "anim_unreal",
     "type": "package",
-    "asset_type": "img",
+    "asset_type": "anim",
     "context":[
         "Task"
     ],

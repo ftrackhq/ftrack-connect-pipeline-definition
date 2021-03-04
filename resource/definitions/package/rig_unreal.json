@@ -1,5 +1,5 @@
 {
-    "name": "rig_houdini",
+    "name": "rig_unreal",
     "type": "package",
     "asset_type": "rig",
     "context":[
@@ -7,11 +7,15 @@
     ],
     "components":[
         {
-            "name": "alembic",
+            "name": "image_sequence",
             "required": false
         },
         {
-            "name": "fbx",
+            "name": "reviewable",
+            "required": false
+        },
+        {
+            "name": "package_asset",
             "required": false
         }
     ]

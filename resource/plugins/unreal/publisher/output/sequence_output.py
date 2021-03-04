@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import os
+import sys
 import subprocess
 
 from ftrack_connect_pipeline_unreal_engine import plugin
@@ -13,6 +14,10 @@ import unreal as ue
 
 class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
+
+    def debug(s):
+        import threading
+        print('@@@: [thread:{}] {}'.format(threading.currentThread, s))
 
     def _render(
         self,
@@ -132,7 +137,9 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
 
         # Send the arguments as a single string because some arguments could
         # contain spaces and we don't want those to be quoted
-        subprocess.call(" ".join(cmdline_args))
+        envs = os.environ.copy()
+        envs.update({'FTRACK_CONNECT_DISABLE_INTEGRATION_LOAD':"1"})
+        subprocess.call(" ".join(cmdline_args), env = envs)
 
         return os.path.isfile(output_filepath), output_filepath
 
@@ -142,6 +149,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
     def run(self, context=None, data=None, options=None):
         ''' Render an image sequence '''
         component_name = options['component_name']
+        masterSequence = data[0]
 
         dest_folder = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
@@ -151,7 +159,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
         unreal_map_path = unreal_map.get_path_name()
         unreal_asset_path = masterSequence.get_path_name()
 
-        asset_name = self._standard_structure.sanitise_for_filesystem(iAObj.assetName)
+        asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
 
         # Publish Component: image_sequence
 
@@ -180,6 +188,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
 
     def run(self, context=None, data=None, options=None):
         component_name = options['component_name']
+        masterSequence = data[0]
 
         dest_folder = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
@@ -188,7 +197,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         unreal_map_path = unreal_map.get_path_name()
         unreal_asset_path = masterSequence.get_path_name()
 
-        asset_name = self._standard_structure.sanitise_for_filesystem(iAObj.assetName)
+        asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
 
         movie_name = "{}_reviewable".format(asset_name)
         rendered, path = self._render(

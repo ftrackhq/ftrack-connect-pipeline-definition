@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Animation Loader",
-  "package": "scene_unreal",
+  "package": "animation_unreal",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": {

@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Image Sequence Loader",
-  "package": "image_sequence_unreal",
+  "package": "img_unreal",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": {

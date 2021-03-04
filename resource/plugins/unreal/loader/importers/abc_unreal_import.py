@@ -1,9 +1,10 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import unreal
+import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
+
 import ftrack_api
 
 
@@ -18,16 +19,16 @@ class AbcUnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
 
-            node = hou.node('/obj').createNode(
-                'alembicarchive', iAObj.assetName)
-            node.parm('buildSubnet').set(False)
-            node.parm('fileName').set(component_path)
-            hou.hscript(
-                "opparm -C {0} buildHierarchy (1)".format(
-                    resultingNode.path()))
-            node.moveToGoodPosition()
+            # node = hou.node('/obj').createNode(
+            #     'alembicarchive', iAObj.assetName)
+            # node.parm('buildSubnet').set(False)
+            # node.parm('fileName').set(component_path)
+            # hou.hscript(
+            #     "opparm -C {0} buildHierarchy (1)".format(
+            #         resultingNode.path()))
+            # node.moveToGoodPosition()
 
-            results[component_path] = node
+            # results[component_path] = node
 
         return results
 
