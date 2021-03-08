@@ -1,0 +1,26 @@
+{
+    "name": "geometry_houdini",
+    "type": "package",
+    "asset_type": "geo",
+    "context":[
+        "Task"
+    ],
+    "components":[
+        {
+            "name": "houdiniNodes",
+            "required": false
+        },
+        {
+            "name": "fbx",
+            "required": false
+        },
+        {
+            "name": "alembic",
+            "required": false
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        }
+    ]
+}
