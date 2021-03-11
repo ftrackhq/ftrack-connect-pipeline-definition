@@ -3,6 +3,8 @@
 
 from functools import partial
 
+import unreal as ue
+
 from ftrack_connect_pipeline_unreal_engine import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
     LoadBaseWidget
@@ -11,13 +13,6 @@ from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_
 
 from Qt import QtCore, QtWidgets
 import ftrack_api
-
-OPTIONS = {
-    'MergeOverwriteOnConflict': {
-        'type': 'checkbox',
-        'label': 'Overwrite nodes on merge conflict:',
-    },
-}
 
 
 class LoadUnrealWidget(LoadBaseWidget):
@@ -34,11 +29,10 @@ class LoadUnrealWidget(LoadBaseWidget):
             description=description, options=options, context=context
         )
 
-
     def build(self):
         super(LoadUnrealWidget, self).build()
 
-        for name, option in OPTIONS.items():
+        for name, option in self.CONFIG.items():
             default = None
 
             if option['type'] == 'checkbox':
@@ -46,6 +40,13 @@ class LoadUnrealWidget(LoadBaseWidget):
             elif option['type'] == 'combobox':
                 self.layout().addWidget(QtWidgets.QLabel(option['label']))
                 widget = QtWidgets.QComboBox()
+                if name == 'ChooseSkeleton':
+                    # Load existing skeletons
+                    option['options'] = []
+                    assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
+                    skeletons = assetRegistry.get_assets_by_class('Skeleton')
+                    for skeleton in skeletons:
+                        option['options'].append({'label': skeleton.asset_name, 'value': skeleton.asset_name})
                 for item in option['options']:
                     widget.addItem(item['label'])
             elif option['type'] == 'line':
@@ -59,7 +60,7 @@ class LoadUnrealWidget(LoadBaseWidget):
         super(LoadUnrealWidget, self).post_build()
 
         for name, widget in self.widgets.items():
-            option = OPTIONS[name]
+            option = self.CONFIG[name]
 
             update_fn = partial(self.set_option_result, key=name)
             if option['type'] == 'checkbox':
@@ -77,7 +78,7 @@ class LoadUnrealWidget(LoadBaseWidget):
         super(LoadUnrealWidget, self).set_defaults()
 
         for name, widget in self.widgets.items():
-            option = OPTIONS[name]
+            option = self.CONFIG[name]
 
             if name in self.default_options:
                 default = self.default_options[name]
@@ -93,7 +94,7 @@ class LoadUnrealWidget(LoadBaseWidget):
             if option['type'] == 'checkbox':
                 if default is not None:
                     widget.setChecked(default)
-            elif OPTIONS[name]['type'] == 'combobox':
+            elif self.CONFIG[name]['type'] == 'combobox':
                 if default is not None:
                     idx = 0
                     for item in option['options']:
@@ -115,14 +116,40 @@ class LoadUnrealWidget(LoadBaseWidget):
 
 
 
-class LoadUnrealPluginWidget(plugin.LoaderImporterUnrealWidget):
-    plugin_name = 'load_unreal'
+class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealWidget):
+    plugin_name = 'load_animation_unreal'
     widget = LoadUnrealWidget
-
+    CONFIG = {
+        'UpdateExistingAsset': {
+            'type': 'checkbox',
+            'label': 'Update existing assets:',
+            'default': True
+        },
+        'ChooseSkeleton': {
+            'type': 'combobox',
+            'label': 'Choose skeleton',
+            'options': [
+            ]
+        },
+        'UseCustomRange': {
+            'type': 'checkbox',
+            'label': 'Use custom animation range:',
+        },
+        'AnimRangeMin': {
+            'type': 'line',
+            'label': 'Custom animation range start:',
+            'default': '1'
+        },
+        'AnimRangeMax': {
+            'type': 'line',
+            'label': 'Custom animation range end:',
+            'default': '100'
+        }
+    }
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = LoadUnrealPluginWidget(api_object)
+    plugin = LoadUnrealAnimationPluginWidget(api_object)
     plugin.register()
