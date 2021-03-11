@@ -455,7 +455,7 @@ class UnrealGeometryImportPlugin(UnrealImportPlugin):
 # Geometry plugins
 
 class AbcGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
-    plugin_name = 'abc_animation_unreal_import'
+    plugin_name = 'abc_geometry_unreal_import'
 
     def run(self, context=None, data=None, options=None):
         results = super(AbcGeometryUnrealImportPlugin, self).run(context, data, options)
@@ -478,7 +478,7 @@ class AbcGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
 
 
 class FbxGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
-    plugin_name = 'fbx_animation_unreal_import'
+    plugin_name = 'fbx_geometry_unreal_import'
 
     def run(self, context=None, data=None, options=None):
         results = super(FbxGeometryUnrealImportPlugin, self).run(context, data, options)
