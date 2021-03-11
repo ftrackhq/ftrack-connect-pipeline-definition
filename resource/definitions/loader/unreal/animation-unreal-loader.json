@@ -34,8 +34,45 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import Alembic paths to unreal",
-              "plugin": "abc_unreal_import"
+              "name": "Import Alembic animation to Unreal",
+              "widget" : "load_animation_unreal",
+              "plugin": "abc_animation_unreal_import"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "unreal",
+              "plugin": "postImportTest"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fbx",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".fbx"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import FBX animation to Unreal",
+              "widget" : "load_animation_unreal",
+              "plugin": "fbx_animation_unreal_import"
             }
           ]
         },
