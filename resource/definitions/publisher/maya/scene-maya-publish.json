@@ -4,16 +4,23 @@
   "package": "scene_maya",
   "host_type": "maya",
   "ui_type": "qt",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+    "name": "contextStep",
+    "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.publish",
-          "widget": "context.publish"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.publish",
+              "widget": "context.publish"
+            }
+          ]
         }
       ]
-    },
+  }
+  ],
   "components": [
     {
       "name": "mayaBinaryScene",
@@ -123,14 +130,41 @@
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "finalizerStep",
+      "stages": [
         {
-          "name": "to ftrack server",
-          "plugin": "result_maya",
-          "visible": false
+          "name": "preFinalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result_maya",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result_maya",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "postFinalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result_maya",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }
