@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
-  "package": "geometry_maya",
+  "name": "Animation Publisher",
+  "package": "animation_maya",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": {

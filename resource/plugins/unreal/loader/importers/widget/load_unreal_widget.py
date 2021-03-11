@@ -14,9 +14,9 @@ from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_
 from Qt import QtCore, QtWidgets
 import ftrack_api
 
-
+# Common
 class LoadUnrealWidget(LoadBaseWidget):
-    load_modes = load_const.LOAD_MODES.keys()
+    load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
             self, parent=None, session=None, data=None, name=None,
@@ -32,7 +32,7 @@ class LoadUnrealWidget(LoadBaseWidget):
     def build(self):
         super(LoadUnrealWidget, self).build()
 
-        for name, option in self.CONFIG.items():
+        for name, option in self.config.items():
             default = None
 
             if option['type'] == 'checkbox':
@@ -46,7 +46,7 @@ class LoadUnrealWidget(LoadBaseWidget):
                     assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
                     skeletons = assetRegistry.get_assets_by_class('Skeleton')
                     for skeleton in skeletons:
-                        option['options'].append({'label': skeleton.asset_name, 'value': skeleton.asset_name})
+                        option['options'].append({'label': str(skeleton.asset_name), 'value': str(skeleton.asset_name)})
                 for item in option['options']:
                     widget.addItem(item['label'])
             elif option['type'] == 'line':
@@ -60,16 +60,16 @@ class LoadUnrealWidget(LoadBaseWidget):
         super(LoadUnrealWidget, self).post_build()
 
         for name, widget in self.widgets.items():
-            option = self.CONFIG[name]
+            option = self.config[name]
 
             update_fn = partial(self.set_option_result, key=name)
             if option['type'] == 'checkbox':
                 widget.stateChanged.connect(update_fn)
-            elif OPTIONS[name]['type'] == 'combobox':
-                def currentIndexChanged(label):
-                    for item in option['options']:
-                        if item['label'] == label:
-                            self.set_option_result(item['value'], name)
+            elif self.config[name]['type'] == 'combobox':
+                combobox_name = str(name)
+                def currentIndexChanged(idx):
+                    option = self.config[combobox_name]
+                    self.set_option_result(option['options'][idx]['value'], combobox_name)
                 widget.currentIndexChanged.connect(currentIndexChanged)
             elif option['type'] == 'line':
                 widget.textChanged.connect(update_fn)
@@ -78,7 +78,7 @@ class LoadUnrealWidget(LoadBaseWidget):
         super(LoadUnrealWidget, self).set_defaults()
 
         for name, widget in self.widgets.items():
-            option = self.CONFIG[name]
+            option = self.config[name]
 
             if name in self.default_options:
                 default = self.default_options[name]
@@ -92,34 +92,62 @@ class LoadUnrealWidget(LoadBaseWidget):
                     default = option.get('default')
 
             if option['type'] == 'checkbox':
+                self.set_option_result(default if not default is None else False, name)
                 if default is not None:
                     widget.setChecked(default)
-            elif self.CONFIG[name]['type'] == 'combobox':
+            elif option['type'] == 'combobox':
                 if default is not None:
                     idx = 0
                     for item in option['options']:
                         if item['value'] == default or item['label'] == default:
                             widget.setCurrentIndex(idx)
                         idx += 1
-                def currentIndexChanged(label):
-                    for item in option['options']:
-                        if item['label'] == label:
-                            self.set_option_result(item['value'], name)
+                else:
+                    self.set_option_result(option['options'][0]['value'], name)
             elif option['type'] == 'line':
                 if default is not None:
                     widget.setText(default)
+                else:
+                    self.set_option_result('', name)
 
 
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
         super(LoadUnrealWidget, self)._on_load_mode_changed(radio_button)
 
+# Rig
+class LoadUnrealRigWidget(LoadUnrealWidget):
+    config = {
+        'UpdateExistingAsset': {
+            'type': 'checkbox',
+            'label': 'Update existing assets:',
+            'default': True
+        },
+        'ChooseSkeleton': {
+            'type': 'combobox',
+            'label': 'Choose skeleton',
+            'options': [
+            ]
+        },
+        'CreatePhysicsAsset': {
+            'type': 'checkbox',
+            'label': 'Create Physics Asset:',
+            'default': True
+        },
+        'ImportMaterial': {
+            'type': 'checkbox',
+            'label': 'Import Material:',
+            'default': True
+        },
+    }
 
+class LoadUnrealRigPluginWidget(plugin.LoaderImporterUnrealWidget):
+    plugin_name = 'load_rig_unreal'
+    widget = LoadUnrealRigWidget
 
-class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealWidget):
-    plugin_name = 'load_animation_unreal'
-    widget = LoadUnrealWidget
-    CONFIG = {
+# Animation
+class LoadUnrealAnimationWidget(LoadUnrealWidget):
+    config = {
         'UpdateExistingAsset': {
             'type': 'checkbox',
             'label': 'Update existing assets:',
@@ -147,9 +175,56 @@ class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealWidget):
         }
     }
 
+class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealWidget):
+    plugin_name = 'load_animation_unreal'
+    widget = LoadUnrealAnimationWidget
+
+# Geometry
+class LoadUnrealGeometryWidget(LoadUnrealWidget):
+    config = {
+        'UpdateExistingAsset': {
+            'type': 'checkbox',
+            'label': 'Update existing assets:',
+            'default': True
+        },
+        'ImportMaterial': {
+            'type': 'checkbox',
+            'label': 'Import material:',
+            'default': True
+        }
+    }
+
+class LoadUnrealGeometryPluginWidget(plugin.LoaderImporterUnrealWidget):
+    plugin_name = 'load_geometry_unreal'
+    widget = LoadUnrealGeometryWidget
+
+# Image sequence
+class LoadUnrealImageSequenceWidget(LoadUnrealWidget):
+    config = {
+        'OverrideExisting': {
+            'type': 'checkbox',
+            'label': 'Override existing assets:',
+            'default': True
+        }
+    }
+
+class LoadUnrealImageSequencePluginWidget(plugin.LoaderImporterUnrealWidget):
+    plugin_name = 'load_image_sequence_unreal'
+    widget = LoadUnrealImageSequenceWidget
+
+
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = LoadUnrealAnimationPluginWidget(api_object)
-    plugin.register()
+    load_unreal_rig = LoadUnrealRigPluginWidget(api_object)
+    load_unreal_rig.register()
+
+    load_unreal_anim = LoadUnrealAnimationPluginWidget(api_object)
+    load_unreal_anim.register()
+
+    load_unreal_geo = LoadUnrealGeometryPluginWidget(api_object)
+    load_unreal_geo.register()
+
+    load_unreal_img = LoadUnrealImageSequencePluginWidget(api_object)
+    load_unreal_img.register()

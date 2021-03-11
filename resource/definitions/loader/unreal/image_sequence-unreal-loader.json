@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Image Sequence Loader",
-  "package": "img_unreal",
+  "package": "image_sequence_unreal",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": {
@@ -16,7 +16,7 @@
     },
   "components": [
     {
-      "name": "sequence",
+      "name": "package_asset",
       "optional": true,
       "stages": [
         {
@@ -26,7 +26,7 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "accepted_formats": [".exr"]
+                "accepted_formats": [".zip"]
               }
             }
           ]
@@ -35,8 +35,9 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import image sequence",
-              "plugin": "import_image_sequence"
+              "name": "Import asset package",
+              "widget": "load_image_sequence_unreal",
+              "plugin": "asset_package_unreal_import"
             }
           ]
         },

@@ -35,8 +35,9 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import Alembic paths to unreal",
-              "plugin": "abc_unreal_import"
+              "name": "Import Alembic rig to unreal",
+              "widget": "load_rig_unreal",
+              "plugin": "abc_rig_unreal_import"
             }
           ]
         },
@@ -71,8 +72,9 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import FBX paths to unreal",
-              "plugin": "fbx_unreal_import"
+              "name": "Import FBX rig to unreal",
+              "widget": "load_rig_unreal",
+              "plugin": "fbx_rig_unreal_import"
             }
           ]
         },

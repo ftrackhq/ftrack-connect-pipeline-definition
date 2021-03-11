@@ -36,7 +36,7 @@
           "plugins":[
             {
               "name": "Import Alembic paths to unreal",
-              "plugin": "abc_unreal_import"
+              "plugin": "abc_geometry_unreal_import"
             }
           ]
         },
@@ -72,7 +72,7 @@
           "plugins":[
             {
               "name": "Import FBX paths to unreal",
-              "plugin": "fbx_unreal_import"
+              "plugin": "fbx_geometry_unreal_import"
             }
           ]
         },

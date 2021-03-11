@@ -10,6 +10,9 @@
             "name": "sequence"
         },
         {
+            "name": "package_asset"
+        },
+        {
             "name": "thumbnail",
             "required": false
         },

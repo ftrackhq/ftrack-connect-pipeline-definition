@@ -13,6 +13,18 @@
         {
             "name": "fbx",
             "required": false
+        },
+        {
+            "name": "image_sequence",
+            "required": false
+        },
+        {
+            "name": "reviewable",
+            "required": false
+        },
+        {
+            "name": "package_asset",
+            "required": false
         }
     ]
 }

@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Geometry Loader",
-  "package": "geometry_maya",
+  "name": "Animation Loader",
+  "package": "animation_maya",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": {
@@ -17,7 +17,7 @@
   "components": [
     {
       "name": "mayaBinary",
-      "optional":  true,
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -61,7 +61,7 @@
     },
     {
       "name": "mayaAscii",
-      "optional":  true,
+      "optional": true,
       "stages": [
         {
           "name": "collector",

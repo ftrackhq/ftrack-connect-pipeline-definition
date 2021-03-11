@@ -1,13 +1,17 @@
 {
-    "name": "rig_unreal",
+    "name": "animation_maya",
     "type": "package",
-    "asset_type": "rig",
+    "asset_type": "anim",
     "context":[
         "Task"
     ],
     "components":[
         {
-            "name": "alembic",
+            "name": "mayaBinary",
+            "required": false
+        },
+        {
+            "name": "mayaAscii",
             "required": false
         },
         {
@@ -15,15 +19,15 @@
             "required": false
         },
         {
-            "name": "image_sequence",
+            "name": "alembic",
+            "required": false
+        },
+        {
+            "name": "thumbnail",
             "required": false
         },
         {
             "name": "reviewable",
-            "required": false
-        },
-        {
-            "name": "package_asset",
             "required": false
         }
     ]

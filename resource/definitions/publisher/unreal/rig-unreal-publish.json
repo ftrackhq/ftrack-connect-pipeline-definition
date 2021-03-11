@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "Rig Image Sequence Publisher",
-  "package": "rig_unreal",
+  "package": "image_sequence_unreal",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": {
@@ -16,7 +16,7 @@
     },
   "components": [
     {
-      "name": "image_sequence",
+      "name": "sequence",
       "optional": true,
       "stages": [
         {
