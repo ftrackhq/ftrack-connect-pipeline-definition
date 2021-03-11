@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Image Sequence Publisher",
-  "package": "img_unreal",
+  "name": "Geometry Image Sequence Publisher",
+  "package": "geo_unreal",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": {

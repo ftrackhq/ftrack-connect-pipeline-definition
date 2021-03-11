@@ -2,7 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import os
-from ftrack_connect_pipeline_unreal import plugin
+from ftrack_connect_pipeline_unreal_engine import plugin
 
 import ftrack_api
 

@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-from ftrack_connect_pipeline_unreal import plugin
+from ftrack_connect_pipeline_unreal_engine import plugin
 from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
     import BaseCollectorWidget
 
@@ -22,7 +22,7 @@ class SequenceCollectorWidget(BaseCollectorWidget):
         )
 
 
-class SequenceCollectorPluginWidget(plugin.PublisherCollectorHoudiniWidget):
+class SequenceCollectorPluginWidget(plugin.PublisherCollectorUnrealWidget):
     plugin_name = 'sequence_collector'
     widget = SequenceCollectorWidget
 

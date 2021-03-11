@@ -1,7 +1,7 @@
 {
     "name": "camera_houdini",
     "type": "package",
-    "asset_type": "camera",
+    "asset_type": "cam",
     "context":[
         "Task"
     ],

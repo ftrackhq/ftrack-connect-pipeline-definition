@@ -1,7 +1,7 @@
 {
-    "name": "img_unreal",
+    "name": "geo_unreal",
     "type": "package",
-    "asset_type": "img",
+    "asset_type": "geo",
     "context":[
         "Task"
     ],

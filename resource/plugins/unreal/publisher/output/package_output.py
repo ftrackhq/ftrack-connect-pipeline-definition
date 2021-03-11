@@ -3,6 +3,9 @@
 
 import os
 import subprocess
+import tempfile
+from zipfile import ZipFile
+import shutil
 
 from ftrack_connect_pipeline_unreal_engine import plugin
 
@@ -23,7 +26,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
     ):
 
         # format package folder name
-        asset_name = standard_structure.sanitise_for_filesystem(context['asset_name'])
+        asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
         content_name = "{}_package".format(asset_name)
 
         output_filepath = os.path.normpath(
@@ -129,7 +132,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             context
         )
         if package_result:
-            return {component_name: new_file_path}
+            return {component_name: package_path}
         else:
             return (False, 'Failed to produce package of current project.')
 
