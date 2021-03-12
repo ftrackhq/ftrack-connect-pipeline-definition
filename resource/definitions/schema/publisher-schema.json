@@ -19,15 +19,6 @@
           "pattern": "^config$",
           "default": "config"
         },
-        "stage_order": {
-          "type": "array",
-          "items": {"type": "string"},
-          "default": [
-            "collector",
-            "validator",
-            "output"
-          ]
-        },
         "engine_type": {
           "type": "string",
           "default": "publisher"
@@ -66,6 +57,46 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        }
+      }
+    },
+    "Step": {
+      "title": "Step",
+      "type": "object",
+      "required": [
+        "name",
+        "stages",
+        "type"
+      ],
+      "order":["type", "name", "stages"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^step$",
+          "default": "step"
+        },
+        "name": {
+          "type": "string"
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "stages": {
+          "type": "array",
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {}
+        },
+        "stage_order": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": []
         }
       }
     },
@@ -285,32 +316,12 @@
       }
     },
     "ComponentStep": {
-      "title": "ComponentStep",
-      "type": "object",
-      "required": [
-        "name",
-        "stages",
-        "type"
+      "allOf": [
+        {
+          "$ref": "#/definitions/Step"
+        }
       ],
-      "order":["type", "name", "stages"],
-      "additionalProperties": false,
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string",
-          "pattern": "^component_step$",
-          "default": "component_step"
-        },
-        "optional": {
-          "type": "boolean",
-          "default": false
-        },
-        "enabled": {
-          "type": "boolean",
-          "default": true
-        },
         "stages": {
           "type": "array",
           "maxItems": 3,
@@ -322,36 +333,25 @@
                     {"$ref": "#/definitions/OutputStage"}
                   ]
           }
+        },
+        "stage_order": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [
+            "collector",
+            "validator",
+            "output"
+          ]
         }
       }
     },
     "FinalizerStep": {
-      "title": "FinalizerStep",
-      "type": "object",
-      "required": [
-        "name",
-        "stages",
-        "type"
+      "allOf": [
+        {
+          "$ref": "#/definitions/Step"
+        }
       ],
-      "order":["type", "name", "stages"],
-      "additionalProperties": false,
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string",
-          "pattern": "^finalizer_step$",
-          "default": "finalizer_step"
-        },
-        "optional": {
-          "type": "boolean",
-          "default": false
-        },
-        "enabled": {
-          "type": "boolean",
-          "default": true
-        },
         "stages": {
           "type": "array",
           "maxItems": 3,
@@ -363,36 +363,25 @@
                     {"$ref": "#/definitions/PostFinalizerStage"}
                   ]
           }
+        },
+        "stage_order": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [
+            "preFinalizer",
+            "finalizer",
+            "postFinalizer"
+          ]
         }
       }
     },
     "ContextStep": {
-      "title": "ContextStep",
-      "type": "object",
-      "required": [
-        "name",
-        "stages",
-        "type"
+      "allOf": [
+        {
+          "$ref": "#/definitions/Step"
+        }
       ],
-      "order":["type", "name", "stages"],
-      "additionalProperties": false,
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "type": {
-          "type": "string",
-          "pattern": "^context_step$",
-          "default": "context_step"
-        },
-        "optional": {
-          "type": "boolean",
-          "default": false
-        },
-        "enabled": {
-          "type": "boolean",
-          "default": true
-        },
         "stages": {
           "type": "array",
           "maxItems": 1,
@@ -402,6 +391,13 @@
                       {"$ref": "#/definitions/ContextStage"}
                   ]
           }
+        },
+        "stage_order": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [
+            "context"
+          ]
         }
       }
     },
