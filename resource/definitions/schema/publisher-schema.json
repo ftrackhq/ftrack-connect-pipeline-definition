@@ -422,8 +422,8 @@
             ],
             "properties": {
               "plugin_type": {
-                "pattern": "^preFinalizer$",
-                "default": "preFinalizer"
+                "pattern": "^pre_finalizer$",
+                "default": "pre_finalizer"
               }
             }
           },
@@ -454,8 +454,8 @@
             ],
             "properties": {
               "plugin_type": {
-                "pattern": "^postFinalizer$",
-                "default": "postFinalizer"
+                "pattern": "^post_finalizer$",
+                "default": "post_finalizer"
               }
             }
           },
