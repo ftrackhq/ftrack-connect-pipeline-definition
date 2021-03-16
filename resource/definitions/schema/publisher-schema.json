@@ -409,8 +409,8 @@
       ],
       "properties": {
         "name": {
-          "pattern": "^preFinalizer$",
-          "default": "preFinalizer"
+          "pattern": "^pre_finalizer$",
+          "default": "pre_finalizer"
         },
         "plugins": {
           "type": "array",
@@ -441,8 +441,8 @@
       ],
       "properties": {
         "name": {
-          "pattern": "^finalizer$",
-          "default": "finalizer"
+          "pattern": "^post_finalizer$",
+          "default": "post_finalizer"
         },
         "plugins": {
           "type": "array",

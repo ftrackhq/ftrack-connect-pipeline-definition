@@ -135,7 +135,7 @@
       "name": "finalizerStep",
       "stages": [
         {
-          "name": "preFinalizer",
+          "name": "pre_finalizer",
           "plugins":[
             {
               "name": "to ftrack server",
@@ -155,7 +155,7 @@
           ]
         },
         {
-          "name": "postFinalizer",
+          "name": "post_finalizer",
           "plugins":[
             {
               "name": "to ftrack server",

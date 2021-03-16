@@ -63,11 +63,11 @@
       "name": "finalizerStep",
       "stages": [
         {
-          "name": "preFinalizer",
+          "name": "pre_finalizer",
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "result_maya",
+              "name": "pre to ftrack server",
+              "plugin": "pre_result",
               "visible": false
             }
           ]
@@ -83,11 +83,11 @@
           ]
         },
         {
-          "name": "postFinalizer",
+          "name": "post_finalizer",
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "result_maya",
+              "name": "post to ftrack server",
+              "plugin": "post_result",
               "visible": false
             }
           ]
