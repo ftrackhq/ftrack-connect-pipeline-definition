@@ -56,6 +56,42 @@
           ]
         }
       ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from given path",
+              "plugin": "filesystem",
+              "widget": "file_collector.widget",
+              "options": {
+                "path": null
+              }
+            }
+          ]
+        },
+        {
+          "name":"validator",
+          "plugins": [
+            {
+              "name": "file exists",
+              "plugin": "file_exists"
+            }
+          ]
+        },
+        {
+          "name":"output",
+          "plugins": [
+            {
+              "name": "passthrough output",
+              "plugin": "passthrough"
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalizers": [
