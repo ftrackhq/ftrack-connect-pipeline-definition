@@ -7,11 +7,10 @@
       "title": "Config",
       "type": "object",
       "required": [
-        "stage_order",
         "engine_type",
         "type"
       ],
-      "order":["type", "stage_order", "engine_type"],
+      "order":["type", "engine_type"],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -48,7 +47,9 @@
             "validator",
             "output",
             "context",
-            "finalizer"
+            "finalizer",
+            "pre_finalizer",
+            "post_finalizer"
           ]
         },
         "plugins": {
@@ -66,9 +67,10 @@
       "required": [
         "name",
         "stages",
-        "type"
+        "type",
+        "stage_order"
       ],
-      "order":["type", "name", "stages"],
+      "order":["type", "name", "stages", "stage_order" ],
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -283,7 +285,9 @@
                 "validator",
                 "output",
                 "context",
-                "finalizer"
+                "finalizer",
+                "pre_finalizer",
+                "post_finalizer"
               ]
         },
         "name": {
@@ -368,9 +372,9 @@
           "type": "array",
           "items": {"type": "string"},
           "default": [
-            "preFinalizer",
+            "pre_finalizer",
             "finalizer",
-            "postFinalizer"
+            "post_finalizer"
           ]
         }
       }
