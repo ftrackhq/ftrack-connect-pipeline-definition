@@ -10,7 +10,12 @@ class FileExistsValidatorPlugin(plugin.PublisherValidatorPlugin):
 
     def run(self, context=None, data=None, options=None):
         output = self.output
-        output = all(bool(os.path.exists(datum)) for datum in data)
+        all_files = []
+        for plugin_dict in data:
+            plugin_result = plugin_dict.get('result')
+            all_files.extend(plugin_result)
+
+        output = all(bool(os.path.exists(datum)) for datum in all_files)
         return output
 
 

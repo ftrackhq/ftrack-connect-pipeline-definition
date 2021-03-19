@@ -10,8 +10,8 @@ class PassthroughPlugin(plugin.PublisherOutputPlugin):
     def run(self, context=None, data=None, options=None):
         component_name = options['component_name']
         output = self.output
-        for item in data:
-            output[component_name] = item
+        for collector in data:
+            output[component_name] = collector['result'][0]
 
         return output
 

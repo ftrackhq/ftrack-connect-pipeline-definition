@@ -13,7 +13,13 @@
             {
               "name": "context selector",
               "plugin": "context.publish",
-              "widget": "context.publish"
+              "widget": "context.publish",
+              "options": {
+                "context_id": "690afd58-06d0-11ea-bbbb-ee594985c7e2",
+                "asset_name": "testFrompythonConsole",
+                "comment": "Nothing to comment",
+                "status_id": "44dd9fb2-4164-11df-9218-0019bb4983d8"
+              }
             }
           ]
         }
@@ -32,7 +38,7 @@
               "plugin": "filesystem",
               "widget": "file_collector.widget",
               "options": {
-                "path": null
+                "path": "/Users/lluisftrack/Desktop/Screenshot 2021-02-02 at 16.30.50.png"
               }
             }
           ]
@@ -68,7 +74,7 @@
               "plugin": "filesystem",
               "widget": "file_collector.widget",
               "options": {
-                "path": null
+                "path": "/Users/lluisftrack/Desktop/Screenshot 2021-02-02 at 16.30.50.png"
               }
             }
           ]

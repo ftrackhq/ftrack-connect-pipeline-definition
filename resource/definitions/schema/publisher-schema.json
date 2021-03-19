@@ -30,15 +30,19 @@
       "required": [
         "name",
         "plugins",
+        "category",
         "type"
       ],
-      "order":["type", "name", "plugins"],
+      "order":["category", "type", "name", "plugins"],
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "category": {
           "type": "string",
           "pattern": "^stage$",
           "default": "stage"
+        },
+        "type": {
+          "type": "string"
         },
         "name": {
           "type": "string",
@@ -67,16 +71,20 @@
       "required": [
         "name",
         "stages",
+        "category",
         "type",
         "stage_order"
       ],
-      "order":["type", "name", "stages", "stage_order" ],
+      "order":["category", "type", "name", "stages", "stage_order" ],
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "category": {
           "type": "string",
           "pattern": "^step$",
           "default": "step"
+        },
+        "type": {
+          "type": "string"
         },
         "name": {
           "type": "string"
@@ -131,6 +139,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^collector$",
+          "default": "collector"
         }
       }
     },
@@ -163,6 +176,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^validator$",
+          "default": "validator"
         }
       }
     },
@@ -195,6 +213,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^output$",
+          "default": "output"
         }
       }
     },
@@ -226,7 +249,12 @@
             "default": [],
             "minItems": 1,
             "uniqueItems": true
-        }
+        },
+          "type": {
+            "type": "string",
+            "pattern": "^context$",
+            "default": "context"
+          }
         }
     },
     "FinalizerStage": {
@@ -258,6 +286,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^finalizer$",
+          "default": "finalizer"
         }
       }
     },
@@ -346,6 +379,11 @@
             "validator",
             "output"
           ]
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^component$",
+          "default": "component"
         }
       }
     },
@@ -376,6 +414,11 @@
             "finalizer",
             "post_finalizer"
           ]
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^finalizer$",
+          "default": "finalizer"
         }
       }
     },
@@ -402,6 +445,11 @@
           "default": [
             "context"
           ]
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^context$",
+          "default": "context"
         }
       }
     },
@@ -434,6 +482,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^pre_finalizer$",
+          "default": "pre_finalizer"
         }
       }
     },
@@ -466,6 +519,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^post_finalizer$",
+          "default": "post_finalizer"
         }
       }
     }
