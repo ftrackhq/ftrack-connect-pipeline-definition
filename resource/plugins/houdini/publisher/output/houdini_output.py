@@ -17,6 +17,7 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     filetype = 'hip'
 
     def run(self, context=None, data=None, options=None):
+        self.logger.info('@@@ run(context: {}, data: {}, options: {})'.format(context, data, options))
         component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(
@@ -24,12 +25,12 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
             suffix=self.extension
         ).name
 
-        if os.path.isfile(data[0]):
+        if os.path.isfile(data[0]) or data[0].endswith('.hip'):
             # Export entire scene
             hou.hipFile.save(new_file_path)
         else:
             # Export selected
-            hou.copyNodesToClipboard([hou.node(obj_name) for obj_name in data])
+            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in data])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
@@ -67,7 +68,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             hou.hipFile.save(new_file_path)
         else:
 
-            hou.copyNodesToClipboard([hou.node(obj_name) for obj_name in data])
+            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in data])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))

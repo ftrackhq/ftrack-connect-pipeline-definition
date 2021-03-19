@@ -19,13 +19,23 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
             self.logger.debug('Importing path {}'.format(component_path))
 
             node = hou.node('/obj').createNode(
-                'alembicarchive', iAObj.assetName)
+                'alembicarchive', context['asset_name'])
             node.parm('buildSubnet').set(False)
             node.parm('fileName').set(component_path)
             hou.hscript(
                 "opparm -C {0} buildHierarchy (1)".format(
-                    resultingNode.path()))
+                    node.path()))
             node.moveToGoodPosition()
+
+            if context['asset_type'] == 'cam':
+                bcam = ''
+                for obj in node.glob('*'):
+                    if 'cam' in obj.type().name():
+                        bcam = self.bakeCamAnim(obj,
+                              [os.getenv('FS'),
+                               os.getenv('FE')])
+                        node = bcam
+                        break
 
             results[component_path] = node
 

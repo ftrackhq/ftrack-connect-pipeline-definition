@@ -51,28 +51,17 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
             )
         )
 
-        objPath = hou.node('/obj')
+        root_obj = hou.node('/obj')
 
-        # Selection Objects Set
-        selectednodes = None
-        if data is None or len(data)==0 or not isinstance(data[0], str):
-            selectednodes = data
-            if selectednodes is None or len(selectednodes) == 0:
-                selectednodes = hou.selectedNodes()
-
-        if selectednodes is None or len(selectednodes) == 0:
-            # Fall back on entire scene
-            selectednodes = objPath.glob('*')
-            objects = '*'
-        else:
-            objects = ' '.join([x.path() for x in selectednodes])
+        object_paths = ' '.join(data)
+        objects = [hou.node(obj_path) for obj_path in data]
 
         # Create Rop Net
-        ropNet = objPath.createNode('ropnet')
+        ropNet = root_obj.createNode('ropnet')
         fbxRopnet = ropNet.createNode('filmboxfbx')
 
         fbxRopnet.parm('sopoutput').set(new_file_path)
-        fbxRopnet.parm('startnode').set(selectednodes[0].parent().path())
+        fbxRopnet.parm('startnode').set(objects[0].parent().path())
         fbxRopnet.parm('exportkind').set(options['FBXASCII'])
         fbxRopnet.parm('sdkversion').set(options['FBXSDKVersion'])
         fbxRopnet.parm('vcformat').set(options['FBXVertexCacheFormat'])

@@ -1,19 +1,22 @@
 {
     "name": "camera_houdini",
     "type": "package",
-    "asset_type": "camera",
+    "asset_type": "cam",
     "context":[
         "Task"
     ],
     "components":[
         {
-            "name": "houdiniNodes"
+            "name": "houdiniNodes",
+            "required": false
         },
         {
-            "name": "alembic"
+            "name": "alembic",
+            "required": false
         },
         {
-            "name": "fbx"
+            "name": "fbx",
+            "required": false
         },
         {
             "name": "thumbnail",

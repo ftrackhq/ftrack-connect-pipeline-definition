@@ -31,6 +31,26 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
             'ABCFrameRangeBy': float(options.get('ABCFrameRangeBy', '1.0')),
         }
 
+    def bakeCamAnim(self, node, frameRange):
+        ''' Bake camera to World Space '''
+        if 'cam' in node.type().name():
+            bkNd = hou.node('/obj').createNode(
+                'cam', '%s_bake' % node.name())
+
+            for x in ['resx', 'resy']:
+                bkNd.parm(x).set(node.parm(x).eval())
+
+        for frame in xrange(int(frameRange[0]), (int(frameRange[1]) + 1)):
+            time = (frame - 1) / hou.fps()
+            tsrMtx = node.worldTransformAtTime(time).explode()
+
+            for parm in tsrMtx:
+                if 'shear' not in parm:
+                    for x, p in enumerate(bkNd.parmTuple(parm[0])):
+                        p.setKeyframe(hou.Keyframe(tsrMtx[parm][x], time))
+
+        return bkNd
+
     def run(self, context=None, data=None, options=None):
 
         component_name = options['component_name']
@@ -47,28 +67,36 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
             )
         )
 
-        bcam = self.bakeCamAnim(cam,
-                                [options['frameStart'],
-                                 options['frameEnd']])
+        root_obj = hou.node('/obj')
+
+        object_paths = ' '.join(data)
+        objects = [hou.node(obj_path) for obj_path in data]
+
+        if context['asset_type'] == 'cam':
+            bcam = self.bakeCamAnim(objects[0],
+                                    [options['ABCFrameRangeStart'],
+                                     options['ABCFrameRangeEnd']])
+            objects = [bcam]
+            objects = [bcam.path()]
 
         # Create Rop Net
-        ropNet = objPath.createNode('ropnet')
+        ropNet = root_obj.createNode('ropnet')
 
         abcRopnet = ropNet.createNode('alembic')
 
-        if iAObj.options.get('alembicAnimation'):
+        if options.get('ABCAnimation'):
             # Check Alembic for animation option
             abcRopnet.parm('trange').set(1)
             for i, x in enumerate(
-                    ['frameStart', 'frameEnd', 'alembicEval']):
+                    ['ABCFrameRangeStart', 'ABCFrameRangeEnd', 'ABCFrameRangeBy']):
                 abcRopnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
-                abcRopnet.parm('f%d' % (i + 1)).set(iAObj.options[x])
+                abcRopnet.parm('f%d' % (i + 1)).set(options[x])
         else:
             abcRopnet.parm('trange').set(0)
 
         abcRopnet.parm('filename').set(new_file_path)
-        abcRopnet.parm('root').set(bcam.parent().path())
-        abcRopnet.parm('objects').set(bcam.path())
+        abcRopnet.parm('root').set(objects[0].parent().path())
+        abcRopnet.parm('objects').set(object_paths)
         abcRopnet.parm('format').set('hdf5')
         abcRopnet.render()
         ropNet.destroy()

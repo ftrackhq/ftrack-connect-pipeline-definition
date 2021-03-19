@@ -18,7 +18,8 @@ class FBXHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
 
-            results[component_path] = hou.hipFile.importFBX(component_path)
+            (results[component_path], import_messages) = hou.hipFile.importFBX(component_path)
+            self.logger.info('FBX import messages: {}'.format(import_messages))
 
         return results
 

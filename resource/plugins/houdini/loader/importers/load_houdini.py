@@ -10,7 +10,6 @@ from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 import ftrack_api
 
 class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
-    plugin_name = 'load_houdini'
 
     load_modes = load_const.LOAD_MODES
 
@@ -44,10 +43,20 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
 
         return results
 
+class LoadHoudiniScenePlugin(LoadHoudiniPlugin):
+    plugin_name = 'load_houdini_scene'
+
+class LoadHoudiniNodesPlugin(LoadHoudiniPlugin):
+    plugin_name = 'load_houdini_nodes'
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = LoadHoudiniPlugin(api_object)
-    plugin.register()
+    scene_plugin = LoadHoudiniScenePlugin(api_object)
+    scene_plugin.register()
+
+    nodes_plugin = LoadHoudiniNodesPlugin(api_object)
+    nodes_plugin.register()
+
