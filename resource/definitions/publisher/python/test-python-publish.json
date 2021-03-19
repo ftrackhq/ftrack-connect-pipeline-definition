@@ -38,7 +38,7 @@
               "plugin": "filesystem",
               "widget": "file_collector.widget",
               "options": {
-                "path": "/Users/lluisftrack/Desktop/Screenshot 2021-02-02 at 16.30.50.png"
+                "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
             }
           ]
@@ -74,7 +74,7 @@
               "plugin": "filesystem",
               "widget": "file_collector.widget",
               "options": {
-                "path": "/Users/lluisftrack/Desktop/Screenshot 2021-02-02 at 16.30.50.png"
+                "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
             }
           ]

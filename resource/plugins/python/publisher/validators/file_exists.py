@@ -15,7 +15,13 @@ class FileExistsValidatorPlugin(plugin.PublisherValidatorPlugin):
             plugin_result = plugin_dict.get('result')
             all_files.extend(plugin_result)
 
-        output = all(bool(os.path.exists(datum)) for datum in all_files)
+        if len(all_files) != 0:
+            output = True
+            for datum in all_files:
+                if not os.path.exists(datum):
+                    output = False
+                    self.logger.error("File {} does not exist".format(datum))
+
         return output
 
 
