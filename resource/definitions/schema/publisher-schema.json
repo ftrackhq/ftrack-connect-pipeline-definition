@@ -129,7 +129,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^collector$",
                 "default": "collector"
               }
@@ -166,7 +166,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^validator$",
                 "default": "validator"
               }
@@ -203,7 +203,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^output$",
                 "default": "output"
               }
@@ -240,7 +240,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^context$",
                 "default": "context"
               }
@@ -277,7 +277,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^finalizer$",
                 "default": "finalizer"
               }
@@ -300,29 +300,29 @@
       "required": [
         "name",
         "plugin",
+        "category",
         "type",
-        "plugin_type",
         "default_method"
       ],
-      "order":["type", "plugin_type", "name", "description", "plugin", "widget", "options", "default_method"],
+      "order":["type", "category", "name", "description", "plugin", "widget", "options", "default_method"],
       "additionalProperties": false,
       "properties": {
-        "type": {
+        "category": {
           "type": "string",
           "pattern": "^plugin$",
           "default": "plugin"
         },
-        "plugin_type": {
-              "type": "string",
-              "enum": [
-                "collector",
-                "validator",
-                "output",
-                "context",
-                "finalizer",
-                "pre_finalizer",
-                "post_finalizer"
-              ]
+        "type": {
+          "type": "string",
+          "enum": [
+            "collector",
+            "validator",
+            "output",
+            "context",
+            "finalizer",
+            "pre_finalizer",
+            "post_finalizer"
+          ]
         },
         "name": {
           "type": "string"
@@ -478,7 +478,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^pre_finalizer$",
                 "default": "pre_finalizer"
               }
@@ -515,7 +515,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^post_finalizer$",
                 "default": "post_finalizer"
               }
