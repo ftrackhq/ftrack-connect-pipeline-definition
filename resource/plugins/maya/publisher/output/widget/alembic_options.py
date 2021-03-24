@@ -55,9 +55,9 @@ class AlembicOptionsWidget(BaseOptionsWidget):
     def on_fetch_callback(self, result):
         ''' This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
-        for k, v in self.options_le.iteritems():
+        for k, v in self.options_le.items():
             if v.text() == "None":
-                if k in result.keys():
+                if k in list(result.keys()):
                     self.options_le[k].setText(str(result[k]))
                 else:
                     self.options_le[k].setText("0")

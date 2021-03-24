@@ -693,13 +693,13 @@ def extend_with_default(validator_class):
 
     def set_default_required(validator, required, instance, schema):
         if validator.is_type(instance, "object"):
-            print "instance --> {}".format(instance)
-            print "schema --> {}".format(schema)
+            print ("instance --> {}".format(instance))
+            print ("schema --> {}".format(schema))
             for property in required:
                 if not instance.get(property):
                     default_value = schema['properties'][property].get('default')
-                    print "default_value --> {}".format(default_value)
-                    print "property --> {}".format(property)
+                    print ("default_value --> {}".format(default_value))
+                    print ("property --> {}".format(property))
                     if default_value is not None:
                       instance[property] = default_value
 
@@ -718,7 +718,7 @@ DefaultValidatingDraft7Validator = extend_with_default(Draft7Validator)
 obj = orig_definition
 schema = orig_schema
 DefaultValidatingDraft7Validator(schema).validate(obj)
-print "obj ---> {}".format(obj)
+print ("obj ---> {}".format(obj))
 import json
-print json.dumps(obj)
+print (json.dumps(obj))
 
