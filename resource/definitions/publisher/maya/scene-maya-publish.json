@@ -6,8 +6,8 @@
   "ui_type": "qt",
   "contexts": [
     {
-    "name": "contextStep",
-    "stages": [
+      "name": "main",
+      "stages": [
         {
           "name": "context",
           "plugins":[
@@ -19,7 +19,7 @@
           ]
         }
       ]
-  }
+    }
   ],
   "components": [
     {
@@ -132,14 +132,14 @@
   ],
   "finalizers": [
     {
-      "name": "finalizerStep",
+      "name": "main",
       "stages": [
         {
           "name": "pre_finalizer",
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "result_maya",
+              "name": "pre to ftrack server",
+              "plugin": "pre_result",
               "visible": false
             }
           ]
@@ -158,8 +158,8 @@
           "name": "post_finalizer",
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "result_maya",
+              "name": "post to ftrack server",
+              "plugin": "post_result",
               "visible": false
             }
           ]
