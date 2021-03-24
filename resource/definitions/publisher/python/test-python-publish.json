@@ -5,7 +5,7 @@
   "host_type": "python",
   "contexts": [
     {
-      "name": "contextStep",
+      "name": "main",
       "stages": [
         {
           "name": "context",
@@ -102,7 +102,7 @@
   ],
   "finalizers": [
     {
-      "name": "finalizerStep",
+      "name": "main",
       "stages": [
         {
           "name": "pre_finalizer",

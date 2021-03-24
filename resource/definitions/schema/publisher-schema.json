@@ -575,7 +575,7 @@
       },
       "default": [],
       "minItems": 1,
-      "manItems": 1,
+      "maxItems": 1,
       "uniqueItems": true
     },
     "components": {
@@ -594,7 +594,7 @@
       },
       "default": [],
       "minItems": 1,
-      "manItems": 1,
+      "maxItems": 1,
       "uniqueItems": true
     },
     "_config": {
