@@ -166,7 +166,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^importer$",
                 "default": "importer"
               }
@@ -176,6 +176,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^importer$",
+          "default": "importer"
         }
       }
     },
@@ -198,7 +203,7 @@
               }
             ],
             "properties": {
-              "plugin_type": {
+              "type": {
                 "pattern": "^post_import$",
                 "default": "post_import"
               }
@@ -208,6 +213,11 @@
           "default": [],
           "minItems": 1,
           "uniqueItems": true
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^post_import$",
+          "default": "post_import"
         }
       }
     },
@@ -383,6 +393,8 @@
             "importer",
             "post_import",
             "finalizer",
+            "pre_finalizer",
+            "post_finalizer",
             "context"
           ]
         },

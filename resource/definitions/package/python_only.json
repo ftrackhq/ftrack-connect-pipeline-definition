@@ -10,7 +10,8 @@
             "name": "main"
         },
         {
-            "name": "thumbnail"
+            "name": "thumbnail",
+            "required": false
         }
     ]
 }
