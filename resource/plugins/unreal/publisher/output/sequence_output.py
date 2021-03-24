@@ -15,10 +15,6 @@ import unreal as ue
 class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
 
-    def debug(s):
-        import threading
-        print('@@@: [thread:{}] {}'.format(threading.currentThread, s))
-
     def _render(
         self,
         destination_path,
@@ -155,7 +151,6 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
         )
         unreal_map = ue.EditorLevelLibrary.get_editor_world()
-        unreal_map_package_path = unreal_map.get_outermost().get_path_name()
         unreal_map_path = unreal_map.get_path_name()
         unreal_asset_path = masterSequence.get_path_name()
 

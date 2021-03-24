@@ -12,9 +12,6 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
     def select(self, context=None, data=None, options=None):
         '''Select all the sequences in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
-        # TODO: Can sequences be selected?
-        #for obj in hou.node('/').allSubChildren():
-        #    obj.setSelected(1, obj in selected_items or obj.path() in selected_items)
         return selected_items
 
     @staticmethod
@@ -37,11 +34,6 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         ''' Return the selected sequence names. '''
         collected_objects = []
         seq_name_sel = None
-        #selectedAssets = ue.EditorUtilityLibrary.get_selected_assets()
-        #for asset in selectedAssets:
-        #    if asset.static_class() == ue.LevelSequence.static_class():
-        #        seq_name_sel = asset.get_name()
-        #        break
         
         # First, try to pick the selected
         for actor in ue.EditorLevelLibrary.get_selected_level_actors():

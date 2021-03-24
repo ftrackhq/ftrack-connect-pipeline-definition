@@ -1,5 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
+import os
+from zipfile import ZipFile
 
 import unreal as ue
 
@@ -20,7 +22,6 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
     load_modes = load_const.LOAD_MODES
 
     def _find_asset_instance(self, path_root, ftrack_asset_version, ftrack_asset_type_name):
-        ''' TODO: move to integration asset '''
         ftrack_asset_id = ftrack_asset_version['parent']['id']
         assets = (
             ue.AssetRegistryHelpers()
@@ -82,15 +83,6 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
     def run(self, context=None, data=None, options=None):
         ''' Format independent init '''
 
-        print('@@@; UnrealImportPlugin::run(context={}, data={}, options={})'.format(context, data, options))
-        # Sample output:
-        # LogPython: @@@; UnrealImportPlugin::run(context={'context_id': '8954cbac-7d08-11eb-9cb6-76f7e85c7329', 'asset_name': 'animation', 
-        # 'comment': None, 'status_id': None, 'asset_id': '71127a43-98ac-42ec-97b1-c5659594718b', 'is_valid_name': True, 
-        # 'version_number': '1', 'version_id': '54c778e0-2a17-4f26-be3f-03b5774e83c9', 'asset_type': 'anim'}, data=['C:\\Accsyn_s
-        # torage\\testproject\\sq010\\unreal\\animation\\v001\\alembic.abc'], options={'component_name': 'alembic'})
-        
-        #self.session = ftrack_api.Session()
-
         self.assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
 
         self.version = self.session.query('AssetVersion where id={}'.format(context['version_id'])).first()
@@ -120,7 +112,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
                 return (False, 'Existing asset found("{}"), not updating!'.format(current_ftrack_asset.asset_name))
             if self.change_version(self.component_path, current_ftrack_asset):
                 results = {}
-                results[self.component_path] = node
+                results[self.component_path] = current_ftrack_asset
                 return results
             else:
                 return (False, 'Could not change version on existing asset!')
@@ -530,8 +522,10 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
 
     def run(self, context=None, data=None, options=None):
 
+        results = {}
+
         # unzip package asset
-        path_zip = iAObj.filePath
+        path_zip = data[0]
         override_existing = options['OverrideExisting']
         self.loaded_assets = []
 
@@ -566,10 +560,10 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
             if import_count > 0:
                 try:
                     # Note: ZipFile.extractall overwrites existing files by default
-                    package_asset.extractall(path = content_dir, members = self.loaded_assets)
+                    package_asset.extractall(path=content_dir, members=self.loaded_assets)
                 except Exception as error:
                     self.logger.error(error)
-                    return []
+                    return (False, 'Could not import asset package! Details: {}'.format(error))
 
                 # load the extracted map, if one was imported
                 if map_package_path:
@@ -587,7 +581,7 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
 
     def build_asset_import_task(self, context, data, options):
 
-        super(AbcImageSequenceUnrealImportPlugin, self).build_asset_import_task(context, data, options)
+        super(ZipImageSequenceUnrealImportPlugin, self).build_asset_import_task(context, data, options)
 
         self.task.options = ue.AbcImportSettings()
         self.task.options.import_type = ue.AlembicImportType.STATIC_MESH

@@ -2,7 +2,6 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import os
-import subprocess
 import tempfile
 from zipfile import ZipFile
 import shutil
@@ -73,23 +72,6 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             ue.SystemLibrary.get_project_saved_directory(), "Logs"
         )
         self.logger.info("Detailed logs of editor output during migration found at: {0}".format(unreal_windows_logs_dir))
-
-        migrated_packages = ue.FTrackConnect.get_instance().migrate_packages(unreal_map_package_path, tempdir_filepath)
-
-        # TODO: track the assets being published
-        #dependenciesVersion = []
-        #for package_name in migrated_packages:
-        #    asset_data = ue.AssetRegistryHelpers().get_asset_registry().get_assets_by_package_name(package_name)
-        #
-        #    for data in asset_data:
-        #        asset = data.get_asset()
-        #        dependencyAssetId = ue.EditorAssetLibrary.get_metadata_tag(asset, "ftrack.AssetVersionId")
-        #        if dependencyAssetId:
-        #            dependencyVersion = ftrack.AssetVersion(dependencyAssetId)
-        #            dependenciesVersion.append(dependencyVersion)
-
-        #currentVersion = ftrack.AssetVersion(iAObj.assetVersionId)
-        #currentVersion.addUsesVersions(versions=dependenciesVersion)
 
         # create a ZipFile object
         with ZipFile(output_zippath, 'w') as zipObj:
