@@ -11,7 +11,12 @@ class TmpOutputPlugin(plugin.PublisherOutputPlugin):
 
     def run(self, context=None, data=None, options=None):
         output = self.output
-        for item in data:
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        for item in collected_objects:
             new_file_path = tempfile.NamedTemporaryFile(delete=False).name
             shutil.copy(item, new_file_path)
             output[item] = new_file_path

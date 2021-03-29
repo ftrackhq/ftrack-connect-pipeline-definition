@@ -13,7 +13,12 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     def run(self, context=None, data=None, options=None):
         if not data:
             return False
-        for obj in data:
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        for obj in collected_objects:
             is_camera = False
             relatives = cmds.listRelatives(obj, f=True)
             for relative in relatives:

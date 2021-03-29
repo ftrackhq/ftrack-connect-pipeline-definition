@@ -13,7 +13,12 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     def run(self, context=None, data=None, options=None):
         if not data:
             return False
-        for obj in data:
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        for obj in collected_objects:
             if not cmds.objectType(obj, isAType='geometryShape'):
                 return (
                     False,

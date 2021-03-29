@@ -10,7 +10,12 @@ class NonEmptyValidatorPlugin(plugin.PublisherValidatorPlugin):
     def run(self, context=None, data=None, options=None):
         output = self.output
         self.logger.info('data: {}'.format(data))
-        output = all(bool(datum) for datum in data)
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        output = all(bool(datum) for datum in collected_objects)
         return output
 
 

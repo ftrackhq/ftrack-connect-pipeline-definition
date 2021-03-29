@@ -16,7 +16,12 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
     plugin_name = 'sequence'
 
     def run(self, context=None, data=None, options=None):
-        node_name = data[0]
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        node_name = collected_objects[0]
         input_node = nuke.toNode(node_name)
         selected_nodes = nuke.selectedNodes()
         nuke_utils.cleanSelection()

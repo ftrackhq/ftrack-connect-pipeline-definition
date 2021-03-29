@@ -11,7 +11,12 @@ class CheckGeoNamesValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'name_validator'
 
     def run(self, context=None, data=None, options=None):
-        allObj = cmds.ls(data, tr=True)
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        allObj = cmds.ls(collected_objects, tr=True)
         if not allObj:
             return False
         for obj in allObj:

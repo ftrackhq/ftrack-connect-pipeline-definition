@@ -51,6 +51,11 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
                 data, options
             )
         )
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
         # fbx basic options
         mel.eval('FBXResetExport')
         mel.eval('FBXExportConvertUnitString "cm"')
@@ -104,7 +109,7 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
         # fbx export command
         mel.eval('FBXExport -s -f "{}"'.format(new_file_path.replace("\\", "\\\\")))
 
-        cmds.select(data, r=True)
+        cmds.select(collected_objects, r=True)
         selectednodes = cmds.ls(sl=True, long=True)
         if selectednodes:
             cmds.select(selectednodes)

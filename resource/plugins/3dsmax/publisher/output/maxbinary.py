@@ -21,14 +21,18 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
             delete=False, suffix='.max'
         ).name
 
-        if os.path.isfile(data[0]):
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        if os.path.isfile(collected_objects[0]):
             rt.savemaxFile(new_file_path, useNewFile=False)
         else:
             self.logger.debug('Calling extractor options: data {}'.format(data))
             self.logger.debug('Writing Max file to {}'.format(new_file_path))
             with mxstoken():
                 rt.clearSelection()
-            for node_name in data:
+            for node_name in collected_objects:
                 node = rt.getNodeByName(node_name, exact=True)
                 rt.selectMore(node)
             rt.saveNodes(rt.selection, new_file_path, quiet=True)

@@ -25,12 +25,17 @@ class OutputMaxAlembicPlugin(plugin.PublisherOutputMaxPlugin):
         saved_selection = rt.GetCurrentSelection()
         self.logger.debug('Post SM1')
 
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
         with mxstoken():
             rt.clearSelection()
             self.logger.debug('Post SM2')
 
             nodes = []
-            for node_name in data:
+
+            for node_name in collected_objects:
                 node = rt.getNodeByName(node_name)
                 if node:
                     nodes.append(node)
