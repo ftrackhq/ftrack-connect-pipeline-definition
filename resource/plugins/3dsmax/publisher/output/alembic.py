@@ -43,7 +43,7 @@ class OutputMaxAlembicPlugin(plugin.PublisherOutputMaxPlugin):
             rt.exportFile(
                 new_file_path, rt.Name("noPrompt"), selectedOnly=True
             )
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

@@ -19,7 +19,7 @@ class OutputNukeScriptPlugin(plugin.PublisherOutputNukePlugin):
         self.logger.debug('Calling extractor options: data {}'.format(data))
         nuke.scriptSave(new_file_path)
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

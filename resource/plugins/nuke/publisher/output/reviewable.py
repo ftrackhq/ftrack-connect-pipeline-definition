@@ -79,7 +79,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
             node['selected'].setValue(True)
 
         component_name = options['component_name']
-        return {component_name: temp_review_mov}
+        return [temp_review_mov]
 
 
 def register(api_object, **kw):

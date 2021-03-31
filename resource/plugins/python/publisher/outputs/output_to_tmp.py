@@ -19,7 +19,7 @@ class TmpOutputPlugin(plugin.PublisherOutputPlugin):
         for item in collected_objects:
             new_file_path = tempfile.NamedTemporaryFile(delete=False).name
             shutil.copy(item, new_file_path)
-            output[item] = new_file_path
+            output.append(new_file_path)
 
         return output
 

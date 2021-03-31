@@ -36,7 +36,7 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
                 node = rt.getNodeByName(node_name, exact=True)
                 rt.selectMore(node)
             rt.saveNodes(rt.selection, new_file_path, quiet=True)
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

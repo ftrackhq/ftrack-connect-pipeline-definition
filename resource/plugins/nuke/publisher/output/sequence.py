@@ -66,7 +66,7 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
         for node in selected_nodes:
             node['selected'].setValue(True)
 
-        return {component_name: str(sequence_path)}
+        return [str(sequence_path)]
 
 
 def register(api_object, **kw):

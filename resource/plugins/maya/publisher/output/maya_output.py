@@ -66,7 +66,7 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
                 **options
             )
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 class OutputMayaAsciiPlugin(OutputMayaPlugin):

@@ -70,7 +70,7 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
         # find a better way to find the extension of the playblast file.
         full_path = temp_files[0]
 
-        return {component_name: full_path}
+        return [full_path]
 
 
 def register(api_object, **kw):

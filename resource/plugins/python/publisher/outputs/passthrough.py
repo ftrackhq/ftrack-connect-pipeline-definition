@@ -11,7 +11,7 @@ class PassthroughPlugin(plugin.PublisherOutputPlugin):
         component_name = options['component_name']
         output = self.output
         for collector in data:
-            output[component_name] = collector['result'][0]
+            output.append(collector['result'][0])
 
         return output
 

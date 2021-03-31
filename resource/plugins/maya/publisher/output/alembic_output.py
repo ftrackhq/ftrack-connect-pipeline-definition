@@ -96,7 +96,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         if selectednodes:
             cmds.select(selectednodes)
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

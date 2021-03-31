@@ -62,7 +62,7 @@ class OutputThumbnailPlugin(plugin.PublisherOutputNukePlugin):
             node['selected'].setValue(True)
 
         component_name = options['component_name']
-        return {component_name: file_name}
+        return [file_name]
 
 
 def register(api_object, **kw):
