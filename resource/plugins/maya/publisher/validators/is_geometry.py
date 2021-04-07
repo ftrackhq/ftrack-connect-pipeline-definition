@@ -22,9 +22,14 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
             if not cmds.objectType(obj, isAType='geometryShape'):
                 return (
                     False,
-                    "the object: {} is not a geometry shape type".format(obj)
+                    {
+                        'message':"the object: {} is not a geometry shape type".format(obj),
+                        'data':None
+                    }
                 )
-        return True
+        user_data = {'message':'geometry exported correctly',
+                     'data':None}
+        return (True, user_data)
 
 
 def register(api_object, **kw):
