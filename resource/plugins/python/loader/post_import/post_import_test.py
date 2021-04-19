@@ -8,7 +8,13 @@ class PostImportLoaderTest(plugin.LoaderPostImportPlugin):
     plugin_name = 'postImportTest'
 
     def run(self, context=None, data=None, options=None):
-        return {}
+        return (
+            {},
+            {
+                'message': 'No Data is imported this is for testing propouses',
+                'data': ['abcde']
+            }
+        )
 
 
 def register(api_object, **kw):
