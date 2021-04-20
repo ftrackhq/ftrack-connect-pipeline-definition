@@ -4,16 +4,23 @@
   "package": "light_rig_maya",
   "host_type": "maya",
   "ui_type": "qt",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.publish",
-          "widget": "context.publish"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.publish",
+              "widget": "context.publish"
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "mayaBinary",
@@ -120,14 +127,41 @@
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "to ftrack server",
-          "plugin": "result_maya",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_result",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result_maya",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_result",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }

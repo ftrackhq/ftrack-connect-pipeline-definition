@@ -35,7 +35,11 @@ class LoadMayaPlugin(plugin.LoaderImporterMayaPlugin):
             maya_options = self._get_maya_options(load_options)
 
         results = {}
-        paths_to_import = data
+
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
+
         for component_path in paths_to_import:
             self.logger.debug('Loading path {}'.format(component_path))
             if maya_options.get('ns') == 'file_name':

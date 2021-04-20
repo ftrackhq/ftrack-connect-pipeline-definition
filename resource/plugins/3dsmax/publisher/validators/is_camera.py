@@ -12,7 +12,12 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMaxPlugin):
 
     def run(self, context=None, data=None, options=None):
         self.logger.debug("data: {}".format(data))
-        for obj in data:
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        for obj in collected_objects:
             node = rt.getNodeByName(obj)
             is_camera = rt.isKindOf(node, rt.Camera)
             if not is_camera:

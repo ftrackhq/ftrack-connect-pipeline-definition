@@ -16,7 +16,11 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
 
     def run(self, context=None, data=None, options=None):
         results = {}
-        paths_to_import = data
+
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
+
         for component_path in paths_to_import:
             self.logger.debug(
                 'Loading image sequence {}'.format(component_path)

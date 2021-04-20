@@ -31,18 +31,18 @@
       "required": [
         "name",
         "plugin",
+        "category",
         "type",
-        "plugin_type",
-        "_results"
+        "default_method"
       ],
-      "order":["type", "plugin_type", "name", "description", "plugin", "options"],
+      "order":["type", "category", "name", "description", "plugin", "widget", "options", "default_method"],
       "properties": {
-        "type": {
+        "category": {
           "type": "string",
           "pattern": "^plugin$",
           "default": "plugin"
         },
-        "plugin_type": {
+        "type": {
           "type": "string",
           "pattern": "^base$",
           "default": "base"
@@ -56,18 +56,27 @@
         "plugin": {
           "type": "string"
         },
-        "disabled": {
+        "widget": {
+          "type": "string"
+        },
+        "widget_ref": {
+          "type": "string"
+        },
+        "visible": {
           "type": "boolean",
-          "default": false
+          "default": true
+        },
+        "editable": {
+          "type": "boolean",
+          "default": true
         },
         "options": {
           "type": "object",
           "default": {}
         },
-        "_results": {
-          "type": "array",
-          "default": [],
-          "items": {}
+        "default_method": {
+          "type": "string",
+          "default": "run"
         }
       }
     },
@@ -78,7 +87,7 @@
         }
       ],
       "properties": {
-        "plugin_type": {
+        "type": {
           "pattern": "^action$",
           "default": "action"
         }
@@ -104,7 +113,7 @@
           "items": {
             "allOf": [{"$ref": "#/definitions/ActionPlugin"}],
             "properties": {
-                "plugin_type": {
+                "type": {
                   "pattern": "^action$",
                   "default": "action"
                 },
@@ -121,15 +130,17 @@
           "default": [],
           "items": {
             "allOf": [{"$ref": "#/definitions/ActionPlugin"}],
-                "plugin_type": {
-                  "pattern": "^action$",
-                  "default": "action"
-                },
-                "ui_callback": {
-                  "type": "string",
-                  "default": "ctx_select"
-                }
+            "properties": {
+              "type": {
+                "pattern": "^action$",
+                "default": "action"
+              },
+              "ui_callback": {
+                "type": "string",
+                "default": "ctx_select"
               }
+            }
+          }
         },
         "remove": {
           "type": "array",
@@ -137,7 +148,7 @@
           "items": {
             "allOf": [{"$ref": "#/definitions/ActionPlugin"}],
             "properties": {
-                "plugin_type": {
+                "type": {
                   "pattern": "^action$",
                   "default": "action"
                 },
@@ -183,7 +194,7 @@
       "items": {
         "allOf": [{"$ref": "#/definitions/Plugin"}],
         "properties": {
-            "plugin_type": {
+            "type": {
               "pattern": "^discover$",
               "default": "discover"
             }

@@ -22,7 +22,7 @@ class OutputThumbnailPlugin(plugin.PublisherOutputMaxPlugin):
         outpath = os.path.join(rt.pathConfig.GetDir(rt.name("temp")), filename)
         bm.filename = outpath
         rt.save(bm)
-        return {component_name: outpath}
+        return [outpath]
 
 
 def register(api_object, **kw):

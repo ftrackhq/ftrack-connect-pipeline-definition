@@ -39,7 +39,11 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             suffix=self.extension
         ).name
 
-        if os.path.isfile(data[0]):
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        if os.path.isfile(collected_objects[0]):
             options = {
                 'typ': self.filetype,
                 'save': True
@@ -53,16 +57,16 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
 
             self.logger.debug(
                 'Calling output options: data {}. options {}'.format(
-                    data, options
+                    collected_objects, options
                 )
             )
-            cmds.select(data, r=True)
+            cmds.select(collected_objects, r=True)
             cmds.file(
                 new_file_path,
                 **options
             )
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 class OutputMayaAsciiPlugin(OutputMayaPlugin):
