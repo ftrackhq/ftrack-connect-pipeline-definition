@@ -2,6 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import os
+import six
 
 import hou
 
@@ -33,13 +34,18 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
         houdini_options['context'] = context
 
         results = {}
-        paths_to_import = data
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
         for component_path in paths_to_import:
             self.logger.debug('Loading path {}'.format(component_path))
 
             load_result = load_mode_fn(component_path, context=context, options=houdini_options)
 
-            results[component_path] = load_result
+            if not six.PY2:
+                results[component_path] = load_result.path() if not isinstance(load_result, str) else load_result
+            else:
+                results[component_path] = load_result.path() if not isinstance(load_result, str) and not isinstance(load_result, unicode) else load_result
 
         return results
 

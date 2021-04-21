@@ -53,8 +53,12 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         root_obj = hou.node('/obj')
 
-        object_paths = ' '.join(data)
-        objects = [hou.node(obj_path) for obj_path in data]
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        object_paths = ' '.join(collected_objects)
+        objects = [hou.node(obj_path) for obj_path in collected_objects]
 
         # Create Rop Net
         ropNet = root_obj.createNode('ropnet')
@@ -82,7 +86,7 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
         finally:
             ropNet.destroy()
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

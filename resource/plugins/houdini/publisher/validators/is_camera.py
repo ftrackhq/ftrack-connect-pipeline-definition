@@ -21,7 +21,10 @@ class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
                 False,
                 'Please add objects for publishing!'
             )
-        for obj_path in data:
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+        for obj_path in collected_objects:
             obj = hou.node(obj_path)
             if not 'cam' in obj.type().name():
                 return (

@@ -46,7 +46,7 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         hou.hscript(executeCommand)
 
-        return {component_name: path}
+        return [path]
 
 
 def register(api_object, **kw):

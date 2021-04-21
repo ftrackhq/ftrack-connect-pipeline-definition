@@ -14,7 +14,9 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
         # ensure to load the alembic plugin
 
         results = {}
-        paths_to_import = data
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
 
@@ -37,7 +39,7 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
                         node = bcam
                         break
 
-            results[component_path] = node
+            results[component_path] = node.path()
 
         return results
 

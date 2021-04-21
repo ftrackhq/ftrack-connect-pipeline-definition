@@ -17,7 +17,6 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     filetype = 'hip'
 
     def run(self, context=None, data=None, options=None):
-        self.logger.info('@@@ run(context: {}, data: {}, options: {})'.format(context, data, options))
         component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(
@@ -25,12 +24,16 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
             suffix=self.extension
         ).name
 
-        if os.path.isfile(data[0]) or data[0].endswith('.hip'):
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        if os.path.isfile(collected_objects[0]) or collected_objects[0].endswith('.hip'):
             # Export entire scene
             hou.hipFile.save(new_file_path)
         else:
             # Export selected
-            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in data])
+            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in collected_objects])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
@@ -47,7 +50,7 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
 
             #os.system(cmd)
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
     plugin_name = 'houdini_nodes_output'
@@ -62,13 +65,17 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             suffix=self.extension
         ).name
 
-        if len(data) == 0:
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        if len(collected_objects) == 0:
             self.logger.info('Saving scene to: "{}".'.format(new_file_path))
 
             hou.hipFile.save(new_file_path)
         else:
 
-            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in data])
+            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in collected_objects])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
@@ -86,9 +93,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             if result.returncode != 0:
                 raise Exception('Houdini selected nodes scene export failed!')
 
-            #os.system(cmd)
-
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
