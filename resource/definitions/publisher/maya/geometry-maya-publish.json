@@ -24,7 +24,6 @@
   "components": [
     {
       "name": "mayaBinary",
-      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -51,41 +50,6 @@
             {
               "name": "maya",
               "plugin": "maya_binary",
-              "widget": "maya_options"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "mayaAscii",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "is_geometry"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "maya",
-              "plugin": "maya_ascii",
               "widget": "maya_options"
             }
           ]

@@ -24,7 +24,6 @@
   "components": [
     {
       "name": "mayaBinary",
-      "optional":  true,
       "stages": [
         {
           "name": "collector",
@@ -34,50 +33,6 @@
               "plugin": "collect_from_context",
               "options": {
                 "accepted_formats": [".mb"]
-              }
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import paths to Maya",
-              "plugin": "load_maya",
-              "options": {
-                "load_mode": "Import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "maya",
-              "plugin": "postImportTest"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "mayaAscii",
-      "optional":  true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".ma"]
               }
             }
           ]
