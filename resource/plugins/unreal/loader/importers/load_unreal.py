@@ -533,9 +533,12 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
         results = {}
 
         # unzip package asset
-        path_zip = data[0]
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
+        path_zip = paths_to_import[0]
         override_existing = options['OverrideExisting']
-        self.loaded_assets = []
+        self.loaded_asset_names = []
 
         # use integration-specific logger
         self.logger.info("Importing package asset: {0}".format(path_zip))
@@ -548,14 +551,14 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
             # be moved from one Content directory to another. 
             content_dir = ue.SystemLibrary.get_project_content_directory()
 
-            for asset in package_asset.namelist():
+            for asset_name in package_asset.namelist():
                 # override existing assets if specified by user
                 asset_path = os.path.normpath(
-                    os.path.join(content_dir, asset)
+                    os.path.join(content_dir, asset_name)
                 )
 
                 if override_existing or not os.path.isfile(asset_path):
-                    self.loaded_assets.append(asset)
+                    self.loaded_asset_names.append(asset_name)
                 
                     # check if asset is a umap file
                     (_, src_name) = os.path.split(asset_path)
@@ -563,12 +566,12 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
                     if src_extension.lower() == ".umap":
                         map_package_path = asset_path
             
-            import_count = len(self.loaded_assets)
+            import_count = len(self.loaded_asset_names)
             # extract contents of the package_asset
             if import_count > 0:
                 try:
                     # Note: ZipFile.extractall overwrites existing files by default
-                    package_asset.extractall(path=content_dir, members=self.loaded_assets)
+                    package_asset.extractall(path=content_dir, members=self.loaded_asset_names)
                 except Exception as error:
                     self.logger.error(error)
                     return (False, 'Could not import asset package! Details: {}'.format(error))
@@ -584,7 +587,7 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
             self.logger.info("Number of assets imported: {0}".format(import_count))
 
 
-        results[self.component_path] = self.assets_to_paths(self.loaded_assets)
+        results[self.component_path] = self.loaded_asset_names
         return results
 
     def build_asset_import_task(self, context, data, options):
