@@ -7,6 +7,7 @@ from zipfile import ZipFile
 import shutil
 
 from ftrack_connect_pipeline_unreal_engine import plugin
+from ftrack_connect_pipeline_unreal_engine.constants import asset as asset_const
 
 import ftrack_api
 
@@ -73,6 +74,19 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         )
         self.logger.info("Detailed logs of editor output during migration found at: {0}".format(unreal_windows_logs_dir))
 
+        migrated_packages = ue.FTrackConnect.get_instance().migrate_packages(unreal_map_package_path, tempdir_filepath)
+
+        # track the assets being published
+        version_dependency_ids = []
+        for package_name in migrated_packages:
+            asset_data = ue.AssetRegistryHelpers().get_asset_registry().get_assets_by_package_name(package_name)
+            
+            for data in asset_data:                 
+                asset = data.get_asset()
+                version_id = ue.EditorAssetLibrary.get_metadata_tag(asset, "ftrack.{}".format(asset_const.VERSION_ID))
+                if version_id:
+                    version_dependency_ids.append(version_id)
+
         # create a ZipFile object
         with ZipFile(output_zippath, 'w') as zipObj:
             # iterate over all the files in directory
@@ -96,25 +110,29 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                 )
                 return False, None
 
-        return os.path.isfile(output_zippath), output_zippath
+        return os.path.isfile(output_zippath), output_zippath, version_dependency_ids
 
     def run(self, context=None, data=None, options=None):
         ''' Compress all project assets to a ZIP '''
         component_name = options['component_name']
 
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        unreal_map_package_path = collected_objects[0]
+
         dest_folder = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
         )
-        unreal_map = ue.EditorLevelLibrary.get_editor_world()
-        unreal_map_package_path = unreal_map.get_outermost().get_path_name()
 
-        package_result, package_path = self._package_current_scene(
+        package_result, package_path, version_dependency_ids = self._package_current_scene(
             dest_folder,
             unreal_map_package_path,
             context
         )
         if package_result:
-            return [package_path]
+            return ( [package_path] , {'data' : {'version_dependency_ids':version_dependency_ids}} )
         else:
             return (False, 'Failed to produce package of current project.')
 

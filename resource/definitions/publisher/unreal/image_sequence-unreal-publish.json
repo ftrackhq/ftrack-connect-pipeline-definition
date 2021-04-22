@@ -98,9 +98,9 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Sequence Collector",
-              "plugin": "sequence_collector",
-              "widget": "sequence_collector"
+              "name": "Assets Collector",
+              "plugin": "assets_collector",
+              "widget": "assets_collector"
             }
           ]
         },
@@ -109,7 +109,7 @@
           "plugins":[
             {
               "name": "Validate selection",
-              "plugin": "is_sequence"
+              "plugin": "is_asset_paths"
             }
           ]
         },

@@ -6,6 +6,7 @@ import sys
 import subprocess
 
 from ftrack_connect_pipeline_unreal_engine import plugin
+from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as unreal_utils
 
 import ftrack_api
 
@@ -150,7 +151,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             collected_objects.extend(collector['result'])
 
         master_sequence = None
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
+        all_sequences = unreal_utils.get_all_sequences(as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
@@ -188,7 +189,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             base_file_path, 'exr', frameStart, frameEnd
         )
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
     plugin_name = 'reviewable_output'
@@ -199,7 +200,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
             collected_objects.extend(collector['result'])
 
         master_sequence = None
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
+        all_sequences = unreal_utils.get_all_sequences(as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
