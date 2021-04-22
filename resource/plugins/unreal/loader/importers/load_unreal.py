@@ -94,7 +94,9 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
 
         self.import_path = self.import_path.replace(' ', '_')
  
-        paths_to_import = data
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
         self.component_path = paths_to_import[0]
 
         current_ftrack_asset = None

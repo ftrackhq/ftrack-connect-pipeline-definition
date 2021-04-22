@@ -11,9 +11,12 @@ class CheckSequenceValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
     plugin_name = 'is_sequence'
 
     def run(self, context=None, data=None, options=None):
-        if not data or len(data) == 0:
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+        if not collected_objects or len(collected_objects) == 0:
             return (False, 'No level sequence added!')
-        if len(data) != 1:
+        if len(collected_objects) != 1:
             return (False, 'More than one(1) level sequence added!')
         # No need to validate selection, only sequences can be added
         return True

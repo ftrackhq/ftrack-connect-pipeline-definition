@@ -183,7 +183,19 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
 
     def run(self, context=None, data=None, options=None):
         component_name = options['component_name']
-        masterSequence = data[0]
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        masterSequence = None
+        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
+        for seq_name in collected_objects:
+            for seq in all_sequences:
+                if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
+                    masterSequence = seq
+                    break
+            if masterSequence:
+                break
 
         dest_folder = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
@@ -203,7 +215,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
             masterSequence.get_display_rate().numerator,
         )
 
-        return {component_name: path}
+        return [path]
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

@@ -53,14 +53,7 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         Return the collected objects in the widget from the plugin *options*
         '''
         sequence_objects = options.get('collected_objects', [])
-        result = []
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
-        for seq_name in sequence_objects:
-            for seq in all_sequences:
-                if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
-                    result.append(seq)
-                    break
-        return result
+        return sequence_objects
 
 
 def register(api_object, **kw):

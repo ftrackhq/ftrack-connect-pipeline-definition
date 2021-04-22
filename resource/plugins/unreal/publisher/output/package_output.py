@@ -114,7 +114,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             context
         )
         if package_result:
-            return {component_name: package_path}
+            return [package_path]
         else:
             return (False, 'Failed to produce package of current project.')
 
