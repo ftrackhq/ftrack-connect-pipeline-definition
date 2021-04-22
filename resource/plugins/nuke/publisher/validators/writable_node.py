@@ -13,7 +13,11 @@ class WritableNodeValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'can_connect_to_write_node'
 
     def run(self, context=None, data=None, options=None):
-        scene_node = nuke.toNode(data[0])
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        scene_node = nuke.toNode(collected_objects[0])
         selected_nodes = nuke.selectedNodes()
         nuke_utils.cleanSelection()
 

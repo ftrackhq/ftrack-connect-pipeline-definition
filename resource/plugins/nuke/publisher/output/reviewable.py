@@ -15,7 +15,12 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
 
     def run(self, context=None, data=None, options=None):
         has_to_clean = False
-        node_name = data[0]
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        node_name = collected_objects[0]
         input_node = nuke.toNode(node_name)
         selected_nodes = nuke.selectedNodes()
         nuke_utils.cleanSelection()
@@ -74,7 +79,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
             node['selected'].setValue(True)
 
         component_name = options['component_name']
-        return {component_name: temp_review_mov}
+        return [temp_review_mov]
 
 
 def register(api_object, **kw):

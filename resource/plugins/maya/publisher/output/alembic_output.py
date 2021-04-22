@@ -56,8 +56,12 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
             )
         )
 
-        cmds.select(data, cl=True)
-        cmds.select(data)
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        cmds.select(collected_objects, cl=True)
+        cmds.select(collected_objects)
         selectednodes = cmds.ls(sl=True, long=True)
         nodes = cmds.ls(selectednodes, type='transform', long=True)
 
@@ -92,7 +96,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         if selectednodes:
             cmds.select(selectednodes)
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

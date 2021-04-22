@@ -10,7 +10,7 @@ class TestOutputPlugin(plugin.PublisherOutputPlugin):
     plugin_name = 'publish_output_test'
 
     def run(self, context=None, data=None, options=None):
-        return {}
+        return []
 
 
 def register(api_object, **kw):
