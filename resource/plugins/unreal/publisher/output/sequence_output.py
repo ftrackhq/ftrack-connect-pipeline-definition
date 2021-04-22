@@ -145,14 +145,26 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
     def run(self, context=None, data=None, options=None):
         ''' Render an image sequence '''
         component_name = options['component_name']
-        masterSequence = data[0]
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        master_sequence = None
+        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
+        for seq_name in collected_objects:
+            for seq in all_sequences:
+                if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
+                    master_sequence = seq
+                    break
+            if master_sequence:
+                break
 
         dest_folder = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
         )
         unreal_map = ue.EditorLevelLibrary.get_editor_world()
         unreal_map_path = unreal_map.get_path_name()
-        unreal_asset_path = masterSequence.get_path_name()
+        unreal_asset_path = master_sequence.get_path_name()
 
         asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
 
@@ -163,13 +175,13 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             unreal_map_path,
             unreal_asset_path,
             asset_name,
-            masterSequence.get_display_rate().numerator,
+            master_sequence.get_display_rate().numerator,
             True,
         )
 
         # try to get start and end frames from sequence this allow local control for test publish(subset of sequence)
-        frameStart = masterSequence.get_playback_start()
-        frameEnd = masterSequence.get_playback_end() - 1
+        frameStart = master_sequence.get_playback_start()
+        frameEnd = master_sequence.get_playback_end() - 1
         base_file_path = path[:-12] if path.endswith('.{frame}.exr') else path
 
         new_file_path = "{0}.%04d.{1} [{2}-{3}]".format(
@@ -182,19 +194,18 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
     plugin_name = 'reviewable_output'
 
     def run(self, context=None, data=None, options=None):
-        component_name = options['component_name']
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        masterSequence = None
+        master_sequence = None
         all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
-                    masterSequence = seq
+                    master_sequence = seq
                     break
-            if masterSequence:
+            if master_sequence:
                 break
 
         dest_folder = os.path.join(
@@ -202,7 +213,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         )
         unreal_map = ue.EditorLevelLibrary.get_editor_world()
         unreal_map_path = unreal_map.get_path_name()
-        unreal_asset_path = masterSequence.get_path_name()
+        unreal_asset_path = master_sequence.get_path_name()
 
         asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
 
@@ -212,7 +223,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
             unreal_map_path,
             unreal_asset_path,
             movie_name,
-            masterSequence.get_display_rate().numerator,
+            master_sequence.get_display_rate().numerator,
         )
 
         return [path]

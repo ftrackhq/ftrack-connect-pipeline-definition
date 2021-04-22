@@ -80,6 +80,12 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
                     )
         return new_name_with_prefix
 
+    def assets_to_paths(self, assets):
+        result = []
+        for ass in assets:
+            result.append(ass.get_path_name())
+        return result
+
     def run(self, context=None, data=None, options=None):
         ''' Format independent init '''
 
@@ -114,7 +120,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
                 return (False, 'Existing asset found("{}"), not updating!'.format(current_ftrack_asset.asset_name))
             if self.change_version(self.component_path, current_ftrack_asset):
                 results = {}
-                results[self.component_path] = current_ftrack_asset
+                results[self.component_path] = self.assets_to_paths([current_ftrack_asset])
                 return results
             else:
                 return (False, 'Could not change version on existing asset!')
@@ -239,7 +245,7 @@ class AbcRigUnrealImportPlugin(UnrealRigImportPlugin):
             results = {}
             # Build and post process result
             # ftrack metadata will be added by plugin importer
-            results[self.component_path] = self.loaded_assets
+            results[self.component_path] = self.assets_to_paths(self.loaded_assets)
         return results
 
     def build_asset_import_task(self, context, data, options):
@@ -261,7 +267,7 @@ class FbxRigUnrealImportPlugin(UnrealRigImportPlugin):
             results = {}
             # Build and post process result
             # ftrack metadata will be added by plugin importer
-            results[self.component_path] = self.loaded_assets
+            results[self.component_path] = self.assets_to_paths(self.loaded_assets)
         return results
 
     def build_asset_import_task(self, context, data, options):
@@ -358,7 +364,7 @@ class AbcAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
             results = {}
             # Build and post process result
             # ftrack metadata will be added by plugin importer
-            results[self.component_path] = self.loaded_asset
+            results[self.component_path] = self.assets_to_paths([self.loaded_asset])
         return results
 
     def build_asset_import_task(self, context, data, options):
@@ -382,7 +388,7 @@ class FbxAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
             results = {}
             # Build and post process result
             # ftrack metadata will be added by plugin importer
-            results[self.component_path] = self.loaded_asset
+            results[self.component_path] = self.assets_to_paths([self.loaded_asset])
         return results
 
     def build_asset_import_task(self, context, data, options):
@@ -457,7 +463,7 @@ class AbcGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
             results = {}
             # Build and post process result
             # ftrack metadata will be added by plugin importer
-            results[self.component_path] = self.loaded_asset
+            results[self.component_path] = self.assets_to_paths([self.loaded_asset])
         return results
 
     def build_asset_import_task(self, context, data, options):
@@ -480,7 +486,7 @@ class FbxGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
             results = {}
             # Build and post process result
             # ftrack metadata will be added by plugin importer
-            results[self.component_path] = self.loaded_asset
+            results[self.component_path] = self.assets_to_paths([self.loaded_asset])
         return results
 
     def build_asset_import_task(self, context, data, options):
@@ -578,7 +584,7 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
             self.logger.info("Number of assets imported: {0}".format(import_count))
 
 
-        results[self.component_path] = self.loaded_assets
+        results[self.component_path] = self.assets_to_paths(self.loaded_assets)
         return results
 
     def build_asset_import_task(self, context, data, options):
