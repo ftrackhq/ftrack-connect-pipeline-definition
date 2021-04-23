@@ -66,7 +66,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
+              "name": "collect sequence write node.",
               "plugin": "selection"
             }
           ]
