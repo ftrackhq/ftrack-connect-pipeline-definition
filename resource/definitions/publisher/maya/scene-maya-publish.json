@@ -24,6 +24,7 @@
   "components": [
     {
       "name": "mayaBinaryScene",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -52,6 +53,43 @@
             {
               "name": "maya",
               "plugin": "maya_binary",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mayaAsciiScene",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
+              "options": {
+                "export": ["scene", "export_selected"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "maya_ascii",
               "widget": "maya_options"
             }
           ]

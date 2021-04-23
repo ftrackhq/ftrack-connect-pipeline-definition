@@ -7,7 +7,12 @@
     ],
     "components":[
         {
-            "name": "mayaBinary"
+            "name": "mayaBinary",
+            "required": false
+        },
+        {
+            "name": "mayaAscii",
+            "required": false
         },
         {
             "name": "fbx",

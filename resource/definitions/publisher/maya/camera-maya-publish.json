@@ -24,6 +24,7 @@
   "components": [
     {
       "name": "mayaBinary",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -49,6 +50,40 @@
             {
               "name": "output_maya",
               "plugin": "maya_binary",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mayaAscii",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "camera",
+              "plugin": "camera"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "is_camera"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "output_maya",
+              "plugin": "maya_ascii",
               "widget": "maya_options"
             }
           ]
