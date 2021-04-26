@@ -7,8 +7,7 @@
     ],
     "components":[
         {
-            "name": "mayaBinary",
-            "required": false
+            "name": "mayaBinary"
         },
         {
             "name": "mayaAscii",

@@ -18,20 +18,18 @@ class WritableNodeValidatorPlugin(plugin.PublisherValidatorNukePlugin):
             collected_objects.extend(collector['result'])
 
         if len(collected_objects) == 0:
-            self.logger.error(
-                "No write nodes selected!"
-            )
-            return (False, {'message':'No write nodes selected!'})
+            msg = 'No nodes selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
         scene_node = nuke.toNode(collected_objects[0])
         selected_nodes = nuke.selectedNodes()
         nuke_utils.cleanSelection()
 
         write_node = nuke.createNode('Write')
         if not write_node.setInput(0, scene_node):
-            self.logger.error(
-                "The selected node can't be connected to a write node"
-            )
-            return (False, {'message':"The selected node can't be connected to a write node"})
+            msg = "The selected node can't be connected to a write node"
+            self.logger.error(msg)
+            return (False, {'message': msg})
         # delete temporal write node
         nuke.delete(write_node)
         # restore selection

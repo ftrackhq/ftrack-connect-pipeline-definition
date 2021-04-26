@@ -7,8 +7,7 @@
     ],
     "components":[
         {
-            "name": "mayaBinaryScene",
-            "required": false
+            "name": "mayaBinaryScene"
         },
         {
             "name": "mayaAsciiScene",
