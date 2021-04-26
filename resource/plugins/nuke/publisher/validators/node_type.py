@@ -16,12 +16,16 @@ class NoneEmptyValidatorPlugin(plugin.PublisherValidatorNukePlugin):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
+        if len(collected_objects) == 0:
+            msg = 'No nodes selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
         node_name = collected_objects[0]
         node = nuke.toNode(node_name)
         if node.Class() != node_type:
-            self.logger.error('Node {} is not of type {}'.format(node, node_type))
-            return False
-
+            msg = 'Node {} is not of type {}'.format(node, node_type)
+            self.logger.error(msg)
+            return (False, {'message': msg})
         return bool(node_name)
 
 
