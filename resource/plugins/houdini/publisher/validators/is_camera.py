@@ -29,7 +29,7 @@ class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
             if not 'cam' in obj.type().name():
                 return (
                     False, 
-                    '({}) Only cameras can be published!'.format(obj_path)
+                    {'message':'({}) Only cameras can be published!'.format(obj_path)}
                 )
             return True
 

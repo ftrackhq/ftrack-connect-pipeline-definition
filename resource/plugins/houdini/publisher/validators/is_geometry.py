@@ -27,7 +27,7 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
             if obj.type().name() != 'geo':
                 return (
                     False, 
-                    '({}) Only geometry can be published!'.format(obj_path)
+                    {'message':'({}) Only geometry can be published!'.format(obj_path)}
                 )
         return True
 
