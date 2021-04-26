@@ -23,8 +23,7 @@
   ],
   "components": [
     {
-      "name": "mayaBinary",      
-      "optional": true,
+      "name": "mayaBinary",
       "stages": [
         {
           "name": "collector",
