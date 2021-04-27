@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from functools import partial
 
@@ -46,7 +46,9 @@ class LoadUnrealWidget(LoadBaseWidget):
                     assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
                     skeletons = assetRegistry.get_assets_by_class('Skeleton')
                     for skeleton in skeletons:
-                        option['options'].append({'label': str(skeleton.asset_name), 'value': str(skeleton.asset_name)})
+                        option['options'].append({
+                            'label': str(skeleton.asset_name),
+                            'value': str(skeleton.asset_name)})
                 for item in option['options']:
                     widget.addItem(item['label'])
             elif option['type'] == 'line':
@@ -69,7 +71,8 @@ class LoadUnrealWidget(LoadBaseWidget):
                 combobox_name = str(name)
                 def currentIndexChanged(idx):
                     option = self.config[combobox_name]
-                    self.set_option_result(option['options'][idx]['value'], combobox_name)
+                    self.set_option_result(option['options'][idx]['value'],
+                                           combobox_name)
                 widget.currentIndexChanged.connect(currentIndexChanged)
             elif option['type'] == 'line':
                 widget.textChanged.connect(update_fn)
@@ -92,7 +95,8 @@ class LoadUnrealWidget(LoadBaseWidget):
                     default = option.get('default')
 
             if option['type'] == 'checkbox':
-                self.set_option_result(default if not default is None else False, name)
+                self.set_option_result(
+                    default if not default is None else False, name)
                 if default is not None:
                     widget.setChecked(default)
             elif option['type'] == 'combobox':

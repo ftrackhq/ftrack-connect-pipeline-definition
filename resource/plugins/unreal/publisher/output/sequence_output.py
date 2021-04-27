@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import os
 import sys
@@ -68,7 +68,8 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             )  # Level to load for rendering the sequence
 
             # Command-line arguments for Sequencer Render to Movie
-            # See: https://docs.unrealengine.com/en-us/Engine/Sequencer/Workflow/RenderingCmdLine
+            # See: https://docs.unrealengine.com/en-us/Engine/Sequencer/
+            #           Workflow/RenderingCmdLine
             sequence_path = "-LevelSequence={}".format(sequence_path)
             cmdline_args.append(sequence_path)  # The sequence to render
 
@@ -82,7 +83,8 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
 
             cmdline_args.append("-game")
             cmdline_args.append(
-                "-MovieSceneCaptureType=/Script/MovieSceneCapture.AutomatedLevelSequenceCapture"
+                '-MovieSceneCaptureType=/Script/MovieSceneCapture.'\
+                'AutomatedLevelSequenceCapture'
             )
             cmdline_args.append("-ForceRes")
             cmdline_args.append("-Windowed")
@@ -110,12 +112,13 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             try:
                 os.remove(output_filepath)
             except OSError as e:
-                self.logger.warning(
-                    "Couldn't delete {}. The Sequencer won't be able to output the movie to that file.".format(
-                        output_filepath
-                    )
+
+                msg = 'Could not delete {}. The Sequencer will not be able to' \
+                      ' output the movie to that file.'.format(
+                    output_filepath
                 )
-                return False, None
+                self.logger.warning(msg)
+                return False, {'message': msg}
 
         # Unreal will be started in game mode to render the video
         cmdline_args = __build_process_args(
@@ -128,14 +131,14 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
         )
 
         self.logger.info(
-            "Sequencer command-line arguments: {}".format(cmdline_args)
+            'Sequencer command-line arguments: {}'.format(cmdline_args)
         )
 
         # Send the arguments as a single string because some arguments could
         # contain spaces and we don't want those to be quoted
         envs = os.environ.copy()
         envs.update({'FTRACK_CONNECT_DISABLE_INTEGRATION_LOAD':"1"})
-        subprocess.call(" ".join(cmdline_args), env = envs)
+        subprocess.call(' '.join(cmdline_args), env = envs)
 
         return os.path.isfile(output_filepath), output_filepath
 
@@ -150,10 +153,12 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             collected_objects.extend(collector['result'])
 
         master_sequence = None
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
+        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(
+            as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
-                if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
+                if seq.get_name() == seq_name or seq_name.startswith(
+                        '{}_'.format(seq.get_name())):
                     master_sequence = seq
                     break
             if master_sequence:
@@ -166,7 +171,8 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
         unreal_map_path = unreal_map.get_path_name()
         unreal_asset_path = master_sequence.get_path_name()
 
-        asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
+        asset_name = self._standard_structure.sanitise_for_filesystem(
+            context['asset_name'])
 
         # Publish Component: image_sequence
 
@@ -179,12 +185,13 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             True,
         )
 
-        # try to get start and end frames from sequence this allow local control for test publish(subset of sequence)
+        # try to get start and end frames from sequence this allow local
+        # control for test publish(subset of sequence)
         frameStart = master_sequence.get_playback_start()
         frameEnd = master_sequence.get_playback_end() - 1
         base_file_path = path[:-12] if path.endswith('.{frame}.exr') else path
 
-        new_file_path = "{0}.%04d.{1} [{2}-{3}]".format(
+        new_file_path = '{0}.%04d.{1} [{2}-{3}]'.format(
             base_file_path, 'exr', frameStart, frameEnd
         )
 
@@ -199,10 +206,12 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
             collected_objects.extend(collector['result'])
 
         master_sequence = None
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(as_names=False)
+        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(
+            as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
-                if seq.get_name() == seq_name or seq_name.startswith('{}_'.format(seq.get_name())):
+                if seq.get_name() == seq_name or seq_name.startswith(
+                        '{}_'.format(seq.get_name())):
                     master_sequence = seq
                     break
             if master_sequence:
@@ -215,9 +224,10 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         unreal_map_path = unreal_map.get_path_name()
         unreal_asset_path = master_sequence.get_path_name()
 
-        asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
+        asset_name = self._standard_structure.sanitise_for_filesystem(
+            context['asset_name'])
 
-        movie_name = "{}_reviewable".format(asset_name)
+        movie_name ='{}_reviewable'.format(asset_name)
         rendered, path = self._render(
             dest_folder,
             unreal_map_path,

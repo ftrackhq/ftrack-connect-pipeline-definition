@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import os
 import tempfile
@@ -25,7 +25,8 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
     ):
 
         # format package folder name
-        asset_name = self._standard_structure.sanitise_for_filesystem(context['asset_name'])
+        asset_name = self._standard_structure.sanitise_for_filesystem(
+            context['asset_name'])
         content_name = "{}_package".format(asset_name)
 
         output_filepath = os.path.normpath(
@@ -41,12 +42,12 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             try:
                 os.remove(output_zippath)
             except OSError as e:
-                self.logger.warning(
-                    "Couldn't delete {}. The package process won't be able to output to that file.".format(
+                msg = 'Could not delete {}. The package process will not be '\
+                    ' able to output to that file.'.format(
                         output_zippath
                     )
-                )
-                return False, None
+                self.logger.warning(msg)
+                return False, {'message':msg}
 
         # process migration of current scene
         self.logger.info(
@@ -56,22 +57,26 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
 
         # create (temporary) destination folder
         try:
-            # TODO: Use a context manager like tempfile.TemporaryDirectory() to safely create
-            # and cleanup temp folders and files once Unreal provides support for Python 3.2+
+            # TODO: Use a context manager like tempfile.TemporaryDirectory() to
+            #  safely create and cleanup temp folders and files once Unreal
+            #  provides support for Python 3.2+
             tempdir_filepath = tempfile.mkdtemp(dir=destination_path)
         except OSError:
-            self.logger.warning(
-                "Couldn't create {}. The package won't be able to output to that folder.".format(
+            msg = 'Could not create {}. The package will not be able to ' \
+                  'output to that folder.'.format(
                     destination_path
                 )
+            self.logger.warning(
+
             )
-            return False, None
+            return False, {'message': msg}
 
         # perform migration
         unreal_windows_logs_dir = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), "Logs"
         )
-        self.logger.info("Detailed logs of editor output during migration found at: {0}".format(unreal_windows_logs_dir))
+        self.logger.info('Detailed logs of editor output during migration '
+                         'found at: "{0}"'.format(unreal_windows_logs_dir))
 
         # create a ZipFile object
         with ZipFile(output_zippath, 'w') as zipObj:
@@ -89,12 +94,12 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             try:
                 shutil.rmtree(tempdir_filepath)
             except OSError as e:
-                self.logger.warning(
-                    "Couldn't delete {}. The package process cannot cleanup temporary package folder.".format(
-                        tempdir_filepath
-                    )
+                msg = 'Could not delete {}. The package process cannot ' \
+                      'cleanup temporary package folder.'.format(
+                    tempdir_filepath
                 )
-                return False, None
+                self.logger.warning(msg)
+                return False, {'message': msg}
 
         return os.path.isfile(output_zippath), output_zippath
 
@@ -116,7 +121,8 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         if package_result:
             return [package_path]
         else:
-            return (False, 'Failed to produce package of current project.')
+            return (False, {'message': 'Failed to produce package of '\
+            'current project.'})
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from ftrack_connect_pipeline_unreal_engine import plugin
 
@@ -15,9 +15,11 @@ class CheckSequenceValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
         if not collected_objects or len(collected_objects) == 0:
-            return (False, 'No level sequence added!')
+            return (False,
+                    {'message': 'No level sequence added!'})
         if len(collected_objects) != 1:
-            return (False, 'More than one(1) level sequence added!')
+            return (False,
+                    {'message': 'More than one(1) level sequence added!'})
         # No need to validate selection, only sequences can be added
         return True
 
