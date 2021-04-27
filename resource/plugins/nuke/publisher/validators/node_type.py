@@ -21,7 +21,7 @@ class NoneEmptyValidatorPlugin(plugin.PublisherValidatorNukePlugin):
             msg = 'No nodes selected!'
             self.logger.error(msg)
             return (False, {'message': msg})
-        
+
         node_name = collected_objects[0]
         node = nuke.toNode(node_name)
         if node.Class() != node_type:
