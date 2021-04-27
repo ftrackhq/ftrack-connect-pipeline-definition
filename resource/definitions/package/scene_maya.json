@@ -10,6 +10,10 @@
             "name": "mayaBinaryScene"
         },
         {
+            "name": "mayaAsciiScene",
+            "required": false
+        },
+        {
             "name": "thumbnail",
             "required": false
         },

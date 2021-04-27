@@ -17,7 +17,10 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-
+        if len(collected_objects) == 0:
+            msg = 'No geometries selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
         for obj in collected_objects:
             if not cmds.objectType(obj, isAType='geometryShape'):
                 return (

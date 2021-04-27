@@ -56,6 +56,40 @@
       ]
     },
     {
+      "name": "mayaAscii",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "generic_collector",
+              "plugin": "generic_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "maya_ascii",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "thumbnail",
       "stages": [
         {

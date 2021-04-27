@@ -47,7 +47,7 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
             '{} [{}-{}]'.format(temp_seq_path, first, last)
         )
 
-        write_node['file'].setValue(temp_seq_path)
+        write_node['file'].setValue(temp_seq_path.replace('\\','/'))
 
         write_node['file_type'].setValue(selected_file_format)
         if selected_file_format == default_file_format:
