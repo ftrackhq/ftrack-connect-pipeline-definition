@@ -17,7 +17,10 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-
+        if len(collected_objects) == 0:
+            msg = 'No cameras selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
         for obj in collected_objects:
             is_camera = False
             relatives = cmds.listRelatives(obj, f=True)
@@ -27,7 +30,10 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
                 if is_camera:
                     break
             if not is_camera:
-                return False
+                self.logger.error(
+                    "{} is not a camera!".format(obj)
+                )
+                return (False, {'message':"{} is not a camera!".format(obj)})
         return True
 
 
