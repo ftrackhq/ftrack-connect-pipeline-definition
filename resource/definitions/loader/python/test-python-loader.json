@@ -29,7 +29,7 @@
           "plugins":[
             {
               "name": "Pick objects with prefix",
-              "plugin": "collectorTest"
+              "plugin": "collector_test"
             },
             {
               "name": "Collect components from context",
@@ -45,7 +45,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "importerTest"
+              "plugin": "importer_test"
             }
           ]
         },
@@ -54,7 +54,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -70,7 +70,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizerTest",
+              "plugin": "pre_finalizer_test",
               "visible": false
             }
           ]
@@ -80,7 +80,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "finalizerTest",
+              "plugin": "finalizer_test",
               "visible": false
             }
           ]
@@ -90,7 +90,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizerTest",
+              "plugin": "post_finalizer_test",
               "visible": false
             }
           ]

@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 class ImporterLoaderTest(plugin.LoaderImporterPlugin):
-    plugin_name = 'importerTest'
+    plugin_name = 'importer_test'
 
     def run(self, context=None, data=None, options=None):
         return {}

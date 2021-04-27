@@ -59,7 +59,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -103,7 +103,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -139,7 +139,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -183,7 +183,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -199,7 +199,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizerTest",
+              "plugin": "pre_finalizer_test",
               "visible": false
             }
           ]
@@ -209,7 +209,7 @@
           "plugins":[
             {
               "name": "Do nothing",
-              "plugin": "finalizerTest",
+              "plugin": "finalizer_test",
               "visible": false
             }
           ]
@@ -219,7 +219,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizerTest",
+              "plugin": "post_finalizer_test",
               "visible": false
             }
           ]

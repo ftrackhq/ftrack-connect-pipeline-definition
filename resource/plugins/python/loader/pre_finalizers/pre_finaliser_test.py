@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 class PreFinalizerLoaderTest(plugin.LoaderPreFinalizerPlugin):
-    plugin_name = 'pre_finalizerTest'
+    plugin_name = 'pre_finalizer_test'
 
     def run(self, context=None, data=None, options=None):
         print("This is the data ---> {}".format(data))

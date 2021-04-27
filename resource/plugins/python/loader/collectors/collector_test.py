@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 class CollectorLoaderTest(plugin.LoaderCollectorPlugin):
-    plugin_name = 'collectorTest'
+    plugin_name = 'collector_test'
 
     def run(self, context=None, data=None, options=None):
         return []
