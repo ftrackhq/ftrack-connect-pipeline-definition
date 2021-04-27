@@ -6,6 +6,8 @@ import sys
 import subprocess
 
 from ftrack_connect_pipeline_unreal_engine import plugin
+from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as \
+    unreal_utils
 
 import ftrack_api
 
@@ -27,9 +29,9 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
         def __generate_target_file_path(destination_path, content_name):
             # Sequencer can only render to avi file format
             output_filename = (
-                "{}.avi".format(content_name)
+                '{}.avi'.format(content_name)
                 if not is_image_sequence
-                else ("{}".format(content_name) + '.{frame}.exr')
+                else ('{}'.format(content_name) + '.{frame}.exr')
             )
             output_filepath = os.path.join(destination_path, output_filename)
             return output_filepath
@@ -51,7 +53,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             unreal_exec_path = '"{}"'.format(sys.executable)
 
             # Get the Unreal project to load
-            unreal_project_filename = "{}.uproject".format(
+            unreal_project_filename = '{}.uproject'.format(
                 ue.SystemLibrary.get_game_name()
             )
             unreal_project_path = os.path.join(
@@ -70,7 +72,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             # Command-line arguments for Sequencer Render to Movie
             # See: https://docs.unrealengine.com/en-us/Engine/Sequencer/
             #           Workflow/RenderingCmdLine
-            sequence_path = "-LevelSequence={}".format(sequence_path)
+            sequence_path = '-LevelSequence={}'.format(sequence_path)
             cmdline_args.append(sequence_path)  # The sequence to render
 
             output_path = '-MovieFolder="{}"'.format(destination_path)
@@ -78,7 +80,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
                 output_path
             )  # output folder, must match the work template
 
-            movie_name_arg = "-MovieName={}".format(content_name)
+            movie_name_arg = '-MovieName={}'.format(content_name)
             cmdline_args.append(movie_name_arg)  # output filename
 
             cmdline_args.append("-game")
@@ -137,7 +139,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
         # Send the arguments as a single string because some arguments could
         # contain spaces and we don't want those to be quoted
         envs = os.environ.copy()
-        envs.update({'FTRACK_CONNECT_DISABLE_INTEGRATION_LOAD':"1"})
+        envs.update({'FTRACK_CONNECT_DISABLE_INTEGRATION_LOAD': '1'})
         subprocess.call(' '.join(cmdline_args), env = envs)
 
         return os.path.isfile(output_filepath), output_filepath
@@ -153,8 +155,8 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             collected_objects.extend(collector['result'])
 
         master_sequence = None
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(
-            as_names=False)
+
+        all_sequences = unreal_utils.get_all_sequences(as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith(
@@ -195,7 +197,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
             base_file_path, 'exr', frameStart, frameEnd
         )
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
     plugin_name = 'reviewable_output'
@@ -206,8 +208,8 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
             collected_objects.extend(collector['result'])
 
         master_sequence = None
-        all_sequences = CollectSequenceUnrealPlugin.get_all_sequences(
-            as_names=False)
+
+        all_sequences = unreal_utils.get_all_sequences(as_names=False)
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith(

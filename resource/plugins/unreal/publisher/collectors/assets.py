@@ -4,12 +4,11 @@
 import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as unreal_utils
 
 import ftrack_api
 
-class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
-    plugin_name = 'sequence_collector'
+class CollectAssetsUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
+    plugin_name = 'assets_collector'
 
     def select(self, context=None, data=None, options=None):
         '''Select all the sequences in the given plugin *options*'''
@@ -18,25 +17,19 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
 
     def fetch(self, context=None, data=None, options=None):
         ''' Fetch all the sequence actor names in the project '''
-        return unreal_utils.get_all_sequences()
+        collected_objects = []
+
+        unreal_map = ue.EditorLevelLibrary.get_editor_world()
+        unreal_map_package_path = unreal_map.get_outermost().get_path_name()
+
+        collected_objects.append(unreal_map_package_path)
+
+        return collected_objects
 
     def add(self, context=None, data=None, options=None):
-        ''' Return the selected sequence names. '''
-        collected_objects = []
-        seq_name_sel = None
-        
-        # First, try to pick the selected
-        for actor in ue.EditorLevelLibrary.get_selected_level_actors():
-            if actor.static_class() == ue.LevelSequenceActor.static_class():
-                seq_name_sel = actor.get_name()
-                break
-        if not seq_name_sel:
-            # No one selected, pick the first found
-            all_sequences = unreal_utils.get_all_sequences()
-            if 0<len(all_sequences):
-                seq_name_sel = all_sequences[0]
-        collected_objects.append(seq_name_sel)
-        return collected_objects
+        ''' Return selected selected content browser packe paths. '''
+        # TODO find a way to check what is selected
+        return self.fetch(context, data, options)
 
     def run(self, context=None, data=None, options=None):
         '''
@@ -50,6 +43,6 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CollectSequenceUnrealPlugin(api_object)
+    plugin = CollectAssetsUnrealPlugin(api_object)
     plugin.register()
 
