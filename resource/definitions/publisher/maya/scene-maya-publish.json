@@ -4,16 +4,23 @@
   "package": "scene_maya",
   "host_type": "maya",
   "ui_type": "qt",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.publish",
-          "widget": "context.publish"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.publish",
+              "widget": "context.publish"
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "mayaBinaryScene",
@@ -45,6 +52,43 @@
             {
               "name": "maya",
               "plugin": "maya_binary",
+              "widget": "maya_options"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mayaAsciiScene",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
+              "options": {
+                "export": ["scene", "export_selected"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "maya_ascii",
               "widget": "maya_options"
             }
           ]
@@ -123,14 +167,41 @@
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "to ftrack server",
-          "plugin": "result_maya",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_result",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result_maya",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_result",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }

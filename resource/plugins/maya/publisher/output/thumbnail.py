@@ -76,7 +76,7 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
 
         cmds.lookThru(previous_camera)
 
-        return {component_name: path}
+        return [path]
 
 
 def register(api_object, **kw):

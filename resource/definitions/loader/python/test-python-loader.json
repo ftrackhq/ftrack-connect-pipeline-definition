@@ -3,16 +3,23 @@
   "name": "File Loader",
   "package": "pythonPkg",
   "host_type": "python",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.load",
-          "widget": "context.load"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.load",
+              "widget": "context.load"
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "main",
@@ -22,7 +29,7 @@
           "plugins":[
             {
               "name": "Pick objects with prefix",
-              "plugin": "collectorTest"
+              "plugin": "collector_test"
             },
             {
               "name": "Collect components from context",
@@ -38,7 +45,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "importerTest"
+              "plugin": "importer_test"
             }
           ]
         },
@@ -47,21 +54,48 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "to ftrack server",
-          "plugin": "finalizerTest",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_finalizer_test",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }

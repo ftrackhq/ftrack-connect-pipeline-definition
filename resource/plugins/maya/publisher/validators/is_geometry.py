@@ -13,13 +13,26 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     def run(self, context=None, data=None, options=None):
         if not data:
             return False
-        for obj in data:
+
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+        if len(collected_objects) == 0:
+            msg = 'No geometries selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
+        for obj in collected_objects:
             if not cmds.objectType(obj, isAType='geometryShape'):
                 return (
                     False,
-                    "the object: {} is not a geometry shape type".format(obj)
+                    {
+                        'message':"the object: {} is not a geometry shape type".format(obj),
+                        'data':None
+                    }
                 )
-        return True
+        user_data = {'message':'geometry exported correctly',
+                     'data':None}
+        return (True, user_data)
 
 
 def register(api_object, **kw):

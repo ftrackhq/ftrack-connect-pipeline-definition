@@ -4,8 +4,8 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
-class FinalizerLoaderTest(plugin.LoaderFinalizerPlugin):
-    plugin_name = 'finalizer_test'
+class PostFinalizerLoaderTest(plugin.LoaderPostFinalizerPlugin):
+    plugin_name = 'post_finalizer_test'
 
     def run(self, context=None, data=None, options=None):
         return {}
@@ -15,5 +15,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = FinalizerLoaderTest(api_object)
+    plugin = PostFinalizerLoaderTest(api_object)
     plugin.register()

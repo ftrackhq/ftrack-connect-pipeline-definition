@@ -8,6 +8,10 @@
     "components":[
         {
             "name": "main"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
         }
     ]
 }

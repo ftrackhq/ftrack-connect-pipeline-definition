@@ -4,16 +4,23 @@
   "package": "camera_maya",
   "host_type": "maya",
   "ui_type": "qt",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.load",
-          "widget": "context.load"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.load",
+              "widget": "context.load"
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "mayaBinary",
@@ -52,7 +59,51 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mayaAscii",      
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".ma"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Maya",
+              "plugin": "load_maya",
+              "options": {
+                "load_mode": "Import",
+                "load_options": {
+                  "preserve_references": true,
+                  "add_namespace": true,
+                  "namespace_option": "file_name"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -88,21 +139,48 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "Merge scene",
-          "plugin": "merge_geo_abc",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "Do nothing",
+              "plugin": "finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_finalizer_test",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }

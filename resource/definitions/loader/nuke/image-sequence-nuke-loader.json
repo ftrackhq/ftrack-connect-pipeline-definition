@@ -4,16 +4,23 @@
   "package": "image_sequence_nuke",
   "host_type": "nuke",
   "ui_type": "qt",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.load",
-          "widget": "context.load"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.load",
+              "widget": "context.load"
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "nukescript",
@@ -45,7 +52,7 @@
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -81,21 +88,48 @@
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "Do nothing",
-          "plugin": "finalizerTest",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "Do nothing",
+              "plugin": "finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_finalizer_test",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }

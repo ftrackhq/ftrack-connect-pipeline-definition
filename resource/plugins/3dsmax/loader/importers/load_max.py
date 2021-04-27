@@ -28,7 +28,11 @@ class LoadMaxPlugin(plugin.LoaderImporterMaxPlugin):
             max_options = self._get_max_options(load_options)
 
         results = {}
-        paths_to_import = data
+
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
+
         for component_path in paths_to_import:
             load_result = None
             self.logger.debug('Loading path {}'.format(component_path))

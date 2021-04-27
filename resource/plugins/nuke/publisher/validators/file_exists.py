@@ -10,7 +10,16 @@ class FileExistsValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'file_exists'
 
     def run(self, context=None, data=None, options=None):
-        scene_path = data[0]
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+
+        if len(collected_objects) == 0:
+            msg = 'No nodes selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
+
+        scene_path = collected_objects[0]
         if os.path.exists(scene_path):
             return True
         else:

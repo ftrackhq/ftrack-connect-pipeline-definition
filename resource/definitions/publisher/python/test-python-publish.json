@@ -3,16 +3,29 @@
   "name": "File Publisher",
   "package": "pythonPkg",
   "host_type": "python",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.publish",
-          "widget": "context.publish"
+          "name": "context",
+          "plugins": [
+            {
+              "name": "context selector",
+              "plugin": "context.publish",
+              "widget": "context.publish",
+              "options": {
+                "context_id": "690afd58-06d0-11ea-bbbb-ee594985c7e2",
+                "asset_name": "testFrompythonConsole",
+                "comment": "Nothing to comment",
+                "status_id": "44dd9fb2-4164-11df-9218-0019bb4983d8"
+              }
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "main",
@@ -25,7 +38,43 @@
               "plugin": "filesystem",
               "widget": "file_collector.widget",
               "options": {
-                "path": null
+                "path": "/Users/lluisftrack/Desktop/Screenshot.png"
+              }
+            }
+          ]
+        },
+        {
+          "name":"validator",
+          "plugins": [
+            {
+              "name": "file exists",
+              "plugin": "file_exists"
+            }
+          ]
+        },
+        {
+          "name":"output",
+          "plugins": [
+            {
+              "name": "passthrough output",
+              "plugin": "passthrough"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect from given path",
+              "plugin": "filesystem",
+              "widget": "file_collector.widget",
+              "options": {
+                "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
             }
           ]
@@ -51,14 +100,41 @@
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "to ftrack server",
-          "plugin": "result",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_result",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_result",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }
