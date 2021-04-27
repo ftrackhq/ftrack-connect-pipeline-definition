@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from functools import partial
 
@@ -53,12 +53,6 @@ class AlembicOptionsWidget(BaseOptionsWidget):
     def on_fetch_callback(self, result):
         ''' This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
-        # for k, v in self.options_le.iteritems():
-        #     if v.text() == "None":
-        #         if k in result.keys():
-        #             self.options_le[k].setText(str(result[k]))
-        #         else:
-        #             self.options_le[k].setText("0")
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -123,11 +117,9 @@ class AlembicOptionsWidget(BaseOptionsWidget):
     def _reset_default_animation_options(self):
         pass
 
-
 class AlembicOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
     plugin_name = 'alembic_options'
     widget = AlembicOptionsWidget
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

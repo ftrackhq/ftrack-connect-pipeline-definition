@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import tempfile
 
@@ -17,8 +17,8 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         '''Fetch start and end frames from the scene'''
         r = hou.playbar.frameRange()
         frame_info = {
-            "frameStart": r[0],
-            "frameEnd": r[1]
+            'frameStart': r[0],
+            'frameEnd': r[1]
         }
         return frame_info
 
@@ -26,7 +26,8 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         r = hou.playbar.frameRange()
         return {
             'ABCAnimation' : bool(options.get('ABCAnimation', True)),
-            'ABCFrameRangeStart': float(options.get('ABCFrameRangeStart', r[0])),
+            'ABCFrameRangeStart': float(
+                options.get('ABCFrameRangeStart', r[0])),
             'ABCFrameRangeEnd': float(options.get('ABCFrameRangeEnd', r[1])),
             'ABCFrameRangeBy': float(options.get('ABCFrameRangeBy', '1.0')),
         }
@@ -90,8 +91,8 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         if options.get('ABCAnimation'):
             # Check Alembic for animation option
             abcRopnet.parm('trange').set(1)
-            for i, x in enumerate(
-                    ['ABCFrameRangeStart', 'ABCFrameRangeEnd', 'ABCFrameRangeBy']):
+            for i, x in enumerate(['ABCFrameRangeStart', 'ABCFrameRangeEnd',
+                                   'ABCFrameRangeBy']):
                 abcRopnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
                 abcRopnet.parm('f%d' % (i + 1)).set(options[x])
         else:
@@ -105,7 +106,6 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         ropNet.destroy()
 
         return [new_file_path]
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

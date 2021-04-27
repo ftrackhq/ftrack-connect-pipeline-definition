@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 import logging
 
 import hou
@@ -27,7 +27,8 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
             if obj.type().name() != 'geo':
                 return (
                     False, 
-                    {'message':'({}) Only geometry can be published!'.format(obj_path)}
+                    {'message':'({}) Only geometry can be published!'.format(
+                        obj_path)}
                 )
         return True
 

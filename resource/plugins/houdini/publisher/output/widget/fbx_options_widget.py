@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from functools import partial
 
@@ -164,11 +164,9 @@ class FbxOptionsWidget(DynamicWidget):
                     widget.setText(default)
                 widget.textChanged.connect(update_fn)
 
-
 class FbxOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
     plugin_name = 'fbx_output'
     widget = FbxOptionsWidget
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

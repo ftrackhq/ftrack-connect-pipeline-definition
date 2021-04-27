@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from functools import partial
 
@@ -54,11 +54,9 @@ class HoudiniSceneOptionsWidget(DynamicWidget):
             widget.stateChanged.connect(update_fn)
 
 
-
 class HoudiniSceneOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
     plugin_name = 'houdini_scene_output'
     widget = HoudiniSceneOptionsWidget
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

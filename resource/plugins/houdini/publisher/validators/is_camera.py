@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import logging
 
@@ -8,9 +8,7 @@ import hou
 import ftrack_api
 from ftrack_connect_pipeline_houdini import plugin
 
-
 logger = logging.getLogger('ftrack_connect_pipeline_houdini')
-
 
 class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
     plugin_name = 'is_camera'
@@ -29,10 +27,10 @@ class CheckCameraValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
             if not 'cam' in obj.type().name():
                 return (
                     False, 
-                    {'message':'({}) Only cameras can be published!'.format(obj_path)}
+                    {'message':'({}) Only cameras can be published!'.format(
+                        obj_path)}
                 )
             return True
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

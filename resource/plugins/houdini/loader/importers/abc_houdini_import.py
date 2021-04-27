@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import hou
 
@@ -25,7 +25,7 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
             node.parm('buildSubnet').set(False)
             node.parm('fileName').set(component_path)
             hou.hscript(
-                "opparm -C {0} buildHierarchy (1)".format(
+                'opparm -C {0} buildHierarchy (1)'.format(
                     node.path()))
             node.moveToGoodPosition()
 

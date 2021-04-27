@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import os
 import six
@@ -18,7 +18,8 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
         houdini_options = {}
 
         houdini_options['load_mode'] = load_options.get('load_mode')
-        houdini_options['MergeOverwriteOnConflict'] = load_options.get('MergeOverwriteOnConflict')
+        houdini_options['MergeOverwriteOnConflict'] = load_options.get(
+            'MergeOverwriteOnConflict')
 
         return houdini_options
 
@@ -26,7 +27,8 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
 
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
-        load_mode_fn = self.load_modes.get(load_mode, list(self.load_modes.keys())[0])
+        load_mode_fn = self.load_modes.get(
+            load_mode, list(self.load_modes.keys())[0])
 
         houdini_options = {}
         if load_options:
@@ -40,12 +42,16 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Loading path {}'.format(component_path))
 
-            load_result = load_mode_fn(component_path, context=context, options=houdini_options)
+            load_result = load_mode_fn(
+                component_path, context=context, options=houdini_options)
 
             if not six.PY2:
-                results[component_path] = load_result.path() if not isinstance(load_result, str) else load_result
+                results[component_path] = load_result.path() \
+                    if not isinstance(load_result, str) else load_result
             else:
-                results[component_path] = load_result.path() if not isinstance(load_result, str) and not isinstance(load_result, unicode) else load_result
+                results[component_path] = load_result.path() if \
+                   not isinstance(load_result, str) and \
+                       not isinstance(load_result, unicode) else load_result
 
         return results
 

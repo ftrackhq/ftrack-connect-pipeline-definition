@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import tempfile
 import os
@@ -28,17 +28,21 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        if os.path.isfile(collected_objects[0]) or collected_objects[0].endswith('.hip'):
+        if os.path.isfile(collected_objects[0]) or \
+                collected_objects[0].endswith('.hip'):
             # Export entire scene
             hou.hipFile.save(new_file_path)
         else:
             # Export selected
-            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in collected_objects])
+            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in
+                                      collected_objects])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
-                            hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
+                            hou.hipFile.save('{}')".format(
+                new_file_path.replace("\\","\\\\"))
 
-            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c', command]
+            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c',
+                   command]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:
@@ -75,18 +79,22 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             hou.hipFile.save(new_file_path)
         else:
 
-            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in collected_objects])
+            hou.copyNodesToClipboard([hou.node(obj_path)
+                                      for obj_path in collected_objects])
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
-                            hou.hipFile.save('%s')" % (new_file_path.replace("\\","\\\\"))
+                            hou.hipFile.save('{}')" .format(
+                new_file_path.replace("\\","\\\\"))
 
-            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c', command]
+            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c',
+                   command]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
 
-            self.logger.info('Exporting selected nodes with command: "{}".'.format(cmd))
+            self.logger.info('Exporting selected nodes with command: '
+                             '"{}".'.format(cmd))
 
             result = subprocess.Popen(cmd, env=my_env)
             result.communicate()
