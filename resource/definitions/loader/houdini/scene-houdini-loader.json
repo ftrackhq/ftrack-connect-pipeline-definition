@@ -58,7 +58,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }

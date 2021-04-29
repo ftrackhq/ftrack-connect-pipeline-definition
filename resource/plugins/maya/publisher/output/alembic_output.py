@@ -60,7 +60,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        cmds.select(collected_objects, cl=True)
+        cmds.select(cl=True)
         cmds.select(collected_objects)
         selectednodes = cmds.ls(sl=True, long=True)
         nodes = cmds.ls(selectednodes, type='transform', long=True)
