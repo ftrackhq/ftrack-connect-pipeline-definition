@@ -50,7 +50,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -62,7 +62,7 @@
       "plugins":[
         {
           "name": "Do nothing",
-          "plugin": "finalizerTest",
+          "plugin": "finalizer_test",
           "visible": false
         }
       ]
