@@ -1,6 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2021 ftrack
 
+import os
+
 import hou
 
 from ftrack_connect_pipeline_houdini import plugin

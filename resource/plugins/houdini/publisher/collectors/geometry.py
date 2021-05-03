@@ -24,7 +24,6 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
 
     def add(self, context=None, data=None, options=None):
         '''Return the selected geometries'''
-        check_type = "geometryShape"
         selected_objects = hou.selectedNodes()
         objPath = hou.node('/obj')
         geometry_objects = objPath.glob('*')

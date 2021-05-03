@@ -1,10 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2021 ftrack
 
-import os
 import six
-
-import hou
 
 from ftrack_connect_pipeline_houdini import plugin
 from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
@@ -46,12 +43,14 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
                 component_path, context=context, options=houdini_options)
 
             if not six.PY2:
-                results[component_path] = load_result.path() \
-                    if not isinstance(load_result, str) else load_result
+                results[component_path] = load_result.path() if (
+                    not isinstance(load_result, str)
+                ) else load_result
             else:
-                results[component_path] = load_result.path() if \
-                   not isinstance(load_result, str) and \
-                       not isinstance(load_result, unicode) else load_result
+                results[component_path] = load_result.path() if (
+                   not isinstance(load_result, str) and
+                   not isinstance(load_result, unicode)
+                ) else load_result
 
         return results
 

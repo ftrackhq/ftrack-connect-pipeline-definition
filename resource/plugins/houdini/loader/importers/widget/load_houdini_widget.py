@@ -12,16 +12,15 @@ from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 from Qt import QtCore, QtWidgets
 import ftrack_api
 
-OPTIONS = {
-    'MergeOverwriteOnConflict': {
-        'type': 'checkbox',
-        'label': 'Overwrite nodes on merge conflict:',
-    },
-}
-
-
 class LoadHoudiniWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
+
+    OPTIONS = {
+        'MergeOverwriteOnConflict': {
+            'type': 'checkbox',
+            'label': 'Overwrite nodes on merge conflict:',
+        },
+    }
 
     def __init__(
             self, parent=None, session=None, data=None, name=None,
@@ -34,11 +33,10 @@ class LoadHoudiniWidget(LoadBaseWidget):
             description=description, options=options, context=context
         )
 
-
     def build(self):
         super(LoadHoudiniWidget, self).build()
 
-        for name, option in OPTIONS.items():
+        for name, option in self.OPTIONS.items():
             default = None
 
             if option['type'] == 'checkbox':
@@ -55,21 +53,23 @@ class LoadHoudiniWidget(LoadBaseWidget):
             self.widgets[name] = widget
             self.layout().addWidget(widget)
 
+    def current_index_changed(self, name, label):
+        for item in self.OPTIONS[name]['options']:
+            if item['label'] == label:
+                self.set_option_result(item['value'], name)
+
     def post_build(self):
         super(LoadHoudiniWidget, self).post_build()
 
         for name, widget in self.widgets.items():
-            option = OPTIONS[name]
+            option = self.OPTIONS[name]
 
             update_fn = partial(self.set_option_result, key=name)
             if option['type'] == 'checkbox':
                 widget.stateChanged.connect(update_fn)
-            elif OPTIONS[name]['type'] == 'combobox':
-                def currentIndexChanged(label):
-                    for item in option['options']:
-                        if item['label'] == label:
-                            self.set_option_result(item['value'], name)
-                widget.currentIndexChanged.connect(currentIndexChanged)
+            elif self.OPTIONS[name]['type'] == 'combobox':
+                update_fn = partial(self.current_index_changed, name)
+                widget.currentIndexChanged.connect(update_fn)
             elif option['type'] == 'line':
                 widget.textChanged.connect(update_fn)
 
@@ -77,7 +77,7 @@ class LoadHoudiniWidget(LoadBaseWidget):
         super(LoadHoudiniWidget, self).set_defaults()
 
         for name, widget in self.widgets.items():
-            option = OPTIONS[name]
+            option = self.OPTIONS[name]
 
             if name in self.default_options:
                 default = self.default_options[name]
@@ -93,17 +93,13 @@ class LoadHoudiniWidget(LoadBaseWidget):
             if option['type'] == 'checkbox':
                 if default is not None:
                     widget.setChecked(default)
-            elif OPTIONS[name]['type'] == 'combobox':
+            elif self.OPTIONS[name]['type'] == 'combobox':
                 if default is not None:
                     idx = 0
                     for item in option['options']:
                         if item['value'] == default or item['label'] == default:
                             widget.setCurrentIndex(idx)
                         idx += 1
-                def currentIndexChanged(label):
-                    for item in option['options']:
-                        if item['label'] == label:
-                            self.set_option_result(item['value'], name)
             elif option['type'] == 'line':
                 if default is not None:
                     widget.setText(default)

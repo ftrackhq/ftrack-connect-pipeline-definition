@@ -41,7 +41,7 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
             for x in ['resx', 'resy']:
                 bkNd.parm(x).set(node.parm(x).eval())
 
-        for frame in xrange(int(frameRange[0]), (int(frameRange[1]) + 1)):
+        for frame in range(int(frameRange[0]), (int(frameRange[1]) + 1)):
             time = (frame - 1) / hou.fps()
             tsrMtx = node.worldTransformAtTime(time).explode()
 
@@ -84,26 +84,26 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
             objects = [bcam.path()]
 
         # Create Rop Net
-        ropNet = root_obj.createNode('ropnet')
+        rop_net = root_obj.createNode('ropnet')
 
-        abcRopnet = ropNet.createNode('alembic')
+        abc_ropnet = rop_net.createNode('alembic')
 
         if options.get('ABCAnimation'):
             # Check Alembic for animation option
-            abcRopnet.parm('trange').set(1)
+            abc_ropnet.parm('trange').set(1)
             for i, x in enumerate(['ABCFrameRangeStart', 'ABCFrameRangeEnd',
                                    'ABCFrameRangeBy']):
-                abcRopnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
-                abcRopnet.parm('f%d' % (i + 1)).set(options[x])
+                abc_ropnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
+                abc_ropnet.parm('f%d' % (i + 1)).set(options[x])
         else:
-            abcRopnet.parm('trange').set(0)
+            abc_ropnet.parm('trange').set(0)
 
-        abcRopnet.parm('filename').set(new_file_path)
-        abcRopnet.parm('root').set(objects[0].parent().path())
-        abcRopnet.parm('objects').set(object_paths)
-        abcRopnet.parm('format').set('hdf5')
-        abcRopnet.render()
-        ropNet.destroy()
+        abc_ropnet.parm('filename').set(new_file_path)
+        abc_ropnet.parm('root').set(objects[0].parent().path())
+        abc_ropnet.parm('objects').set(object_paths)
+        abc_ropnet.parm('format').set('hdf5')
+        abc_ropnet.render()
+        rop_net.destroy()
 
         return [new_file_path]
 

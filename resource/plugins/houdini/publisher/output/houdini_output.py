@@ -17,7 +17,6 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     filetype = 'hip'
 
     def run(self, context=None, data=None, options=None):
-        component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False,
@@ -39,7 +38,7 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('{}')".format(
-                new_file_path.replace("\\","\\\\"))
+                new_file_path.replace("\\", "\\\\"))
 
             cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c',
                    command]
@@ -51,8 +50,6 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
             self.logger.info('Exporting scene with command: "{}".'.format(cmd))
 
             subprocess.Popen(cmd, env=my_env)
-
-            #os.system(cmd)
 
         return [new_file_path]
 
