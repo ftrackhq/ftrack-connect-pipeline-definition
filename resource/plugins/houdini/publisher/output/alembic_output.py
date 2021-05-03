@@ -35,22 +35,22 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
     def bakeCamAnim(self, node, frameRange):
         ''' Bake camera to World Space '''
         if 'cam' in node.type().name():
-            bkNd = hou.node('/obj').createNode(
+            bake_node = hou.node('/obj').createNode(
                 'cam', '%s_bake' % node.name())
 
             for x in ['resx', 'resy']:
-                bkNd.parm(x).set(node.parm(x).eval())
+                bake_node.parm(x).set(node.parm(x).eval())
 
         for frame in range(int(frameRange[0]), (int(frameRange[1]) + 1)):
             time = (frame - 1) / hou.fps()
-            tsrMtx = node.worldTransformAtTime(time).explode()
+            matrix = node.worldTransformAtTime(time).explode()
 
-            for parm in tsrMtx:
+            for parm in matrix:
                 if 'shear' not in parm:
-                    for x, p in enumerate(bkNd.parmTuple(parm[0])):
-                        p.setKeyframe(hou.Keyframe(tsrMtx[parm][x], time))
+                    for x, p in enumerate(bake_node.parmTuple(parm[0])):
+                        p.setKeyframe(hou.Keyframe(matrix[parm][x], time))
 
-        return bkNd
+        return bake_node
 
     def run(self, context=None, data=None, options=None):
 
