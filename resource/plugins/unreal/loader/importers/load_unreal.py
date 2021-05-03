@@ -86,8 +86,8 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
 
     def assets_to_paths(self, assets):
         result = []
-        for ass in assets:
-            result.append(ass.get_path_name())
+        for asset in assets:
+            result.append(asset.get_path_name())
         return result
 
     def run(self, context=None, data=None, options=None):
@@ -138,7 +138,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
         self.logger.info('Importing path {}'.format(self.component_path))
         ue.AssetToolsHelpers.get_asset_tools().import_asset_tasks([self.task])
         if len(self.task.imported_object_paths or []) == 0:
-            return (False, {'message': 'Alembic import failed! See Output log'
+            return (False, {'message': 'Import failed! See Output log'
                                        ' for hints.'})
             
         self.loaded_asset = ue.EditorAssetLibrary.load_asset(
