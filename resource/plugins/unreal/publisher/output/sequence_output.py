@@ -115,9 +115,9 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
                 os.remove(output_filepath)
             except OSError as e:
 
-                msg = 'Could not delete {}. The Sequencer will not be able to' \
-                      ' output the movie to that file.'.format(
-                    output_filepath
+                msg = (
+                    'Could not delete {}. The Sequencer will not be able to'
+                    ' output the movie to that file.'.format(output_filepath)
                 )
                 self.logger.warning(msg)
                 return False, {'message': msg}

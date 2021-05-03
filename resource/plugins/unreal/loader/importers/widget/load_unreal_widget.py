@@ -33,8 +33,6 @@ class LoadUnrealWidget(LoadBaseWidget):
         super(LoadUnrealWidget, self).build()
 
         for name, option in self.config.items():
-            default = None
-
             if option['type'] == 'checkbox':
                 widget = QtWidgets.QCheckBox(option['label'])
             elif option['type'] == 'combobox':
@@ -58,6 +56,11 @@ class LoadUnrealWidget(LoadBaseWidget):
             self.widgets[name] = widget
             self.layout().addWidget(widget)
 
+    def current_index_changed(self, name, idx):
+        option = self.config[name]
+        self.set_option_result(option['options'][idx]['value'],
+                               name)
+
     def post_build(self):
         super(LoadUnrealWidget, self).post_build()
 
@@ -69,11 +72,8 @@ class LoadUnrealWidget(LoadBaseWidget):
                 widget.stateChanged.connect(update_fn)
             elif self.config[name]['type'] == 'combobox':
                 combobox_name = str(name)
-                def currentIndexChanged(idx):
-                    option = self.config[combobox_name]
-                    self.set_option_result(option['options'][idx]['value'],
-                                           combobox_name)
-                widget.currentIndexChanged.connect(currentIndexChanged)
+                update_fn = partial(self.current_index_changed, name)
+                widget.currentIndexChanged.connect(update_fn)
             elif option['type'] == 'line':
                 widget.textChanged.connect(update_fn)
 

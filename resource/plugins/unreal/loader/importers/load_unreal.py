@@ -91,7 +91,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
         return result
 
     def run(self, context=None, data=None, options=None):
-        ''' Format independent init '''
+        ''' Format independent init and import of main asset.  '''
 
         self.assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
 
@@ -202,24 +202,38 @@ class UnrealRigImportPlugin(UnrealImportPlugin):
         if self.skeleton_asset is None:
             return (False, 'Skeleton "{}" not found!'.format(skeleton_name))
 
-        return super(UnrealRigImportPlugin, self).run(context, data, options)
+        results = super(UnrealRigImportPlugin, self).run(context, data, options)
 
-        self.loaded_assets = [self.loaded_asset]
+        if results is None:
+            self.loaded_assets = [self.loaded_asset]
 
-        mesh_skeleton = loaded_skeletal_mesh.skeleton
-        if mesh_skeleton:
-            self.loaded_assets.append(self._rename_object_with_prefix(
-                mesh_skeleton, 'SKEL'))
+            # Collect eventual additional loaded assets
+            mesh_skeleton = self.loaded_asset.skeleton
+            if mesh_skeleton:
+                self.loaded_assets.append(self._rename_object_with_prefix(
+                    mesh_skeleton, 'SKEL'))
 
-        self.mesh_physics_asset = loaded_skeletal_mesh.physics_asset
-        if mesh_physics_asset:
-            self.loaded_assets.append(self._rename_object_with_prefix(
-                mesh_physics_asset, 'PHAT'))
+            self.mesh_physics_asset = self.loaded_asset.physics_asset
+            if self.mesh_physics_asset:
+                self.loaded_assets.append(self._rename_object_with_prefix(
+                    self.mesh_physics_asset, 'PHAT'))
+
+            results = {}
+            # Build and post process result
+            # ftrack metadata will be added by plugin importer
+            results[self.component_path] = self.assets_to_paths(
+                self.loaded_assets)
+
+        return results
 
     def build_asset_import_task(self, context, data, options):
         ''' Add asset type specific import task options. '''
         super(UnrealRigImportPlugin, self).build_asset_import_task(
             context, data, options)
+        if self.skeleton_asset != None:
+            self.task.options.set_editor_property(
+                'skeleton', self.skeleton_asset.get_asset()
+            )
 
     def change_version(self, options, current_ftrack_asset):
         ''' Reimport rig asset '''
@@ -274,7 +288,6 @@ class AbcRigUnrealImportPlugin(UnrealRigImportPlugin):
         if options['ImportMaterial']:
             self.task.options.material_settings.set_editor_property(
                 'find_materials', True)
-
 
 class FbxRigUnrealImportPlugin(UnrealRigImportPlugin):
     plugin_name = 'fbx_rig_unreal_import'

@@ -63,10 +63,10 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             #  provides support for Python 3.2+
             tempdir_filepath = tempfile.mkdtemp(dir=destination_path)
         except OSError:
-            msg = 'Could not create {}. The package will not be able to ' \
-                  'output to that folder.'.format(
-                    destination_path
-                )
+            msg = (
+                'Could not create {}. The package will not be able to ' 
+                'output to that folder.'.format(destination_path)
+            )
             self.logger.warning(
 
             )
@@ -146,8 +146,10 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                      {'data' :
                           {'version_dependency_ids':version_dependency_ids}} )
         else:
-            return (False, {'message': 'Failed to produce package of '\
-            'current project.'})
+            return (False, {'message': (
+                'Failed to produce package of '
+                'current project.'
+            )})
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
