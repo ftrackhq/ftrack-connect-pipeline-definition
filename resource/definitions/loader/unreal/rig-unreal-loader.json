@@ -1,0 +1,137 @@
+{
+  "type": "loader",
+  "name": "Rig Loader",
+  "package": "rig_unreal",
+  "host_type": "unreal",
+  "ui_type": "qt",
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.load",
+              "widget": "context.load"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+     {
+      "name": "alembic",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import Alembic rig to unreal",
+              "widget": "load_rig_unreal",
+              "plugin": "abc_rig_unreal_import"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "unreal",
+              "plugin": "post_import_test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fbx",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".fbx"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import FBX rig to unreal",
+              "widget": "load_rig_unreal",
+              "plugin": "fbx_rig_unreal_import"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "unreal",
+              "plugin": "post_import_test"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "Do nothing",
+              "plugin": "finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_finalizer_test",
+              "visible": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

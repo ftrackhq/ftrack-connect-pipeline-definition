@@ -11,7 +11,6 @@ VERSION = '0.1.0'
 
 logger = logging.getLogger('{}.hook'.format(NAME.replace('-','_')))
 
-
 def on_application_launch(event):
     '''Handle application launch and add environment to *event*.'''
     logger.info('launching: {}'.format(NAME))
