@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import tempfile
 
@@ -18,20 +18,30 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
         return {
             'FBXASCII': bool(
                 options.get('FBXASCII', True)),
-            'FBXSDKVersion': str(options.get('FBXExportScaleFactor', 'FBX | FBX201600')),
-            'FBXVertexCacheFormat': str(options.get('FBXVertexCacheFormat', 'mayaformat')),
-            'FBXExportInvisibleObjects': str(options.get('FBXExportInvisibleObjects', 'nullnodes')),
+            'FBXSDKVersion': str(
+                options.get('FBXExportScaleFactor', 'FBX | FBX201600')),
+            'FBXVertexCacheFormat': str(
+                options.get('FBXVertexCacheFormat', 'mayaformat')),
+            'FBXExportInvisibleObjects': str(
+                options.get('FBXExportInvisibleObjects', 'nullnodes')),
             'FBXAxisSystem': str(options.get('FBXAxisSystem', 'yupright')),
-            'FBXConversionLevelOfDetail': float(options.get('FBXConversionLevelOfDetail', '1.0')),
+            'FBXConversionLevelOfDetail': float(
+                options.get('FBXConversionLevelOfDetail', '1.0')),
             'FBXDetectConstantPointCountDynamicObjects': bool(
-                options.get('FBXDetectConstantPointCountDynamicObjects', False)),
+                options.get('FBXDetectConstantPointCountDynamicObjects',
+                            False)),
             'FBXConvertNURBSAndBeizerSurfaceToPolygons': bool(
-                options.get('FBXConvertNURBSAndBeizerSurfaceToPolygons', False)),
+                options.get('FBXConvertNURBSAndBeizerSurfaceToPolygons',
+                            False)),
             'FBXConserveMemoryAtTheExpenseOfExportTime': bool(
-                options.get('FBXConserveMemoryAtTheExpenseOfExportTime', False)),
-            'FBXForceBlendShapeExport': bool(options.get('FBXForceBlendShapeExport', False)),
-            'FBXForceSkinDeformExport': bool(options.get('FBXForceSkinDeformExport', False)),
-            'FBXExportEndEffectors': bool(options.get('FBXExportEndEffectors', True)),
+                options.get('FBXConserveMemoryAtTheExpenseOfExportTime',
+                            False)),
+            'FBXForceBlendShapeExport': bool(
+                options.get('FBXForceBlendShapeExport', False)),
+            'FBXForceSkinDeformExport': bool(
+                options.get('FBXForceSkinDeformExport', False)),
+            'FBXExportEndEffectors': bool(
+                options.get('FBXExportEndEffectors', True)),
         }
 
     def run(self, context=None, data=None, options=None):
@@ -51,41 +61,41 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
             )
         )
 
-        objPath = hou.node('/obj')
+        root_obj = hou.node('/obj')
 
-        # Selection Objects Set
-        selectednodes = None
-        if data is None or len(data)==0 or not isinstance(data[0], str):
-            selectednodes = data
-            if selectednodes is None or len(selectednodes) == 0:
-                selectednodes = hou.selectedNodes()
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
 
-        if selectednodes is None or len(selectednodes) == 0:
-            # Fall back on entire scene
-            selectednodes = objPath.glob('*')
-            objects = '*'
-        else:
-            objects = ' '.join([x.path() for x in selectednodes])
+        object_paths = ' '.join(collected_objects)
+        objects = [hou.node(obj_path) for obj_path in collected_objects]
 
         # Create Rop Net
-        ropNet = objPath.createNode('ropnet')
+        ropNet = root_obj.createNode('ropnet')
         fbxRopnet = ropNet.createNode('filmboxfbx')
 
         fbxRopnet.parm('sopoutput').set(new_file_path)
-        fbxRopnet.parm('startnode').set(selectednodes[0].parent().path())
+        fbxRopnet.parm('startnode').set(objects[0].parent().path())
         fbxRopnet.parm('exportkind').set(options['FBXASCII'])
         fbxRopnet.parm('sdkversion').set(options['FBXSDKVersion'])
         fbxRopnet.parm('vcformat').set(options['FBXVertexCacheFormat'])
         fbxRopnet.parm('invisobj').set(options['FBXExportInvisibleObjects'])
         fbxRopnet.parm('polylod').set(options['FBXConversionLevelOfDetail'])
-        fbxRopnet.parm('detectconstpointobjs').set(options['FBXDetectConstantPointCountDynamicObjects'])
-        fbxRopnet.parm('convertsurfaces').set(options['FBXConvertNURBSAndBeizerSurfaceToPolygons'])
-        fbxRopnet.parm('conservemem').set(options['FBXConserveMemoryAtTheExpenseOfExportTime'])
-        fbxRopnet.parm('forceblendshape').set(options['FBXForceBlendShapeExport'])
-        fbxRopnet.parm('forceskindeform').set(options['FBXForceSkinDeformExport'])
+        fbxRopnet.parm('detectconstpointobjs').set(
+            options['FBXDetectConstantPointCountDynamicObjects'])
+        fbxRopnet.parm('convertsurfaces').set(
+            options['FBXConvertNURBSAndBeizerSurfaceToPolygons'])
+        fbxRopnet.parm('conservemem').set(
+            options['FBXConserveMemoryAtTheExpenseOfExportTime'])
+        fbxRopnet.parm('forceblendshape').set(
+            options['FBXForceBlendShapeExport'])
+        fbxRopnet.parm('forceskindeform').set(
+            options['FBXForceSkinDeformExport'])
         try:
-            fbxRopnet.parm('axissystem').set(options['FBXAxisSystem'])
-            fbxRopnet.parm('exportendeffectors').set(options['FBXExportEndEffectors'])
+            fbxRopnet.parm('axissystem').set(
+                options['FBXAxisSystem'])
+            fbxRopnet.parm('exportendeffectors').set(
+                options['FBXExportEndEffectors'])
         except:
             pass  # No supported in older versions
         try:
@@ -93,7 +103,7 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
         finally:
             ropNet.destroy()
 
-        return {component_name: new_file_path}
+        return [new_file_path]
 
 
 def register(api_object, **kw):

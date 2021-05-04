@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from functools import partial
 
@@ -11,32 +11,31 @@ from Qt import QtWidgets
 
 import ftrack_api
 
-OPTIONS = {
-    'ABCAnimation': {
-        'type': 'checkbox',
-        'label': 'Include animation',
-        'default': True
-    },
-    'ABCFrameRangeStart': {
-        'type': 'line',
-        'label': 'Frame range start',
-        'default_option': 'frameStart'
-    },
-    'ABCFrameRangeEnd': {
-        'type': 'line',
-        'label': 'Frame range end',
-        'default_option': 'frameEnd'
-    },
-    'ABCFrameRangeBy': {
-        'type': 'line',
-        'label': 'Evaluate every',
-        'default': '1.0'
-    },
-}
-
 
 class AlembicOptionsWidget(BaseOptionsWidget):
     auto_fetch_on_init = True
+    OPTIONS = {
+        'ABCAnimation': {
+            'type': 'checkbox',
+            'label': 'Include animation',
+            'default': True
+        },
+        'ABCFrameRangeStart': {
+            'type': 'line',
+            'label': 'Frame range start',
+            'default_option': 'frameStart'
+        },
+        'ABCFrameRangeEnd': {
+            'type': 'line',
+            'label': 'Frame range end',
+            'default_option': 'frameEnd'
+        },
+        'ABCFrameRangeBy': {
+            'type': 'line',
+            'label': 'Evaluate every',
+            'default': '1.0'
+        },
+    }
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
@@ -53,18 +52,12 @@ class AlembicOptionsWidget(BaseOptionsWidget):
     def on_fetch_callback(self, result):
         ''' This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
-        # for k, v in self.options_le.iteritems():
-        #     if v.text() == "None":
-        #         if k in result.keys():
-        #             self.options_le[k].setText(str(result[k]))
-        #         else:
-        #             self.options_le[k].setText("0")
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
         super(FbxOptionsWidget, self).build()
 
-        for name, option in OPTIONS.items():
+        for name, option in self.OPTIONS.items():
             default = None
 
             if option['type'] == 'checkbox':
@@ -81,11 +74,16 @@ class AlembicOptionsWidget(BaseOptionsWidget):
             self.widgets[name] = widget
             self.layout().addWidget(widget)
 
+    def current_index_changed(self, name, label):
+        for item in self.OPTIONS[name]['options']:
+            if item['label'] == label:
+                self.set_option_result(item['value'], name)
+
     def post_build(self):
         super(FbxOptionsWidget, self).post_build()
 
         for name, widget in self.widgets.items():
-            option = OPTIONS[name]
+            option = self.OPTIONS[name]
 
             if name in self.options:
                 default = self.options[name]
@@ -103,18 +101,15 @@ class AlembicOptionsWidget(BaseOptionsWidget):
                 if default is not None:
                     widget.setChecked(default)
                 widget.stateChanged.connect(update_fn)
-            elif OPTIONS[name]['type'] == 'combobox':
+            elif self.OPTIONS[name]['type'] == 'combobox':
                 if default is not None:
                     idx = 0
                     for item in option['options']:
                         if item['value'] == default or item['label'] == default:
                             widget.setCurrentIndex(idx)
                         idx += 1
-                def currentIndexChanged(label):
-                    for item in option['options']:
-                        if item['label'] == label:
-                            self.set_option_result(item['value'], name)
-                widget.currentIndexChanged.connect(currentIndexChanged)
+                update_fn = partial(self.current_index_changed, name)
+                widget.currentIndexChanged.connect(update_fn)
             elif option['type'] == 'line':
                 if default is not None:
                     widget.setText(default)
@@ -123,11 +118,9 @@ class AlembicOptionsWidget(BaseOptionsWidget):
     def _reset_default_animation_options(self):
         pass
 
-
 class AlembicOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
     plugin_name = 'alembic_options'
     widget = AlembicOptionsWidget
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

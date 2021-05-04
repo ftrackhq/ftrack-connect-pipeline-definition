@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 from functools import partial
 
@@ -125,6 +125,11 @@ class FbxOptionsWidget(DynamicWidget):
             self.widgets[name] = widget
             self.layout().addWidget(widget)
 
+    def current_index_changed(self, name, label):
+        for item in self.OPTIONS[name]['options']:
+            if item['label'] == label:
+                self.set_option_result(item['value'], name)
+
     def post_build(self):
         super(FbxOptionsWidget, self).post_build()
 
@@ -154,21 +159,16 @@ class FbxOptionsWidget(DynamicWidget):
                         if item['value'] == default or item['label'] == default:
                             widget.setCurrentIndex(idx)
                         idx += 1
-                def currentIndexChanged(label):
-                    for item in option['options']:
-                        if item['label'] == label:
-                            self.set_option_result(item['value'], name)
-                widget.currentIndexChanged.connect(currentIndexChanged)
+                update_fn = partial(self.current_index_changed, name)
+                widget.currentIndexChanged.connect(update_fn)
             elif option['type'] == 'line':
                 if default is not None:
                     widget.setText(default)
                 widget.textChanged.connect(update_fn)
 
-
 class FbxOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
     plugin_name = 'fbx_output'
     widget = FbxOptionsWidget
-
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

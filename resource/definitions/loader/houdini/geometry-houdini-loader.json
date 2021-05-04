@@ -4,19 +4,27 @@
   "package": "geometry_houdini",
   "host_type": "houdini",
   "ui_type": "qt",
-  "contexts": {
-      "name": "context",
-      "plugins":[
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "context selector",
-          "plugin": "context.load",
-          "widget": "context.load"
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.load",
+              "widget": "context.load"
+            }
+          ]
         }
       ]
-    },
+    }
+  ],
   "components": [
     {
       "name": "houdiniNodes",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -35,7 +43,8 @@
           "plugins":[
             {
               "name": "Import paths to Houdini",
-              "plugin": "load_houdini",
+              "plugin": "load_houdini_nodes",
+              "widget": "load_houdini",
               "options": {
                 "load_mode": "Import",
                 "load_options": {
@@ -129,14 +138,41 @@
       ]
     }
   ],
-  "finalizers": {
-      "name": "finalizer",
-      "plugins":[
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
         {
-          "name": "Do nothing",
-          "plugin": "finalizer_test",
-          "visible": false
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "Do nothing",
+              "plugin": "finalizer_test",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_finalizer_test",
+              "visible": false
+            }
+          ]
         }
       ]
     }
+  ]
 }

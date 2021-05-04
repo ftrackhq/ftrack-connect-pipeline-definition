@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 import logging
 
 import hou
@@ -19,12 +19,16 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
                 False,
                 'Please add objects for publishing!'
             )
-        for obj_path in data:
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
+        for obj_path in collected_objects:
             obj = hou.node(obj_path)
             if obj.type().name() != 'geo':
                 return (
                     False, 
-                    '({}) Only geometry can be published!'.format(obj_path)
+                    {'message':'({}) Only geometry can be published!'.format(
+                        obj_path)}
                 )
         return True
 

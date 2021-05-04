@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import tempfile
 import os
@@ -29,7 +29,7 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         if scene_view is None or (
                 scene_view.type() != hou.paneTabType.SceneViewer):
-            raise hou.Error("No scene view available to flipbook")
+            raise hou.Error('No scene view available to flipbook')
         viewport = scene_view.curViewport()
 
         if viewport.camera() is not None:
@@ -39,15 +39,15 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
         view = '%s.%s.world.%s' % (
             desktop.name(), scene_view.name(), viewport.name())
 
-        self.logger.info('Creating thumbnail from view {} to {}.'.format(view, path))
+        self.logger.info('Creating thumbnail from view {} to {}.'.format(
+            view, path))
 
-        executeCommand = "viewwrite -c -f 0 1 -r %s %s %s %s" % (
+        executeCommand = 'viewwrite -c -f 0 1 -r {} {} {} {}'.format(
             res[0], res[1], view, path)
 
         hou.hscript(executeCommand)
 
-        return {component_name: path}
-
+        return [path]
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

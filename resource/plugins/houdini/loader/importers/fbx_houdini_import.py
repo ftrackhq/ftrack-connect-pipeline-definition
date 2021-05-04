@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
 
 import hou
 
@@ -14,11 +14,16 @@ class FBXHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
         # ensure to load the alembic plugin
 
         results = {}
-        paths_to_import = data
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
 
-            results[component_path] = hou.hipFile.importFBX(component_path)
+            (node, import_messages) = hou.hipFile.importFBX(component_path)
+            self.logger.info('FBX import messages: {}'.format(import_messages))
+
+            results[component_path] = node.path()
 
         return results
 

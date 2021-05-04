@@ -1,5 +1,7 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2021 ftrack
+
+import os
 
 import hou
 
@@ -14,20 +16,32 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
         # ensure to load the alembic plugin
 
         results = {}
-        paths_to_import = data
+        paths_to_import = []
+        for collector in data:
+            paths_to_import.extend(collector['result'])
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
 
             node = hou.node('/obj').createNode(
-                'alembicarchive', iAObj.assetName)
+                'alembicarchive', context['asset_name'])
             node.parm('buildSubnet').set(False)
             node.parm('fileName').set(component_path)
             hou.hscript(
-                "opparm -C {0} buildHierarchy (1)".format(
-                    resultingNode.path()))
+                'opparm -C {0} buildHierarchy (1)'.format(
+                    node.path()))
             node.moveToGoodPosition()
 
-            results[component_path] = node
+            if context['asset_type'] == 'cam':
+                bcam = ''
+                for obj in node.glob('*'):
+                    if 'cam' in obj.type().name():
+                        bcam = self.bakeCamAnim(obj,
+                              [os.getenv('FS'),
+                               os.getenv('FE')])
+                        node = bcam
+                        break
+
+            results[component_path] = node.path()
 
         return results
 
