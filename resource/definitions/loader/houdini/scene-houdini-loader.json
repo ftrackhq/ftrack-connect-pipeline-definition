@@ -1,8 +1,8 @@
 {
   "type": "loader",
-  "name": "Geometry Loader",
-  "package": "geometry_unreal",
-  "host_type": "unreal",
+  "name": "Scene Loader",
+  "package": "scene_houdini",
+  "host_type": "houdini",
   "ui_type": "qt",
   "contexts": [
     {
@@ -22,46 +22,8 @@
     }
   ],
   "components": [
-     {
-      "name": "alembic",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".abc"]
-              }
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import Alembic geometry to unreal",
-              "widget" : "load_geometry_unreal",
-              "plugin": "abc_geometry_unreal_import"
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "unreal",
-              "plugin": "post_import_test"
-            }
-          ]
-        }
-      ]
-    },
     {
-      "name": "fbx",
-      "optional": true,
+      "name": "houdiniScene",
       "stages": [
         {
           "name": "collector",
@@ -70,7 +32,7 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "accepted_formats": [".fbx"]
+                "accepted_formats": [".hip"]
               }
             }
           ]
@@ -79,9 +41,15 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import FBX geometry to unreal",
-              "widget" : "load_geometry_unreal",
-              "plugin": "fbx_geometry_unreal_import"
+              "name": "Import paths to Houdini",
+              "plugin": "load_houdini_scene",
+              "widget": "load_houdini",
+              "options": {
+                "load_mode": "Import",
+                "load_options": {
+                  "MergeOverwriteOnConflict": true
+                }
+              }
             }
           ]
         },
@@ -89,7 +57,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "unreal",
+              "name": "houdini",
               "plugin": "post_import_test"
             }
           ]
