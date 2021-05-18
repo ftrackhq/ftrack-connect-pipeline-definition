@@ -119,7 +119,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
                     'Could not delete {}. The Sequencer will not be able to'
                     ' output the movie to that file.'.format(output_filepath)
                 )
-                self.logger.warning(msg)
+                self.logger.error(msg)
                 return False, {'message': msg}
 
         # Unreal will be started in game mode to render the video
@@ -132,7 +132,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             is_image_sequence,
         )
 
-        self.logger.info(
+        self.logger.debug(
             'Sequencer command-line arguments: {}'.format(cmdline_args)
         )
 

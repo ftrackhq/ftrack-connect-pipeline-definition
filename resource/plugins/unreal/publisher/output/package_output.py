@@ -47,11 +47,11 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                     ' able to output to that file.'.format(
                         output_zippath
                     )
-                self.logger.warning(msg)
+                self.logger.error(msg)
                 return False, {'message':msg}
 
         # process migration of current scene
-        self.logger.info(
+        self.logger.debug(
             "Migrate package {0} to folder: {1}".format(
                 unreal_map_package_path, output_zippath)
         )
@@ -67,7 +67,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                 'Could not create {}. The package will not be able to ' 
                 'output to that folder.'.format(destination_path)
             )
-            self.logger.warning(
+            self.logger.error(
 
             )
             return False, {'message': msg}
@@ -76,7 +76,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         unreal_windows_logs_dir = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), "Logs"
         )
-        self.logger.info('Detailed logs of editor output during migration '
+        self.logger.debug('Detailed logs of editor output during migration '
                          'found at: "{0}"'.format(unreal_windows_logs_dir))
 
         migrated_packages = ue.FTrackConnect.get_instance().migrate_packages(
@@ -115,7 +115,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                       'cleanup temporary package folder.'.format(
                     tempdir_filepath
                 )
-                self.logger.warning(msg)
+                self.logger.error(msg)
                 return False, {'message': msg}
 
         return os.path.isfile(output_zippath), output_zippath, \
