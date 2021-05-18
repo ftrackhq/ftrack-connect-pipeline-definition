@@ -568,10 +568,11 @@
       "type": "string",
       "default": ""
     },
-    "task_types": {
+    "discoverable": {
       "type": "array",
       "items": {"type": "string"},
       "default": [
+        "Task"
       ]
     },
     "contexts": {

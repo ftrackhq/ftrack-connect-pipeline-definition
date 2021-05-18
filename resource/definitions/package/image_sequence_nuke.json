@@ -2,9 +2,6 @@
     "name": "image_sequence_nuke",
     "type": "package",
     "asset_type": "img",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "nukescript"
