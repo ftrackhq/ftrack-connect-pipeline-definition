@@ -569,6 +569,12 @@
       "type": "string",
       "default": ""
     },
+    "task_types": {
+      "type": "array",
+      "items": {"type": "string"},
+      "default": [
+      ]
+    },
     "contexts": {
       "type": "array",
       "items": {
