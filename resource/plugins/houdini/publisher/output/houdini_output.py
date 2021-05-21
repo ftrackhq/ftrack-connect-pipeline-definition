@@ -47,7 +47,7 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
 
-            self.logger.info('Exporting scene with command: "{}".'.format(cmd))
+            self.logger.debug('Exporting scene with command: "{}".'.format(cmd))
 
             subprocess.Popen(cmd, env=my_env)
 
@@ -71,7 +71,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             collected_objects.extend(collector['result'])
 
         if len(collected_objects) == 0:
-            self.logger.info('Saving scene to: "{}".'.format(new_file_path))
+            self.logger.debug('Saving scene to: "{}".'.format(new_file_path))
 
             hou.hipFile.save(new_file_path)
         else:
@@ -90,7 +90,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
 
-            self.logger.info('Exporting selected nodes with command: '
+            self.logger.debug('Exporting selected nodes with command: '
                              '"{}".'.format(cmd))
 
             result = subprocess.Popen(cmd, env=my_env)
