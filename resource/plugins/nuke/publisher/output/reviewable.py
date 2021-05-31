@@ -63,7 +63,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
             review_node['first'].setValue(int(first))
             review_node['last'].setValue(int(last))
 
-        self.logger.info('Rendering sequence {}-{}'.format(first, last))
+        self.logger.debug('Rendering sequence {}-{}'.format(first, last))
         ranges = nuke.FrameRanges('{}-{}'.format(first, last))
         nuke.render(review_node, ranges)
 

@@ -39,7 +39,7 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
         view = '%s.%s.world.%s' % (
             desktop.name(), scene_view.name(), viewport.name())
 
-        self.logger.info('Creating thumbnail from view {} to {}.'.format(
+        self.logger.debug('Creating thumbnail from view {} to {}.'.format(
             view, path))
 
         executeCommand = 'viewwrite -c -f 0 1 -r {} {} {} {}'.format(

@@ -9,7 +9,7 @@ class NumericValidatorPlugin(plugin.PublisherValidatorPlugin):
 
     def run(self, context=None, data=None, options=None):
         output = self.output
-        self.logger.info('data: {}'.format(data))
+        self.logger.debug('data: {}'.format(data))
         test = options.get('test')
         value = options.get('value')
 

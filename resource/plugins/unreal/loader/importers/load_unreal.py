@@ -135,7 +135,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
                 return (False, {
                     'message':'Could not change version on existing asset!'})
 
-        self.logger.info('Importing path {}'.format(self.component_path))
+        self.logger.debug('Importing path {}'.format(self.component_path))
         ue.AssetToolsHelpers.get_asset_tools().import_asset_tasks([self.task])
         if len(self.task.imported_object_paths or []) == 0:
             return (False, {'message': 'Import failed! See Output log'
@@ -602,7 +602,7 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
         self.loaded_asset_names = []
 
         # use integration-specific logger
-        self.logger.info("Importing package asset: {0}".format(path_zip))
+        self.logger.debug("Importing package asset: {0}".format(path_zip))
 
         with ZipFile(path_zip, 'r') as package_asset:
             map_package_path = None
@@ -644,7 +644,7 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
 
                 # load the extracted map, if one was imported
                 if map_package_path:
-                    self.logger.info('Loading the map imported from package: '
+                    self.logger.debug('Loading the map imported from package: '
                                      '"{0}"'.format(map_package_path))
                     try:
                         ue.EditorLoadingAndSavingUtils.load_map(
@@ -652,7 +652,7 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
                     except Exception as error:
                         self.logger.error(error)
 
-            self.logger.info("Number of assets imported: {0}".format(
+            self.logger.debug("Number of assets imported: {0}".format(
                 import_count))
 
 
