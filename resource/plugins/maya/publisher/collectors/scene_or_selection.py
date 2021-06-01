@@ -14,6 +14,12 @@ class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
         export_option = options.get("export", 'scene')
         if export_option == 'scene':
             scene_name = cmds.file(q=True, sceneName=True)
+            if not scene_name:
+                self.logger.error(
+                    "Error exporting the scene: Please save the scene with a "
+                    "name before publish"
+                )
+                return []
             export_object = [scene_name]
         else:
             export_object = cmds.ls(sl=True)
