@@ -11,7 +11,7 @@ import nuke
 class FileSavedValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'file_saved'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         if nuke.Root().name() != 'Root' and nuke.root().modified() != True:
             return True
         else:

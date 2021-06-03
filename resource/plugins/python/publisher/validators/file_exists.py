@@ -8,7 +8,7 @@ import ftrack_api
 class FileExistsValidatorPlugin(plugin.PublisherValidatorPlugin):
     plugin_name = 'file_exists'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         output = self.output
         all_files = []
         for plugin_dict in data:

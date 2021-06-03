@@ -10,7 +10,7 @@ import ftrack_api
 class AbcMayaImportPlugin(plugin.LoaderImporterMayaPlugin):
     plugin_name = 'abc_maya_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         # ensure to load the alembic plugin
         cmds.loadPlugin('AbcImport.so', qt=1)
 

@@ -7,7 +7,7 @@ import ftrack_api
 class PostImportLoaderTest(plugin.LoaderPostImportPlugin):
     plugin_name = 'post_import_test'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         return (
             {},
             {

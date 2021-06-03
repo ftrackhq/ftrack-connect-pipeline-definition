@@ -10,7 +10,7 @@ import ftrack_api
 class CollectCameraMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'selection'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         selection = cmds.ls(sl=True)
         return selection
 

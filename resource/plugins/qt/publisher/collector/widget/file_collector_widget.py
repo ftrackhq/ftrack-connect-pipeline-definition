@@ -15,15 +15,15 @@ class FileCollectorWidget(BaseOptionsWidget):
     enable_run_plugin = True
 
     def __init__(
-            self, parent=None, context=None, session=None, data=None, name=None,
-            description=None, options=None
+            self, parent=None, context_id=None, asset_type=None, session=None,
+            data=None, name=None, description=None, options=None
     ):
         '''initialise FileCollectorWidget with *parent*, *session*, *data*,
         *name*, *description*, *options*
         '''
         super(FileCollectorWidget, self).__init__(
-            parent=parent, context=context, session=session, data=data, name=name,
-            description=description, options=options
+            parent=parent, context_id=context_id, asset_type=asset_type, session=session,
+            data=data, name=name, description=description, options=options
         )
         #We add a new button to fetch the data, we could also override the run_
         # build bunction or simply add a new button whatever we want, calling

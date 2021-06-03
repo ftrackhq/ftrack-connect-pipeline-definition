@@ -8,7 +8,7 @@ from ftrack_connect_pipeline import plugin
 class DiscoverAssetsPlugin(plugin.AssetManagerDiscoverPlugin):
     plugin_name = 'filter_assets'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         #TODO: this is just an example
         filter = {
             'asset_name': 'torso',

@@ -17,7 +17,7 @@ class CameraCollectorWidget(BaseOptionsWidget):
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context=None
+        description=None, options=None, context_id=None, asset_type=None
     ):
 
         self.maya_cameras = []
@@ -25,7 +25,7 @@ class CameraCollectorWidget(BaseOptionsWidget):
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
-            context=context)
+            context_id=context_id, asset_type=asset_type)
 
     def on_fetch_callback(self, result):
         ''' This function is called by the _set_internal_run_result function of
