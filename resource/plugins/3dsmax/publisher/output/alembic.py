@@ -14,7 +14,7 @@ from ftrack_connect_pipeline_3dsmax import plugin
 class OutputMaxAlembicPlugin(plugin.PublisherOutputMaxPlugin):
     plugin_name = 'OutputMaxAlembicPlugin'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.abc'

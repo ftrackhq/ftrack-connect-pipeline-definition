@@ -10,12 +10,12 @@ import ftrack_api
 class CollectAssetsUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
     plugin_name = 'assets_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the sequences in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         return selected_items
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         ''' Fetch all the sequence actor names in the project '''
         collected_objects = []
 
@@ -26,12 +26,12 @@ class CollectAssetsUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
 
         return collected_objects
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         ''' Return selected selected content browser packe paths. '''
         # TODO find a way to check what is selected
-        return self.fetch(context, data, options)
+        return self.fetch(context_data, data, options)
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''
         Return the collected objects in the widget from the plugin *options*
         '''

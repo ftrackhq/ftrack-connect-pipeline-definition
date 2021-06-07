@@ -22,12 +22,12 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             self,
             destination_path,
             unreal_map_package_path,
-            context
+            context_data
     ):
 
         # format package folder name
         asset_name = self._standard_structure.sanitise_for_filesystem(
-            context['asset_name'])
+            context_data['asset_name'])
         content_name = "{}_package".format(asset_name)
 
         output_filepath = os.path.normpath(
@@ -121,7 +121,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         return os.path.isfile(output_zippath), output_zippath, \
                version_dependency_ids
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' Compress all project assets to a ZIP '''
         component_name = options['component_name']
 
@@ -139,7 +139,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             self._package_current_scene(
             dest_folder,
             unreal_map_package_path,
-            context
+                context_data
         )
         if package_result:
             return ( [package_path] ,

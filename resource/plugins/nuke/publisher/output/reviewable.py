@@ -13,7 +13,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
     plugin_name = 'reviewable'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         has_to_clean = False
 
         collected_objects = []

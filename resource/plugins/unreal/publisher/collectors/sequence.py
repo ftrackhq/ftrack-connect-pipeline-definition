@@ -11,16 +11,16 @@ import ftrack_api
 class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
     plugin_name = 'sequence_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the sequences in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         return selected_items
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         ''' Fetch all the sequence actor names in the project '''
         return unreal_utils.get_all_sequences()
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         ''' Return the selected sequence names. '''
         collected_objects = []
         seq_name_sel = None
@@ -38,7 +38,7 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         collected_objects.append(seq_name_sel)
         return collected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''
         Return the collected objects in the widget from the plugin *options*
         '''

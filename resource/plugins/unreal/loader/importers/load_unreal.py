@@ -90,17 +90,17 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
             result.append(asset.get_path_name())
         return result
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' Format independent init and import of main asset.  '''
 
         self.assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
 
         self.version = self.session.query('AssetVersion where id={}'.format(
-            context['version_id'])).first()
+            context_data['version_id'])).first()
         self.import_path = (
             '/Game/'
             + self._get_asset_relative_path(self.version)
-            + context['asset_name']
+            + context_data['asset_name']
         )
 
         self.import_path = self.import_path.replace(' ', '_')
@@ -113,12 +113,12 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
         current_ftrack_asset = None
         try:
             current_ftrack_asset = self._find_asset_instance(
-                self.import_path, self.version, context['asset_type']
+                self.import_path, self.version, context_data['asset_type']
             )
         except Exception as error:
             self.logger.error(error)
 
-        self.build_asset_import_task(context, data, options)
+        self.build_asset_import_task(context_data, data, options)
 
         if current_ftrack_asset:
             if options['UpdateExistingAsset'] is False:
@@ -147,7 +147,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
 
         return None
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         ''' Create a generic import task. '''
         self.task = ue.AssetImportTask()
         self.task.replace_existing = True
@@ -184,7 +184,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
 class UnrealRigImportPlugin(UnrealImportPlugin):
     ''' Covering rig specific initializations. '''
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' Requires a selected skeleton.'''
 
         skeletons = self.assetRegistry.get_assets_by_class('Skeleton')
@@ -202,7 +202,7 @@ class UnrealRigImportPlugin(UnrealImportPlugin):
         if self.skeleton_asset is None:
             return (False, 'Skeleton "{}" not found!'.format(skeleton_name))
 
-        results = super(UnrealRigImportPlugin, self).run(context, data, options)
+        results = super(UnrealRigImportPlugin, self).run(context_data, data, options)
 
         if results is None:
             self.loaded_assets = [self.loaded_asset]
@@ -226,10 +226,10 @@ class UnrealRigImportPlugin(UnrealImportPlugin):
 
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         ''' Add asset type specific import task options. '''
         super(UnrealRigImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
         if self.skeleton_asset != None:
             self.task.options.set_editor_property(
                 'skeleton', self.skeleton_asset.get_asset()
@@ -267,9 +267,9 @@ class UnrealRigImportPlugin(UnrealImportPlugin):
 class AbcRigUnrealImportPlugin(UnrealRigImportPlugin):
     plugin_name = 'abc_rig_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = super(AbcRigUnrealImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
         if results is None:                    
             results = {}
             # Build and post process result
@@ -278,10 +278,10 @@ class AbcRigUnrealImportPlugin(UnrealRigImportPlugin):
                 self.loaded_assets)
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
 
         super(AbcRigUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
         self.task.options = ue.AbcImportSettings()
         self.task.options.import_type = ue.AlembicImportType.SKELETAL
@@ -292,9 +292,9 @@ class AbcRigUnrealImportPlugin(UnrealRigImportPlugin):
 class FbxRigUnrealImportPlugin(UnrealRigImportPlugin):
     plugin_name = 'fbx_rig_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = super(FbxRigUnrealImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
         if results is None:                    
             results = {}
             # Build and post process result
@@ -303,9 +303,9 @@ class FbxRigUnrealImportPlugin(UnrealRigImportPlugin):
                 self.loaded_assets)
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         super(FbxRigUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
         # FBX specific
         self.task.options = ue.FbxImportUI()
         self.task.options.import_as_skeletal = True
@@ -339,7 +339,7 @@ class FbxRigUnrealImportPlugin(UnrealRigImportPlugin):
 class UnrealAnimationImportPlugin(UnrealImportPlugin):
     ''' Covering animation specific initializations. '''
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' Requires a selected skeleton.'''
 
         skeletons = self.assetRegistry.get_assets_by_class('Skeleton')
@@ -359,12 +359,12 @@ class UnrealAnimationImportPlugin(UnrealImportPlugin):
                 skeleton_name)})
 
         return super(UnrealAnimationImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         ''' Add asset type import task options. '''
         super(UnrealAnimationImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
     def change_version(self, options, current_ftrack_asset):
         ''' Reimport animation asset '''
@@ -397,9 +397,9 @@ class UnrealAnimationImportPlugin(UnrealImportPlugin):
 class AbcAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
     plugin_name = 'abc_animation_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = super(AbcAnimationUnrealImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
         if results is None:                    
             results = {}
             # Build and post process result
@@ -408,10 +408,10 @@ class AbcAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
                 [self.loaded_asset])
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
 
         super(AbcAnimationUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
         self.task.options = ue.AbcImportSettings()
         self.task.options.import_type = ue.AlembicImportType.GEOMETRY_CACHE
@@ -426,9 +426,9 @@ class AbcAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
 class FbxAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
     plugin_name = 'fbx_animation_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = super(FbxAnimationUnrealImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
         if results is None:                    
             results = {}
             # Build and post process result
@@ -437,9 +437,9 @@ class FbxAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
                 [self.loaded_asset])
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         super(FbxAnimationUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
         # FBX specific
         self.task.options = ue.FbxImportUI()
         self.task.options.import_as_skeletal = False
@@ -491,15 +491,15 @@ class FbxAnimationUnrealImportPlugin(UnrealAnimationImportPlugin):
 class UnrealGeometryImportPlugin(UnrealImportPlugin):
     ''' Covering animation specific initializations. '''
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' '''
         return super(UnrealGeometryImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         ''' Add asset type import task options. '''
         super(UnrealGeometryImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
 
 # Geometry plugins
@@ -507,9 +507,9 @@ class UnrealGeometryImportPlugin(UnrealImportPlugin):
 class AbcGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
     plugin_name = 'abc_geometry_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = super(AbcGeometryUnrealImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
         if results is None:                    
             results = {}
             # Build and post process result
@@ -518,10 +518,10 @@ class AbcGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
                 [self.loaded_asset])
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
 
         super(AbcGeometryUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
         self.task.options = ue.AbcImportSettings()
         self.task.options.import_type = ue.AlembicImportType.STATIC_MESH
@@ -534,9 +534,9 @@ class AbcGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
 class FbxGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
     plugin_name = 'fbx_geometry_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = super(FbxGeometryUnrealImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
         if results is None:                    
             results = {}
             # Build and post process result
@@ -545,9 +545,9 @@ class FbxGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
                 [self.loaded_asset])
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         super(FbxGeometryUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
         # FBX specific
         self.task.options = ue.FbxImportUI()
         self.task.options.import_mesh = True
@@ -573,15 +573,15 @@ class FbxGeometryUnrealImportPlugin(UnrealGeometryImportPlugin):
 class UnrealImageSequenceImportPlugin(UnrealImportPlugin):
     ''' Covering animation specific initializations. '''
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' '''
         return super(UnrealImageSequenceImportPlugin, self).run(
-            context, data, options)
+            context_data, data, options)
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
         ''' Add asset type import task options. '''
         super(UnrealImageSequenceImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
 
 # Image sequence plugins
@@ -589,7 +589,7 @@ class UnrealImageSequenceImportPlugin(UnrealImportPlugin):
 class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
     plugin_name = 'asset_package_unreal_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         results = {}
 
@@ -659,10 +659,10 @@ class ZipImageSequenceUnrealImportPlugin(UnrealImageSequenceImportPlugin):
         results[self.component_path] = self.loaded_asset_names
         return results
 
-    def build_asset_import_task(self, context, data, options):
+    def build_asset_import_task(self, context_data, data, options):
 
         super(ZipImageSequenceUnrealImportPlugin, self).build_asset_import_task(
-            context, data, options)
+            context_data, data, options)
 
         self.task.options = ue.AbcImportSettings()
         self.task.options.import_type = ue.AlembicImportType.STATIC_MESH

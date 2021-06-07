@@ -7,7 +7,7 @@ import ftrack_api
 class EnvContextPlugin(plugin.PublisherContextPlugin):
     plugin_name = 'context.publish'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         output = self.output
         output.update(options)
         return output

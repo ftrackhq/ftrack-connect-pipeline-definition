@@ -10,7 +10,7 @@ from ftrack_connect_pipeline.constants import asset as constants
 class UpdateLatestPlugin(plugin.AssetManagerActionPlugin):
     plugin_name = 'update_latest'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         asset_info = FtrackAssetInfo(data)
 
         query = (

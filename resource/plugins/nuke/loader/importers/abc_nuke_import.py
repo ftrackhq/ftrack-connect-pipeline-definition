@@ -11,7 +11,7 @@ from ftrack_connect_pipeline_nuke import plugin
 class AbcNukeImportPlugin(plugin.LoaderImporterNukePlugin):
     plugin_name = 'abc_nuke_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = {}
 
         paths_to_import = []
