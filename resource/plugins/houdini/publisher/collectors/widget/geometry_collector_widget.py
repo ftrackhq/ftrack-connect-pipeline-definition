@@ -14,11 +14,12 @@ class GeometryCollectorWidget(BaseCollectorWidget):
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_data=None
+        description=None, options=None, context_id=None, asset_type=None
     ):
         super(GeometryCollectorWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_data=context_data
+            description=description, options=options, context_id=context_id,
+            asset_type=asset_type
         )
 
 

@@ -18,7 +18,8 @@ class GenericCollectorWidget(BaseCollectorWidget):
     ):
         super(GenericCollectorWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_id=context_id, asset_type=asset_type
+            description=description, options=options, context_id=context_id,
+            asset_type=asset_type
         )
 
 

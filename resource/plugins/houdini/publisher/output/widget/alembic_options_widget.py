@@ -55,7 +55,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(FbxOptionsWidget, self).build()
+        super(AlembicOptionsWidget, self).build()
 
         for name, option in self.OPTIONS.items():
             default = None
@@ -80,7 +80,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
                 self.set_option_result(item['value'], name)
 
     def post_build(self):
-        super(FbxOptionsWidget, self).post_build()
+        super(AlembicOptionsWidget, self).post_build()
 
         for name, widget in self.widgets.items():
             option = self.OPTIONS[name]
