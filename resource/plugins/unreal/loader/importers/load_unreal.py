@@ -37,11 +37,11 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
             asset_id = ue.EditorAssetLibrary.get_metadata_tag(
                 asset, 'ftrack.{}'.format(asset_const.ASSET_ID)
             )
-            asset_type = ue.EditorAssetLibrary.get_metadata_tag(
-                asset, 'ftrack.{}'.format(asset_const.ASSET_TYPE)
+            asset_type_name = ue.EditorAssetLibrary.get_metadata_tag(
+                asset, 'ftrack.{}'.format(asset_const.ASSET_TYPE_NAME)
             )
-            if asset_id and asset_type:
-                if asset_id == ftrack_asset_id and asset_type == \
+            if asset_id and asset_type_name:
+                if asset_id == ftrack_asset_id and asset_type_name == \
                         ftrack_asset_type_name:
                     return asset
         return None
@@ -113,7 +113,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
         current_ftrack_asset = None
         try:
             current_ftrack_asset = self._find_asset_instance(
-                self.import_path, self.version, context_data['asset_type']
+                self.import_path, self.version, context_data['asset_type_name']
             )
         except Exception as error:
             self.logger.error(error)

@@ -15,7 +15,7 @@ class Viewport3dsMaxWidget(BaseOptionsWidget):
 
     def __init__(
             self, parent=None, session=None, data=None, name=None,
-            description=None, options=None, context_id=None, asset_type=None
+            description=None, options=None, context_id=None, asset_type_name=None
     ):
 
         self.viewports = []
@@ -23,7 +23,7 @@ class Viewport3dsMaxWidget(BaseOptionsWidget):
         super(Viewport3dsMaxWidget, self).__init__(
             parent=parent, session=session, data=data, name=name,
             description=description, options=options, context_id=context_id,
-            asset_type=asset_type
+            asset_type_name=asset_type_name
         )
 
     def on_fetch_callback(self, result):

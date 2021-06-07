@@ -76,7 +76,7 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         object_paths = ' '.join(collected_objects)
         objects = [hou.node(obj_path) for obj_path in collected_objects]
 
-        if context_data['asset_type'] == 'cam':
+        if context_data['asset_type_name'] == 'cam':
             bcam = self.bakeCamAnim(objects[0],
                                     [options['ABCFrameRangeStart'],
                                      options['ABCFrameRangeEnd']])

@@ -31,7 +31,7 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
                     node.path()))
             node.moveToGoodPosition()
 
-            if context_data['asset_type'] == 'cam':
+            if context_data['asset_type_name'] == 'cam':
                 bcam = ''
                 for obj in node.glob('*'):
                     if 'cam' in obj.type().name():

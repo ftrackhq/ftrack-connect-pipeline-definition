@@ -12,7 +12,7 @@ class DiscoverAssetsPlugin(plugin.AssetManagerDiscoverPlugin):
         #TODO: this is just an example
         filter = {
             'asset_name': 'torso',
-            'asset_type':'geo'
+            'asset_type_name':'geo'
         }
 
         return filter

@@ -1,7 +1,7 @@
 {
     "name": "scene_houdini",
     "type": "package",
-    "asset_type": "scene",
+    "asset_type_name": "scene",
     "context":[
         "Task"
     ],

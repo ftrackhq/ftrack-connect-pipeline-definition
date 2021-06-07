@@ -1,7 +1,7 @@
 {
     "name": "rig_unreal",
     "type": "package",
-    "asset_type": "rig",
+    "asset_type_name": "rig",
     "context":[
         "Task"
     ],
