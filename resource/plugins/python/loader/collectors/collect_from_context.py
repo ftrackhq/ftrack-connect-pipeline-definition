@@ -12,7 +12,7 @@ class CollectFromContextPlugin(plugin.LoaderCollectorPlugin):
     def run(self, context_data=None, data=None, options=None):
         version_id = context_data.get('version_id', [])
         
-        asset_version = self.session.query(
+        asset_version_entity = self.session.query(
             'AssetVersion where id is "{}"'.format(version_id)
         ).one()
 
@@ -20,7 +20,7 @@ class CollectFromContextPlugin(plugin.LoaderCollectorPlugin):
         accepted_formats = options.get('accepted_formats', [])
         location = self.session.pick_location()
         component_paths = []
-        for component in asset_version['components']:
+        for component in asset_version_entity['components']:
             if component['name'] == component_name:
                 component_path = location.get_filesystem_path(component)
                 if (

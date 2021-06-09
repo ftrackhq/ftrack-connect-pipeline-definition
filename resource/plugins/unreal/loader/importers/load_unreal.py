@@ -22,9 +22,9 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
 
     load_modes = load_const.LOAD_MODES
 
-    def _find_asset_instance(self, path_root, ftrack_asset_version,
+    def _find_asset_instance(self, path_root, asset_version_entity,
                              ftrack_asset_type_name):
-        ftrack_asset_id = ftrack_asset_version['parent']['id']
+        ftrack_asset_id = asset_version_entity['parent']['id']
         assets = (
             ue.AssetRegistryHelpers()
             .get_asset_registry()
@@ -46,8 +46,8 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
                     return asset
         return None
 
-    def _get_asset_relative_path(self, ftrack_asset_version):
-        ftrack_task = ftrack_asset_version['task']
+    def _get_asset_relative_path(self, asset_version_entity):
+        ftrack_task = asset_version_entity['task']
         # location.
         links_for_task = self.session.query(
             'select link from Task where id is "{}"'.format(ftrack_task['id'])
@@ -95,11 +95,11 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
 
         self.assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
 
-        self.version = self.session.query('AssetVersion where id={}'.format(
+        self.asset_version_entity = self.session.query('AssetVersion where id={}'.format(
             context_data['version_id'])).first()
         self.import_path = (
             '/Game/'
-            + self._get_asset_relative_path(self.version)
+            + self._get_asset_relative_path(self.asset_version_entity)
             + context_data['asset_name']
         )
 
@@ -113,7 +113,7 @@ class UnrealImportPlugin(plugin.LoaderImporterUnrealPlugin):
         current_ftrack_asset = None
         try:
             current_ftrack_asset = self._find_asset_instance(
-                self.import_path, self.version, context_data['asset_type_name']
+                self.import_path, self.asset_version_entity, context_data['asset_type_name']
             )
         except Exception as error:
             self.logger.error(error)
