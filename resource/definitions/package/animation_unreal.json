@@ -2,9 +2,6 @@
     "name": "animation_unreal",
     "type": "package",
     "asset_type": "anim",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "alembic",

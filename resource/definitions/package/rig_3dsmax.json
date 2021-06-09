@@ -2,9 +2,6 @@
     "name": "rig_3dsmax",
     "type": "package",
     "asset_type": "rig",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "3dsmax"

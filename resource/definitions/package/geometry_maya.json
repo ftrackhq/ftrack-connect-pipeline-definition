@@ -2,9 +2,6 @@
     "name": "geometry_maya",
     "type": "package",
     "asset_type": "geo",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "mayaBinary"
