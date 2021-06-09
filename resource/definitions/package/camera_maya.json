@@ -2,9 +2,6 @@
     "name": "camera_maya",
     "type": "package",
     "asset_type_name": "cam",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "mayaBinary"

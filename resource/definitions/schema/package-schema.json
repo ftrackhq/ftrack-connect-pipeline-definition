@@ -35,7 +35,6 @@
   "required": [
     "name",
     "type",
-    "context",
     "components"
   ],
   "properties": {
@@ -49,13 +48,6 @@
     },
     "asset_type_name": {
       "type": "string"
-    },
-    "context": {
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "type": "string"
-      }
     },
     "components": {
       "type": "array",

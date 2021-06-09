@@ -2,9 +2,6 @@
     "name": "camera_3dsmax",
     "type": "package",
     "asset_type_name": "cam",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "3dsmax"

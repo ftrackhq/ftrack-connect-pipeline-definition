@@ -2,9 +2,6 @@
     "name": "geometry_houdini",
     "type": "package",
     "asset_type_name": "geo",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "houdiniNodes",

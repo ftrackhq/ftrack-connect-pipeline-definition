@@ -2,9 +2,6 @@
     "name": "img_unreal",
     "type": "package",
     "asset_type_name": "img",
-    "context":[
-        "Task"
-    ],
     "components":[
         {
             "name": "image_sequence",
