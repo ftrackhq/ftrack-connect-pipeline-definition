@@ -10,7 +10,7 @@ import ftrack_api
 class CollectCameraHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
     plugin_name = 'camera'
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all cameras from the scene'''
         collected_objects = []
         for obj in hou.node('/').allSubChildren():
@@ -18,7 +18,7 @@ class CollectCameraHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
                 collected_objects.append(obj.path())
         return collected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''Return the long name of the camera from the plugin *options*'''
         collected_objects = []
         for obj in hou.selectedNodes():

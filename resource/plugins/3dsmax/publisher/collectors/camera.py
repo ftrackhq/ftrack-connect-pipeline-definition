@@ -12,7 +12,7 @@ class CollectCameraMaxPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'camera'
     MAX_CAMERA_CLASS_ID = 32
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all cameras from the scene'''
         cameras = []
         for obj in rt.rootScene.world.children:
@@ -20,7 +20,7 @@ class CollectCameraMaxPlugin(plugin.PublisherCollectorMaxPlugin):
                 cameras.append(obj.name)
         return cameras
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         self.logger.debug("camera Run options: {}".format(options))
         camera_name = options.get('camera_name', 'persp')
         camera = rt.getNodeByName(camera_name)

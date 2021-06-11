@@ -1,10 +1,7 @@
 {
     "name": "rig_maya",
     "type": "package",
-    "asset_type": "rig",
-    "context":[
-        "Task"
-    ],
+    "asset_type_name": "rig",
     "components":[
         {
             "name": "mayaBinary"

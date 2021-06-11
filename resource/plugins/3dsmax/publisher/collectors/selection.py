@@ -11,7 +11,7 @@ from ftrack_connect_pipeline_3dsmax import plugin
 class CollectSelectionMaxPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'selection'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         selection = [node.getmxsprop('name') for node in rt.selection]
         return selection
 

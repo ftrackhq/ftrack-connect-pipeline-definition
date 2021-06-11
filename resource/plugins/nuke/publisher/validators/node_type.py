@@ -11,7 +11,7 @@ import nuke
 class NoneEmptyValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'node_type'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         node_type = options['node_type']
         collected_objects = []
         for collector in data:

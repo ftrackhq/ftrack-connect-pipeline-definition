@@ -10,7 +10,7 @@ import ftrack_api
 class CollectFromSetMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'from_set'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         set_name = options['set_name']
         return cmds.sets(set_name, q=True)

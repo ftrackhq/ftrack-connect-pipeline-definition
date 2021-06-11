@@ -10,7 +10,7 @@ import ftrack_api
 class CollectGenericMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'generic_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the items of the plugin *options*'''
         selected_items = options.get('selected_items', [])
         cmds.select(cl=True)
@@ -18,17 +18,17 @@ class CollectGenericMayaPlugin(plugin.PublisherCollectorMayaPlugin):
             cmds.select(item, add=True)
         return selected_items
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selected items'''
         collected_objects = cmds.ls(sl=True, l=True)
         return collected_objects
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         '''Return the selected items of the scene'''
         selected_objects = cmds.ls(sl=True, l=True)
         return selected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''Return all the collected objects in the widget from the
         plugin *options*'''
         collected_objects = options.get('collected_objects', [])

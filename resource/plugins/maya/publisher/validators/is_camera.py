@@ -10,7 +10,7 @@ import ftrack_api
 class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'is_camera'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         if not data:
             return False
 

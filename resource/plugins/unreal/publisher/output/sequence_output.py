@@ -147,7 +147,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
 class OutputUnrealSequencePlugin(OutputUnrealPlugin):
     plugin_name = 'sequence_output'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         ''' Render an image sequence '''
         component_name = options['component_name']
         collected_objects = []
@@ -174,7 +174,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
         unreal_asset_path = master_sequence.get_path_name()
 
         asset_name = self._standard_structure.sanitise_for_filesystem(
-            context['asset_name'])
+            context_data['asset_name'])
 
         # Publish Component: image_sequence
 
@@ -202,7 +202,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
 class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
     plugin_name = 'reviewable_output'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
@@ -227,7 +227,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         unreal_asset_path = master_sequence.get_path_name()
 
         asset_name = self._standard_structure.sanitise_for_filesystem(
-            context['asset_name'])
+            context_data['asset_name'])
 
         movie_name ='{}_reviewable'.format(asset_name)
         rendered, path = self._render(

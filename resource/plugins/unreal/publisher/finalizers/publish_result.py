@@ -9,7 +9,7 @@ import ftrack_api
 class FtrackPublishResultUnrealPlugin(plugin.PublisherFinalizerUnrealPlugin):
     plugin_name = 'result_unreal'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         return {}
 
 def register(api_object, **kw):

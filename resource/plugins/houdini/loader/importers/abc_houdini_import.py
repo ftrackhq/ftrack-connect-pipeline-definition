@@ -12,7 +12,7 @@ import ftrack_api
 class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
     plugin_name = 'abc_houdini_import'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         # ensure to load the alembic plugin
 
         results = {}
@@ -23,7 +23,7 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
             self.logger.debug('Importing path {}'.format(component_path))
 
             node = hou.node('/obj').createNode(
-                'alembicarchive', context['asset_name'])
+                'alembicarchive', context_data['asset_name'])
             node.parm('buildSubnet').set(False)
             node.parm('fileName').set(component_path)
             hou.hscript(
@@ -31,7 +31,7 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
                     node.path()))
             node.moveToGoodPosition()
 
-            if context['asset_type'] == 'cam':
+            if context_data['asset_type_name'] == 'cam':
                 bcam = ''
                 for obj in node.glob('*'):
                     if 'cam' in obj.type().name():

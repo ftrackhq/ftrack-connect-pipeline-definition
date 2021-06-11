@@ -10,7 +10,7 @@ from ftrack_connect_pipeline_3dsmax.utils import max_alembic_commands as abc_uti
 class ImportAbcMaxPlugin(plugin.LoaderImporterMaxPlugin):
     plugin_name = 'import_max_abc'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = {}
         #TODO: This is commented because is not working as it should, waiting
         # to be fixed on the task where we move from maxPlus to pymxs

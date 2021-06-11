@@ -10,7 +10,7 @@ import ftrack_api
 class CollectFromPrefixMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'from_prefix'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         cmds.select(cl=True)
         prefix = str(options['prefix'])
         sufix = str(options['sufix'])

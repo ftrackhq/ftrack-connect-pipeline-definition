@@ -14,7 +14,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
     plugin_name = 'import_image_sequence'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         results = {}
 
         paths_to_import = []
@@ -27,7 +27,7 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
             )
             resulting_node = nuke.createNode('Read', inpanel=False)
             arguments_dict = asset_info.generate_asset_info_dict_from_args(
-                context, data, options, self.session
+                context_data, data, options, self.session
             )
             asset_info_class = asset_info.FtrackAssetInfo(arguments_dict)
             unique_name = nuke_utils.get_unique_scene_name(

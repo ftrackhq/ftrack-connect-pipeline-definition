@@ -9,7 +9,7 @@ from pymxs import runtime as rt
 class CollectGeometryMayaPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'geometry_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         nodes_to_select = []
@@ -18,7 +18,7 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMaxPlugin):
         rt.select(nodes_to_select)
         return rt.selection
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all the geometries in the scene'''
         collected_objects = []
         all_objects = rt.objects
@@ -28,7 +28,7 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMaxPlugin):
 
         return collected_objects
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         '''Return the selected geometries'''
         selected_objects = rt.selection
         check_type = rt.GeometryClass
@@ -38,7 +38,7 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMaxPlugin):
                 collected_objects.append(obj.name)
         return collected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         geo_objects = options.get('collected_objects', [])
         # geo_objects = cmds.ls(geometry=True)
         return geo_objects

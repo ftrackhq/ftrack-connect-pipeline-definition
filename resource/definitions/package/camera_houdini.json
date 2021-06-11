@@ -1,10 +1,7 @@
 {
     "name": "camera_houdini",
     "type": "package",
-    "asset_type": "cam",
-    "context":[
-        "Task"
-    ],
+    "asset_type_name": "cam",
     "components":[
         {
             "name": "houdiniNodes",

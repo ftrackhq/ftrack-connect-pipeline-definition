@@ -10,7 +10,7 @@ import ftrack_api
 class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'scene_or_selection'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         export_option = options.get("export", 'scene')
         if export_option == 'scene':
             scene_name = cmds.file(q=True, sceneName=True)

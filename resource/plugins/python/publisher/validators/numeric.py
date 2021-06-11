@@ -7,7 +7,7 @@ import ftrack_api
 class NumericValidatorPlugin(plugin.PublisherValidatorPlugin):
     plugin_name = 'numeric'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         output = self.output
         self.logger.debug('data: {}'.format(data))
         test = options.get('test')

@@ -10,7 +10,7 @@ import ftrack_api
 class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMaxPlugin):
     plugin_name = 'is_geometry'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
