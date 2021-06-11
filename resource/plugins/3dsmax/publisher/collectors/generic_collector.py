@@ -9,7 +9,7 @@ from pymxs import runtime as rt
 class CollectGenericMaxPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'generic_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the items of the plugin *options*'''
         selected_items = options.get('selected_items', [])
         nodes_to_select = []
@@ -18,7 +18,7 @@ class CollectGenericMaxPlugin(plugin.PublisherCollectorMaxPlugin):
         rt.select(nodes_to_select)
         return rt.selection
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selected items'''
         collected_objects = []
         selected_objects = rt.selection
@@ -27,12 +27,12 @@ class CollectGenericMaxPlugin(plugin.PublisherCollectorMaxPlugin):
 
         return collected_objects
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         '''Return the selected items of the scene'''
         selected_objects = rt.selection
         return selected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         collected_objects = options.get('collected_objects', [])
         return collected_objects
 

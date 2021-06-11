@@ -10,7 +10,7 @@ import ftrack_api
 class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'geometry_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         cmds.select(cl=True)
@@ -18,12 +18,12 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
             cmds.select(item, add=True)
         return selected_items
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all the geometries in the scene'''
         collected_objects = cmds.ls(geometry=True, l=True)
         return collected_objects
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         '''Return the selected geometries'''
         check_type = "geometryShape"
         selected_objects = cmds.ls(sl=True, l=True)
@@ -38,7 +38,7 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
                 collected_objects.append(obj)
         return collected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''
         Return the collected objects in the widget from the plugin *options*
         '''

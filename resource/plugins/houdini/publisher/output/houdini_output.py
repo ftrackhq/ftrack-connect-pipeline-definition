@@ -16,7 +16,7 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     extension = '.hip'
     filetype = 'hip'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False,
@@ -58,7 +58,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
     extension = '.hip'
     filetype = 'hip'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(

@@ -12,9 +12,9 @@ import ftrack_api
 class MergeGeoAbcMayaPlugin(plugin.LoaderFinalizerMayaPlugin):
     plugin_name = 'merge_geo_abc'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         result = {}
-        asset_name = context.get('asset_name', '')
+        asset_name = context_data.get('asset_name', '')
         ftrack_node_name = '{}_ftrackdata'.format(asset_name)
         ftrack_nodes = cmds.ls(ftrack_node_name, type='ftrackAssetNode')
         alembic_nodes = cmds.ls(type='AlembicNode')

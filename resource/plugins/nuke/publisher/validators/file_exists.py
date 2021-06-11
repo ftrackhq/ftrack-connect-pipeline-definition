@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_nuke import plugin
 class FileExistsValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'file_exists'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

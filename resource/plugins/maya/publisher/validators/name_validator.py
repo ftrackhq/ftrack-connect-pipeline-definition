@@ -10,7 +10,7 @@ import ftrack_api
 class CheckGeoNamesValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
     plugin_name = 'name_validator'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         collected_objects = []
         for collector in data:

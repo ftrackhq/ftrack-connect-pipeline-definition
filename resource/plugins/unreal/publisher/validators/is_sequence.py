@@ -10,7 +10,7 @@ import unreal as ue
 class CheckSequenceValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
     plugin_name = 'is_sequence'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

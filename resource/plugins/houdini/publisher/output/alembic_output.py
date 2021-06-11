@@ -13,7 +13,7 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
 
     plugin_name = 'alembic_output'
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch start and end frames from the scene'''
         r = hou.playbar.frameRange()
         frame_info = {
@@ -52,7 +52,7 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         return bake_node
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
@@ -76,7 +76,7 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         object_paths = ' '.join(collected_objects)
         objects = [hou.node(obj_path) for obj_path in collected_objects]
 
-        if context['asset_type'] == 'cam':
+        if context_data['asset_type_name'] == 'cam':
             bcam = self.bakeCamAnim(objects[0],
                                     [options['ABCFrameRangeStart'],
                                      options['ABCFrameRangeEnd']])

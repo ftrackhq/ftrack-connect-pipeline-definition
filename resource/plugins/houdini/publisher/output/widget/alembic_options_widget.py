@@ -39,7 +39,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context=None
+        description=None, options=None, context_id=None, asset_type_name=None
     ):
         self.widgets = {}
 
@@ -47,7 +47,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
-            context=context)
+            context_id=context_id, asset_type_name=asset_type_name)
 
     def on_fetch_callback(self, result):
         ''' This function is called by the _set_internal_run_result function of
@@ -55,7 +55,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(FbxOptionsWidget, self).build()
+        super(AlembicOptionsWidget, self).build()
 
         for name, option in self.OPTIONS.items():
             default = None
@@ -80,7 +80,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
                 self.set_option_result(item['value'], name)
 
     def post_build(self):
-        super(FbxOptionsWidget, self).post_build()
+        super(AlembicOptionsWidget, self).post_build()
 
         for name, widget in self.widgets.items():
             option = self.OPTIONS[name]

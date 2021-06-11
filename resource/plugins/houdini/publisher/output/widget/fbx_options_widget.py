@@ -93,7 +93,7 @@ class FbxOptionsWidget(DynamicWidget):
 
     def __init__(
         self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context=None
+        description=None, options=None, context_id=None, asset_type_name=None
     ):
 
         self.widgets = {}
@@ -102,7 +102,7 @@ class FbxOptionsWidget(DynamicWidget):
             parent=parent,
             session=session, data=data, name=name,
             description=description, options=options,
-            context=context)
+            context_id=context_id, asset_type_name=asset_type_name)
 
     def build(self):
         '''build function , mostly used to create the widgets.'''

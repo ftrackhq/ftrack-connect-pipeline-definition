@@ -13,14 +13,14 @@ class DefaultValidatorWidget(dynamic_widget.DynamicWidget):
     enable_run_plugin = False
 
     def __init__(
-            self, parent=None, context=None, session=None, data=None, name=None,
+            self, parent=None, context_id=None, asset_type_name=None, session=None, data=None, name=None,
             description=None, options=None
     ):
         '''initialise FileCollectorWidget with *parent*, *session*, *data*,
         *name*, *description*, *options*
         '''
         super(DefaultValidatorWidget, self).__init__(
-            parent=parent, context=context, session=session, data=data, name=name,
+            parent=parent, context_id=context_id, asset_type_name=asset_type_name, session=session, data=data, name=name,
             description=description, options=options
         )
 

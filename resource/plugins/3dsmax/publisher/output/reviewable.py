@@ -13,7 +13,7 @@ from ftrack_connect_pipeline_3dsmax import plugin
 class OutputReviewablePlugin(plugin.PublisherOutputMaxPlugin):
     plugin_name = 'reviewable'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         pass
 
 

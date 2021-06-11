@@ -1,7 +1,7 @@
 {
     "name": "img_unreal",
     "type": "package",
-    "asset_type": "img",
+    "asset_type_name": "img",
     "components":[
         {
             "name": "image_sequence",

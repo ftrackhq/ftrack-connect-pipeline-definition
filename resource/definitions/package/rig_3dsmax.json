@@ -1,7 +1,7 @@
 {
     "name": "rig_3dsmax",
     "type": "package",
-    "asset_type": "rig",
+    "asset_type_name": "rig",
     "components":[
         {
             "name": "3dsmax"

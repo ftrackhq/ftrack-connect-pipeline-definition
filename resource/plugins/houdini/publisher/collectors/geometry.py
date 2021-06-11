@@ -9,7 +9,7 @@ import ftrack_api
 class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
     plugin_name = 'geometry_collector'
 
-    def select(self, context=None, data=None, options=None):
+    def select(self, context_data=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         for obj in hou.node('/').allSubChildren():
@@ -17,12 +17,12 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
                 obj in selected_items or obj.path() in selected_items)
         return selected_items
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all the geometries in the scene'''
         collected_objects = hou.node('/').allSubChildren()
         return [obj.path() for obj in collected_objects]
 
-    def add(self, context=None, data=None, options=None):
+    def add(self, context_data=None, data=None, options=None):
         '''Return the selected geometries'''
         selected_objects = hou.selectedNodes()
         objPath = hou.node('/obj')
@@ -33,7 +33,7 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
                 collected_objects.append(obj.path())
         return collected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''
         Return the collected objects in the widget from the plugin *options*
         '''

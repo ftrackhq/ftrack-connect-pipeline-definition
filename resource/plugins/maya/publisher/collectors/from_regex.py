@@ -11,7 +11,7 @@ import ftrack_api
 class CollectFromRegexMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'from_regex'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         expr = options['expression']
         dag_objs = cmds.ls(ap=True, assemblies=True, dag=True)
         matched_objs = []

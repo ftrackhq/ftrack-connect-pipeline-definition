@@ -10,7 +10,7 @@ from pymxs import runtime as rt
 class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'scene_or_selection'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         export_option = options.get("export", 'scene')
         if export_option == 'scene':
             scene_name = "{}{}".format(rt.maxFilePath, rt.maxFileName)

@@ -12,7 +12,7 @@ import nuke
 class WritableNodeValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'can_connect_to_write_node'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

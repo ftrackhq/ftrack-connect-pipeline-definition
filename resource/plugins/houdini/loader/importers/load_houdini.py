@@ -20,7 +20,7 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
 
         return houdini_options
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
@@ -30,7 +30,7 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
         houdini_options = {}
         if load_options:
             houdini_options = self._get_houdini_options(load_options)
-        houdini_options['context'] = context
+        houdini_options['context_data'] = context_data
 
         results = {}
         paths_to_import = []
@@ -40,7 +40,7 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
             self.logger.debug('Loading path {}'.format(component_path))
 
             load_result = load_mode_fn(
-                component_path, context=context, options=houdini_options)
+                component_path, context_data=context_data, options=houdini_options)
 
             if not six.PY2:
                 results[component_path] = load_result.path() if (

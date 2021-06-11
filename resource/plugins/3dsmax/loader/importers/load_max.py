@@ -16,7 +16,7 @@ class LoadMaxPlugin(plugin.LoaderImporterMaxPlugin):
         self.logger.debug("No options implemented")
         return {}
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
 
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])

@@ -24,7 +24,7 @@ class LoadMayaPlugin(plugin.LoaderImporterMayaPlugin):
 
         return maya_options
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         cmds.loadPlugin('fbxmaya.so', qt=1)
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})

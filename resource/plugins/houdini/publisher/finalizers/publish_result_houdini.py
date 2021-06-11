@@ -8,7 +8,7 @@ import ftrack_api
 class FtrackPublishResultHoudiniPlugin(plugin.PublisherFinalizerHoudiniPlugin):
     plugin_name = 'result_houdini'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         return {}
 
 

@@ -11,7 +11,7 @@ from ftrack_connect_pipeline_nuke import plugin
 class CollectSelectedNodesNukePlugin(plugin.PublisherCollectorNukePlugin):
     plugin_name = 'selection'
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
 
         selected_nodes = nuke.selectedNodes()
         selected_node_names = []

@@ -1,7 +1,7 @@
 {
     "name": "camera_houdini",
     "type": "package",
-    "asset_type": "cam",
+    "asset_type_name": "cam",
     "components":[
         {
             "name": "houdiniNodes",

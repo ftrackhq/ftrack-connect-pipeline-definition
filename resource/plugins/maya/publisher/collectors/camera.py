@@ -10,12 +10,12 @@ import ftrack_api
 class CollectCameraMayaPlugin(plugin.PublisherCollectorMayaPlugin):
     plugin_name = 'camera'
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all cameras from the scene'''
         collected_objects = cmds.listCameras(p=True)
         return collected_objects
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         '''Return the long name of the camera from the plugin *options*'''
         camera_name = options.get('camera_name', 'persp')
         cameras = cmds.ls(camera_name, l=True)

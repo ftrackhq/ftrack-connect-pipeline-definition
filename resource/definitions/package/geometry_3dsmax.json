@@ -1,7 +1,7 @@
 {
     "name": "geometry_3dsmax",
     "type": "package",
-    "asset_type": "geo",
+    "asset_type_name": "geo",
     "components":[
         {
             "name": "3dsmax"

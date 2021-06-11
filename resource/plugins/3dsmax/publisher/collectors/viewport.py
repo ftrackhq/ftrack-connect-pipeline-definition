@@ -10,7 +10,7 @@ from pymxs import runtime as rt
 class CollectViewportMaxPlugin(plugin.PublisherCollectorMaxPlugin):
     plugin_name = 'viewport'
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         viewports = []
         for idx in range(1, (rt.viewport.numViewEx() + 1)):
             view_type = rt.viewport.getType(index=idx)
@@ -21,7 +21,7 @@ class CollectViewportMaxPlugin(plugin.PublisherCollectorMaxPlugin):
                 viewports.append(entry)
         return viewports
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         viewport_index = options.get('viewport_index', -1)
         if viewport_index != -1:
             return [viewport_index]

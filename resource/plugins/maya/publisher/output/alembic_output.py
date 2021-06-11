@@ -14,7 +14,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
     plugin_name = 'alembic'
 
-    def fetch(self, context=None, data=None, options=None):
+    def fetch(self, context_data=None, data=None, options=None):
         '''Fetch start and end frames from the scene'''
         frame_info = {
             "frameStart": cmds.playbackOptions(q=True, ast=True),
@@ -38,7 +38,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
             'alembicEval': float(options.get('alembicEval', 1.0))
         }
 
-    def run(self, context=None, data=None, options=None):
+    def run(self, context_data=None, data=None, options=None):
         # ensure to load the alembic plugin
         cmds.loadPlugin('AbcExport.so', qt=1)
 
