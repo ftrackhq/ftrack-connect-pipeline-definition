@@ -8,7 +8,6 @@ import logging
 import functools
 
 NAME = 'ftrack-connect-pipeline-definition'
-VERSION = '0.1.0'
 
 logger = logging.getLogger('{}.hook'.format(NAME.replace('-','_')))
 
@@ -35,13 +34,13 @@ def on_discover_pipeline_definition(session, event):
             'version': integration_version
         }
     }
-
+    
     return data
 
 
 def on_launch_pipeline_definition(session, event):
     '''Handle application launch and add environment to *event*.'''
-    definition_base_data = on_discover_pipeline_qt(session, event)
+    definition_base_data = on_discover_pipeline_definition(session, event)
 
 
     pipeline_definitions = os.path.join(
@@ -55,7 +54,8 @@ def on_launch_pipeline_definition(session, event):
 
     definition_base_data['integration']['env']  = {
         'PYTHONPATH.prepend': python_dependencies,
-        'FTRACK_EVENT_PLUGIN_PATH':pipeline_definitions
+        'FTRACK_EVENT_PLUGIN_PATH':pipeline_definitions,
+        'FTRACK_DEFINITION_PLUGIN_PATH': pipeline_plugins
     }
     return definition_base_data
 
