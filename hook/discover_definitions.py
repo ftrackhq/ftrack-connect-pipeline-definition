@@ -5,6 +5,7 @@ import os
 import sys
 import ftrack_api
 import logging
+import functools
 
 NAME = 'ftrack-connect-pipeline-definition'
 VERSION = '0.1.0'
