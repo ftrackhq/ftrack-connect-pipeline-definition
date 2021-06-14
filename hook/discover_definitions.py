@@ -11,47 +11,52 @@ VERSION = '0.1.0'
 
 logger = logging.getLogger('{}.hook'.format(NAME.replace('-','_')))
 
-def on_application_launch(event):
-    '''Handle application launch and add environment to *event*.'''
-    logger.debug('launching: {}'.format(NAME))
-
-    plugin_base_dir = os.path.normpath(
-        os.path.join(
-            os.path.abspath(
-                os.path.dirname(__file__)
-            ),
-            '..'
-        )
+plugin_base_dir = os.path.normpath(
+    os.path.join(
+        os.path.abspath(
+            os.path.dirname(__file__)
+        ),
+        '..'
     )
+)
+python_dependencies = os.path.join(
+    plugin_base_dir, 'dependencies'
+)
+sys.path.append(python_dependencies)
+
+
+def on_discover_pipeline_definition(session, event):
+    from ftrack_connect_pipeline_definition import __version__ as integration_version
+
+    data = {
+        'integration': {
+            'name': 'ftrack-connect-pipeline-definition',
+            'version': integration_version
+        }
+    }
+
+    return data
+
+
+def on_launch_pipeline_definition(session, event):
+    '''Handle application launch and add environment to *event*.'''
+    definition_base_data = on_discover_pipeline_qt(session, event)
+
 
     pipeline_definitions = os.path.join(
         plugin_base_dir, 'resource', 'definitions'
     )
-
     pipeline_plugins = os.path.join(
         plugin_base_dir, 'resource', 'plugins'
     )
     os.environ['FTRACK_DEFINITION_PLUGIN_PATH'] = pipeline_plugins
 
-    python_dependencies = os.path.join(
-        plugin_base_dir, 'dependencies'
-    )
-    sys.path.append(python_dependencies)
 
-    # extract version
-    # from ftrack_connect_pipeline_definition import _version as integration_version
-
-    data = {
-        'integration': {
-            'name': 'ftrack-connect-pipeline-definition',
-            'version': '0.0.0',
-            'env': {
-                'PYTHONPATH.prepend': python_dependencies,
-                'FTRACK_EVENT_PLUGIN_PATH':pipeline_definitions
-            }
-        }
+    definition_base_data['integration']['env']  = {
+        'PYTHONPATH.prepend': python_dependencies,
+        'FTRACK_EVENT_PLUGIN_PATH':pipeline_definitions
     }
-    return data
+    return definition_base_data
 
 
 def register(session):
@@ -59,14 +64,24 @@ def register(session):
     if not isinstance(session, ftrack_api.session.Session):
         return
 
-    logger.debug('registering :{}'.format('ftrack.pipeline.discover'))
+    handle_discovery_event = functools.partial(
+        on_discover_pipeline_definition,
+        session
+    )
+
     session.event_hub.subscribe(
         'topic=ftrack.connect.application.discover '
         'and data.application.identifier=*',
-        on_application_launch, priority=10
+        handle_discovery_event, priority=10
     )
+
+    handle_launch_event = functools.partial(
+        on_launch_pipeline_definition,
+        session
+    )    
+
     session.event_hub.subscribe(
         'topic=ftrack.connect.application.launch '
         'and data.application.identifier=*',
-        on_application_launch, priority=10
+        handle_launch_event, priority=10
     )
