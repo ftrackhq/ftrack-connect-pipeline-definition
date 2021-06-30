@@ -37,5 +37,7 @@ Thumbs.db
 .pydevproject
 .settings
 .idea/
-source/ftrack_connect_pipeline/ui/resource.py
 *.orig
+
+# SCM
+source/ftrack_connect_pipeline_definition/_version.py
