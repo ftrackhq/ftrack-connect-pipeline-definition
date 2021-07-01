@@ -13,8 +13,12 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
     plugin_name = 'thumbnail'
 
     def run(self, context_data=None, data=None, options=None):
-        component_name = options['component_name']
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
         camera_name = options.get('camera_name', 'persp')
+        if collected_objects:
+            camera_name = collected_objects[0]
 
         nodes = cmds.ls(sl=True)
         cmds.select(cl=True)
