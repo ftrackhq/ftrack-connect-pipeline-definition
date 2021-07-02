@@ -13,8 +13,12 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
     plugin_name = 'reviewable'
 
     def run(self, context_data=None, data=None, options=None):
-        component_name = options['component_name']
+        collected_objects = []
+        for collector in data:
+            collected_objects.extend(collector['result'])
         camera_name = options.get('camera_name', 'persp')
+        if collected_objects:
+            camera_name = collected_objects[0]
 
         current_panel = cmds.getPanel(wf=True)
         panel_type = cmds.getPanel(to=current_panel)  # scriptedPanel

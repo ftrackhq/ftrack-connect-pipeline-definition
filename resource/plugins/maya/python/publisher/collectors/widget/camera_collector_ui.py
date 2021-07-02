@@ -58,9 +58,9 @@ class CameraCollectorWidget(BaseOptionsWidget):
         super(CameraCollectorWidget, self).post_build()
         update_fn = partial(self.set_option_result, key='camera_name')
 
-        self.cameras.editTextChanged.connect(update_fn)
+        self.cameras.currentTextChanged.connect(update_fn)
         if self.maya_cameras:
-            self.set_option_result(self.maya_cameras[0], key='camera_name')
+            self.set_option_result(self.cameras.currentText(), key='camera_name')
 
 
 class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
