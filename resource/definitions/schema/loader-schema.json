@@ -44,6 +44,9 @@
         "type": {
           "type": "string"
         },
+        "widget_ref": {
+          "type": "string"
+        },
         "name": {
           "type": "string",
           "enum": [
@@ -84,6 +87,9 @@
           "default": "step"
         },
         "type": {
+          "type": "string"
+        },
+        "widget_ref": {
           "type": "string"
         },
         "name": {

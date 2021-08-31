@@ -44,6 +44,9 @@
         "type": {
           "type": "string"
         },
+        "widget_ref": {
+          "type": "string"
+        },
         "name": {
           "type": "string",
           "enum": [
@@ -87,6 +90,9 @@
           "type": "string"
         },
         "name": {
+          "type": "string"
+        },
+        "widget_ref": {
           "type": "string"
         },
         "optional": {
