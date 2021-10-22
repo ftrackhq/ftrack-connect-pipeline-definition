@@ -4,6 +4,7 @@
   "package": "geometry_maya",
   "host_type": "maya",
   "ui_type": "qt",
+  "discoverable": ["modeling"],
   "contexts": [
     {
       "name": "main",
