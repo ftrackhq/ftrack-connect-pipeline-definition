@@ -44,8 +44,9 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "validate selection",
-              "plugin": "importer_test"
+              "name": "importer",
+              "plugin": "importer_test",
+              "widget": "fakeImportModes"
             }
           ]
         },
@@ -53,7 +54,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "maya",
+              "name": "post import plugin",
               "plugin": "post_import_test"
             }
           ]

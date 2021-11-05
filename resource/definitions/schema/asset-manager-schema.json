@@ -99,12 +99,16 @@
       "required": [
         "update",
         "select",
-        "remove"
+        "remove",
+        "load",
+        "unload"
       ],
       "order":[
         "update",
         "select",
-        "remove"
+        "remove",
+        "load",
+        "unload"
       ],
       "additionalProperties": false,
       "properties": {
@@ -157,6 +161,40 @@
                   "default": "ctx_remove"
                 }
               }
+          }
+        },
+        "load": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "allOf": [{"$ref": "#/definitions/ActionPlugin"}],
+            "properties": {
+              "type": {
+                "pattern": "^action$",
+                "default": "action"
+              },
+              "ui_callback": {
+                "type": "string",
+                "default": "ctx_load"
+              }
+            }
+          }
+        },
+        "unload": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "allOf": [{"$ref": "#/definitions/ActionPlugin"}],
+            "properties": {
+              "type": {
+                "pattern": "^action$",
+                "default": "action"
+              },
+              "ui_callback": {
+                "type": "string",
+                "default": "ctx_unload"
+              }
+            }
           }
         }
       }
