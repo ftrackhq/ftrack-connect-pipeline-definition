@@ -9,7 +9,7 @@ from Qt import QtWidgets
 
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
 
 
 class SequenceWidget(BaseOptionsWidget):

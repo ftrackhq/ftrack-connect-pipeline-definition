@@ -4,12 +4,12 @@
 from functools import partial
 
 from ftrack_connect_pipeline_houdini import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
+from ftrack_connect_pipeline_qt.plugin.widgets import (
     LoadBaseWidget
 )
 from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 
-from Qt import QtCore, QtWidgets
+from Qt import QtWidgets
 import ftrack_api
 
 class LoadHoudiniWidget(LoadBaseWidget):

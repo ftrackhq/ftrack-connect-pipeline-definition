@@ -4,7 +4,7 @@
 import ftrack_api
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
+from ftrack_connect_pipeline_qt.plugin.widgets import (
     LoadBaseWidget
 )
 from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
