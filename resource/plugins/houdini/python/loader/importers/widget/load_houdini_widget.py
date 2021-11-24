@@ -10,6 +10,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets import (
 from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 
 from Qt import QtWidgets
+
 import ftrack_api
 
 class LoadHoudiniWidget(LoadBaseWidget):
