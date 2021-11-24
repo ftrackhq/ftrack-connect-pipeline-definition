@@ -6,11 +6,9 @@ from functools import partial
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
 
-
 from Qt import QtWidgets
 
 import ftrack_api
-
 
 class AlembicOptionsWidget(BaseOptionsWidget):
     auto_fetch_on_init = True

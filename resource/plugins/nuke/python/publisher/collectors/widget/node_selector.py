@@ -5,12 +5,10 @@ import ftrack_api
 
 from functools import partial
 
-from Qt import QtWidgets
-
-
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
 
+from Qt import QtWidgets
 
 class NodeSelectorWidget(BaseOptionsWidget):
     # Run fetch function on widget initialization

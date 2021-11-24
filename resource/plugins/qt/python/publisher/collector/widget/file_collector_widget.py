@@ -3,9 +3,11 @@
 
 from functools import partial
 
-from Qt import QtWidgets, QtCore
 from ftrack_connect_pipeline_qt import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
+
+from Qt import QtWidgets, QtCore
+
 import ftrack_api
 
 
