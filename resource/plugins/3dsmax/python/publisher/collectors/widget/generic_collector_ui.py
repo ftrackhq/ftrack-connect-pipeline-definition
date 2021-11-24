@@ -2,8 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 from ftrack_connect_pipeline_3dsmax import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
-    import BaseCollectorWidget
+from ftrack_connect_pipeline_qt.plugin.widgets.base_collector_widget import BaseCollectorWidget
 
 import ftrack_api
 

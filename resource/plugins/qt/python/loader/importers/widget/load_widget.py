@@ -2,7 +2,7 @@
 # :copyright: Copyright (c) 2019 ftrack
 
 from ftrack_connect_pipeline_qt import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options import load_widget
+from ftrack_connect_pipeline_qt.plugin.widgets import load_widget
 import ftrack_api
 
 

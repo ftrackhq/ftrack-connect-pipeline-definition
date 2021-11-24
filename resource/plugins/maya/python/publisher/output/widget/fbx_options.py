@@ -4,9 +4,10 @@
 from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
 
 from Qt import QtWidgets
+
 import ftrack_api
 
 

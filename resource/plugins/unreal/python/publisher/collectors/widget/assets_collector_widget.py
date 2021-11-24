@@ -2,8 +2,9 @@
 # :copyright: Copyright (c) 2014-2021 ftrack
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options.base_collector_widget \
-    import BaseCollectorWidget
+from ftrack_connect_pipeline_qt.plugin.widgets.base_collector_widget import (
+    BaseCollectorWidget
+)
 
 import ftrack_api
 

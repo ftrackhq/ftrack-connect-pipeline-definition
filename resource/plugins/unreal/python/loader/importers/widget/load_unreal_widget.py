@@ -6,12 +6,13 @@ from functools import partial
 import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_qt.client.widgets.options.load_widget import (
+from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
     LoadBaseWidget
 )
 from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_const
 
-from Qt import QtCore, QtWidgets
+from Qt import QtWidgets
+
 import ftrack_api
 
 # Common
