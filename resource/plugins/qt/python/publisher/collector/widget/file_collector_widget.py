@@ -44,7 +44,8 @@ class FileCollectorWidget(BaseOptionsWidget):
 
         label = QtWidgets.QLabel('path')
         self.line_edit = QtWidgets.QLineEdit(current_path)
-        self.browser_button = QtWidgets.QPushButton('Browse')
+        self.browser_button = QtWidgets.QPushButton('BROWSE')
+        self.browser_button.setObjectName('borderless')
 
         widget_layout.addWidget(label)
         widget_layout.addWidget(self.line_edit)
@@ -53,6 +54,7 @@ class FileCollectorWidget(BaseOptionsWidget):
 
         self.file_selector = QtWidgets.QFileDialog()
         self.file_selector.setFileMode(QtWidgets.QFileDialog.ExistingFile)
+
 
     def post_build(self):
         '''hook events'''
@@ -63,7 +65,8 @@ class FileCollectorWidget(BaseOptionsWidget):
 
     def fetch_build(self):
         '''post build function , mostly used connect widgets events.'''
-        self.fetch_plugin_button = QtWidgets.QPushButton('fetch')
+        self.fetch_plugin_button = QtWidgets.QPushButton('FETCH')
+        self.fetch_plugin_button.setObjectName('borderless')
         self.fetch_plugin_button.clicked.connect(
             partial(self.on_run_plugin, 'fetch')
         )
