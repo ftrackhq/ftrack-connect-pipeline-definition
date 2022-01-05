@@ -8,6 +8,7 @@ class ImporterLoaderTest(plugin.LoaderImporterPlugin):
     plugin_name = 'importer_test'
 
     def run(self, context_data=None, data=None, options=None):
+        self.logger.warning('Would have imported data: {} from context: {} with options: {}'.format(data, context_data, options))
         return {}
 
 

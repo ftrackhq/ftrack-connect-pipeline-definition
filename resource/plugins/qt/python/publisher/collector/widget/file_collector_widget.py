@@ -36,6 +36,9 @@ class FileCollectorWidget(BaseOptionsWidget):
         '''build function widgets.'''
         super(FileCollectorWidget, self).build()
 
+        self._summary_widget = QtWidgets.QLabel()
+        self.layout().addWidget(self._summary_widget)
+
         current_path = self.options.get('path')
 
         widget_layout = QtWidgets.QHBoxLayout()
@@ -55,6 +58,7 @@ class FileCollectorWidget(BaseOptionsWidget):
         self.file_selector = QtWidgets.QFileDialog()
         self.file_selector.setFileMode(QtWidgets.QFileDialog.ExistingFile)
 
+        self.report_input()
 
     def post_build(self):
         '''hook events'''
@@ -92,7 +96,21 @@ class FileCollectorWidget(BaseOptionsWidget):
         '''Updates the options dictionary with provided *path* when
         textChanged of line_edit event is triggered'''
         self.set_option_result(path, key='path')
+        self.report_input()
 
+    def report_input(self):
+        '''Override'''
+        path = self.options.get('path')
+        message = ''
+        status = False
+        num_objects = 1 if len(path or '')>0 else 0
+        if num_objects > 0:
+            message = '{} item{} selected'.format(num_objects, 's' if num_objects>1 else '')
+            status = True
+        self.input_changed.emit({
+            'status': status,
+            'message': message
+        })
 
 class CollectorWidget(plugin.PublisherCollectorWidget):
     plugin_name = 'file_collector.widget'

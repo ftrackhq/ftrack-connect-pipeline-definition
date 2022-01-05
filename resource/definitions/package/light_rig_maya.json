@@ -4,7 +4,11 @@
     "asset_type_name": "lgt",
     "components":[
         {
-            "name": "mayaBinary"
+            "name": "mayaBinaryScene"
+        },
+        {
+            "name": "mayaBinary",
+            "required": false
         },
         {
             "name": "mayaAscii",

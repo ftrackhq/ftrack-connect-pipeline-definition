@@ -28,7 +28,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Pick objects with prefix",
+              "name": "Pick objects with suffix",
               "plugin": "collector_test"
             },
             {
