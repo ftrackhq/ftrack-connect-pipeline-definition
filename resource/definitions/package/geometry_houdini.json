@@ -4,6 +4,9 @@
     "asset_type_name": "geo",
     "components":[
         {
+            "name": "houdiniScene"
+        },
+        {
             "name": "houdiniNodes",
             "required": false
         },

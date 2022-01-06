@@ -46,7 +46,10 @@
             {
               "name": "importer",
               "plugin": "importer_test",
-              "widget": "fakeImportModes"
+              "widget": "fakeImportModes",
+              "options": {
+                "load_mode": "Import"
+              }
             }
           ]
         },

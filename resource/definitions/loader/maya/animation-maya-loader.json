@@ -209,19 +209,18 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Do nothing",
-              "plugin": "finalizerTest",
-              "visible": false
+              "name": "Copy scene to working directory",
+              "plugin": "maya_finalize"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizerTest",
-              "visible": false
+              "plugin": "post_finalizer_test"
             }
           ]
         }

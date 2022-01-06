@@ -44,6 +44,10 @@
         "type": {
           "type": "string"
         },
+        "visible": {
+          "type": "boolean",
+          "default": true
+        },
         "widget_ref": {
           "type": "string"
         },
@@ -100,6 +104,10 @@
           "default": false
         },
         "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "visible": {
           "type": "boolean",
           "default": true
         },

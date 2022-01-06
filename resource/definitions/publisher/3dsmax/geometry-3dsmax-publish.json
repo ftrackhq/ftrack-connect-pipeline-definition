@@ -23,7 +23,43 @@
   ],
   "components": [
     {
+      "name": "3dsmaxScene",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
+              "options": {
+                "export": ["scene", "export_selected"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "3dsmaxbinary",
+              "plugin": "OutputMaxBinaryPlugin"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "3dsmax",
+      "optional":  true,
       "stages": [
         {
           "name": "collector",

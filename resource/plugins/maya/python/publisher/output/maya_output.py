@@ -43,7 +43,11 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
 
+        if len(collected_objects) == 0:
+            raise Exception('No collected objects or paths to export!')
+
         if os.path.isfile(collected_objects[0]):
+        #if options['export'] == 'scene':
             options = {
                 'typ': self.filetype,
                 'save': True
@@ -53,6 +57,7 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             cmds.file(**options)
             cmds.file(rename=scene_name)
         else:
+
             options = self.extract_options(options)
 
             self.logger.debug(
