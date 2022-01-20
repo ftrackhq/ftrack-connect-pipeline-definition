@@ -262,6 +262,7 @@
           },
           "default": [],
           "minItems": 1,
+          "masItems": 2,
           "uniqueItems": true
         },
         "type": {
@@ -392,7 +393,7 @@
         "type",
         "default_method"
       ],
-      "order":["type", "category", "name", "description", "plugin", "widget", "options", "default_method"],
+      "order":["type", "category", "name", "description", "plugin", "widget", "options", "default_method", "mode"],
       "additionalProperties": false,
       "properties": {
         "category": {
@@ -442,6 +443,15 @@
         "default_method": {
           "type": "string",
           "default": "run"
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "open",
+            "import",
+            "null"
+          ],
+          "default": "null"
         }
       }
     },

@@ -1,0 +1,29 @@
+{
+    "name": "animation_maya",
+    "type": "package",
+    "asset_type_name": "anim",
+    "components":[
+        {
+            "name": "mayaBinaryScene"
+        },
+        {
+            "name": "mayaBinary",
+            "required": false
+        },
+        {
+            "name": "mayaAscii",
+            "required": false
+        },
+        {
+            "name": "alembic"
+        },
+        {
+            "name": "thumbnail",
+            "required": false
+        },
+        {
+            "name": "reviewable",
+            "required": false
+        }
+    ]
+}
