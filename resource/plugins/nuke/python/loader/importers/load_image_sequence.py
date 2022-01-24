@@ -22,9 +22,7 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
             paths_to_import.extend(collector['result'])
 
         for component_path in paths_to_import:
-            self.logger.debug(
-                'Loading image sequence {}'.format(component_path)
-            )
+            self.logger.debug('Loading image sequence {}'.format(component_path))
             resulting_node = nuke.createNode('Read', inpanel=False)
             arguments_dict = asset_info.generate_asset_info_dict_from_args(
                 context_data, data, options, self.session
@@ -33,12 +31,12 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
             unique_name = nuke_utils.get_unique_scene_name(
                 '{}_{}'.format(
                     asset_info_class[asset_const.ASSET_NAME],
-                    asset_info_class[asset_const.COMPONENT_NAME]
+                    asset_info_class[asset_const.COMPONENT_NAME],
                 )
             )
             resulting_node['name'].setValue(unique_name)
             resulting_node['file'].fromUserText(component_path)
-            #Todo: Set start end frames from ftrack
+            # Todo: Set start end frames from ftrack
 
             results[component_path] = resulting_node.name()
 

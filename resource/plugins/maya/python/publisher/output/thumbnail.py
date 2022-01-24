@@ -9,6 +9,7 @@ import maya.cmds as cmds
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
+
 class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
     plugin_name = 'thumbnail'
 
@@ -42,22 +43,18 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
         # Ensure JPEG is set in renderglobals.
         # Only used on windows for some reason
         currentFormatStr = cmds.getAttr(
-            'defaultRenderGlobals.imageFormat',
-            asString=True
+            'defaultRenderGlobals.imageFormat', asString=True
         )
 
         restoreRenderGlobals = False
         if not (
-                'jpg' in currentFormatStr.lower() or
-                'jpeg' in currentFormatStr.lower()
+            'jpg' in currentFormatStr.lower() or 'jpeg' in currentFormatStr.lower()
         ):
             currentFormatInt = cmds.getAttr('defaultRenderGlobals.imageFormat')
             cmds.setAttr('defaultRenderGlobals.imageFormat', 8)
             restoreRenderGlobals = True
 
-        filename = tempfile.NamedTemporaryFile(
-            suffix='.jpg'
-        ).name
+        filename = tempfile.NamedTemporaryFile(suffix='.jpg').name
 
         res = cmds.playblast(
             format='image',
@@ -67,7 +64,7 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
             showOrnaments=False,
             forceOverwrite=True,
             viewer=False,
-            filename=filename
+            filename=filename,
         )
 
         if restoreRenderGlobals:

@@ -1,4 +1,3 @@
-
 # :coding: utf-8
 # :copyright: Copyright (c) 2019 ftrack
 
@@ -6,20 +5,35 @@ from ftrack_connect_pipeline_qt.plugin.widgets import dynamic as dynamic_widget
 from ftrack_connect_pipeline_qt import plugin
 import ftrack_api
 
+
 class DefaultValidatorWidget(dynamic_widget.DynamicWidget):
     '''Main class to represent a context widget on a publish process'''
+
     enable_run_plugin = False
 
     def __init__(
-            self, parent=None, context_id=None, asset_type_name=None, session=None, data=None, name=None,
-            description=None, options=None
+        self,
+        parent=None,
+        context_id=None,
+        asset_type_name=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
     ):
         '''initialise FileCollectorWidget with *parent*, *session*, *data*,
         *name*, *description*, *options*
         '''
         super(DefaultValidatorWidget, self).__init__(
-            parent=parent, context_id=context_id, asset_type_name=asset_type_name, session=session, data=data, name=name,
-            description=description, options=options
+            parent=parent,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
         )
 
 

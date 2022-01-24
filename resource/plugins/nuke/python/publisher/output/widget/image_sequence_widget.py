@@ -10,18 +10,29 @@ from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
 
 from Qt import QtWidgets
 
-class SequenceWidget(BaseOptionsWidget):
 
+class SequenceWidget(BaseOptionsWidget):
     def __init__(
-            self, parent=None, session=None, data=None, name=None,
-            description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
 
         super(SequenceWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
         )
 
     def build(self):
@@ -32,14 +43,7 @@ class SequenceWidget(BaseOptionsWidget):
             'start_frame': 1,
             'end_frame': 10,
         }
-        self.file_formats = [
-            'exr',
-            'jpeg',
-            'png',
-            'pic',
-            'targa',
-            'tiff'
-        ]
+        self.file_formats = ['exr', 'jpeg', 'png', 'pic', 'targa', 'tiff']
         self.default_file_format = self.options.get('file_format')
 
         self.option_group = QtWidgets.QGroupBox('Image sequence options')
@@ -60,14 +64,10 @@ class SequenceWidget(BaseOptionsWidget):
         range_text = QtWidgets.QLabel("Frame range")
 
         stf_text = QtWidgets.QLabel("From")
-        self.stf_text_edit = QtWidgets.QLineEdit(
-            str(frames_option['start_frame'])
-        )
+        self.stf_text_edit = QtWidgets.QLineEdit(str(frames_option['start_frame']))
 
         enf_text = QtWidgets.QLabel("To")
-        self.enf_text_edit = QtWidgets.QLineEdit(
-            str(frames_option['end_frame'])
-        )
+        self.enf_text_edit = QtWidgets.QLineEdit(str(frames_option['end_frame']))
 
         range_h_lay.addWidget(stf_text)
         range_h_lay.addWidget(self.stf_text_edit)

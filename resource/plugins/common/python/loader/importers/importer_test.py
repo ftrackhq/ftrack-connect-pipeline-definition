@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class ImporterLoaderTest(plugin.LoaderImporterPlugin):
     plugin_name = 'importer_test'
 

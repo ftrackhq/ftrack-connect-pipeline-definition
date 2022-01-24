@@ -9,6 +9,7 @@ import maya.cmds as cmds
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
+
 class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
     plugin_name = 'reviewable'
 
@@ -61,7 +62,7 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
             percent=100,
             quality=70,
             w=res_w,
-            h=res_h
+            h=res_h,
         )
 
         if len(prev_selection):
@@ -70,7 +71,7 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
         cmds.lookThru(previous_camera)
 
         temp_files = glob.glob(filename + '.*')
-        #TODO:
+        # TODO:
         # find a better way to find the extension of the playblast file.
         full_path = temp_files[0]
 

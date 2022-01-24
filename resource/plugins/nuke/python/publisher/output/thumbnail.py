@@ -39,11 +39,9 @@ class OutputThumbnailPlugin(plugin.PublisherOutputNukePlugin):
         new_write_node = nuke.nodes.Write()
         new_write_node.setInput(0, reformat_node)
 
-        file_name = tempfile.NamedTemporaryFile(
-            delete=False, suffix='.png'
-        ).name
+        file_name = tempfile.NamedTemporaryFile(delete=False, suffix='.png').name
 
-        new_write_node['file'].setValue(file_name.replace('\\','/'))
+        new_write_node['file'].setValue(file_name.replace('\\', '/'))
         new_write_node['file_type'].setValue('png')
         # render thumbnail
         curFrame = int(nuke.knob("frame"))

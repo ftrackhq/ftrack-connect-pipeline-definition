@@ -26,4 +26,3 @@ def register(api_object, **kw):
         return
     plugin = CollectSceneOrSelectionMayaPlugin(api_object)
     plugin.register()
-

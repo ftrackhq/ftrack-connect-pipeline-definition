@@ -1,17 +1,15 @@
-
 # :coding: utf-8
 # :copyright: Copyright (c) 2019 ftrack
 
 from ftrack_connect_pipeline_qt import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import (
-    context as context_widget
-)
+from ftrack_connect_pipeline_qt.plugin.widgets import context as context_widget
 import ftrack_api
 
 
 class ContextLoadWidget(plugin.LoaderContextWidget):
     plugin_name = 'context.load'
     widget = context_widget.LoadContextWidget
+
 
 class ContextOpenWidget(plugin.LoaderContextWidget):
     plugin_name = 'context.open'

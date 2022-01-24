@@ -10,6 +10,7 @@ from ftrack_connect_pipeline import utils
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
+
 def extract_load_mode_component_name(data):
     for step_result in data:
         if step_result['type'] != 'component':
@@ -17,10 +18,11 @@ def extract_load_mode_component_name(data):
         for stage_result in step_result['result']:
             if stage_result['name'] == 'importer':
                 for plugin_result in stage_result['result']:
-                    load_mode = plugin_result.get('options',{}).get('load_mode')
+                    load_mode = plugin_result.get('options', {}).get('load_mode')
                     if load_mode:
                         return load_mode, step_result['name']
     return None
+
 
 class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
     plugin_name = 'maya_finalize'
@@ -37,12 +39,11 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
             work_path_base = os.environ.get('FTRACK_CONNECT_WORK_PATH')
             work_path = None
 
-            context = self.session.query('Context where id={}'.format(utils.get_current_context_id())).one()
+            context = self.session.query(
+                'Context where id={}'.format(utils.get_current_context_id())
+            ).one()
 
-            structure_names = [
-                item['name']
-                for item in context['link']
-            ]
+            structure_names = [item['name'] for item in context['link']]
 
             if work_path_base:
                 # Build path down to context
@@ -56,9 +57,7 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
                     self.logger.debug(traceback.format_exc())
                     # Ok, use default location
                     work_path_base = os.path.join(
-                        os.path.expanduser('~'),
-                        'Documents',
-                        'ftrack_work_path'
+                        os.path.expanduser('~'), 'Documents', 'ftrack_work_path'
                     )
                     # Build path down to context
                     work_path = os.sep.join([work_path_base] + structure_names)
@@ -67,7 +66,14 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
                 if not os.path.exists(work_path):
                     os.makedirs(work_path)
                 if not os.path.exists(work_path):
-                    return (False,  {'message': 'Could not create work directory: {}!'.format(work_path)})
+                    return (
+                        False,
+                        {
+                            'message': 'Could not create work directory: {}!'.format(
+                                work_path
+                            )
+                        },
+                    )
                 work_path = os.path.join(work_path, filename)
                 # Save Maya scene to this path
                 cmds.file(rename=work_path)

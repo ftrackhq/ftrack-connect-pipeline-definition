@@ -2,9 +2,7 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
-    LoadBaseWidget
-)
+from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import LoadBaseWidget
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 
 from Qt import QtWidgets
@@ -15,13 +13,25 @@ class LoadMayaWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
-            self, parent=None, session=None, data=None, name=None,
-            description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
         super(LoadMayaWidget, self).__init__(
-            parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_id=context_id,
-            asset_type_name=asset_type_name
+            parent=parent,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
         )
 
     def build(self):
@@ -67,13 +77,9 @@ class LoadMayaWidget(LoadBaseWidget):
 
         self.preserve_ref_cb.stateChanged.connect(self._on_set_preserve_ref)
 
-        self.add_namespace_cb.stateChanged.connect(
-            self._on_namespace_status_changed
-        )
+        self.add_namespace_cb.stateChanged.connect(self._on_namespace_status_changed)
 
-        self.namespace_bg.buttonClicked.connect(
-            self._on_namespace_option_changed
-        )
+        self.namespace_bg.buttonClicked.connect(self._on_namespace_option_changed)
 
         self.custom_name_le.textChanged.connect(self._on_set_custom_namespace)
 
@@ -99,9 +105,7 @@ class LoadMayaWidget(LoadBaseWidget):
                 break
         if custom:
             self.custom_name_rb.setChecked(True)
-            self.custom_name_le.setText(
-                self.default_options.get('namespace_option')
-            )
+            self.custom_name_le.setText(self.default_options.get('namespace_option'))
             self._on_namespace_option_changed(self.custom_name_rb)
 
     def _on_load_mode_changed(self, radio_button):

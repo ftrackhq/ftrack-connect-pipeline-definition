@@ -10,6 +10,7 @@ from Qt import QtWidgets
 
 import ftrack_api
 
+
 class AlembicOptionsWidget(BaseOptionsWidget):
     auto_fetch_on_init = True
 
@@ -19,7 +20,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         _frames_option = {
             'frameStart': str(self.options.get('frameStart')),
             'frameEnd': str(self.options.get('frameEnd')),
-            'alembicEval': str(self.options.get('alembicEval', '1.0'))
+            'alembicEval': str(self.options.get('alembicEval', '1.0')),
         }
         return _frames_option
 
@@ -30,15 +31,20 @@ class AlembicOptionsWidget(BaseOptionsWidget):
             'alembicAnimation': self.options.get('alembicAnimation', False),
             'alembicUvwrite': self.options.get('alembicUvwrite', True),
             'alembicWorldspace': self.options.get('alembicWorldspace', False),
-            'alembicWritevisibility': self.options.get(
-                'alembicWritevisibility', False
-            )
+            'alembicWritevisibility': self.options.get('alembicWritevisibility', False),
         }
         return _bool_options
 
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
         self.options_cb = {}
         self.options_le = {}
@@ -46,12 +52,17 @@ class AlembicOptionsWidget(BaseOptionsWidget):
 
         super(AlembicOptionsWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name)
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+        )
 
     def on_fetch_callback(self, result):
-        ''' This function is called by the _set_internal_run_result function of
+        '''This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
         for k, v in self.options_le.items():
             if v.text() == "None":
@@ -128,7 +139,6 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         else:
             self.frames_widget.hide()
         self.set_option_result(value, key='alembicAnimation')
-
 
 
 class AlembicOptionsPluginWidget(plugin.PublisherOutputMayaWidget):

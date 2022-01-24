@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class NonEmptyValidatorPlugin(plugin.PublisherValidatorPlugin):
     plugin_name = 'nonempty'
 
@@ -11,8 +12,11 @@ class NonEmptyValidatorPlugin(plugin.PublisherValidatorPlugin):
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-        output = len(collected_objects) > 0 and all(bool(datum) for datum in collected_objects)
+        output = len(collected_objects) > 0 and all(
+            bool(datum) for datum in collected_objects
+        )
         return output
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

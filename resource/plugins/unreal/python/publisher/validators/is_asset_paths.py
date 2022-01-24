@@ -7,6 +7,7 @@ import ftrack_api
 
 import unreal as ue
 
+
 class CheckAssetPathsValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
     plugin_name = 'is_asset_paths'
 
@@ -15,17 +16,18 @@ class CheckAssetPathsValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
         if not collected_objects or len(collected_objects) == 0:
-            return (False,
-                {'message':'No asset paths added'})
+            return (False, {'message': 'No asset paths added'})
         for p in collected_objects:
             if not isinstance(p, str):
-                return (False,
-                    {'message':'Only string paths can be added'})
+                return (False, {'message': 'Only string paths can be added'})
             elif not p.startswith('/Game'):
-                return (False,
-                    {'message':'Invalid content browser path - "{}"'.format(p)})
+                return (
+                    False,
+                    {'message': 'Invalid content browser path - "{}"'.format(p)},
+                )
         # No need to validate selection, only sequences can be added
         return True
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

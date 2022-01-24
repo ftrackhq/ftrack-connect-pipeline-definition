@@ -5,11 +5,13 @@ import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
 
+
 class PublishFinalizerMaxPlugin(plugin.PublisherFinalizerMaxPlugin):
     plugin_name = 'result.max'
 
     def run(self, context_data=None, data=None, options=None):
         return {}
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

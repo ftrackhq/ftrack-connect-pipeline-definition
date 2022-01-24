@@ -16,9 +16,7 @@ class OutputMaxAlembicPlugin(plugin.PublisherOutputMaxPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         component_name = options['component_name']
-        new_file_path = tempfile.NamedTemporaryFile(
-            delete=False, suffix='.abc'
-        ).name
+        new_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.abc').name
         self.logger.debug('Calling extractor options: data {}'.format(data))
         self.logger.debug('Writing Alembic file to {}'.format(new_file_path))
 
@@ -40,9 +38,7 @@ class OutputMaxAlembicPlugin(plugin.PublisherOutputMaxPlugin):
                 if node:
                     nodes.append(node)
             rt.select(nodes)
-            rt.exportFile(
-                new_file_path, rt.Name("noPrompt"), selectedOnly=True
-            )
+            rt.exportFile(new_file_path, rt.Name("noPrompt"), selectedOnly=True)
         return [new_file_path]
 
 

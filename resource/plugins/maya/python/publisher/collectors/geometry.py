@@ -52,4 +52,3 @@ def register(api_object, **kw):
         return
     plugin = CollectGeometryMayaPlugin(api_object)
     plugin.register()
-

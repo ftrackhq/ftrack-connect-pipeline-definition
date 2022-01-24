@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class EnvContextPlugin(plugin.PublisherContextPlugin):
     plugin_name = 'context.publish'
 

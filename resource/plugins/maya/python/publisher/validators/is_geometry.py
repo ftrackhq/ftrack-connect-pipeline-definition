@@ -26,12 +26,13 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
                 return (
                     False,
                     {
-                        'message':"the object: {} is not a geometry shape type".format(obj),
-                        'data':None
-                    }
+                        'message': "the object: {} is not a geometry shape type".format(
+                            obj
+                        ),
+                        'data': None,
+                    },
                 )
-        user_data = {'message':'geometry exported correctly',
-                     'data':None}
+        user_data = {'message': 'geometry exported correctly', 'data': None}
         return (True, user_data)
 
 

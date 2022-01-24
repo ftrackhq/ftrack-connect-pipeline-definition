@@ -5,6 +5,7 @@ import os
 from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
 
+
 class FtrackPublishResultHoudiniPlugin(plugin.PublisherFinalizerHoudiniPlugin):
     plugin_name = 'result_houdini'
 

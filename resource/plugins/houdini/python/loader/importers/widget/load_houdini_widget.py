@@ -4,14 +4,13 @@
 from functools import partial
 
 from ftrack_connect_pipeline_houdini import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import (
-    LoadBaseWidget
-)
+from ftrack_connect_pipeline_qt.plugin.widgets import LoadBaseWidget
 from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 
 from Qt import QtWidgets
 
 import ftrack_api
+
 
 class LoadHoudiniWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
@@ -24,15 +23,27 @@ class LoadHoudiniWidget(LoadBaseWidget):
     }
 
     def __init__(
-            self, parent=None, session=None, data=None, name=None,
-            description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
         self.widgets = {}
 
         super(LoadHoudiniWidget, self).__init__(
-            parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_id=context_id,
-            asset_type_name=asset_type_name
+            parent=parent,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
         )
 
     def build(self):
@@ -106,11 +117,9 @@ class LoadHoudiniWidget(LoadBaseWidget):
                 if default is not None:
                     widget.setText(default)
 
-
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
         super(LoadHoudiniWidget, self)._on_load_mode_changed(radio_button)
-
 
 
 class LoadHoudiniPluginWidget(plugin.LoaderImporterHoudiniWidget):

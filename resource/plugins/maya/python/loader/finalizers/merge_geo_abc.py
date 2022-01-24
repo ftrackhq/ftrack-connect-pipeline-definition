@@ -33,15 +33,15 @@ class MergeGeoAbcMayaPlugin(plugin.LoaderFinalizerMayaPlugin):
                 if re.match(r'{}\d+'.format(matchable_name[0:-1]), alembic_maya_obj):
                     cmds.connectAttr(
                         r'{}.transOp[0]'.format(alembic_node),
-                        r'{}.translateX'.format(maya_obj)
+                        r'{}.translateX'.format(maya_obj),
                     )
                     cmds.connectAttr(
                         r'{}.transOp[1]'.format(alembic_node),
-                        r'{}.translateY'.format(maya_obj)
+                        r'{}.translateY'.format(maya_obj),
                     )
                     cmds.connectAttr(
                         r'{}.transOp[2]'.format(alembic_node),
-                        r'{}.translateZ'.format(maya_obj)
+                        r'{}.translateZ'.format(maya_obj),
                     )
                     result[maya_obj] = alembic_node
                     cmds.delete(alembic_maya_obj)

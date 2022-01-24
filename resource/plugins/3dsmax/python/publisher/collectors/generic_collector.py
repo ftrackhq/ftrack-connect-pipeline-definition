@@ -43,4 +43,3 @@ def register(api_object, **kw):
         return
     plugin = CollectGenericMaxPlugin(api_object)
     plugin.register()
-
