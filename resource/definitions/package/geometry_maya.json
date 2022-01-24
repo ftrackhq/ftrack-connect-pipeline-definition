@@ -7,6 +7,10 @@
             "name": "mayaBinaryScene"
         },
         {
+            "name": "mayaAsciiScene",
+            "required": false
+        },
+        {
             "name": "mayaBinary",
             "required": false
         },
@@ -15,11 +19,11 @@
             "required": false
         },
         {
-            "name": "fbx",
-            "required": false
+            "name": "alembic"
         },
         {
-            "name": "alembic"
+            "name": "fbx",
+            "required": false
         },
         {
             "name": "thumbnail",

@@ -287,10 +287,10 @@
   "finalizers": [
     {
       "name": "main",
-      "visible": false,
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",

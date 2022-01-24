@@ -45,6 +45,17 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
 
             structure_names = [item['name'] for item in context['link']]
 
+            # Find latest version number
+            next_version_number = 1
+            latest_asset_version = self.session.query(
+                'AssetVersion where '
+                'task.id={} and asset.name="{}" and is_latest_version=true'.format(
+                    context_data['context_id'], context_data['asset_name']
+                )
+            ).first()
+            if latest_asset_version:
+                next_version_number = latest_asset_version['version'] + 1
+
             if work_path_base:
                 # Build path down to context
                 work_path = os.sep.join([work_path_base] + structure_names + ['work'])
@@ -74,7 +85,9 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
                             )
                         },
                     )
-                work_path = os.path.join(work_path, filename)
+                work_path = os.path.join(
+                    work_path, '%s_v%03d' % (filename, next_version_number)
+                )
                 # Save Maya scene to this path
                 cmds.file(rename=work_path)
                 cmds.file(save=True)
