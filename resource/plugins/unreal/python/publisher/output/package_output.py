@@ -7,7 +7,9 @@ from zipfile import ZipFile
 import shutil
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.constants import asset as asset_const
+from ftrack_connect_pipeline_unreal_engine.constants import (
+    asset as asset_const,
+)
 
 import ftrack_api
 
@@ -28,7 +30,9 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         )
         content_name = "{}_package".format(asset_name)
 
-        output_filepath = os.path.normpath(os.path.join(destination_path, content_name))
+        output_filepath = os.path.normpath(
+            os.path.join(destination_path, content_name)
+        )
 
         # zip up folder
         output_zippath = "{}.zip".format(output_filepath)
@@ -102,7 +106,9 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                 for filename in filenames:
                     # create complete and relative filepath of file in directory
                     filePath = os.path.join(folderName, filename)
-                    truncated_path = os.path.relpath(filePath, tempdir_filepath)
+                    truncated_path = os.path.relpath(
+                        filePath, tempdir_filepath
+                    )
                     # Add file to zip
                     zipObj.write(filePath, truncated_path)
 
@@ -113,12 +119,18 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             except OSError as e:
                 msg = (
                     'Could not delete {}. The package process cannot '
-                    'cleanup temporary package folder.'.format(tempdir_filepath)
+                    'cleanup temporary package folder.'.format(
+                        tempdir_filepath
+                    )
                 )
                 self.logger.error(msg)
                 return False, {'message': msg}
 
-        return os.path.isfile(output_zippath), output_zippath, version_dependency_ids
+        return (
+            os.path.isfile(output_zippath),
+            output_zippath,
+            version_dependency_ids,
+        )
 
     def run(self, context_data=None, data=None, options=None):
         '''Compress all project assets to a ZIP'''
@@ -149,7 +161,11 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         else:
             return (
                 False,
-                {'message': ('Failed to produce package of ' 'current project.')},
+                {
+                    'message': (
+                        'Failed to produce package of ' 'current project.'
+                    )
+                },
             )
 
 

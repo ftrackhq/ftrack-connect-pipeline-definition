@@ -29,7 +29,9 @@ class LoadMayaPlugin(plugin.LoaderImporterMayaPlugin):
         cmds.loadPlugin('fbxmaya.so', qt=1)
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
-        load_mode_fn = self.load_modes.get(load_mode, list(self.load_modes.keys())[0])
+        load_mode_fn = self.load_modes.get(
+            load_mode, list(self.load_modes.keys())[0]
+        )
 
         maya_options = {}
         if load_options:
@@ -44,7 +46,9 @@ class LoadMayaPlugin(plugin.LoaderImporterMayaPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Loading path {}'.format(component_path))
             if maya_options.get('ns') == 'file_name':
-                maya_options['ns'] = os.path.basename(component_path).split(".")[0]
+                maya_options['ns'] = os.path.basename(component_path).split(
+                    "."
+                )[0]
             elif maya_options.get('ns') == 'component':
                 maya_options['ns'] = options['component_name']
 

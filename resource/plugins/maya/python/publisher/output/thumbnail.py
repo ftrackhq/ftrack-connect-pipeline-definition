@@ -36,7 +36,9 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
                     current_panel = None
         previous_camera = 'presp'
         if current_panel:
-            previous_camera = cmds.modelPanel(current_panel, q=True, camera=True)
+            previous_camera = cmds.modelPanel(
+                current_panel, q=True, camera=True
+            )
 
         cmds.lookThru(camera_name)
 
@@ -48,7 +50,8 @@ class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
 
         restoreRenderGlobals = False
         if not (
-            'jpg' in currentFormatStr.lower() or 'jpeg' in currentFormatStr.lower()
+            'jpg' in currentFormatStr.lower()
+            or 'jpeg' in currentFormatStr.lower()
         ):
             currentFormatInt = cmds.getAttr('defaultRenderGlobals.imageFormat')
             cmds.setAttr('defaultRenderGlobals.imageFormat', 8)

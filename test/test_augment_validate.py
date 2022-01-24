@@ -12,7 +12,11 @@ orig_schema = {
             "order": ["type", "stage_order", "engine_type"],
             "additionalProperties": False,
             "properties": {
-                "type": {"type": "string", "pattern": "^config$", "default": "config"},
+                "type": {
+                    "type": "string",
+                    "pattern": "^config$",
+                    "default": "config",
+                },
                 "stage_order": {
                     "type": "array",
                     "items": {"type": "string"},
@@ -28,7 +32,11 @@ orig_schema = {
             "order": ["type", "name", "plugins"],
             "additionalProperties": False,
             "properties": {
-                "type": {"type": "string", "pattern": "^stage$", "default": "stage"},
+                "type": {
+                    "type": "string",
+                    "pattern": "^stage$",
+                    "default": "stage",
+                },
                 "name": {
                     "type": "string",
                     "enum": [
@@ -90,7 +98,10 @@ orig_schema = {
                     "items": {
                         "allOf": [{"$ref": "#/definitions/Plugin"}],
                         "properties": {
-                            "plugin_type": {"pattern": "^output$", "default": "output"}
+                            "plugin_type": {
+                                "pattern": "^output$",
+                                "default": "output",
+                            }
                         },
                     }
                 },
@@ -145,7 +156,11 @@ orig_schema = {
             ],
             "additionalProperties": True,
             "properties": {
-                "type": {"type": "string", "pattern": "^plugin$", "default": "plugin"},
+                "type": {
+                    "type": "string",
+                    "pattern": "^plugin$",
+                    "default": "plugin",
+                },
                 "plugin_type": {
                     "type": "string",
                     "enum": [
@@ -214,7 +229,11 @@ orig_schema = {
         "finalizers",
     ],
     "properties": {
-        "type": {"type": "string", "pattern": "^publisher$", "default": "publisher"},
+        "type": {
+            "type": "string",
+            "pattern": "^publisher$",
+            "default": "publisher",
+        },
         "name": {"type": "string", "default": None},
         "package": {"type": "string", "default": None},
         "host_type": {"type": "string", "default": None},
@@ -243,7 +262,11 @@ simple_schema = {
             "order": ["type", "stage_order", "engine_type"],
             "additionalProperties": False,
             "properties": {
-                "type": {"type": "string", "pattern": "^config$", "default": "config"},
+                "type": {
+                    "type": "string",
+                    "pattern": "^config$",
+                    "default": "config",
+                },
                 "stage_order": {
                     "type": "array",
                     "items": {"type": "string"},
@@ -259,7 +282,11 @@ simple_schema = {
             "order": ["type", "name", "plugins"],
             "additionalProperties": False,
             "properties": {
-                "type": {"type": "string", "pattern": "^stage$", "default": "stage"},
+                "type": {
+                    "type": "string",
+                    "pattern": "^stage$",
+                    "default": "stage",
+                },
                 "name": {
                     "type": "string",
                     "enum": [
@@ -311,7 +338,11 @@ simple_schema = {
             ],
             "additionalProperties": True,
             "properties": {
-                "type": {"type": "string", "pattern": "^plugin$", "default": "plugin"},
+                "type": {
+                    "type": "string",
+                    "pattern": "^plugin$",
+                    "default": "plugin",
+                },
                 "name": {"type": "string"},
                 "description": {"type": "string"},
                 "plugin": {"type": "string"},
@@ -364,7 +395,11 @@ simple_schema = {
     ],
     "order": ["name"],
     "properties": {
-        "type": {"type": "string", "pattern": "^publisher$", "default": "publisher"},
+        "type": {
+            "type": "string",
+            "pattern": "^publisher$",
+            "default": "publisher",
+        },
         "name": {"type": "string", "default": None},
         "_config": {"$ref": "#/definitions/Config", "default": {}},
         "components": {
@@ -408,7 +443,9 @@ orig_definition = {
                 },
                 {
                     "name": "validator",
-                    "plugins": [{"name": "file exists", "plugin": "file_exists"}],
+                    "plugins": [
+                        {"name": "file exists", "plugin": "file_exists"}
+                    ],
                 },
                 {
                     "name": "output",
@@ -421,7 +458,9 @@ orig_definition = {
     ],
     "finalizers": {
         "name": "finalizer",
-        "plugins": [{"name": "to ftrack server", "plugin": "result", "visible": False}],
+        "plugins": [
+            {"name": "to ftrack server", "plugin": "result", "visible": False}
+        ],
     },
 }
 simple_definition = {
@@ -432,7 +471,9 @@ simple_definition = {
             "stages": [
                 {
                     "name": "validator",
-                    "plugins": [{"name": "file exists", "plugin": "file_exists"}],
+                    "plugins": [
+                        {"name": "file exists", "plugin": "file_exists"}
+                    ],
                 }
             ],
         }
@@ -466,7 +507,9 @@ def extend_with_default(validator_class):
             print("schema --> {}".format(schema))
             for property in required:
                 if not instance.get(property):
-                    default_value = schema['properties'][property].get('default')
+                    default_value = schema['properties'][property].get(
+                        'default'
+                    )
                     print("default_value --> {}".format(default_value))
                     print("property --> {}".format(property))
                     if default_value is not None:

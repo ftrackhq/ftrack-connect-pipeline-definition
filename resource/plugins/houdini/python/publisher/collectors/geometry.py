@@ -14,7 +14,9 @@ class CollectGeometryHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         for obj in hou.node('/').allSubChildren():
-            obj.setSelected(1, obj in selected_items or obj.path() in selected_items)
+            obj.setSelected(
+                1, obj in selected_items or obj.path() in selected_items
+            )
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):

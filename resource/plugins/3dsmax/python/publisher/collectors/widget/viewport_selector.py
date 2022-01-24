@@ -69,7 +69,9 @@ class Viewport3dsMaxWidget(BaseOptionsWidget):
         super(Viewport3dsMaxWidget, self).post_build()
         self.nodes_cb.currentIndexChanged.connect(self._process_change)
         if self.viewports:
-            self.set_option_result(self.nodes_cb.currentData(), 'viewport_index')
+            self.set_option_result(
+                self.nodes_cb.currentData(), 'viewport_index'
+            )
 
     def _process_change(self, *args):
         self.set_option_result(self.nodes_cb.currentData(), 'viewport_index')

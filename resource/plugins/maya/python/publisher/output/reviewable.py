@@ -34,7 +34,9 @@ class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
 
         previous_camera = 'persp'
         if current_panel:
-            previous_camera = cmds.modelPanel(current_panel, q=True, camera=True)
+            previous_camera = cmds.modelPanel(
+                current_panel, q=True, camera=True
+            )
 
         cmds.lookThru(camera_name)
 

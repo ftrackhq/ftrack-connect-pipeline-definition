@@ -64,10 +64,14 @@ class SequenceWidget(BaseOptionsWidget):
         range_text = QtWidgets.QLabel("Frame range")
 
         stf_text = QtWidgets.QLabel("From")
-        self.stf_text_edit = QtWidgets.QLineEdit(str(frames_option['start_frame']))
+        self.stf_text_edit = QtWidgets.QLineEdit(
+            str(frames_option['start_frame'])
+        )
 
         enf_text = QtWidgets.QLabel("To")
-        self.enf_text_edit = QtWidgets.QLineEdit(str(frames_option['end_frame']))
+        self.enf_text_edit = QtWidgets.QLineEdit(
+            str(frames_option['end_frame'])
+        )
 
         range_h_lay.addWidget(stf_text)
         range_h_lay.addWidget(self.stf_text_edit)
@@ -90,7 +94,9 @@ class SequenceWidget(BaseOptionsWidget):
             index = self.img_format_cb.findText(self.default_file_format)
             if index:
                 self.nodes_cb.setCurrentIndex(index)
-        self.set_option_result(self.img_format_cb.currentText(), 'image_format')
+        self.set_option_result(
+            self.img_format_cb.currentText(), 'image_format'
+        )
 
         update_fn = partial(self.set_option_result, key='start_frame')
         self.stf_text_edit.textChanged.connect(update_fn)

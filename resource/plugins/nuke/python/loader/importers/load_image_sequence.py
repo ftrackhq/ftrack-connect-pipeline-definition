@@ -22,7 +22,9 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
             paths_to_import.extend(collector['result'])
 
         for component_path in paths_to_import:
-            self.logger.debug('Loading image sequence {}'.format(component_path))
+            self.logger.debug(
+                'Loading image sequence {}'.format(component_path)
+            )
             resulting_node = nuke.createNode('Read', inpanel=False)
             arguments_dict = asset_info.generate_asset_info_dict_from_args(
                 context_data, data, options, self.session

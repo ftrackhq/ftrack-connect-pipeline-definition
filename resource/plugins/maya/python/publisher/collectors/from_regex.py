@@ -21,7 +21,9 @@ class CollectFromRegexMayaPlugin(plugin.PublisherCollectorMayaPlugin):
         if matched_objs:
             cmds.select(matched_objs, r=True)
         else:
-            self.logger.error('No objects matched the expression {}'.format(expr))
+            self.logger.error(
+                'No objects matched the expression {}'.format(expr)
+            )
             return []
         selection = cmds.ls(sl=True)
         return selection

@@ -23,7 +23,11 @@ class CheckAssetPathsValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
             elif not p.startswith('/Game'):
                 return (
                     False,
-                    {'message': 'Invalid content browser path - "{}"'.format(p)},
+                    {
+                        'message': 'Invalid content browser path - "{}"'.format(
+                            p
+                        )
+                    },
                 )
         # No need to validate selection, only sequences can be added
         return True

@@ -26,9 +26,9 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        if os.path.isfile(collected_objects[0]) or collected_objects[0].endswith(
-            '.hip'
-        ):
+        if os.path.isfile(collected_objects[0]) or collected_objects[
+            0
+        ].endswith('.hip'):
             # Export entire scene
             hou.hipFile.save(new_file_path)
         else:
@@ -42,13 +42,19 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
                 new_file_path.replace("\\", "\\\\")
             )
 
-            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c', command]
+            cmd = [
+                os.path.join(os.getenv('HFS'), 'bin', 'hython'),
+                '-c',
+                command,
+            ]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
 
-            self.logger.debug('Exporting scene with command: "{}".'.format(cmd))
+            self.logger.debug(
+                'Exporting scene with command: "{}".'.format(cmd)
+            )
 
             subprocess.Popen(cmd, env=my_env)
 
@@ -86,7 +92,11 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
                 new_file_path.replace("\\", "\\\\")
             )
 
-            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c', command]
+            cmd = [
+                os.path.join(os.getenv('HFS'), 'bin', 'hython'),
+                '-c',
+                command,
+            ]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:

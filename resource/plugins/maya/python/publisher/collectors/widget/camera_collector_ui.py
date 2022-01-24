@@ -72,7 +72,9 @@ class CameraCollectorWidget(BaseOptionsWidget):
 
         self.cameras.currentTextChanged.connect(update_fn)
         if self.maya_cameras:
-            self.set_option_result(self.cameras.currentText(), key='camera_name')
+            self.set_option_result(
+                self.cameras.currentText(), key='camera_name'
+            )
 
 
 class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):

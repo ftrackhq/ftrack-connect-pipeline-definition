@@ -85,7 +85,9 @@ class FileCollectorWidget(BaseOptionsWidget):
         '''post build function , mostly used connect widgets events.'''
         self.fetch_plugin_button = QtWidgets.QPushButton('FETCH')
         self.fetch_plugin_button.setObjectName('borderless')
-        self.fetch_plugin_button.clicked.connect(partial(self.on_run_plugin, 'fetch'))
+        self.fetch_plugin_button.clicked.connect(
+            partial(self.on_run_plugin, 'fetch')
+        )
         self.layout().addWidget(self.fetch_plugin_button)
 
     def on_fetch_callback(self, result):

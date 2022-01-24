@@ -20,14 +20,18 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         res = [1024, 768]
 
-        path = "%s.jpg" % (os.path.join(tempfile.gettempdir(), str(uuid.uuid4())))
+        path = "%s.jpg" % (
+            os.path.join(tempfile.gettempdir(), str(uuid.uuid4()))
+        )
         if os.name == "nt":
             path = path.replace('\\', '\\\\')
 
         desktop = hou.ui.curDesktop()
         scene_view = toolutils.sceneViewer()
 
-        if scene_view is None or (scene_view.type() != hou.paneTabType.SceneViewer):
+        if scene_view is None or (
+            scene_view.type() != hou.paneTabType.SceneViewer
+        ):
             raise hou.Error('No scene view available to flipbook')
         viewport = scene_view.curViewport()
 
@@ -37,9 +41,15 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
                 viewport.camera().parm('resy').eval(),
             ]
 
-        view = '%s.%s.world.%s' % (desktop.name(), scene_view.name(), viewport.name())
+        view = '%s.%s.world.%s' % (
+            desktop.name(),
+            scene_view.name(),
+            viewport.name(),
+        )
 
-        self.logger.debug('Creating thumbnail from view {} to {}.'.format(view, path))
+        self.logger.debug(
+            'Creating thumbnail from view {} to {}.'.format(view, path)
+        )
 
         executeCommand = 'viewwrite -c -f 0 1 -r {} {} {} {}'.format(
             res[0], res[1], view, path

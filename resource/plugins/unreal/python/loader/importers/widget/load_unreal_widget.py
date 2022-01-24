@@ -6,8 +6,12 @@ from functools import partial
 import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import LoadBaseWidget
-from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_const
+from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
+    LoadBaseWidget,
+)
+from ftrack_connect_pipeline_unreal_engine.constants.asset import (
+    modes as load_const,
+)
 
 from Qt import QtWidgets
 
@@ -53,7 +57,9 @@ class LoadUnrealWidget(LoadBaseWidget):
                 if name == 'ChooseSkeleton':
                     # Load existing skeletons
                     option['options'] = []
-                    assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
+                    assetRegistry = (
+                        ue.AssetRegistryHelpers.get_asset_registry()
+                    )
                     skeletons = assetRegistry.get_assets_by_class('Skeleton')
                     for skeleton in skeletons:
                         option['options'].append(
@@ -109,14 +115,19 @@ class LoadUnrealWidget(LoadBaseWidget):
                     default = option.get('default')
 
             if option['type'] == 'checkbox':
-                self.set_option_result(default if not default is None else False, name)
+                self.set_option_result(
+                    default if not default is None else False, name
+                )
                 if default is not None:
                     widget.setChecked(default)
             elif option['type'] == 'combobox':
                 if default is not None:
                     idx = 0
                     for item in option['options']:
-                        if item['value'] == default or item['label'] == default:
+                        if (
+                            item['value'] == default
+                            or item['label'] == default
+                        ):
                             widget.setCurrentIndex(idx)
                         idx += 1
                 else:

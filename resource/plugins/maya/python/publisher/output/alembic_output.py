@@ -26,7 +26,9 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         return {
             'alembicAnimation': bool(options.get('alembicAnimation', True)),
             'frameStart': float(
-                options.get('frameStart', cmds.playbackOptions(q=True, ast=True))
+                options.get(
+                    'frameStart', cmds.playbackOptions(q=True, ast=True)
+                )
             ),
             'frameEnd': float(
                 options.get('frameEnd', cmds.playbackOptions(q=True, aet=True))
@@ -44,7 +46,9 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         cmds.loadPlugin('AbcExport.so', qt=1)
 
         component_name = options['component_name']
-        new_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.abc').name
+        new_file_path = tempfile.NamedTemporaryFile(
+            delete=False, suffix='.abc'
+        ).name
 
         options = self.extract_options(options)
 
@@ -79,7 +83,9 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         if options.get('alembicAnimation'):
             alembicJobArgs.append(
                 '-frameRange {0} {1} -step {2} '.format(
-                    options['frameStart'], options['frameEnd'], options['alembicEval']
+                    options['frameStart'],
+                    options['frameEnd'],
+                    options['alembicEval'],
                 )
             )
 

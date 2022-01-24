@@ -17,17 +17,25 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
     def extract_options(self, options):
 
         return {
-            'FBXExportScaleFactor': int(options.get('FBXExportScaleFactor', 1)),
+            'FBXExportScaleFactor': int(
+                options.get('FBXExportScaleFactor', 1)
+            ),
             'FBXExportUpAxis': str(options.get('FBXExportUpAxis', 'y')),
             'FBXExportFileVersion': str(
                 options.get('FBXExportFileVersion', 'FBX201600')
             ),
-            'FBXExportSmoothMesh': bool(options.get('FBXExportSmoothMesh', False)),
-            'FBXExportInAscii': bool(options.get('FBXExportScaleFactor', False)),
+            'FBXExportSmoothMesh': bool(
+                options.get('FBXExportSmoothMesh', False)
+            ),
+            'FBXExportInAscii': bool(
+                options.get('FBXExportScaleFactor', False)
+            ),
             'FBXExportAnimationOnly': bool(
                 options.get('FBXExportAnimationOnly', False)
             ),
-            'FBXExportInstances': bool(options.get('FBXExportInstances', False)),
+            'FBXExportInstances': bool(
+                options.get('FBXExportInstances', False)
+            ),
             'FBXExportApplyConstantKeyReducer': bool(
                 options.get('FBXExportApplyConstantKeyReducer', False)
             ),
@@ -39,7 +47,9 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
             ),
             'FBXExportCameras': bool(options.get('FBXExportCameras', True)),
             'FBXExportLights': bool(options.get('FBXExportLights', True)),
-            'FBXExportConstraints': bool(options.get('FBXExportConstraints', False)),
+            'FBXExportConstraints': bool(
+                options.get('FBXExportConstraints', False)
+            ),
             'FBXExportEmbeddedTextures': bool(
                 options.get('FBXExportEmbeddedTextures', False)
             ),
@@ -50,7 +60,9 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
         cmds.loadPlugin('fbxmaya.so', qt=1)
 
         component_name = options['component_name']
-        new_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.fbx').name
+        new_file_path = tempfile.NamedTemporaryFile(
+            delete=False, suffix='.fbx'
+        ).name
 
         options = self.extract_options(options)
 
@@ -91,14 +103,24 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
 
         constraint_reducer = options.get('FBXExportApplyConstantKeyReducer')
         mel.eval(
-            'FBXExportApplyConstantKeyReducer -v {}'.format(int(constraint_reducer))
+            'FBXExportApplyConstantKeyReducer -v {}'.format(
+                int(constraint_reducer)
+            )
         )
 
         bake_complex_anim = options.get('FBXExportBakeComplexAnimation')
-        mel.eval('FBXExportBakeComplexAnimation -v {}'.format(int(bake_complex_anim)))
+        mel.eval(
+            'FBXExportBakeComplexAnimation -v {}'.format(
+                int(bake_complex_anim)
+            )
+        )
 
         bake_resample_anim = options.get('FBXExportBakeResampleAnimation')
-        mel.eval('FBXExportBakeResampleAnimation -v {}'.format(int(bake_resample_anim)))
+        mel.eval(
+            'FBXExportBakeResampleAnimation -v {}'.format(
+                int(bake_resample_anim)
+            )
+        )
 
         export_camera = options.get('FBXExportCameras')
         mel.eval('FBXExportCameras -v {}'.format(int(export_camera)))
@@ -107,13 +129,17 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
         mel.eval('FBXExportConstraints -v {}'.format(int(export_constraints)))
 
         embedded_textures = options.get('FBXExportEmbeddedTextures')
-        mel.eval('FBXExportEmbeddedTextures -v {}'.format(int(embedded_textures)))
+        mel.eval(
+            'FBXExportEmbeddedTextures -v {}'.format(int(embedded_textures))
+        )
 
         export_lights = options.get('FBXExportLights')
         mel.eval('FBXExportLights -v {}'.format(int(export_lights)))
 
         # fbx export command
-        mel.eval('FBXExport -s -f "{}"'.format(new_file_path.replace("\\", "\\\\")))
+        mel.eval(
+            'FBXExport -s -f "{}"'.format(new_file_path.replace("\\", "\\\\"))
+        )
 
         cmds.select(collected_objects, r=True)
         selectednodes = cmds.ls(sl=True, long=True)

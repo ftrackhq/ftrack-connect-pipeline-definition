@@ -117,7 +117,10 @@ class AlembicOptionsWidget(BaseOptionsWidget):
                 if default is not None:
                     idx = 0
                     for item in option['options']:
-                        if item['value'] == default or item['label'] == default:
+                        if (
+                            item['value'] == default
+                            or item['label'] == default
+                        ):
                             widget.setCurrentIndex(idx)
                         idx += 1
                 update_fn = partial(self.current_index_changed, name)

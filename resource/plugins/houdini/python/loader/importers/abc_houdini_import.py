@@ -34,7 +34,9 @@ class AbcHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
                 bcam = ''
                 for obj in node.glob('*'):
                     if 'cam' in obj.type().name():
-                        bcam = self.bakeCamAnim(obj, [os.getenv('FS'), os.getenv('FE')])
+                        bcam = self.bakeCamAnim(
+                            obj, [os.getenv('FS'), os.getenv('FE')]
+                        )
                         node = bcam
                         break
 

@@ -6,7 +6,9 @@ import sys
 import subprocess
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as unreal_utils
+from ftrack_connect_pipeline_unreal_engine.utils import (
+    custom_commands as unreal_utils,
+)
 
 import ftrack_api
 
@@ -104,7 +106,9 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             cmdline_args.append("-NoScreenMessages")
             return cmdline_args
 
-        output_filepath = __generate_target_file_path(destination_path, content_name)
+        output_filepath = __generate_target_file_path(
+            destination_path, content_name
+        )
         if os.path.isfile(output_filepath):
             # Must delete it first, otherwise the Sequencer will add a number
             # in the filename
@@ -129,7 +133,9 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             is_image_sequence,
         )
 
-        self.logger.debug('Sequencer command-line arguments: {}'.format(cmdline_args))
+        self.logger.debug(
+            'Sequencer command-line arguments: {}'.format(cmdline_args)
+        )
 
         # Send the arguments as a single string because some arguments could
         # contain spaces and we don't want those to be quoted

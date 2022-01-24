@@ -26,7 +26,8 @@ class CollectFromContextPlugin(plugin.LoaderCollectorPlugin):
                 component_path = location.get_filesystem_path(component)
                 if (
                     accepted_formats
-                    and os.path.splitext(component_path)[-1] not in accepted_formats
+                    and os.path.splitext(component_path)[-1]
+                    not in accepted_formats
                 ):
                     self.logger.warning(
                         '{} not among accepted format {}'.format(

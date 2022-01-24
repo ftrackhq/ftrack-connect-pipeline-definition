@@ -4,7 +4,9 @@
 import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import LoadBaseWidget
+from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
+    LoadBaseWidget,
+)
 from ftrack_connect_pipeline_3dsmax.constants.asset import modes as load_const
 
 

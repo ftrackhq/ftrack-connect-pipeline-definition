@@ -21,7 +21,9 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             'typ': self.filetype,
             'constructionHistory': bool(options.get('history', False)),
             'channels': bool(options.get('channels', False)),
-            'preserveReferences': bool(options.get('preserve_reference', False)),
+            'preserveReferences': bool(
+                options.get('preserve_reference', False)
+            ),
             'shader': bool(options.get('shaders', False)),
             'constraints': bool(options.get('constraints', False)),
             'expressions': bool(options.get('expressions', False)),

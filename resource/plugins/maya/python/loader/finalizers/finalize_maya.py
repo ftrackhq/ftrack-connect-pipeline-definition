@@ -18,7 +18,9 @@ def extract_load_mode_component_name(data):
         for stage_result in step_result['result']:
             if stage_result['name'] == 'importer':
                 for plugin_result in stage_result['result']:
-                    load_mode = plugin_result.get('options', {}).get('load_mode')
+                    load_mode = plugin_result.get('options', {}).get(
+                        'load_mode'
+                    )
                     if load_mode:
                         return load_mode, step_result['name']
     return None
@@ -58,7 +60,9 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
 
             if work_path_base:
                 # Build path down to context
-                work_path = os.sep.join([work_path_base] + structure_names + ['work'])
+                work_path = os.sep.join(
+                    [work_path_base] + structure_names + ['work']
+                )
             else:
                 # Try to query location system (future)
                 try:
@@ -68,7 +72,9 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
                     self.logger.debug(traceback.format_exc())
                     # Ok, use default location
                     work_path_base = os.path.join(
-                        os.path.expanduser('~'), 'Documents', 'ftrack_work_path'
+                        os.path.expanduser('~'),
+                        'Documents',
+                        'ftrack_work_path',
                     )
                     # Build path down to context
                     work_path = os.sep.join([work_path_base] + structure_names)

@@ -18,7 +18,10 @@ class CheckSequenceValidatorPlugin(plugin.PublisherValidatorUnrealPlugin):
         if not collected_objects or len(collected_objects) == 0:
             return (False, {'message': 'No level sequence added!'})
         if len(collected_objects) != 1:
-            return (False, {'message': 'More than one(1) level sequence added!'})
+            return (
+                False,
+                {'message': 'More than one(1) level sequence added!'},
+            )
         # No need to validate selection, only sequences can be added
         return True
 

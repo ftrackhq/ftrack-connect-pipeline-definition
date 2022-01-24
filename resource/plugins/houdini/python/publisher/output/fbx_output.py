@@ -45,14 +45,18 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
             'FBXForceSkinDeformExport': bool(
                 options.get('FBXForceSkinDeformExport', False)
             ),
-            'FBXExportEndEffectors': bool(options.get('FBXExportEndEffectors', True)),
+            'FBXExportEndEffectors': bool(
+                options.get('FBXExportEndEffectors', True)
+            ),
         }
 
     def run(self, context_data=None, data=None, options=None):
         # ensure to load the fbx plugin
 
         component_name = options['component_name']
-        new_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.fbx').name
+        new_file_path = tempfile.NamedTemporaryFile(
+            delete=False, suffix='.fbx'
+        ).name
 
         options = self.extract_options(options)
 
@@ -89,11 +93,17 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
         fbxRopnet.parm('conservemem').set(
             options['FBXConserveMemoryAtTheExpenseOfExportTime']
         )
-        fbxRopnet.parm('forceblendshape').set(options['FBXForceBlendShapeExport'])
-        fbxRopnet.parm('forceskindeform').set(options['FBXForceSkinDeformExport'])
+        fbxRopnet.parm('forceblendshape').set(
+            options['FBXForceBlendShapeExport']
+        )
+        fbxRopnet.parm('forceskindeform').set(
+            options['FBXForceSkinDeformExport']
+        )
         try:
             fbxRopnet.parm('axissystem').set(options['FBXAxisSystem'])
-            fbxRopnet.parm('exportendeffectors').set(options['FBXExportEndEffectors'])
+            fbxRopnet.parm('exportendeffectors').set(
+                options['FBXExportEndEffectors']
+            )
         except:
             pass  # No supported in older versions
         try:

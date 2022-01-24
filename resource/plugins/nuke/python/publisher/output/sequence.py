@@ -43,7 +43,9 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
         temp_seq_path = '{}.%0{}d.{}'.format(
             temp_name.name, digit_len, selected_file_format
         )
-        sequence_path = clique.parse('{} [{}-{}]'.format(temp_seq_path, first, last))
+        sequence_path = clique.parse(
+            '{} [{}-{}]'.format(temp_seq_path, first, last)
+        )
 
         write_node['file'].setValue(temp_seq_path.replace('\\', '/'))
 

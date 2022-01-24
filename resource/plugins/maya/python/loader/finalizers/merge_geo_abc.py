@@ -30,7 +30,9 @@ class MergeGeoAbcMayaPlugin(plugin.LoaderFinalizerMayaPlugin):
             )[0]
             for maya_obj in maya_objects:
                 matchable_name = maya_obj.split(":")[-1]
-                if re.match(r'{}\d+'.format(matchable_name[0:-1]), alembic_maya_obj):
+                if re.match(
+                    r'{}\d+'.format(matchable_name[0:-1]), alembic_maya_obj
+                ):
                     cmds.connectAttr(
                         r'{}.transOp[0]'.format(alembic_node),
                         r'{}.translateX'.format(maya_obj),

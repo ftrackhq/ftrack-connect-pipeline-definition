@@ -4,7 +4,9 @@
 import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
-from ftrack_connect_pipeline_3dsmax.utils import max_alembic_commands as abc_utils
+from ftrack_connect_pipeline_3dsmax.utils import (
+    max_alembic_commands as abc_utils,
+)
 
 
 class ImportAbcMaxPlugin(plugin.LoaderImporterMaxPlugin):

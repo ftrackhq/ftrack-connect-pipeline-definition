@@ -23,7 +23,9 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         r = hou.playbar.frameRange()
         return {
             'ABCAnimation': bool(options.get('ABCAnimation', True)),
-            'ABCFrameRangeStart': float(options.get('ABCFrameRangeStart', r[0])),
+            'ABCFrameRangeStart': float(
+                options.get('ABCFrameRangeStart', r[0])
+            ),
             'ABCFrameRangeEnd': float(options.get('ABCFrameRangeEnd', r[1])),
             'ABCFrameRangeBy': float(options.get('ABCFrameRangeBy', '1.0')),
         }
@@ -31,7 +33,9 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
     def bakeCamAnim(self, node, frameRange):
         '''Bake camera to World Space'''
         if 'cam' in node.type().name():
-            bake_node = hou.node('/obj').createNode('cam', '%s_bake' % node.name())
+            bake_node = hou.node('/obj').createNode(
+                'cam', '%s_bake' % node.name()
+            )
 
             for x in ['resx', 'resy']:
                 bake_node.parm(x).set(node.parm(x).eval())
@@ -50,7 +54,9 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
     def run(self, context_data=None, data=None, options=None):
 
         component_name = options['component_name']
-        new_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.abc').name
+        new_file_path = tempfile.NamedTemporaryFile(
+            delete=False, suffix='.abc'
+        ).name
 
         options = self.extract_options(options)
 
@@ -68,7 +74,8 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         if context_data['asset_type_name'] == 'cam':
             bcam = self.bakeCamAnim(
-                objects[0], [options['ABCFrameRangeStart'], options['ABCFrameRangeEnd']]
+                objects[0],
+                [options['ABCFrameRangeStart'], options['ABCFrameRangeEnd']],
             )
             objects = [bcam]
             objects = [bcam.path()]

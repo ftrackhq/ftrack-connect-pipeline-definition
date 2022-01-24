@@ -31,7 +31,9 @@ class AlembicOptionsWidget(BaseOptionsWidget):
             'alembicAnimation': self.options.get('alembicAnimation', False),
             'alembicUvwrite': self.options.get('alembicUvwrite', True),
             'alembicWorldspace': self.options.get('alembicWorldspace', False),
-            'alembicWritevisibility': self.options.get('alembicWritevisibility', False),
+            'alembicWritevisibility': self.options.get(
+                'alembicWritevisibility', False
+            ),
         }
         return _bool_options
 
@@ -99,7 +101,9 @@ class AlembicOptionsWidget(BaseOptionsWidget):
                 self.animation_layout.addWidget(self.frames_widget)
             else:
                 self.option_layout.addWidget(option_check)
-        for option, default_value in sorted(self.frames_option.items(), reverse=True):
+        for option, default_value in sorted(
+            self.frames_option.items(), reverse=True
+        ):
             frames_V_layout = QtWidgets.QVBoxLayout()
             option_label = QtWidgets.QLabel(option)
             option_line_edit = QtWidgets.QLineEdit(default_value)

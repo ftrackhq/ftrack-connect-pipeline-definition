@@ -7,7 +7,9 @@ from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
 
 
-class CollectSceneOrSelectionHoudiniPlugin(plugin.PublisherCollectorHoudiniPlugin):
+class CollectSceneOrSelectionHoudiniPlugin(
+    plugin.PublisherCollectorHoudiniPlugin
+):
     plugin_name = 'scene_or_selection'
 
     def run(self, context_data=None, data=None, options=None):

@@ -4,7 +4,9 @@
 import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as unreal_utils
+from ftrack_connect_pipeline_unreal_engine.utils import (
+    custom_commands as unreal_utils,
+)
 
 import ftrack_api
 
