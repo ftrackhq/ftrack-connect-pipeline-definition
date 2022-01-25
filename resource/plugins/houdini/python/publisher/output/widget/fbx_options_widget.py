@@ -11,15 +11,11 @@ from Qt import QtWidgets
 import ftrack_api
 
 OPTIONS = {
-    'FBXASCII': {
-        'type': 'checkbox',
-        'label': 'ASCII Format',
-        'default': True
-    },
+    'FBXASCII': {'type': 'checkbox', 'label': 'ASCII Format', 'default': True},
     'FBXSDKVersion': {
         'type': 'combobox',
         'label': 'FBX SDK Version',
-        'options':[
+        'options': [
             {'label': 'FBX | FBX201600', 'value': 'FBX | FBX201600'},
             {'label': 'FBX | FBX201400', 'value': 'FBX | FBX201400'},
             {'label': 'FBX | FBX201300', 'value': 'FBX | FBX201300'},
@@ -28,7 +24,7 @@ OPTIONS = {
             {'label': 'FBX 6.0 | FBX201000', 'value': 'FBX 6.0 | FBX201000'},
             {'label': 'FBX 6.0 | FBX200900', 'value': 'FBX 6.0 | FBX200900'},
             {'label': 'FBX 6.0 | FBX200611', 'value': 'FBX 6.0 | FBX200611'},
-        ]
+        ],
     },
     'FBXVertexCacheFormat': {
         'type': 'combobox',
@@ -36,7 +32,7 @@ OPTIONS = {
         'options': [
             {'label': 'Maya Compatible (MC)', 'value': 'mayaformat'},
             {'label': '3DS Max Compatible (PC2)', 'value': 'maxformat'},
-        ]
+        ],
     },
     'FBXExportInvisibleObjects': {
         'type': 'combobox',
@@ -46,7 +42,7 @@ OPTIONS = {
             {'label': 'As hidden full nodes', 'value': 'fullnodes'},
             {'label': 'As visible full nodes', 'value': 'visiblenodes'},
             {'label': 'Dont export', 'value': 'nonodes'},
-        ]
+        ],
     },
     'FBXAxisSystem': {
         'type': 'combobox',
@@ -56,54 +52,66 @@ OPTIONS = {
             {'label': 'Y Up (Left-handed)', 'value': 'yupleft'},
             {'label': 'Z Up (Right-handed)', 'value': 'zupright'},
             {'label': 'Current (Y up Right-handed)', 'value': 'currentup'},
-        ]
+        ],
     },
     'FBXConversionLevelOfDetail': {
         'type': 'line',
         'label': 'Conversion Level of Detail',
-        'default': '1.0'
+        'default': '1.0',
     },
     'FBXDetectConstantPointCountDynamicObjects': {
         'type': 'checkbox',
-        'label': 'Detect Constant Point Count Dynamic Objects'
+        'label': 'Detect Constant Point Count Dynamic Objects',
     },
     'FBXConvertNURBSAndBeizerSurfaceToPolygons': {
         'type': 'checkbox',
-        'label': 'Convert NURBS and Beizer Surface to Polygons'
+        'label': 'Convert NURBS and Beizer Surface to Polygons',
     },
     'FBXConserveMemoryAtTheExpenseOfExportTime': {
         'type': 'checkbox',
-        'label': 'Conserve Memory at the Expense of Export Time'
+        'label': 'Conserve Memory at the Expense of Export Time',
     },
     'FBXForceBlendShapeExport': {
         'type': 'checkbox',
-        'label': 'Force Blend Shape Export'
+        'label': 'Force Blend Shape Export',
     },
     'FBXForceSkinDeformExport': {
         'type': 'checkbox',
-        'label': 'Force Skin Deform Export'
+        'label': 'Force Skin Deform Export',
     },
     'FBXExportEndEffectors': {
         'type': 'checkbox',
         'label': 'Export End Effectors',
-        'default': True
+        'default': True,
     },
 }
 
-class FbxOptionsWidget(DynamicWidget):
 
+class FbxOptionsWidget(DynamicWidget):
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
 
         self.widgets = {}
 
         super(FbxOptionsWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name)
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+        )
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -157,7 +165,10 @@ class FbxOptionsWidget(DynamicWidget):
                 if default is not None:
                     idx = 0
                     for item in option['options']:
-                        if item['value'] == default or item['label'] == default:
+                        if (
+                            item['value'] == default
+                            or item['label'] == default
+                        ):
                             widget.setCurrentIndex(idx)
                         idx += 1
                 update_fn = partial(self.current_index_changed, name)
@@ -167,9 +178,11 @@ class FbxOptionsWidget(DynamicWidget):
                     widget.setText(default)
                 widget.textChanged.connect(update_fn)
 
+
 class FbxOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):
     plugin_name = 'fbx_output'
     widget = FbxOptionsWidget
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

@@ -19,7 +19,8 @@ class UpdateLatestPlugin(plugin.AssetManagerActionPlugin):
             'AssetVersion where asset.id is "{}" and components.name is "{}"'
             'and is_latest_version is "True"'
         ).format(
-            asset_info[constants.ASSET_ID], asset_info[constants.COMPONENT_NAME]
+            asset_info[constants.ASSET_ID],
+            asset_info[constants.COMPONENT_NAME],
         )
         latest_version = self.session.query(query).one()
 

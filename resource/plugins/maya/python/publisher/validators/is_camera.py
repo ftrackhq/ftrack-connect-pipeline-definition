@@ -30,10 +30,8 @@ class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
                 if is_camera:
                     break
             if not is_camera:
-                self.logger.error(
-                    "{} is not a camera!".format(obj)
-                )
-                return (False, {'message':"{} is not a camera!".format(obj)})
+                self.logger.error("{} is not a camera!".format(obj))
+                return (False, {'message': "{} is not a camera!".format(obj)})
         return True
 
 

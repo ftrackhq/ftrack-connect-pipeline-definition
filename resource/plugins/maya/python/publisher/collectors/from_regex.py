@@ -35,4 +35,3 @@ def register(api_object, **kw):
         return
     plugin = CollectFromRegexMayaPlugin(api_object)
     plugin.register()
-

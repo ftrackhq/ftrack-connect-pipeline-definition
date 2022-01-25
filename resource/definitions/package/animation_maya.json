@@ -1,7 +1,7 @@
 {
-    "name": "light_rig_maya",
+    "name": "animation_maya",
     "type": "package",
-    "asset_type_name": "lgt",
+    "asset_type_name": "anim",
     "components":[
         {
             "name": "mayaBinaryScene"
@@ -17,6 +17,12 @@
         {
             "name": "mayaAscii",
             "required": false
+        },
+        {
+            "name": "alembic"
+        },
+        {
+            "name": "fbx"
         },
         {
             "name": "thumbnail",

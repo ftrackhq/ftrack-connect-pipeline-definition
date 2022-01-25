@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class PostFinalizerLoaderTest(plugin.LoaderPostFinalizerPlugin):
     plugin_name = 'post_finalizer_test'
 

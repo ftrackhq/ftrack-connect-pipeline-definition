@@ -11,9 +11,16 @@
           "name": "context",
           "plugins":[
             {
+              "mode": "import",
               "name": "context selector",
               "plugin": "context.load",
               "widget": "context.load"
+            },
+            {
+              "mode": "open",
+              "name": "context selector",
+              "plugin": "context.load",
+              "widget": "context.open"
             }
           ]
         }
@@ -28,7 +35,50 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Pick objects with prefix",
+              "name": "Pick objects with suffix",
+              "plugin": "collector_test"
+            },
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".zip"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "importer",
+              "plugin": "importer_test",
+              "widget": "fakeImportModes",
+              "options": {
+                "load_mode": "Import"
+              }
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "post import plugin",
+              "plugin": "post_import_test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mayaBinaryScene",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Pick objects with suffix",
               "plugin": "collector_test"
             },
             {
@@ -46,7 +96,10 @@
             {
               "name": "importer",
               "plugin": "importer_test",
-              "widget": "fakeImportModes"
+              "widget": "fakeImportModes",
+              "options": {
+                "load_mode": "Import"
+              }
             }
           ]
         },
@@ -71,30 +124,30 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
-              "visible": false
+              "plugin": "pre_finalizer_test"
             }
-          ]
+          ],
+          "visible": false
         },
         {
           "name": "finalizer",
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "finalizer_test",
-              "visible": false
+              "plugin": "finalizer_test"
             }
-          ]
+          ],
+          "visible": false
         },
         {
           "name": "post_finalizer",
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test",
-              "visible": false
+              "plugin": "post_finalizer_test"
             }
-          ]
+          ],
+          "visible": false
         }
       ]
     }

@@ -4,7 +4,15 @@
     "asset_type_name": "cam",
     "components":[
         {
-            "name": "mayaBinary"
+            "name": "mayaBinaryScene"
+        },
+        {
+            "name": "mayaAsciiScene",
+            "required": false
+        },
+        {
+            "name": "mayaBinary",
+            "required": false
         },
         {
             "name": "mayaAscii",

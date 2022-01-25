@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class PreFinalizerLoaderTest(plugin.LoaderPreFinalizerPlugin):
     plugin_name = 'pre_finalizer_test'
 

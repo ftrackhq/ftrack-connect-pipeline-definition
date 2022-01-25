@@ -10,15 +10,13 @@ from ftrack_connect_pipeline_houdini import plugin
 
 logger = logging.getLogger('ftrack_connect_pipeline_houdini')
 
+
 class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
     plugin_name = 'is_geometry'
 
     def run(self, context_data=None, data=None, options=None):
         if not data:
-            return (
-                False,
-                'Please add objects for publishing!'
-            )
+            return (False, 'Please add objects for publishing!')
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
@@ -26,11 +24,15 @@ class CheckGeometryValidatorPlugin(plugin.PublisherValidatorHoudiniPlugin):
             obj = hou.node(obj_path)
             if obj.type().name() != 'geo':
                 return (
-                    False, 
-                    {'message':'({}) Only geometry can be published!'.format(
-                        obj_path)}
+                    False,
+                    {
+                        'message': '({}) Only geometry can be published!'.format(
+                            obj_path
+                        )
+                    },
                 )
         return True
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

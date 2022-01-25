@@ -4,6 +4,9 @@
     "asset_type_name": "cam",
     "components":[
         {
+            "name": "houdiniScene"
+        },
+        {
             "name": "houdiniNodes",
             "required": false
         },

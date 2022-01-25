@@ -16,27 +16,26 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch start and end frames from the scene'''
         r = hou.playbar.frameRange()
-        frame_info = {
-            'frameStart': r[0],
-            'frameEnd': r[1]
-        }
+        frame_info = {'frameStart': r[0], 'frameEnd': r[1]}
         return frame_info
 
     def extract_options(self, options):
         r = hou.playbar.frameRange()
         return {
-            'ABCAnimation' : bool(options.get('ABCAnimation', True)),
+            'ABCAnimation': bool(options.get('ABCAnimation', True)),
             'ABCFrameRangeStart': float(
-                options.get('ABCFrameRangeStart', r[0])),
+                options.get('ABCFrameRangeStart', r[0])
+            ),
             'ABCFrameRangeEnd': float(options.get('ABCFrameRangeEnd', r[1])),
             'ABCFrameRangeBy': float(options.get('ABCFrameRangeBy', '1.0')),
         }
 
     def bakeCamAnim(self, node, frameRange):
-        ''' Bake camera to World Space '''
+        '''Bake camera to World Space'''
         if 'cam' in node.type().name():
             bake_node = hou.node('/obj').createNode(
-                'cam', '%s_bake' % node.name())
+                'cam', '%s_bake' % node.name()
+            )
 
             for x in ['resx', 'resy']:
                 bake_node.parm(x).set(node.parm(x).eval())
@@ -56,16 +55,13 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
-            delete=False,
-            suffix='.abc'
+            delete=False, suffix='.abc'
         ).name
 
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling output options: data {}. options {}'.format(
-                data, options
-            )
+            'Calling output options: data {}. options {}'.format(data, options)
         )
 
         root_obj = hou.node('/obj')
@@ -77,9 +73,10 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         objects = [hou.node(obj_path) for obj_path in collected_objects]
 
         if context_data['asset_type_name'] == 'cam':
-            bcam = self.bakeCamAnim(objects[0],
-                                    [options['ABCFrameRangeStart'],
-                                     options['ABCFrameRangeEnd']])
+            bcam = self.bakeCamAnim(
+                objects[0],
+                [options['ABCFrameRangeStart'], options['ABCFrameRangeEnd']],
+            )
             objects = [bcam]
             objects = [bcam.path()]
 
@@ -91,8 +88,9 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         if options.get('ABCAnimation'):
             # Check Alembic for animation option
             abc_ropnet.parm('trange').set(1)
-            for i, x in enumerate(['ABCFrameRangeStart', 'ABCFrameRangeEnd',
-                                   'ABCFrameRangeBy']):
+            for i, x in enumerate(
+                ['ABCFrameRangeStart', 'ABCFrameRangeEnd', 'ABCFrameRangeBy']
+            ):
                 abc_ropnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
                 abc_ropnet.parm('f%d' % (i + 1)).set(options[x])
         else:
@@ -106,6 +104,7 @@ class OutputHoudiniAlembicPlugin(plugin.PublisherOutputHoudiniPlugin):
         rop_net.destroy()
 
         return [new_file_path]
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

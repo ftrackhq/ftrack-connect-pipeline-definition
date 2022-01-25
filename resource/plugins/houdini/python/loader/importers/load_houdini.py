@@ -7,6 +7,7 @@ from ftrack_connect_pipeline_houdini import plugin
 from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 import ftrack_api
 
+
 class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
 
     load_modes = load_const.LOAD_MODES
@@ -16,7 +17,8 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
 
         houdini_options['load_mode'] = load_options.get('load_mode')
         houdini_options['MergeOverwriteOnConflict'] = load_options.get(
-            'MergeOverwriteOnConflict')
+            'MergeOverwriteOnConflict'
+        )
 
         return houdini_options
 
@@ -25,7 +27,8 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
         load_mode_fn = self.load_modes.get(
-            load_mode, list(self.load_modes.keys())[0])
+            load_mode, list(self.load_modes.keys())[0]
+        )
 
         houdini_options = {}
         if load_options:
@@ -40,22 +43,33 @@ class LoadHoudiniPlugin(plugin.LoaderImporterHoudiniPlugin):
             self.logger.debug('Loading path {}'.format(component_path))
 
             load_result = load_mode_fn(
-                component_path, context_data=context_data, options=houdini_options)
+                component_path,
+                context_data=context_data,
+                options=houdini_options,
+            )
 
             if not six.PY2:
-                results[component_path] = load_result.path() if (
-                    not isinstance(load_result, str)
-                ) else load_result
+                results[component_path] = (
+                    load_result.path()
+                    if (not isinstance(load_result, str))
+                    else load_result
+                )
             else:
-                results[component_path] = load_result.path() if (
-                   not isinstance(load_result, str) and
-                   not isinstance(load_result, unicode)
-                ) else load_result
+                results[component_path] = (
+                    load_result.path()
+                    if (
+                        not isinstance(load_result, str)
+                        and not isinstance(load_result, unicode)
+                    )
+                    else load_result
+                )
 
         return results
 
+
 class LoadHoudiniScenePlugin(LoadHoudiniPlugin):
     plugin_name = 'load_houdini_scene'
+
 
 class LoadHoudiniNodesPlugin(LoadHoudiniPlugin):
     plugin_name = 'load_houdini_nodes'
@@ -70,4 +84,3 @@ def register(api_object, **kw):
 
     nodes_plugin = LoadHoudiniNodesPlugin(api_object)
     nodes_plugin.register()
-

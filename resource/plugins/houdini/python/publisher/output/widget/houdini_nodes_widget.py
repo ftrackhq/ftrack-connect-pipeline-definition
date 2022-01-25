@@ -10,27 +10,38 @@ from Qt import QtWidgets
 
 import ftrack_api
 
-class HoudiniNodesOptionsWidget(DynamicWidget):
 
+class HoudiniNodesOptionsWidget(DynamicWidget):
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
 
         self.options_cb = {}
 
         super(HoudiniNodesOptionsWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name)
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+        )
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
         super(HoudiniNodesOptionsWidget, self).build()
 
-        options = [
-        ]
+        options = []
 
         self.option_group = QtWidgets.QGroupBox('Houdini Output Options')
         self.option_group.setToolTip(self.description)
@@ -51,7 +62,6 @@ class HoudiniNodesOptionsWidget(DynamicWidget):
         for option, widget in self.options_cb.items():
             update_fn = partial(self.set_option_result, key=option)
             widget.stateChanged.connect(update_fn)
-
 
 
 class HoudiniNodesOptionsPluginWidget(plugin.PublisherOutputHoudiniWidget):

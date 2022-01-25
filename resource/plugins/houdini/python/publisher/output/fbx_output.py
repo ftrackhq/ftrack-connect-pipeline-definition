@@ -16,32 +16,38 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
     def extract_options(self, options):
 
         return {
-            'FBXASCII': bool(
-                options.get('FBXASCII', True)),
+            'FBXASCII': bool(options.get('FBXASCII', True)),
             'FBXSDKVersion': str(
-                options.get('FBXExportScaleFactor', 'FBX | FBX201600')),
+                options.get('FBXExportScaleFactor', 'FBX | FBX201600')
+            ),
             'FBXVertexCacheFormat': str(
-                options.get('FBXVertexCacheFormat', 'mayaformat')),
+                options.get('FBXVertexCacheFormat', 'mayaformat')
+            ),
             'FBXExportInvisibleObjects': str(
-                options.get('FBXExportInvisibleObjects', 'nullnodes')),
+                options.get('FBXExportInvisibleObjects', 'nullnodes')
+            ),
             'FBXAxisSystem': str(options.get('FBXAxisSystem', 'yupright')),
             'FBXConversionLevelOfDetail': float(
-                options.get('FBXConversionLevelOfDetail', '1.0')),
+                options.get('FBXConversionLevelOfDetail', '1.0')
+            ),
             'FBXDetectConstantPointCountDynamicObjects': bool(
-                options.get('FBXDetectConstantPointCountDynamicObjects',
-                            False)),
+                options.get('FBXDetectConstantPointCountDynamicObjects', False)
+            ),
             'FBXConvertNURBSAndBeizerSurfaceToPolygons': bool(
-                options.get('FBXConvertNURBSAndBeizerSurfaceToPolygons',
-                            False)),
+                options.get('FBXConvertNURBSAndBeizerSurfaceToPolygons', False)
+            ),
             'FBXConserveMemoryAtTheExpenseOfExportTime': bool(
-                options.get('FBXConserveMemoryAtTheExpenseOfExportTime',
-                            False)),
+                options.get('FBXConserveMemoryAtTheExpenseOfExportTime', False)
+            ),
             'FBXForceBlendShapeExport': bool(
-                options.get('FBXForceBlendShapeExport', False)),
+                options.get('FBXForceBlendShapeExport', False)
+            ),
             'FBXForceSkinDeformExport': bool(
-                options.get('FBXForceSkinDeformExport', False)),
+                options.get('FBXForceSkinDeformExport', False)
+            ),
             'FBXExportEndEffectors': bool(
-                options.get('FBXExportEndEffectors', True)),
+                options.get('FBXExportEndEffectors', True)
+            ),
         }
 
     def run(self, context_data=None, data=None, options=None):
@@ -49,16 +55,13 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
-            delete=False,
-            suffix='.fbx'
+            delete=False, suffix='.fbx'
         ).name
 
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling output options: data {}. options {}'.format(
-                data, options
-            )
+            'Calling output options: data {}. options {}'.format(data, options)
         )
 
         root_obj = hou.node('/obj')
@@ -82,20 +85,25 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
         fbxRopnet.parm('invisobj').set(options['FBXExportInvisibleObjects'])
         fbxRopnet.parm('polylod').set(options['FBXConversionLevelOfDetail'])
         fbxRopnet.parm('detectconstpointobjs').set(
-            options['FBXDetectConstantPointCountDynamicObjects'])
+            options['FBXDetectConstantPointCountDynamicObjects']
+        )
         fbxRopnet.parm('convertsurfaces').set(
-            options['FBXConvertNURBSAndBeizerSurfaceToPolygons'])
+            options['FBXConvertNURBSAndBeizerSurfaceToPolygons']
+        )
         fbxRopnet.parm('conservemem').set(
-            options['FBXConserveMemoryAtTheExpenseOfExportTime'])
+            options['FBXConserveMemoryAtTheExpenseOfExportTime']
+        )
         fbxRopnet.parm('forceblendshape').set(
-            options['FBXForceBlendShapeExport'])
+            options['FBXForceBlendShapeExport']
+        )
         fbxRopnet.parm('forceskindeform').set(
-            options['FBXForceSkinDeformExport'])
+            options['FBXForceSkinDeformExport']
+        )
         try:
-            fbxRopnet.parm('axissystem').set(
-                options['FBXAxisSystem'])
+            fbxRopnet.parm('axissystem').set(options['FBXAxisSystem'])
             fbxRopnet.parm('exportendeffectors').set(
-                options['FBXExportEndEffectors'])
+                options['FBXExportEndEffectors']
+            )
         except:
             pass  # No supported in older versions
         try:

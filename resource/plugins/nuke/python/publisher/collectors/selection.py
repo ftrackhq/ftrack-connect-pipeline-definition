@@ -26,4 +26,3 @@ def register(api_object, **kw):
         return
     plugin = CollectSelectedNodesNukePlugin(api_object)
     plugin.register()
-

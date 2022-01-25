@@ -7,7 +7,9 @@ from zipfile import ZipFile
 import shutil
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.constants import asset as asset_const
+from ftrack_connect_pipeline_unreal_engine.constants import (
+    asset as asset_const,
+)
 
 import ftrack_api
 
@@ -19,15 +21,13 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
 
     def _package_current_scene(
-            self,
-            destination_path,
-            unreal_map_package_path,
-            context_data
+        self, destination_path, unreal_map_package_path, context_data
     ):
 
         # format package folder name
         asset_name = self._standard_structure.sanitise_for_filesystem(
-            context_data['asset_name'])
+            context_data['asset_name']
+        )
         content_name = "{}_package".format(asset_name)
 
         output_filepath = os.path.normpath(
@@ -35,25 +35,24 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         )
 
         # zip up folder
-        output_zippath = (
-            "{}.zip".format(output_filepath)
-        )
+        output_zippath = "{}.zip".format(output_filepath)
         if os.path.isfile(output_zippath):
             # must delete it first,
             try:
                 os.remove(output_zippath)
             except OSError as e:
-                msg = 'Could not delete {}. The package process will not be '\
-                    ' able to output to that file.'.format(
-                        output_zippath
-                    )
+                msg = (
+                    'Could not delete {}. The package process will not be '
+                    ' able to output to that file.'.format(output_zippath)
+                )
                 self.logger.error(msg)
-                return False, {'message':msg}
+                return False, {'message': msg}
 
         # process migration of current scene
         self.logger.debug(
             "Migrate package {0} to folder: {1}".format(
-                unreal_map_package_path, output_zippath)
+                unreal_map_package_path, output_zippath
+            )
         )
 
         # create (temporary) destination folder
@@ -64,34 +63,39 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             tempdir_filepath = tempfile.mkdtemp(dir=destination_path)
         except OSError:
             msg = (
-                'Could not create {}. The package will not be able to ' 
+                'Could not create {}. The package will not be able to '
                 'output to that folder.'.format(destination_path)
             )
-            self.logger.error(
-
-            )
+            self.logger.error()
             return False, {'message': msg}
 
         # perform migration
         unreal_windows_logs_dir = os.path.join(
             ue.SystemLibrary.get_project_saved_directory(), "Logs"
         )
-        self.logger.debug('Detailed logs of editor output during migration '
-                         'found at: "{0}"'.format(unreal_windows_logs_dir))
+        self.logger.debug(
+            'Detailed logs of editor output during migration '
+            'found at: "{0}"'.format(unreal_windows_logs_dir)
+        )
 
         migrated_packages = ue.FTrackConnect.get_instance().migrate_packages(
-            unreal_map_package_path, tempdir_filepath)
+            unreal_map_package_path, tempdir_filepath
+        )
 
         # track the assets being published
         version_dependency_ids = []
         for package_name in migrated_packages:
-            asset_data = ue.AssetRegistryHelpers().get_asset_registry().\
-                get_assets_by_package_name(package_name)
-            
-            for data in asset_data:                 
+            asset_data = (
+                ue.AssetRegistryHelpers()
+                .get_asset_registry()
+                .get_assets_by_package_name(package_name)
+            )
+
+            for data in asset_data:
                 asset = data.get_asset()
-                version_id = ue.EditorAssetLibrary.get_metadata_tag\
-                    (asset, "ftrack.{}".format(asset_const.VERSION_ID))
+                version_id = ue.EditorAssetLibrary.get_metadata_tag(
+                    asset, "ftrack.{}".format(asset_const.VERSION_ID)
+                )
                 if version_id:
                     version_dependency_ids.append(version_id)
 
@@ -102,7 +106,9 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
                 for filename in filenames:
                     # create complete and relative filepath of file in directory
                     filePath = os.path.join(folderName, filename)
-                    truncated_path = os.path.relpath(filePath, tempdir_filepath)
+                    truncated_path = os.path.relpath(
+                        filePath, tempdir_filepath
+                    )
                     # Add file to zip
                     zipObj.write(filePath, truncated_path)
 
@@ -111,18 +117,23 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             try:
                 shutil.rmtree(tempdir_filepath)
             except OSError as e:
-                msg = 'Could not delete {}. The package process cannot ' \
-                      'cleanup temporary package folder.'.format(
-                    tempdir_filepath
+                msg = (
+                    'Could not delete {}. The package process cannot '
+                    'cleanup temporary package folder.'.format(
+                        tempdir_filepath
+                    )
                 )
                 self.logger.error(msg)
                 return False, {'message': msg}
 
-        return os.path.isfile(output_zippath), output_zippath, \
-               version_dependency_ids
+        return (
+            os.path.isfile(output_zippath),
+            output_zippath,
+            version_dependency_ids,
+        )
 
     def run(self, context_data=None, data=None, options=None):
-        ''' Compress all project assets to a ZIP '''
+        '''Compress all project assets to a ZIP'''
         component_name = options['component_name']
 
         collected_objects = []
@@ -135,21 +146,28 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             ue.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
         )
 
-        package_result, package_path, version_dependency_ids = \
-            self._package_current_scene(
-            dest_folder,
-            unreal_map_package_path,
-                context_data
+        (
+            package_result,
+            package_path,
+            version_dependency_ids,
+        ) = self._package_current_scene(
+            dest_folder, unreal_map_package_path, context_data
         )
         if package_result:
-            return ( [package_path] ,
-                     {'data' :
-                          {'version_dependency_ids':version_dependency_ids}} )
+            return (
+                [package_path],
+                {'data': {'version_dependency_ids': version_dependency_ids}},
+            )
         else:
-            return (False, {'message': (
-                'Failed to produce package of '
-                'current project.'
-            )})
+            return (
+                False,
+                {
+                    'message': (
+                        'Failed to produce package of ' 'current project.'
+                    )
+                },
+            )
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

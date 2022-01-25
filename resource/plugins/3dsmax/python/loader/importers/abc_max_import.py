@@ -4,7 +4,9 @@
 import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
-from ftrack_connect_pipeline_3dsmax.utils import max_alembic_commands as abc_utils
+from ftrack_connect_pipeline_3dsmax.utils import (
+    max_alembic_commands as abc_utils,
+)
 
 
 class ImportAbcMaxPlugin(plugin.LoaderImporterMaxPlugin):
@@ -12,7 +14,7 @@ class ImportAbcMaxPlugin(plugin.LoaderImporterMaxPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         results = {}
-        #TODO: This is commented because is not working as it should, waiting
+        # TODO: This is commented because is not working as it should, waiting
         # to be fixed on the task where we move from maxPlus to pymxs
         paths_to_import = data
         # for component_path in paths_to_import:
@@ -24,6 +26,7 @@ class ImportAbcMaxPlugin(plugin.LoaderImporterMaxPlugin):
         #     results[component_path] = result
 
         return results
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

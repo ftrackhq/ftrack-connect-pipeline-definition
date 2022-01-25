@@ -4,10 +4,15 @@
     "asset_type_name": "geo",
     "components":[
         {
-            "name": "3dsmax"
+            "name": "3dsmaxScene"
         },
         {
-            "name": "alembic"
+            "name": "3dsmax",
+            "required": false
+        },
+        {
+            "name": "alembic",
+            "required": false
         },
         {
             "name": "thumbnail",

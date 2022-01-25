@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class TestCollectPlugin(plugin.PublisherCollectorPlugin):
     plugin_name = 'publish_collector_test'
 

@@ -21,8 +21,8 @@ class NodeSelectorNukePlugin(plugin.PublisherCollectorNukePlugin):
         if nuke.selectedNodes():
             last_selected_node = nuke.selectedNodes()[0]
         result = {
-            'all_nodes':node_names,
-            'last_selected_node':last_selected_node.name()
+            'all_nodes': node_names,
+            'last_selected_node': last_selected_node.name(),
         }
         return result
 
@@ -38,4 +38,3 @@ def register(api_object, **kw):
         return
     plugin = NodeSelectorNukePlugin(api_object)
     plugin.register()
-

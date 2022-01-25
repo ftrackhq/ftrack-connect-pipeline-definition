@@ -9,7 +9,6 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-
 class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
     plugin_name = 'alembic'
@@ -18,24 +17,28 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         '''Fetch start and end frames from the scene'''
         frame_info = {
             "frameStart": cmds.playbackOptions(q=True, ast=True),
-            "frameEnd": cmds.playbackOptions(q=True, aet=True)
+            "frameEnd": cmds.playbackOptions(q=True, aet=True),
         }
         return frame_info
 
     def extract_options(self, options):
 
         return {
-            'alembicAnimation' : bool(options.get('alembicAnimation', True)),
+            'alembicAnimation': bool(options.get('alembicAnimation', True)),
             'frameStart': float(
-                options.get('frameStart', cmds.playbackOptions(q=True, ast=True))
+                options.get(
+                    'frameStart', cmds.playbackOptions(q=True, ast=True)
+                )
             ),
             'frameEnd': float(
                 options.get('frameEnd', cmds.playbackOptions(q=True, aet=True))
             ),
             'alembicUvwrite': bool(options.get('alembicUvwrite', True)),
             'alembicWorldspace': bool(options.get('alembicWorldspace', False)),
-            'alembicWritevisibility': bool(options.get('alembicWritevisibility', False)),
-            'alembicEval': float(options.get('alembicEval', 1.0))
+            'alembicWritevisibility': bool(
+                options.get('alembicWritevisibility', False)
+            ),
+            'alembicEval': float(options.get('alembicEval', 1.0)),
         }
 
     def run(self, context_data=None, data=None, options=None):
@@ -44,16 +47,13 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
 
         component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
-            delete=False,
-            suffix='.abc'
+            delete=False, suffix='.abc'
         ).name
 
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling output options: data {}. options {}'.format(
-                data, options
-            )
+            'Calling output options: data {}. options {}'.format(data, options)
         )
 
         collected_objects = []
@@ -85,7 +85,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
                 '-frameRange {0} {1} -step {2} '.format(
                     options['frameStart'],
                     options['frameEnd'],
-                    options['alembicEval']
+                    options['alembicEval'],
                 )
             )
 

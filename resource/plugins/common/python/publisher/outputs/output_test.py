@@ -6,6 +6,7 @@ import tempfile
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class TestOutputPlugin(plugin.PublisherOutputPlugin):
     plugin_name = 'publish_output_test'
 

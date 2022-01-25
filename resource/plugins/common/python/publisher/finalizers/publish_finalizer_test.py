@@ -5,6 +5,7 @@ import os
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class PublishFinalizerTestPlugin(plugin.PublisherFinalizerPlugin):
     plugin_name = 'result'
 

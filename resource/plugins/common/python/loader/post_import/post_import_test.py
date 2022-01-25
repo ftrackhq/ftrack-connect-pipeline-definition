@@ -4,6 +4,7 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+
 class PostImportLoaderTest(plugin.LoaderPostImportPlugin):
     plugin_name = 'post_import_test'
 
@@ -12,8 +13,8 @@ class PostImportLoaderTest(plugin.LoaderPostImportPlugin):
             {},
             {
                 'message': 'No Data is imported this is for testing propouses',
-                'data': ['abcde']
-            }
+                'data': ['abcde'],
+            },
         )
 
 

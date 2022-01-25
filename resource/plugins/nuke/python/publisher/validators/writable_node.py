@@ -9,6 +9,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 import nuke
 
+
 class WritableNodeValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'can_connect_to_write_node'
 

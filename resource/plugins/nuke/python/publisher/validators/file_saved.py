@@ -8,6 +8,7 @@ from ftrack_connect_pipeline_nuke import plugin
 
 import nuke
 
+
 class FileSavedValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'file_saved'
 

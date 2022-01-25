@@ -10,20 +10,32 @@ from Qt import QtWidgets
 
 import ftrack_api
 
-class MayaOptionsWidget(DynamicWidget):
 
+class MayaOptionsWidget(DynamicWidget):
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
 
         self.options_cb = {}
 
         super(MayaOptionsWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name)
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+        )
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -35,7 +47,7 @@ class MayaOptionsWidget(DynamicWidget):
             'preserve_reference',
             'shader',
             'constraints',
-            'expressions'
+            'expressions',
         ]
         self.option_group = QtWidgets.QGroupBox('Maya Output Options')
         self.option_group.setToolTip(self.description)
@@ -50,14 +62,12 @@ class MayaOptionsWidget(DynamicWidget):
             self.options_cb[option] = option_check
             self.option_layout.addWidget(option_check)
 
-
     def post_build(self):
         super(MayaOptionsWidget, self).post_build()
 
         for option, widget in self.options_cb.items():
             update_fn = partial(self.set_option_result, key=option)
             widget.stateChanged.connect(update_fn)
-
 
 
 class MayaOptionsPluginWidget(plugin.PublisherOutputMayaWidget):

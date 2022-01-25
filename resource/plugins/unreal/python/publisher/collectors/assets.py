@@ -7,6 +7,7 @@ from ftrack_connect_pipeline_unreal_engine import plugin
 
 import ftrack_api
 
+
 class CollectAssetsUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
     plugin_name = 'assets_collector'
 
@@ -16,7 +17,7 @@ class CollectAssetsUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):
-        ''' Fetch all the sequence actor names in the project '''
+        '''Fetch all the sequence actor names in the project'''
         collected_objects = []
 
         unreal_map = ue.EditorLevelLibrary.get_editor_world()
@@ -27,7 +28,7 @@ class CollectAssetsUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         return collected_objects
 
     def add(self, context_data=None, data=None, options=None):
-        ''' Return selected selected content browser packe paths. '''
+        '''Return selected selected content browser packe paths.'''
         # TODO find a way to check what is selected
         return self.fetch(context_data, data, options)
 
@@ -45,4 +46,3 @@ def register(api_object, **kw):
         return
     plugin = CollectAssetsUnrealPlugin(api_object)
     plugin.register()
-

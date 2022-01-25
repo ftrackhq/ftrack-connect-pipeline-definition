@@ -7,6 +7,10 @@
             "name": "main"
         },
         {
+            "name": "mayaBinaryScene",
+            "required": false
+        },
+        {
             "name": "thumbnail",
             "required": false
         }

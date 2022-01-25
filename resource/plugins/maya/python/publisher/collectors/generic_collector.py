@@ -41,4 +41,3 @@ def register(api_object, **kw):
         return
     plugin = CollectGenericMayaPlugin(api_object)
     plugin.register()
-

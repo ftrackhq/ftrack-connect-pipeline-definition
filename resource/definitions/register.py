@@ -37,5 +37,5 @@ def register(api_object, **kw):
         'topic={} and data.pipeline.type=definition'.format(
             constants.PIPELINE_REGISTER_TOPIC
         ),
-        callback
+        callback,
     )

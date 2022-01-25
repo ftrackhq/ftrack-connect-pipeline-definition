@@ -43,7 +43,7 @@ class OutputThumbnailPlugin(plugin.PublisherOutputNukePlugin):
             delete=False, suffix='.png'
         ).name
 
-        new_write_node['file'].setValue(file_name.replace('\\','/'))
+        new_write_node['file'].setValue(file_name.replace('\\', '/'))
         new_write_node['file_type'].setValue('png')
         # render thumbnail
         curFrame = int(nuke.knob("frame"))

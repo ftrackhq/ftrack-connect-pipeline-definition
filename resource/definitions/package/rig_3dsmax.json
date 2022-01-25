@@ -4,7 +4,11 @@
     "asset_type_name": "rig",
     "components":[
         {
-            "name": "3dsmax"
+            "name": "3dsmaxScene"
+        },
+        {
+            "name": "3dsmax",
+            "required": false
         },
         {
             "name": "thumbnail",

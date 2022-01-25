@@ -4,9 +4,12 @@
 import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as unreal_utils
+from ftrack_connect_pipeline_unreal_engine.utils import (
+    custom_commands as unreal_utils,
+)
 
 import ftrack_api
+
 
 class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
     plugin_name = 'sequence_collector'
@@ -17,14 +20,14 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):
-        ''' Fetch all the sequence actor names in the project '''
+        '''Fetch all the sequence actor names in the project'''
         return unreal_utils.get_all_sequences()
 
     def add(self, context_data=None, data=None, options=None):
-        ''' Return the selected sequence names. '''
+        '''Return the selected sequence names.'''
         collected_objects = []
         seq_name_sel = None
-        
+
         # First, try to pick the selected
         for actor in ue.EditorLevelLibrary.get_selected_level_actors():
             if actor.static_class() == ue.LevelSequenceActor.static_class():
@@ -33,7 +36,7 @@ class CollectSequenceUnrealPlugin(plugin.PublisherCollectorUnrealPlugin):
         if not seq_name_sel:
             # No one selected, pick the first found
             all_sequences = unreal_utils.get_all_sequences()
-            if 0<len(all_sequences):
+            if 0 < len(all_sequences):
                 seq_name_sel = all_sequences[0]
         collected_objects.append(seq_name_sel)
         return collected_objects
@@ -52,4 +55,3 @@ def register(api_object, **kw):
         return
     plugin = CollectSequenceUnrealPlugin(api_object)
     plugin.register()
-

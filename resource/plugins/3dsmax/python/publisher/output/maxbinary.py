@@ -28,7 +28,9 @@ class OutputMaxBinaryPlugin(plugin.PublisherOutputMaxPlugin):
         if os.path.isfile(collected_objects[0]):
             rt.savemaxFile(new_file_path, useNewFile=False)
         else:
-            self.logger.debug('Calling extractor options: data {}'.format(data))
+            self.logger.debug(
+                'Calling extractor options: data {}'.format(data)
+            )
             self.logger.debug('Writing Max file to {}'.format(new_file_path))
             with mxstoken():
                 rt.clearSelection()

@@ -16,19 +16,31 @@ class CameraCollectorWidget(BaseOptionsWidget):
     auto_fetch_on_init = True
 
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
 
         self.maya_cameras = []
         super(CameraCollectorWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name)
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+        )
 
     def on_fetch_callback(self, result):
-        ''' This function is called by the _set_internal_run_result function of
+        '''This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
         self.maya_cameras = result
         if self.maya_cameras:
@@ -60,7 +72,9 @@ class CameraCollectorWidget(BaseOptionsWidget):
 
         self.cameras.currentTextChanged.connect(update_fn)
         if self.maya_cameras:
-            self.set_option_result(self.cameras.currentText(), key='camera_name')
+            self.set_option_result(
+                self.cameras.currentText(), key='camera_name'
+            )
 
 
 class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):

@@ -21,4 +21,3 @@ def register(api_object, **kw):
         return
     plugin = CollectCameraMayaPlugin(api_object)
     plugin.register()
-

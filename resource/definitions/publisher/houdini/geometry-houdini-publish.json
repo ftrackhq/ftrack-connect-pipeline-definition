@@ -23,6 +23,41 @@
   ],
   "components": [
     {
+      "name": "houdiniScene",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
+              "options": {
+                "export": ["scene", "export_selected"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "houdini_scene_output"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "houdiniNodes",
       "optional": true,
       "stages": [

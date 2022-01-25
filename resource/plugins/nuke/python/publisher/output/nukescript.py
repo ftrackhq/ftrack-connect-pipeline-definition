@@ -15,7 +15,9 @@ class OutputNukeScriptPlugin(plugin.PublisherOutputNukePlugin):
     def run(self, context_data=None, data=None, options=None):
         component_name = options['component_name']
 
-        new_file_path = tempfile.NamedTemporaryFile(delete=False, suffix='.nk').name
+        new_file_path = tempfile.NamedTemporaryFile(
+            delete=False, suffix='.nk'
+        ).name
         self.logger.debug('Calling extractor options: data {}'.format(data))
         nuke.scriptSave(new_file_path)
 

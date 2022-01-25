@@ -7,9 +7,11 @@ import unreal as ue
 
 from ftrack_connect_pipeline_unreal_engine import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
-    LoadBaseWidget
+    LoadBaseWidget,
 )
-from ftrack_connect_pipeline_unreal_engine.constants.asset import modes as load_const
+from ftrack_connect_pipeline_unreal_engine.constants.asset import (
+    modes as load_const,
+)
 
 from Qt import QtWidgets
 
@@ -20,15 +22,27 @@ class LoadUnrealWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
-            self, parent=None, session=None, data=None, name=None,
-            description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
         self.widgets = {}
 
         super(LoadUnrealWidget, self).__init__(
-            parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_id=context_id,
-            asset_type_name=asset_type_name
+            parent=parent,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
         )
 
     def build(self):
@@ -43,12 +57,17 @@ class LoadUnrealWidget(LoadBaseWidget):
                 if name == 'ChooseSkeleton':
                     # Load existing skeletons
                     option['options'] = []
-                    assetRegistry = ue.AssetRegistryHelpers.get_asset_registry()
+                    assetRegistry = (
+                        ue.AssetRegistryHelpers.get_asset_registry()
+                    )
                     skeletons = assetRegistry.get_assets_by_class('Skeleton')
                     for skeleton in skeletons:
-                        option['options'].append({
-                            'label': str(skeleton.asset_name),
-                            'value': str(skeleton.asset_name)})
+                        option['options'].append(
+                            {
+                                'label': str(skeleton.asset_name),
+                                'value': str(skeleton.asset_name),
+                            }
+                        )
                 for item in option['options']:
                     widget.addItem(item['label'])
             elif option['type'] == 'line':
@@ -60,8 +79,7 @@ class LoadUnrealWidget(LoadBaseWidget):
 
     def current_index_changed(self, name, idx):
         option = self.config[name]
-        self.set_option_result(option['options'][idx]['value'],
-                               name)
+        self.set_option_result(option['options'][idx]['value'], name)
 
     def post_build(self):
         super(LoadUnrealWidget, self).post_build()
@@ -98,14 +116,18 @@ class LoadUnrealWidget(LoadBaseWidget):
 
             if option['type'] == 'checkbox':
                 self.set_option_result(
-                    default if not default is None else False, name)
+                    default if not default is None else False, name
+                )
                 if default is not None:
                     widget.setChecked(default)
             elif option['type'] == 'combobox':
                 if default is not None:
                     idx = 0
                     for item in option['options']:
-                        if item['value'] == default or item['label'] == default:
+                        if (
+                            item['value'] == default
+                            or item['label'] == default
+                        ):
                             widget.setCurrentIndex(idx)
                         idx += 1
                 else:
@@ -116,10 +138,10 @@ class LoadUnrealWidget(LoadBaseWidget):
                 else:
                     self.set_option_result('', name)
 
-
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
         super(LoadUnrealWidget, self)._on_load_mode_changed(radio_button)
+
 
 # Rig
 class LoadUnrealRigWidget(LoadUnrealWidget):
@@ -127,29 +149,30 @@ class LoadUnrealRigWidget(LoadUnrealWidget):
         'UpdateExistingAsset': {
             'type': 'checkbox',
             'label': 'Update existing assets:',
-            'default': True
+            'default': True,
         },
         'ChooseSkeleton': {
             'type': 'combobox',
             'label': 'Choose skeleton',
-            'options': [
-            ]
+            'options': [],
         },
         'CreatePhysicsAsset': {
             'type': 'checkbox',
             'label': 'Create Physics Asset:',
-            'default': True
+            'default': True,
         },
         'ImportMaterial': {
             'type': 'checkbox',
             'label': 'Import Material:',
-            'default': True
+            'default': True,
         },
     }
+
 
 class LoadUnrealRigPluginWidget(plugin.LoaderImporterUnrealWidget):
     plugin_name = 'load_rig_unreal'
     widget = LoadUnrealRigWidget
+
 
 # Animation
 class LoadUnrealAnimationWidget(LoadUnrealWidget):
@@ -157,13 +180,12 @@ class LoadUnrealAnimationWidget(LoadUnrealWidget):
         'UpdateExistingAsset': {
             'type': 'checkbox',
             'label': 'Update existing assets:',
-            'default': True
+            'default': True,
         },
         'ChooseSkeleton': {
             'type': 'combobox',
             'label': 'Choose skeleton',
-            'options': [
-            ]
+            'options': [],
         },
         'UseCustomRange': {
             'type': 'checkbox',
@@ -172,18 +194,20 @@ class LoadUnrealAnimationWidget(LoadUnrealWidget):
         'AnimRangeMin': {
             'type': 'line',
             'label': 'Custom animation range start:',
-            'default': '1'
+            'default': '1',
         },
         'AnimRangeMax': {
             'type': 'line',
             'label': 'Custom animation range end:',
-            'default': '100'
-        }
+            'default': '100',
+        },
     }
+
 
 class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealWidget):
     plugin_name = 'load_animation_unreal'
     widget = LoadUnrealAnimationWidget
+
 
 # Geometry
 class LoadUnrealGeometryWidget(LoadUnrealWidget):
@@ -191,18 +215,20 @@ class LoadUnrealGeometryWidget(LoadUnrealWidget):
         'UpdateExistingAsset': {
             'type': 'checkbox',
             'label': 'Update existing assets:',
-            'default': True
+            'default': True,
         },
         'ImportMaterial': {
             'type': 'checkbox',
             'label': 'Import material:',
-            'default': True
-        }
+            'default': True,
+        },
     }
+
 
 class LoadUnrealGeometryPluginWidget(plugin.LoaderImporterUnrealWidget):
     plugin_name = 'load_geometry_unreal'
     widget = LoadUnrealGeometryWidget
+
 
 # Image sequence
 class LoadUnrealImageSequenceWidget(LoadUnrealWidget):
@@ -210,9 +236,10 @@ class LoadUnrealImageSequenceWidget(LoadUnrealWidget):
         'OverrideExisting': {
             'type': 'checkbox',
             'label': 'Override existing assets:',
-            'default': True
+            'default': True,
         }
     }
+
 
 class LoadUnrealImageSequencePluginWidget(plugin.LoaderImporterUnrealWidget):
     plugin_name = 'load_image_sequence_unreal'

@@ -12,19 +12,30 @@ import ftrack_api
 
 
 class FbxOptionsWidget(DynamicWidget):
-
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
 
         self.options_cb = {}
 
         super(FbxOptionsWidget, self).__init__(
             parent=parent,
-            session=session, data=data, name=name,
-            description=description, options=options,
-            context_id=context_id, asset_type_name=asset_type_name)
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+        )
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -44,7 +55,7 @@ class FbxOptionsWidget(DynamicWidget):
             'FBXExportCameras',
             'FBXExportLights',
             'FBXExportConstraints',
-            'FBXExportEmbeddedTextures'
+            'FBXExportEmbeddedTextures',
         ]
 
         self.option_group = QtWidgets.QGroupBox('FBX Output Options')

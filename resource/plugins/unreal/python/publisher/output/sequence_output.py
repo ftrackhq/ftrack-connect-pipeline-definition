@@ -6,8 +6,9 @@ import sys
 import subprocess
 
 from ftrack_connect_pipeline_unreal_engine import plugin
-from ftrack_connect_pipeline_unreal_engine.utils import custom_commands as \
-    unreal_utils
+from ftrack_connect_pipeline_unreal_engine.utils import (
+    custom_commands as unreal_utils,
+)
 
 import ftrack_api
 
@@ -85,7 +86,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
 
             cmdline_args.append("-game")
             cmdline_args.append(
-                '-MovieSceneCaptureType=/Script/MovieSceneCapture.'\
+                '-MovieSceneCaptureType=/Script/MovieSceneCapture.'
                 'AutomatedLevelSequenceCapture'
             )
             cmdline_args.append("-ForceRes")
@@ -140,15 +141,16 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
         # contain spaces and we don't want those to be quoted
         envs = os.environ.copy()
         envs.update({'FTRACK_CONNECT_DISABLE_INTEGRATION_LOAD': '1'})
-        subprocess.call(' '.join(cmdline_args), env = envs)
+        subprocess.call(' '.join(cmdline_args), env=envs)
 
         return os.path.isfile(output_filepath), output_filepath
+
 
 class OutputUnrealSequencePlugin(OutputUnrealPlugin):
     plugin_name = 'sequence_output'
 
     def run(self, context_data=None, data=None, options=None):
-        ''' Render an image sequence '''
+        '''Render an image sequence'''
         component_name = options['component_name']
         collected_objects = []
         for collector in data:
@@ -160,7 +162,8 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith(
-                        '{}_'.format(seq.get_name())):
+                    '{}_'.format(seq.get_name())
+                ):
                     master_sequence = seq
                     break
             if master_sequence:
@@ -174,7 +177,8 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
         unreal_asset_path = master_sequence.get_path_name()
 
         asset_name = self._standard_structure.sanitise_for_filesystem(
-            context_data['asset_name'])
+            context_data['asset_name']
+        )
 
         # Publish Component: image_sequence
 
@@ -199,6 +203,7 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
 
         return [new_file_path]
 
+
 class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
     plugin_name = 'reviewable_output'
 
@@ -213,7 +218,8 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         for seq_name in collected_objects:
             for seq in all_sequences:
                 if seq.get_name() == seq_name or seq_name.startswith(
-                        '{}_'.format(seq.get_name())):
+                    '{}_'.format(seq.get_name())
+                ):
                     master_sequence = seq
                     break
             if master_sequence:
@@ -227,9 +233,10 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         unreal_asset_path = master_sequence.get_path_name()
 
         asset_name = self._standard_structure.sanitise_for_filesystem(
-            context_data['asset_name'])
+            context_data['asset_name']
+        )
 
-        movie_name ='{}_reviewable'.format(asset_name)
+        movie_name = '{}_reviewable'.format(asset_name)
         rendered, path = self._render(
             dest_folder,
             unreal_map_path,
@@ -239,6 +246,7 @@ class OutputUnrealReviewablePlugin(OutputUnrealPlugin):
         )
 
         return [path]
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

@@ -38,7 +38,7 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
 
         first = str(int(write_node['first'].getValue()))
         last = str(int(write_node['last'].getValue()))
-        digit_len = int(len(last)+1)
+        digit_len = int(len(last) + 1)
 
         temp_seq_path = '{}.%0{}d.{}'.format(
             temp_name.name, digit_len, selected_file_format
@@ -47,7 +47,7 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
             '{} [{}-{}]'.format(temp_seq_path, first, last)
         )
 
-        write_node['file'].setValue(temp_seq_path.replace('\\','/'))
+        write_node['file'].setValue(temp_seq_path.replace('\\', '/'))
 
         write_node['file_type'].setValue(selected_file_format)
         if selected_file_format == default_file_format:
@@ -59,9 +59,9 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
 
         component_name = options['component_name']
 
-        #delete temporal write node
+        # delete temporal write node
         nuke.delete(write_node)
-        #restore selection
+        # restore selection
         nuke_utils.cleanSelection()
         for node in selected_nodes:
             node['selected'].setValue(True)

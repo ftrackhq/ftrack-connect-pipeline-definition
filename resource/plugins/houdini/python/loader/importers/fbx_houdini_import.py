@@ -21,7 +21,9 @@ class FBXHoudiniImportPlugin(plugin.LoaderImporterHoudiniPlugin):
             self.logger.debug('Importing path {}'.format(component_path))
 
             (node, import_messages) = hou.hipFile.importFBX(component_path)
-            self.logger.debug('FBX import messages: {}'.format(import_messages))
+            self.logger.debug(
+                'FBX import messages: {}'.format(import_messages)
+            )
 
             results[component_path] = node.path()
 

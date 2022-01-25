@@ -33,4 +33,3 @@ def register(api_object, **kw):
         return
     plugin = CollectCameraHoudiniPlugin(api_object)
     plugin.register()
-

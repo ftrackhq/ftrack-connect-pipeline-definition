@@ -32,7 +32,6 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
             write_node = nuke.createNode('Write')
             write_node.setInput(0, input_node)
 
-
         # node_name = data[0]
         # write_node = nuke.toNode(node_name)
 
@@ -50,7 +49,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
         # Create a new write_node.
         review_node = nuke.createNode('Write')
         review_node.setInput(0, w_input_node)
-        review_node['file'].setValue(temp_review_mov.replace('\\','/'))
+        review_node['file'].setValue(temp_review_mov.replace('\\', '/'))
         review_node['file_type'].setValue('mov')
         review_node['mov64_codec'].setValue('png')
 

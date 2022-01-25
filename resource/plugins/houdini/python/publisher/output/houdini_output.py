@@ -19,39 +19,47 @@ class OutputHoudiniScenePlugin(plugin.PublisherOutputHoudiniPlugin):
     def run(self, context_data=None, data=None, options=None):
 
         new_file_path = tempfile.NamedTemporaryFile(
-            delete=False,
-            suffix=self.extension
+            delete=False, suffix=self.extension
         ).name
 
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        if os.path.isfile(collected_objects[0]) or \
-                collected_objects[0].endswith('.hip'):
+        if os.path.isfile(collected_objects[0]) or collected_objects[
+            0
+        ].endswith('.hip'):
             # Export entire scene
             hou.hipFile.save(new_file_path)
         else:
             # Export selected
-            hou.copyNodesToClipboard([hou.node(obj_path) for obj_path in
-                                      collected_objects])
+            hou.copyNodesToClipboard(
+                [hou.node(obj_path) for obj_path in collected_objects]
+            )
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
                             hou.hipFile.save('{}')".format(
-                new_file_path.replace("\\", "\\\\"))
+                new_file_path.replace("\\", "\\\\")
+            )
 
-            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c',
-                   command]
+            cmd = [
+                os.path.join(os.getenv('HFS'), 'bin', 'hython'),
+                '-c',
+                command,
+            ]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
 
-            self.logger.debug('Exporting scene with command: "{}".'.format(cmd))
+            self.logger.debug(
+                'Exporting scene with command: "{}".'.format(cmd)
+            )
 
             subprocess.Popen(cmd, env=my_env)
 
         return [new_file_path]
+
 
 class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
     plugin_name = 'houdini_nodes_output'
@@ -62,8 +70,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
         component_name = options['component_name']
 
         new_file_path = tempfile.NamedTemporaryFile(
-            delete=False,
-            suffix=self.extension
+            delete=False, suffix=self.extension
         ).name
 
         collected_objects = []
@@ -76,22 +83,28 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
             hou.hipFile.save(new_file_path)
         else:
 
-            hou.copyNodesToClipboard([hou.node(obj_path)
-                                      for obj_path in collected_objects])
+            hou.copyNodesToClipboard(
+                [hou.node(obj_path) for obj_path in collected_objects]
+            )
 
             command = "hou.pasteNodesFromClipboard(hou.node('/obj'));\
-                            hou.hipFile.save('{}')" .format(
-                new_file_path.replace("\\","\\\\"))
+                            hou.hipFile.save('{}')".format(
+                new_file_path.replace("\\", "\\\\")
+            )
 
-            cmd = [os.path.join(os.getenv('HFS'), 'bin', 'hython'), '-c',
-                   command]
+            cmd = [
+                os.path.join(os.getenv('HFS'), 'bin', 'hython'),
+                '-c',
+                command,
+            ]
 
             my_env = os.environ.copy()
             if 'HOUDINI_PATH' in my_env:
                 del my_env['HOUDINI_PATH']
 
-            self.logger.debug('Exporting selected nodes with command: '
-                             '"{}".'.format(cmd))
+            self.logger.debug(
+                'Exporting selected nodes with command: ' '"{}".'.format(cmd)
+            )
 
             result = subprocess.Popen(cmd, env=my_env)
             result.communicate()
@@ -99,6 +112,7 @@ class OutputHoudiniNodesPlugin(plugin.PublisherOutputHoudiniPlugin):
                 raise Exception('Houdini selected nodes scene export failed!')
 
         return [new_file_path]
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):

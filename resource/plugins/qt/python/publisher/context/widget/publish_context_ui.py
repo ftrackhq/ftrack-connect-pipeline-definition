@@ -2,10 +2,9 @@
 # :copyright: Copyright (c) 2019 ftrack
 
 from ftrack_connect_pipeline_qt import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import (
-    context as context_widget
-)
+from ftrack_connect_pipeline_qt.plugin.widgets import context as context_widget
 import ftrack_api
+
 
 class ContextWidget(plugin.PublisherContextWidget):
     plugin_name = 'context.publish'

@@ -13,21 +13,35 @@ import ftrack_api
 
 class FileCollectorWidget(BaseOptionsWidget):
     '''Main class to represent a context widget on a publish process'''
-    #We are enabling the run button for this single widget
+
+    # We are enabling the run button for this single widget
     enable_run_plugin = True
 
     def __init__(
-            self, parent=None, context_id=None, asset_type_name=None, session=None,
-            data=None, name=None, description=None, options=None
+        self,
+        parent=None,
+        context_id=None,
+        asset_type_name=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
     ):
         '''initialise FileCollectorWidget with *parent*, *session*, *data*,
         *name*, *description*, *options*
         '''
         super(FileCollectorWidget, self).__init__(
-            parent=parent, context_id=context_id, asset_type_name=asset_type_name, session=session,
-            data=data, name=name, description=description, options=options
+            parent=parent,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
         )
-        #We add a new button to fetch the data, we could also override the run_
+        # We add a new button to fetch the data, we could also override the run_
         # build bunction or simply add a new button whatever we want, calling
         # the self.on_run_plugin() function
         self.fetch_build()
@@ -35,6 +49,9 @@ class FileCollectorWidget(BaseOptionsWidget):
     def build(self):
         '''build function widgets.'''
         super(FileCollectorWidget, self).build()
+
+        self._summary_widget = QtWidgets.QLabel()
+        self.layout().addWidget(self._summary_widget)
 
         current_path = self.options.get('path')
 
@@ -44,7 +61,8 @@ class FileCollectorWidget(BaseOptionsWidget):
 
         label = QtWidgets.QLabel('path')
         self.line_edit = QtWidgets.QLineEdit(current_path)
-        self.browser_button = QtWidgets.QPushButton('Browse')
+        self.browser_button = QtWidgets.QPushButton('BROWSE')
+        self.browser_button.setObjectName('borderless')
 
         widget_layout.addWidget(label)
         widget_layout.addWidget(self.line_edit)
@@ -53,6 +71,8 @@ class FileCollectorWidget(BaseOptionsWidget):
 
         self.file_selector = QtWidgets.QFileDialog()
         self.file_selector.setFileMode(QtWidgets.QFileDialog.ExistingFile)
+
+        self.report_input()
 
     def post_build(self):
         '''hook events'''
@@ -63,20 +83,21 @@ class FileCollectorWidget(BaseOptionsWidget):
 
     def fetch_build(self):
         '''post build function , mostly used connect widgets events.'''
-        self.fetch_plugin_button = QtWidgets.QPushButton('fetch')
+        self.fetch_plugin_button = QtWidgets.QPushButton('FETCH')
+        self.fetch_plugin_button.setObjectName('borderless')
         self.fetch_plugin_button.clicked.connect(
             partial(self.on_run_plugin, 'fetch')
         )
         self.layout().addWidget(self.fetch_plugin_button)
 
     def on_fetch_callback(self, result):
-        ''' This function is called by the _set_internal_run_result function of
+        '''This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
         self.line_edit.clear()
         self.line_edit.setText(result)
 
     def _show_file_dialog(self):
-        ''' Shows the file dialog'''
+        '''Shows the file dialog'''
         self.file_selector.show()
 
     def _on_select_file(self, path):
@@ -89,6 +110,20 @@ class FileCollectorWidget(BaseOptionsWidget):
         '''Updates the options dictionary with provided *path* when
         textChanged of line_edit event is triggered'''
         self.set_option_result(path, key='path')
+        self.report_input()
+
+    def report_input(self):
+        '''Override'''
+        path = self.options.get('path')
+        message = ''
+        status = False
+        num_objects = 1 if len(path or '') > 0 else 0
+        if num_objects > 0:
+            message = '{} item{} selected'.format(
+                num_objects, 's' if num_objects > 1 else ''
+            )
+            status = True
+        self.input_changed.emit({'status': status, 'message': message})
 
 
 class CollectorWidget(plugin.PublisherCollectorWidget):

@@ -33,12 +33,12 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
             unique_name = nuke_utils.get_unique_scene_name(
                 '{}_{}'.format(
                     asset_info_class[asset_const.ASSET_NAME],
-                    asset_info_class[asset_const.COMPONENT_NAME]
+                    asset_info_class[asset_const.COMPONENT_NAME],
                 )
             )
             resulting_node['name'].setValue(unique_name)
             resulting_node['file'].fromUserText(component_path)
-            #Todo: Set start end frames from ftrack
+            # Todo: Set start end frames from ftrack
 
             results[component_path] = resulting_node.name()
 

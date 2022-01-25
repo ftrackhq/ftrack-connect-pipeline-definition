@@ -6,6 +6,7 @@ import os
 
 from ftrack_connect_pipeline_nuke import plugin
 
+
 class FileExistsValidatorPlugin(plugin.PublisherValidatorNukePlugin):
     plugin_name = 'file_exists'
 

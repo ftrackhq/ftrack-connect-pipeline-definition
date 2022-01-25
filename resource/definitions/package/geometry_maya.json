@@ -4,18 +4,26 @@
     "asset_type_name": "geo",
     "components":[
         {
-            "name": "mayaBinary"
+            "name": "mayaBinaryScene"
+        },
+        {
+            "name": "mayaAsciiScene",
+            "required": false
+        },
+        {
+            "name": "mayaBinary",
+            "required": false
         },
         {
             "name": "mayaAscii",
             "required": false
         },
         {
-            "name": "fbx",
-            "required": false
+            "name": "alembic"
         },
         {
-            "name": "alembic"
+            "name": "fbx",
+            "required": false
         },
         {
             "name": "thumbnail",

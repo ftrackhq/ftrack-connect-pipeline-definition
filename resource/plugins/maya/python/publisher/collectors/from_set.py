@@ -22,4 +22,3 @@ def register(api_object, **kw):
         return
     plugin = CollectFromSetMayaPlugin(api_object)
     plugin.register()
-

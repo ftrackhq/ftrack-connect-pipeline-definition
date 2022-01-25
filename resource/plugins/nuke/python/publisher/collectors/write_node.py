@@ -29,4 +29,3 @@ def register(api_object, **kw):
         return
     plugin = CollectWriteNodeNukePlugin(api_object)
     plugin.register()
-

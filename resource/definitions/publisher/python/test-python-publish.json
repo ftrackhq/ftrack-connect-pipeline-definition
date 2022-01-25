@@ -65,6 +65,7 @@
     },
     {
       "name": "thumbnail",
+      "optional": true,
       "stages": [
         {
           "name": "collector",

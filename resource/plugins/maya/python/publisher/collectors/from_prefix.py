@@ -25,4 +25,3 @@ def register(api_object, **kw):
         return
     plugin = CollectFromPrefixMayaPlugin(api_object)
     plugin.register()
-

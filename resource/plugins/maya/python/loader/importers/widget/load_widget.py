@@ -3,7 +3,7 @@
 
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
-    LoadBaseWidget
+    LoadBaseWidget,
 )
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 
@@ -15,13 +15,25 @@ class LoadMayaWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
-            self, parent=None, session=None, data=None, name=None,
-            description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
         super(LoadMayaWidget, self).__init__(
-            parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_id=context_id,
-            asset_type_name=asset_type_name
+            parent=parent,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
         )
 
     def build(self):

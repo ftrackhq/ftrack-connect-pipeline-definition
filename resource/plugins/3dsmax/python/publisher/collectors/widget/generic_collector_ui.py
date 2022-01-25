@@ -2,7 +2,9 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 from ftrack_connect_pipeline_3dsmax import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.base_collector_widget import BaseCollectorWidget
+from ftrack_connect_pipeline_qt.plugin.widgets.base_collector_widget import (
+    BaseCollectorWidget,
+)
 
 import ftrack_api
 
@@ -12,13 +14,25 @@ class GenericCollectorWidget(BaseCollectorWidget):
     auto_fetch_on_init = True
 
     def __init__(
-        self, parent=None, session=None, data=None, name=None,
-        description=None, options=None, context_id=None, asset_type_name=None
+        self,
+        parent=None,
+        session=None,
+        data=None,
+        name=None,
+        description=None,
+        options=None,
+        context_id=None,
+        asset_type_name=None,
     ):
         super(GenericCollectorWidget, self).__init__(
-            parent=parent, session=session, data=data, name=name,
-            description=description, options=options, context_id=context_id,
-            asset_type_name=asset_type_name
+            parent=parent,
+            session=session,
+            data=data,
+            name=name,
+            description=description,
+            options=options,
+            context_id=context_id,
+            asset_type_name=asset_type_name,
         )
 
 
