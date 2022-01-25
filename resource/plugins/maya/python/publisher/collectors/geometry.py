@@ -30,7 +30,7 @@ class CollectGeometryMayaPlugin(plugin.PublisherCollectorMayaPlugin):
         collected_objects = []
         for obj in selected_objects:
             if not cmds.objectType(obj, isAType=check_type):
-                relatives = cmds.listRelatives(obj, f=True)
+                relatives = cmds.listRelatives(obj, ad=True, pa=True)
                 for relative in relatives:
                     if cmds.objectType(relative, isAType=check_type):
                         collected_objects.append(relative)
