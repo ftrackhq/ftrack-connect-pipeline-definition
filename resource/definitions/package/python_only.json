@@ -7,7 +7,7 @@
             "name": "main"
         },
         {
-            "name": "mayaBinaryScene",
+            "name": "mayaAsciiScene",
             "required": false
         },
         {

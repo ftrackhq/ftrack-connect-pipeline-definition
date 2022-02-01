@@ -282,13 +282,16 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
     def run(self, context_data=None, data=None, options=None):
         # Load and check supplied context
+
+        # return ({}, {'message': 'SIMULATED FAILURE'})
+
         context_id = data['context_id']
         context = self.session.query(
             'Context where id={}'.format(context_id)
         ).one()
         if context.entity_type != 'Task':
             return (
-                False,
+                {},
                 {'message': 'Asset resolve can only be performed on tasks!'},
             )
 
@@ -330,7 +333,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             resolver_options = options['task_types'].get('*')
             if resolver_options is None:
                 return (
-                    [],
+                    {},
                     {
                         'message': 'No asset types defined to resolve for '
                         '"{}" task type!'.format(context['type']['name'])
@@ -349,7 +352,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             }
         else:
             return (
-                False,
+                {},
                 {
                     'message': 'Do not know how to resolve task type: '
                     '"{}"'.format(context['type']['name'])
