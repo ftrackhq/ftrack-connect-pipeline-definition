@@ -62,7 +62,7 @@ class CameraCollectorWidget(BaseOptionsWidget):
 
         if not self.maya_cameras:
             self.cameras.setDisabled(True)
-            self.cameras.addItem('No Suitable Cameras found.')
+            self.cameras.addItem('No suitable cameras found.')
         else:
             self.cameras.addItems(self.maya_cameras)
 

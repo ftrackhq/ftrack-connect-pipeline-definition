@@ -288,11 +288,24 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         context_id = data['context_id']
         context = self.session.query(
             'Context where id={}'.format(context_id)
-        ).one()
-        if context.entity_type != 'Task':
+        ).first()
+        if context is None:
             return (
                 {},
-                {'message': 'Asset resolve can only be performed on tasks!'},
+                {
+                    'message': 'The context {} is now known to ftrack!'.format(
+                        context_id
+                    )
+                },
+            )
+        elif context.entity_type != 'Task':
+            return (
+                {},
+                {
+                    'message': 'Asset resolve can only be performed on tasks, not {}!'.format(
+                        context_id
+                    )
+                },
             )
 
         # Fetch all linked asset containers (contexts: shots, asset builds, sequences and so on)

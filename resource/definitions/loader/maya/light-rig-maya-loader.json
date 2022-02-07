@@ -223,7 +223,14 @@
           "plugins":[
             {
               "name": "Copy scene to working directory",
-              "plugin": "maya_finalize"
+              "plugin": "maya_finalize",
+              "mode": "open"
+            },
+            {
+              "name": "Do nothing",
+              "plugin": "finalizer_test",
+              "mode": "import",
+              "visible": false
             }
           ]
         },

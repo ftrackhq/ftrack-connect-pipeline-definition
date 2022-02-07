@@ -278,7 +278,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "postImportTest"
+              "plugin": "post_import_test"
             }
           ]
         }
@@ -295,7 +295,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizerTest"
+              "plugin": "pre_finalizer_test"
             }
           ]
         },
@@ -304,7 +304,14 @@
           "plugins":[
             {
               "name": "Copy scene to working directory",
-              "plugin": "maya_finalize"
+              "plugin": "maya_finalize",
+              "mode": "open"
+            },
+            {
+              "name": "Do nothing",
+              "plugin": "finalizer_test",
+              "mode": "import",
+              "visible": false
             }
           ]
         },

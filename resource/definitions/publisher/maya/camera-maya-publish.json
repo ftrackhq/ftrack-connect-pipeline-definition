@@ -24,6 +24,7 @@
   "components": [
     {
       "name": "mayaBinaryScene",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
