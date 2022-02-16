@@ -1,13 +1,13 @@
 {
     "name": "pythonPkg",
     "type": "package",
-    "asset_type_name": "scene",
+    "asset_type_name": "geo",
     "components":[
         {
             "name": "main"
         },
         {
-            "name": "mayaBinaryScene",
+            "name": "mayaAsciiScene",
             "required": false
         },
         {

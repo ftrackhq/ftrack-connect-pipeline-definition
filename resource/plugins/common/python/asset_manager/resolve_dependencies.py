@@ -117,8 +117,9 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     self.logger.debug(
                         '(Resolver)    Asset name exclude filter mismatch: {} '.format(asset['name']))
                     return
-
-            versions.append(latest_version)
+            # Add a dictionary, allowing further metadata to be passed with resolve at
+            # a later stage
+            versions.append({'entity':latest_version})
         else:
             self.logger.debug('(Resolver) No latest version on {}_{}.'.format(context['name'], asset['name']))
 
