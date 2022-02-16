@@ -17,45 +17,74 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             if not ctx['id'] in result_context_ids:
                 result.append(ctx)
 
-    def get_linked_contexts_recursive(self, entity, processed_entities, log_indent=1):
+    def get_linked_contexts_recursive(
+        self, entity, processed_entities, log_indent=1
+    ):
         '''Add context if it has assets property that can be resolved. Follow
         links/go upstream to recursively add further related contexts.'''
         result = []
         if entity is None or entity['id'] in processed_entities:
             return result
-        processed_entities.append(entity['id']) # Prevent cycles
-        self.logger.debug('(Resolver) {}Processing: {}()'.format(
-            ' '*(2*log_indent), entity['name'], entity['id']))
+        processed_entities.append(entity['id'])  # Prevent cycles
+        self.logger.debug(
+            '(Resolver) {}Processing: {}()'.format(
+                ' ' * (2 * log_indent), entity['name'], entity['id']
+            )
+        )
         if 'assets' in entity:
             # Can only add context that has assets
-            self.logger.debug('(Resolver) {} Considering for resolve'.format(' ' * (2 * log_indent)))
+            self.logger.debug(
+                '(Resolver) {} Considering for resolve'.format(
+                    ' ' * (2 * log_indent)
+                )
+            )
             result.append(entity)
         # Any explicit links?
         if entity.get('incoming_links') is not None:
             for entity_link in entity.get('incoming_links'):
-                self.logger.debug('(Resolver) {}traveling via incoming link from: {}'.format(
-                    ' ' * (2 * log_indent), entity_link['from']))
+                self.logger.debug(
+                    '(Resolver) {}traveling via incoming link from: {}'.format(
+                        ' ' * (2 * log_indent), entity_link['from']
+                    )
+                )
                 self.conditional_add_contexts(
                     result,
-                    self.get_linked_contexts_recursive(entity_link['from'], processed_entities, log_indent+1),
+                    self.get_linked_contexts_recursive(
+                        entity_link['from'], processed_entities, log_indent + 1
+                    ),
                 )
         # A version?
         if entity.entity_type == 'AssetVersion':
-            self.logger.debug('(Resolver) {}going to version'.format(' ' * (2 * log_indent)))
+            self.logger.debug(
+                '(Resolver) {}going to version'.format(' ' * (2 * log_indent))
+            )
             self.conditional_add_contexts(
-                result, self.get_linked_contexts_recursive(entity['task'], processed_entities, log_indent+1)
+                result,
+                self.get_linked_contexts_recursive(
+                    entity['task'], processed_entities, log_indent + 1
+                ),
             )
         # A task or asset?
         elif 'parent' in entity and entity['parent'] is not None:
-            self.logger.debug('(Resolver) {}going to parent'.format(' ' * (2 * log_indent)))
+            self.logger.debug(
+                '(Resolver) {}going to parent'.format(' ' * (2 * log_indent))
+            )
             self.conditional_add_contexts(
-                result, self.get_linked_contexts_recursive(entity['parent'], processed_entities, log_indent+1)
+                result,
+                self.get_linked_contexts_recursive(
+                    entity['parent'], processed_entities, log_indent + 1
+                ),
             )
         # Look at parent project as a last thing
         elif 'project' in entity:
-            self.logger.debug('(Resolver) {}going to parent'.format(' ' * (2 * log_indent)))
+            self.logger.debug(
+                '(Resolver) {}going to parent'.format(' ' * (2 * log_indent))
+            )
             self.conditional_add_contexts(
-                result, self.get_linked_contexts_recursive(entity['project'], processed_entities, log_indent+1)
+                result,
+                self.get_linked_contexts_recursive(
+                    entity['project'], processed_entities, log_indent + 1
+                ),
             )
         return result
 
@@ -65,10 +94,20 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         '''Filter context *ctx* and *asset* against *asset_type_option*, if they pass,
         add latest version to *versions*'''
         # We have a matching asset type, find latest version
-        latest_version = self.session.query('AssetVersion where asset.id={} and is_latest_version is true'.format(asset['id'])).first()
+        latest_version = self.session.query(
+            'AssetVersion where asset.id={} and is_latest_version is true'.format(
+                asset['id']
+            )
+        ).first()
         if latest_version:
-            self.logger.debug('(Resolver) Got latest version %s_%s_v%03d, filtering and adding.' % (
-                context['name'], latest_version['asset']['name'], latest_version['version']))
+            self.logger.debug(
+                '(Resolver) Got latest version %s_%s_v%03d, filtering and adding.'
+                % (
+                    context['name'],
+                    latest_version['asset']['name'],
+                    latest_version['version'],
+                )
+            )
             if 'task_names_include' in asset_type_option.get('filters', {}):
                 matches_all = True
                 for expression in asset_type_option['filters'][
@@ -79,7 +118,10 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if not matches_all:
                     self.logger.debug(
-                        '(Resolver)    Task name include filter mismatch: {} '.format(context['name']))
+                        '(Resolver)    Task name include filter mismatch: {} '.format(
+                            context['name']
+                        )
+                    )
                     return
             if 'task_names_exclude' in asset_type_option.get('filters', {}):
                 matches_any = False
@@ -91,7 +133,10 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if matches_any:
                     self.logger.debug(
-                        '(Resolver)    Task name exclude filter mismatch: {} '.format(context['name']))
+                        '(Resolver)    Task name exclude filter mismatch: {} '.format(
+                            context['name']
+                        )
+                    )
                     return
             if 'asset_names_include' in asset_type_option.get('filters', {}):
                 matches_all = True
@@ -103,7 +148,10 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if not matches_all:
                     self.logger.debug(
-                        '(Resolver)    Asset name include filter mismatch: {} '.format(asset['name']))
+                        '(Resolver)    Asset name include filter mismatch: {} '.format(
+                            asset['name']
+                        )
+                    )
                     return
             if 'asset_names_exclude' in asset_type_option.get('filters', {}):
                 matches_any = False
@@ -115,13 +163,20 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if matches_any:
                     self.logger.debug(
-                        '(Resolver)    Asset name exclude filter mismatch: {} '.format(asset['name']))
+                        '(Resolver)    Asset name exclude filter mismatch: {} '.format(
+                            asset['name']
+                        )
+                    )
                     return
             # Add a dictionary, allowing further metadata to be passed with resolve at
             # a later stage
-            versions.append({'entity':latest_version})
+            versions.append({'entity': latest_version})
         else:
-            self.logger.debug('(Resolver) No latest version on {}_{}.'.format(context['name'], asset['name']))
+            self.logger.debug(
+                '(Resolver) No latest version on {}_{}.'.format(
+                    context['name'], asset['name']
+                )
+            )
 
     def resolve_dependencies(self, contexts, options):
         '''Generic dependency resolve, locates latest versions from *context*,
@@ -138,7 +193,11 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     ):
                         self.logger.debug(
                             '(Resolver) {} Asset type mismatch: {}>{}.'.format(
-                                context['name'], asset['type']['name'], asset_type_option['asset_type']))
+                                context['name'],
+                                asset['type']['name'],
+                                asset_type_option['asset_type'],
+                            )
+                        )
                     else:
                         asset_type_matches = True
                         break
@@ -348,7 +407,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         {},
                         {
                             'message': 'No asset types defined to resolve for '
-                                       '"{}" task type!'.format(context['type']['name'])
+                            '"{}" task type!'.format(context['type']['name'])
                         },
                     )
 
@@ -367,11 +426,12 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     {},
                     {
                         'message': 'Do not know how to resolve task type: '
-                                   '"{}"'.format(context['type']['name'])
+                        '"{}"'.format(context['type']['name'])
                     },
                 )
         except:
             import traceback
+
             sys.stderr.write(traceback.format_exc())
             raise
 
