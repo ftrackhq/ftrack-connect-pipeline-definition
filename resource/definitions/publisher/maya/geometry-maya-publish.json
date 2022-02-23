@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "Geometry Publisher",
-  "package": "geometry_maya",
+  "asset_type": "geo",
   "host_type": "maya",
   "ui_type": "qt",
   "discoverable": ["modeling"],

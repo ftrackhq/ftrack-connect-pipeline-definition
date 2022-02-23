@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Light Rig Loader",
-  "package": "light_rig_maya",
+  "asset_type": "light",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [

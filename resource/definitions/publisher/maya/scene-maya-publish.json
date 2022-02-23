@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "Scene Publisher",
-  "package": "scene_maya",
+  "asset_type": "scene",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [

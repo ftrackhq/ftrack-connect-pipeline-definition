@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Animation Loader",
-  "package": "animation_maya",
+  "asset_type": "anim",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
@@ -204,7 +204,7 @@
         }
       ]
     },
-     {
+    {
       "name": "alembic",
       "optional": true,
       "stages": [

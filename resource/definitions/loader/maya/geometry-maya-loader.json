@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Geometry Loader",
-  "package": "geometry_maya",
+  "asset_type": "geo",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [

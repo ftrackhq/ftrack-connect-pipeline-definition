@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Scene Loader",
-  "package": "scene_maya",
+  "asset_type": "scene",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [

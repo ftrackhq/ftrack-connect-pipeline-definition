@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "Camera Publisher",
-  "package": "camera_maya",
+  "asset_type": "cam",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [

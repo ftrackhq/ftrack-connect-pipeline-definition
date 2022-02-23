@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "Rig Publisher",
-  "package": "rig_maya",
+  "asset_type": "rig",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
