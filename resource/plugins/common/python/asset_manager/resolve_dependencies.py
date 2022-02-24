@@ -99,11 +99,16 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 asset['id']
             )
         ).first()
-        if latest_version and latest_version['status']['name'].lower() == 'omitted':
+        if (
+            latest_version
+            and latest_version['status']['name'].lower() == 'omitted'
+        ):
             # Find latest version not omitted
-            latest_version = self.session.query('AssetVersion where asset.id={} and '
-            'is_latest_version is False and status.name != "Omitted" '
-            'order by version desc'.format(asset['id'])).first()
+            latest_version = self.session.query(
+                'AssetVersion where asset.id={} and '
+                'is_latest_version is False and status.name != "Omitted" '
+                'order by version desc'.format(asset['id'])
+            ).first()
         if latest_version:
             self.logger.debug(
                 '(Resolver) Got latest version %s_%s_v%03d, filtering and adding.'
