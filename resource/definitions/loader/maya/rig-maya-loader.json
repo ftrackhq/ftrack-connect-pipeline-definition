@@ -30,17 +30,15 @@
   ],
   "components": [
     {
-      "name": "mayaBinaryScene",
+      "name": "snapshot",
+      "file_formats": [".mb", ".ma"],
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".mb"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -73,7 +71,8 @@
       ]
     },
     {
-      "name": "mayaAsciiScene",
+      "name": "rig",
+      "file_formats": [".mb", ".ma"],
       "optional": true,
       "stages": [
         {
@@ -81,10 +80,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".ma"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -117,51 +113,9 @@
       ]
     },
     {
-      "name": "mayaBinary",
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".mb"]
-              }
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import paths to Maya",
-              "plugin": "load_maya",
-              "options": {
-                "load_mode": "Import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "maya",
-              "plugin": "post_import_test"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "mayaAscii",      
+      "name": "cache",
       "optional": true,
+      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -170,7 +124,52 @@
               "name": "Collect components from context",
               "plugin": "collect_from_context",
               "options": {
-                "accepted_formats": [".ma"]
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Maya",
+              "plugin": "load_maya",
+              "options": {
+                "load_mode": "Import",
+                "load_options": {
+                  "preserve_references": true,
+                  "add_namespace": true,
+                  "namespace_option": "file_name"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "maya",
+              "plugin": "post_import_test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context",
+              "options": {
+                "accepted_formats": [".fbx"]
               }
             }
           ]

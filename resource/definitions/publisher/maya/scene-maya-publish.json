@@ -1,6 +1,6 @@
 {
   "type": "publisher",
-  "name": "Snapshot Publisher",
+  "name": "Scene Publisher",
   "asset_type": "scene",
   "host_type": "maya",
   "ui_type": "qt",
@@ -51,13 +51,13 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
         }
       ]
-    },
+    }
   ],
   "finalizers": [
     {

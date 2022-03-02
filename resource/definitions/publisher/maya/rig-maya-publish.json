@@ -2,6 +2,7 @@
   "type": "publisher",
   "name": "Rig Publisher",
   "asset_type": "rig",
+  "task_type": "rigging",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
@@ -23,7 +24,7 @@
   ],
   "components": [
     {
-      "name": "mayaBinaryScene",
+      "name": "snapshot",
       "stages": [
         {
           "name": "collector",
@@ -51,7 +52,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -59,7 +60,7 @@
       ]
     },
     {
-      "name": "mayaBinary",
+      "name": "rig",
       "optional": true,
       "stages": [
         {
@@ -85,16 +86,17 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
         }
       ]
     },
-    {
-      "name": "mayaAscii",
+     {
+      "name": "cache",
       "optional": true,
+      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -118,9 +120,48 @@
           "name": "output",
           "plugins":[
             {
-              "name": "maya",
-              "plugin": "maya_ascii",
-              "widget": "maya_options"
+              "name": "alembic",
+              "plugin": "alembic",
+              "widget": "alembic_options",
+              "options": {
+                "alembicAnimation": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "optional": true,
+      "enabled": false,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "generic_collector",
+              "plugin": "generic_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nonempty"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "fbx",
+              "plugin": "fbx",
+              "widget": "fbx_options"
             }
           ]
         }

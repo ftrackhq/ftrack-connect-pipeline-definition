@@ -55,12 +55,18 @@ class MayaOptionsWidget(DynamicWidget):
         self.option_layout = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(self.option_layout)
 
-        self.layout().addWidget(self.option_group)
+        self.file_type_combo = QtWidgets.QComboBox()
+        self.file_type_combo.addItem('mayaBinary (.mb)')
+        self.file_type_combo.addItem('mayaASCII (.ma)')
+        self.option_layout.addWidget(self.file_type_combo)
+
         for option in options:
             option_check = QtWidgets.QCheckBox(option)
 
             self.options_cb[option] = option_check
             self.option_layout.addWidget(option_check)
+
+        self.layout().addWidget(self.option_group)
 
     def post_build(self):
         super(MayaOptionsWidget, self).post_build()
@@ -68,6 +74,14 @@ class MayaOptionsWidget(DynamicWidget):
         for option, widget in self.options_cb.items():
             update_fn = partial(self.set_option_result, key=option)
             widget.stateChanged.connect(update_fn)
+
+        self.file_type_combo.currentIndexChanged.connect(
+            self._on_file_type_set
+        )
+
+    def _on_file_type_set(self, text):
+        value = self.file_type_combo.currentText()
+        self.set_option_result(value.split(' ')[0], 'file_type')
 
 
 class MayaOptionsPluginWidget(plugin.PublisherOutputMayaWidget):

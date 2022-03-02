@@ -1,7 +1,8 @@
 {
   "type": "publisher",
   "name": "Light Rig Publisher",
-  "asset_type": "light",
+  "asset_type": "lgt",
+  "task_type": "lighting",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
@@ -23,7 +24,7 @@
   ],
   "components": [
     {
-      "name": "mayaBinaryScene",
+      "name": "snapshot",
       "stages": [
         {
           "name": "collector",
@@ -51,7 +52,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -59,8 +60,7 @@
       ]
     },
     {
-      "name": "mayaBinary",
-      "optional": true,
+      "name": "light_rig",
       "stages": [
         {
           "name": "collector",
@@ -85,41 +85,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
-              "widget": "maya_options"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "mayaAscii",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "generic_collector",
-              "plugin": "generic_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "is_geometry"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "output_maya",
-              "plugin": "maya_ascii",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]

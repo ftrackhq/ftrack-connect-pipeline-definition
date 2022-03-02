@@ -31,17 +31,14 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".ma", ".mb"],
+      "file_formats": [".mb", ".ma"],
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".mb"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -72,7 +69,7 @@
           ]
         }
       ]
-    },
+    }
   ],
   "finalizers": [
     {

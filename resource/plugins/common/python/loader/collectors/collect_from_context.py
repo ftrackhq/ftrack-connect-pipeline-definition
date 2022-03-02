@@ -18,20 +18,20 @@ class CollectFromContextPlugin(plugin.LoaderCollectorPlugin):
         ).one()
 
         component_name = options['component_name']
-        accepted_formats = options.get('accepted_formats', [])
+        file_formats = options.get('file_formats', [])
         location = self.session.pick_location()
         component_paths = []
         for component in asset_version_entity['components']:
             if component['name'] == component_name:
                 component_path = location.get_filesystem_path(component)
                 if (
-                    accepted_formats
+                    file_formats
                     and os.path.splitext(component_path)[-1]
-                    not in accepted_formats
+                    not in file_formats
                 ):
                     self.logger.warning(
                         '{} not among accepted format {}'.format(
-                            component_path, accepted_formats
+                            component_path, file_formats
                         )
                     )
                     continue

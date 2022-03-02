@@ -107,6 +107,10 @@
           "type": "boolean",
           "default": true
         },
+        "selected": {
+          "type": "boolean",
+          "default": true
+        },
         "visible": {
           "type": "boolean",
           "default": true
@@ -487,6 +491,12 @@
           "type": "string",
           "pattern": "^component$",
           "default": "component"
+        },
+        "file_formats": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },

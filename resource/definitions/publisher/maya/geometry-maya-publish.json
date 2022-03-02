@@ -52,7 +52,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "name": "geometry",
+      "name": "model",
       "optional": true,
       "stages": [
         {
@@ -86,7 +86,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -96,7 +96,7 @@
     {
       "name": "cache",
       "optional": true,
-      "enabled" : false,
+      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -134,7 +134,7 @@
     {
       "name": "game",
       "optional": true,
-      "enabled": false,
+      "selected": false,
       "stages": [
         {
           "name": "collector",
