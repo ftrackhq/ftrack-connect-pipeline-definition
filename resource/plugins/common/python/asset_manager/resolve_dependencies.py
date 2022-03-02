@@ -17,73 +17,79 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             if not ctx['id'] in result_context_ids:
                 result.append(ctx)
 
-    def get_linked_contexts_recursive(
-        self, entity, processed_entities, log_indent=1
-    ):
+    def get_linked_contexts_recursive(self, entity, processed_entities):
         '''Add context if it has assets property that can be resolved. Follow
         links/go upstream to recursively add further related contexts.'''
         result = []
         if entity is None or entity['id'] in processed_entities:
             return result
         processed_entities.append(entity['id'])  # Prevent cycles
+
+        # Find out entity type
+        next_entity_type = context = asset = version_nr = None
+        if entity.entity_type == 'AssetVersion':
+            next_entity_type = 'task'
+            context = entity['task']
+            asset = entity['asset']
+            version_nr = entity['version']
+        elif entity.entity_type == 'Asset':
+            next_entity_type = 'parent'
+            context = entity['parent']
+            asset = entity
+        elif 'parent' in entity and entity['parent'] is not None:
+            next_entity_type = 'parent'
+            context = entity
+        elif 'project' in entity:
+            next_entity_type = 'project'
+
+        if context:
+            link = [ctx['name'] for ctx in context['link']]
+        else:
+            link = [entity['full_name']]
+        if asset:
+            link.append(asset['name'])
+        if version_nr:
+            link.append('v{}'.format(version_nr))
+        indent = ' ' * 3 * len(link)  # Make logs easy to read
+
         self.logger.debug(
-            '(Resolver) {}Processing: {}()'.format(
-                ' ' * (2 * log_indent), entity['name'], entity['id']
+            '(Resolver) {}Processing: {}({})'.format(
+                indent, '/'.join(link), entity['id']
             )
         )
         if 'assets' in entity:
             # Can only add context that has assets
             self.logger.debug(
-                '(Resolver) {} Considering for resolve'.format(
-                    ' ' * (2 * log_indent)
-                )
+                '(Resolver) {}Considering for resolve'.format(indent)
             )
             result.append(entity)
-        # Any explicit links?
-        if entity.get('incoming_links') is not None:
-            for entity_link in entity.get('incoming_links'):
-                self.logger.debug(
-                    '(Resolver) {}traveling via incoming link from: {}'.format(
-                        ' ' * (2 * log_indent), entity_link['from']
+        # Any explicit links? Make sure to fetch updated data from backend
+        if 'incoming_links' in entity:
+            self.session.populate(entity, 'incoming_links')
+            if entity['incoming_links'] is not None:
+                for entity_link in entity.get('incoming_links'):
+                    self.logger.debug(
+                        '(Resolver) {}Traveling via incoming link from: {}'.format(
+                            indent, entity_link['from']
+                        )
                     )
+                    self.conditional_add_contexts(
+                        result,
+                        self.get_linked_contexts_recursive(
+                            entity_link['from'], processed_entities
+                        ),
+                    )
+        if next_entity_type:
+            self.logger.debug(
+                '(Resolver) {}Traveling to: {}'.format(
+                    indent, next_entity_type
                 )
-                self.conditional_add_contexts(
-                    result,
-                    self.get_linked_contexts_recursive(
-                        entity_link['from'], processed_entities, log_indent + 1
-                    ),
-                )
-        # A version?
-        if entity.entity_type == 'AssetVersion':
-            self.logger.debug(
-                '(Resolver) {}going to version'.format(' ' * (2 * log_indent))
             )
+            self.session.populate(entity, next_entity_type)
             self.conditional_add_contexts(
                 result,
                 self.get_linked_contexts_recursive(
-                    entity['task'], processed_entities, log_indent + 1
-                ),
-            )
-        # A task or asset?
-        elif 'parent' in entity and entity['parent'] is not None:
-            self.logger.debug(
-                '(Resolver) {}going to parent'.format(' ' * (2 * log_indent))
-            )
-            self.conditional_add_contexts(
-                result,
-                self.get_linked_contexts_recursive(
-                    entity['parent'], processed_entities, log_indent + 1
-                ),
-            )
-        # Look at parent project as a last thing
-        elif 'project' in entity:
-            self.logger.debug(
-                '(Resolver) {}going to parent'.format(' ' * (2 * log_indent))
-            )
-            self.conditional_add_contexts(
-                result,
-                self.get_linked_contexts_recursive(
-                    entity['project'], processed_entities, log_indent + 1
+                    entity[next_entity_type], processed_entities
                 ),
             )
         return result

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 import traceback
@@ -45,7 +45,9 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
                 'Context where id={}'.format(utils.get_current_context_id())
             ).one()
 
-            structure_names = [item['name'] for item in context['link']]
+            structure_names = [context['project']['name']] + [
+                item['name'] for item in context['link'][1:]
+            ]
 
             # Find latest version number
             next_version_number = 1
@@ -91,14 +93,55 @@ class MayaToWorkDirPlugin(plugin.LoaderFinalizerMayaPlugin):
                             )
                         },
                     )
+                # Make sure we do not overwrite existing work done
                 work_path = os.path.join(
                     work_path, '%s_v%03d' % (filename, next_version_number)
                 )
-                # Save Maya scene to this path
-                cmds.file(rename=work_path)
-                cmds.file(save=True)
-                message = 'Saved opened Maya scene @ "{}"'.format(work_path)
-                result['work_path'] = work_path
+                do_load = False
+                if os.path.exists(work_path):
+                    # Attempt to ask user
+                    try:
+                        from ftrack_connect_pipeline_qt.ui.utility.widget.dialog import (
+                            Dialog,
+                        )
+
+                        dlg = Dialog(
+                            self.get_parent_window(),
+                            title='ftrack Maya Open',
+                            question='Load existing ({})?'.format(
+                                os.path.basename(work_path)
+                            ),
+                            prompt=True,
+                        )
+                        if dlg.exec_():
+                            do_load = True
+
+                    except ImportError:
+                        self.logger.warning(traceback.format_exc())
+                if not do_load:
+                    while os.path.exists(work_path):
+                        self.logger.debug(
+                            'Work file exists - "{}", attempting to save next version.'.format(
+                                work_path
+                            )
+                        )
+                        next_version_number += 1
+                        work_path = os.path.join(
+                            work_path,
+                            '%s_v%03d' % (filename, next_version_number),
+                        )
+
+                    # Save Maya scene to this path
+                    cmds.file(rename=work_path)
+                    cmds.file(save=True)
+                    message = 'Saved opened Maya scene @ "{}"'.format(
+                        work_path
+                    )
+                    result['work_path'] = work_path
+                else:
+                    cmds.file(work_path, open=True, f=True)
+                    message = 'Opened Maya scene @ "{}"'.format(work_path)
+                    result['work_path'] = work_path
 
         return (result, {'message': message})
 

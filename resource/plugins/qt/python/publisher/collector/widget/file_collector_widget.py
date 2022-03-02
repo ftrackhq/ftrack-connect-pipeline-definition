@@ -123,7 +123,7 @@ class FileCollectorWidget(BaseOptionsWidget):
                 num_objects, 's' if num_objects > 1 else ''
             )
             status = True
-        self.input_changed.emit({'status': status, 'message': message})
+        self.inputChanged.emit({'status': status, 'message': message})
 
 
 class CollectorWidget(plugin.PublisherCollectorWidget):
