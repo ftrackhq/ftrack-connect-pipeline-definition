@@ -65,19 +65,6 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
 
         return [new_file_path]
 
-
-# class OutputMayaAsciiPlugin(OutputMayaPlugin):
-#     plugin_name = 'maya_ascii'
-#     extension = '.ma'
-#     filetype = 'mayaAscii'
-#
-#
-# class OutputMayaBinaryPlugin(OutputMayaPlugin):
-#     plugin_name = 'maya_binary'
-#     extension = '.mb'
-#     filetype = 'mayaBinary'
-
-
 class OutputMayaPlugin(OutputMayaPlugin):
     plugin_name = 'maya_output'
 

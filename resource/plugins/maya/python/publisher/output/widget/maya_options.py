@@ -79,7 +79,7 @@ class MayaOptionsWidget(DynamicWidget):
             self._on_file_type_set
         )
 
-    def _on_file_type_set(self, text):
+    def _on_file_type_set(self, index):
         value = self.file_type_combo.currentText()
         self.set_option_result(value.split(' ')[0], 'file_type')
 
