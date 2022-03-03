@@ -107,6 +107,10 @@
           "type": "boolean",
           "default": true
         },
+        "selected": {
+          "type": "boolean",
+          "default": true
+        },
         "visible": {
           "type": "boolean",
           "default": true
@@ -487,6 +491,12 @@
           "type": "string",
           "pattern": "^component$",
           "default": "component"
+        },
+        "file_formats": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },
@@ -560,7 +570,7 @@
   "required": [
     "name",
     "host_type",
-    "package",
+    "asset_type",
     "contexts",
     "components",
     "finalizers",
@@ -568,7 +578,7 @@
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host_type", "contexts", "components", "finalizers"
+    "type", "name", "asset_type", "host_type", "contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -580,7 +590,7 @@
       "type": "string",
       "default": null
     },
-    "package": {
+    "asset_type": {
       "type": "string",
       "default": null
     },

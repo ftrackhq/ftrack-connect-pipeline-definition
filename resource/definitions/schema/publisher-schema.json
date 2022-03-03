@@ -103,6 +103,10 @@
           "type": "boolean",
           "default": true
         },
+        "selected": {
+          "type": "boolean",
+          "default": true
+        },
         "stages": {
           "type": "array",
           "maxItems": 3,
@@ -542,7 +546,7 @@
   },
   "required": [
     "name",
-    "package",
+    "asset_type",
     "host_type",
     "contexts",
     "components",
@@ -551,7 +555,7 @@
     "_config"
   ],
   "order":[
-    "type", "name", "package", "host_type", "contexts", "components", "finalizers"
+    "type", "name", "asset_type", "task_type", "host_type", "ui_type", "discoverable" ,"contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -563,7 +567,11 @@
       "type": "string",
       "default": null
     },
-    "package": {
+    "asset_type": {
+      "type": "string",
+      "default": null
+    },
+    "task_type": {
       "type": "string",
       "default": null
     },
