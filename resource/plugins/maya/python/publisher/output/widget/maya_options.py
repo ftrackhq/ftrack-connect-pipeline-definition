@@ -50,6 +50,7 @@ class MayaOptionsWidget(DynamicWidget):
             'expressions',
         ]
         self.option_group = QtWidgets.QGroupBox('Maya Output Options')
+        self.option_group.setStyleSheet('background-color: #131920;')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()

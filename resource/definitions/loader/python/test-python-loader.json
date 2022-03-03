@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "File Loader",
-  "package": "pythonPkg",
+  "asset_type": "scene",
   "host_type": "python",
   "contexts": [
     {
@@ -30,6 +30,7 @@
   "components": [
     {
       "name": "main",
+      "file_formats": [".zip"],
       "stages": [
         {
           "name": "collector",
@@ -40,10 +41,7 @@
             },
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".zip"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -72,7 +70,8 @@
       ]
     },
     {
-      "name": "mayaBinary",
+      "name": "animation",
+      "file_formats": [".ma",".mb"],
       "stages": [
         {
           "name": "collector",
@@ -83,10 +82,7 @@
             },
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".mb"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },

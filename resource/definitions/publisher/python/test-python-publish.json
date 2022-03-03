@@ -1,7 +1,8 @@
 {
   "type": "publisher",
   "name": "File Publisher",
-  "package": "pythonPkg",
+  "asset_type": "scene",
+  "task_type": "animation",
   "host_type": "python",
   "contexts": [
     {
@@ -16,7 +17,7 @@
               "widget": "context.publish",
               "options": {
                 "context_id": "690afd58-06d0-11ea-bbbb-ee594985c7e2",
-                "asset_name": "testFrompythonConsole",
+                "asset_name": "testFromPythonConsole",
                 "comment": "Nothing to comment",
                 "status_id": "44dd9fb2-4164-11df-9218-0019bb4983d8"
               }
