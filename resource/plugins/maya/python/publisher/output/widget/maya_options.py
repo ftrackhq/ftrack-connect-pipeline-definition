@@ -57,7 +57,7 @@ class MayaOptionsWidget(DynamicWidget):
 
         self.file_type_combo = QtWidgets.QComboBox()
         self.file_type_combo.addItem('mayaBinary (.mb)')
-        self.file_type_combo.addItem('mayaASCII (.ma)')
+        self.file_type_combo.addItem('mayaAscii (.ma)')
         self.option_layout.addWidget(self.file_type_combo)
 
         for option in options:

@@ -4,10 +4,7 @@
   "asset_type": "geo",
   "host_type": "maya",
   "ui_type": "qt",
-<<<<<<< HEAD
-=======
   "task_type": "modeling",
->>>>>>> backlog/connect-2/ux/story
   "contexts": [
     {
       "name": "main",
@@ -70,8 +67,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "generic_collector",
-              "plugin": "generic_collector"
+              "name": "Geometry Collector",
+              "plugin": "geometry_collector"
             }
           ]
         },

@@ -1,10 +1,10 @@
 {
   "type": "publisher",
   "name": "Animation Publisher",
-  "package": "animation_maya",
+  "asset_type": "anim",
   "host_type": "maya",
   "ui_type": "qt",
-  "discoverable": ["animation"],
+  "task_type": "animation",
   "contexts": [
     {
       "name": "main",
@@ -24,7 +24,7 @@
   ],
   "components": [
     {
-      "name": "mayaBinaryScene",
+      "name": "snapshot",
       "stages": [
         {
           "name": "collector",
@@ -52,7 +52,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "name": "mayaBinary",
+      "name": "animation",
       "optional": true,
       "stages": [
         {
@@ -87,7 +87,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -95,42 +95,7 @@
       ]
     },
     {
-      "name": "mayaAscii",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "is_geometry"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "output_maya",
-              "plugin": "maya_ascii",
-              "widget": "maya_options"
-            }
-          ]
-        }
-      ]
-    },
-     {
-      "name": "alembic",
+      "name": "cache",
       "optional": true,
       "stages": [
         {
@@ -167,7 +132,7 @@
       ]
     },
     {
-      "name": "fbx",
+      "name": "game",
       "optional": true,
       "stages": [
         {

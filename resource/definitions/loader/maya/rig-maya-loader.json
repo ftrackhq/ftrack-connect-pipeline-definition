@@ -114,6 +114,7 @@
     },
     {
       "name": "cache",
+      "file_formats": [".abc"],
       "optional": true,
       "selected": false,
       "stages": [
@@ -122,10 +123,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".abc"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -159,6 +157,7 @@
     },
     {
       "name": "game",
+      "file_formats": [".fbx"],
       "optional": true,
       "selected": false,
       "stages": [
@@ -167,10 +166,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".fbx"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },

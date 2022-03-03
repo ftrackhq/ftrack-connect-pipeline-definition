@@ -65,6 +65,7 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
 
         return [new_file_path]
 
+
 class OutputMayaPlugin(OutputMayaPlugin):
     plugin_name = 'maya_output'
 
