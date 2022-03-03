@@ -33,7 +33,9 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
         }
 
     def run(self, context_data=None, data=None, options=None):
-        component_name = options['component_name']
+
+        self.filetype = options.get('file_type') or 'mayaBinary'
+        self.extension = '.mb' if self.filetype is 'mayaBinary' else '.ma'
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix=self.extension
@@ -63,24 +65,13 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
 
         return [new_file_path]
 
-
-class OutputMayaAsciiPlugin(OutputMayaPlugin):
-    plugin_name = 'maya_ascii'
-    extension = '.ma'
-    filetype = 'mayaAscii'
-
-
-class OutputMayaBinaryPlugin(OutputMayaPlugin):
-    plugin_name = 'maya_binary'
-    extension = '.mb'
-    filetype = 'mayaBinary'
+class OutputMayaPlugin(OutputMayaPlugin):
+    plugin_name = 'maya_output'
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    ma_plugin = OutputMayaAsciiPlugin(api_object)
-    mb_plugin = OutputMayaBinaryPlugin(api_object)
-    ma_plugin.register()
-    mb_plugin.register()
+    output_plugin = OutputMayaPlugin(api_object)
+    output_plugin.register()

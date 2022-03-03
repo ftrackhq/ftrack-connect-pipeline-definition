@@ -1,7 +1,7 @@
 {
   "type": "loader",
   "name": "Scene Loader",
-  "package": "scene_maya",
+  "asset_type": "scene",
   "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
@@ -30,61 +30,15 @@
   ],
   "components": [
     {
-      "name": "mayaBinaryScene",
+      "name": "snapshot",
+      "file_formats": [".mb", ".ma"],
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".mb"]
-              }
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import paths to Maya",
-              "plugin": "load_maya",
-              "options": {
-                "load_mode": "Import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "maya",
-              "plugin": "post_import_test"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "mayaAsciiScene",      
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".ma"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },

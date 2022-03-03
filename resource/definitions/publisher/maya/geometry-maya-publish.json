@@ -1,10 +1,10 @@
 {
   "type": "publisher",
   "name": "Geometry Publisher",
-  "package": "geometry_maya",
+  "asset_type": "geo",
   "host_type": "maya",
   "ui_type": "qt",
-  "discoverable": ["modeling"],
+  "task_type": "modeling",
   "contexts": [
     {
       "name": "main",
@@ -24,7 +24,7 @@
   ],
   "components": [
     {
-      "name": "mayaBinaryScene",
+      "name": "snapshot",
       "stages": [
         {
           "name": "collector",
@@ -52,7 +52,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -60,16 +60,15 @@
       ]
     },
     {
-      "name": "mayaBinary",
+      "name": "model",
       "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
+              "name": "generic_collector",
+              "plugin": "generic_collector"
             }
           ]
         },
@@ -78,7 +77,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "is_geometry"
+              "plugin": "nonempty"
             }
           ]
         },
@@ -87,7 +86,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_binary",
+              "plugin": "maya_output",
               "widget": "maya_options"
             }
           ]
@@ -95,43 +94,9 @@
       ]
     },
     {
-      "name": "mayaAscii",
+      "name": "cache",
       "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Geometry Collector",
-              "plugin": "geometry_collector",
-              "widget": "geometry_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "is_geometry"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "output_maya",
-              "plugin": "maya_ascii",
-              "widget": "maya_options"
-            }
-          ]
-        }
-      ]
-    },
-     {
-      "name": "alembic",
-      "optional": true,
+      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -167,8 +132,9 @@
       ]
     },
     {
-      "name": "fbx",
+      "name": "game",
       "optional": true,
+      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -202,6 +168,7 @@
     },
     {
       "name": "thumbnail",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -238,6 +205,7 @@
     },
     {
       "name": "reviewable",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
