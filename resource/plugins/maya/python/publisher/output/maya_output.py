@@ -6,6 +6,8 @@ import os
 
 import maya.cmds as cmds
 
+from ftrack_connect_pipeline import utils
+from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
@@ -46,15 +48,28 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             collected_objects.extend(collector['result'])
 
         if os.path.isfile(collected_objects[0]):
+            # Save entire scene
             options = {'typ': self.filetype, 'save': True}
             scene_name = cmds.file(q=True, sceneName=True)
+            if len(scene_name or '') == 0:
+                # Scene is not saved, save it first.
+                self.logger.warning('Maya not saved, saving local snapshot..')
+                work_path, message = maya_utils.save_snapshot(
+                    None,
+                    utils.get_current_context_id(),
+                    self.session,
+                    ask_load=False,
+                )
+                if not message is None:
+                    self.logger.info(message)
+                scene_name = cmds.file(q=True, sceneName=True)
+
             cmds.file(rename=new_file_path)
             cmds.file(**options)
             cmds.file(rename=scene_name)
         else:
-
+            # Export a subset of the scene
             options = self.extract_options(options)
-
             self.logger.debug(
                 'Calling output options: data {}. options {}'.format(
                     collected_objects, options
