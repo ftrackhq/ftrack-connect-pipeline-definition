@@ -52,7 +52,8 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             options = {'typ': self.filetype, 'save': True}
             scene_name = cmds.file(q=True, sceneName=True)
             if len(scene_name or '') == 0:
-                # Scene is not saved, save it first.
+                # Scene is not saved, save it first. Should have been taken
+                # care of by scene collector.
                 self.logger.warning('Maya not saved, saving local snapshot..')
                 work_path, message = maya_utils.save_snapshot(
                     None,
