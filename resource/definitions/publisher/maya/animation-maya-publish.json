@@ -1,10 +1,10 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
-  "asset_type": "geo",
+  "name": "Animation Publisher",
+  "asset_type": "anim",
   "host_type": "maya",
   "ui_type": "qt",
-  "task_type": "modeling",
+  "task_type": "animation",
   "contexts": [
     {
       "name": "main",
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "name": "model",
+      "name": "animation",
       "optional": true,
       "stages": [
         {
@@ -68,7 +68,8 @@
           "plugins":[
             {
               "name": "Geometry Collector",
-              "plugin": "geometry_collector"
+              "plugin": "geometry_collector",
+              "widget": "geometry_collector"
             }
           ]
         },
@@ -77,7 +78,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "is_geometry"
             }
           ]
         },
@@ -96,7 +97,6 @@
     {
       "name": "cache",
       "optional": true,
-      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -134,7 +134,6 @@
     {
       "name": "game",
       "optional": true,
-      "selected": false,
       "stages": [
         {
           "name": "collector",
@@ -168,7 +167,6 @@
     },
     {
       "name": "thumbnail",
-      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -205,7 +203,6 @@
     },
     {
       "name": "reviewable",
-      "optional": true,
       "stages": [
         {
           "name": "collector",

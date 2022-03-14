@@ -50,6 +50,7 @@ class MayaOptionsWidget(DynamicWidget):
             'expressions',
         ]
         self.option_group = QtWidgets.QGroupBox('Maya Output Options')
+        self.option_group.setStyleSheet('background-color: #131920;')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
@@ -57,7 +58,7 @@ class MayaOptionsWidget(DynamicWidget):
 
         self.file_type_combo = QtWidgets.QComboBox()
         self.file_type_combo.addItem('mayaBinary (.mb)')
-        self.file_type_combo.addItem('mayaASCII (.ma)')
+        self.file_type_combo.addItem('mayaAscii (.ma)')
         self.option_layout.addWidget(self.file_type_combo)
 
         for option in options:

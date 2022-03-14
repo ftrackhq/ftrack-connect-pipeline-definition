@@ -17,95 +17,185 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             if not ctx['id'] in result_context_ids:
                 result.append(ctx)
 
-    def get_linked_contexts_recursive(
-        self, entity, processed_entities, log_indent=1
-    ):
+    def get_linked_contexts_recursive(self, entity, processed_entities):
         '''Add context if it has assets property that can be resolved. Follow
         links/go upstream to recursively add further related contexts.'''
         result = []
         if entity is None or entity['id'] in processed_entities:
             return result
         processed_entities.append(entity['id'])  # Prevent cycles
+
+        # Find out entity type
+        next_entity_type = context = asset = version_nr = None
+        if entity.entity_type == 'AssetVersion':
+            next_entity_type = 'task'
+            context = entity['task']
+            asset = entity['asset']
+            version_nr = entity['version']
+        elif entity.entity_type == 'Asset':
+            next_entity_type = 'parent'
+            context = entity['parent']
+            asset = entity
+        elif 'parent' in entity and entity['parent'] is not None:
+            next_entity_type = 'parent'
+            context = entity
+        elif 'project' in entity:
+            next_entity_type = 'project'
+
+        if context:
+            link = [ctx['name'] for ctx in context['link']]
+        else:
+            link = [entity['full_name']]
+        if asset:
+            link.append(asset['name'])
+        if version_nr:
+            link.append('v{}'.format(version_nr))
+        indent = ' ' * 3 * len(link)  # Make logs easy to read
+
         self.logger.debug(
-            '(Resolver) {}Processing: {}()'.format(
-                ' ' * (2 * log_indent), entity['name'], entity['id']
+            '(Resolver) {}Processing: {}({})'.format(
+                indent, '/'.join(link), entity['id']
             )
         )
         if 'assets' in entity:
             # Can only add context that has assets
             self.logger.debug(
-                '(Resolver) {} Considering for resolve'.format(
-                    ' ' * (2 * log_indent)
-                )
+                '(Resolver) {}Considering for resolve'.format(indent)
             )
             result.append(entity)
-        # Any explicit links?
-        if entity.get('incoming_links') is not None:
-            for entity_link in entity.get('incoming_links'):
-                self.logger.debug(
-                    '(Resolver) {}traveling via incoming link from: {}'.format(
-                        ' ' * (2 * log_indent), entity_link['from']
+        # Any explicit links? Make sure to fetch updated data from backend
+        if 'incoming_links' in entity:
+            self.session.populate(entity, 'incoming_links')
+            if entity['incoming_links'] is not None:
+                for entity_link in entity.get('incoming_links'):
+                    self.logger.debug(
+                        '(Resolver) {}Traveling via incoming link from: {}'.format(
+                            indent, entity_link['from']
+                        )
                     )
+                    self.conditional_add_contexts(
+                        result,
+                        self.get_linked_contexts_recursive(
+                            entity_link['from'], processed_entities
+                        ),
+                    )
+        if next_entity_type:
+            self.logger.debug(
+                '(Resolver) {}Traveling to: {}'.format(
+                    indent, next_entity_type
                 )
-                self.conditional_add_contexts(
-                    result,
-                    self.get_linked_contexts_recursive(
-                        entity_link['from'], processed_entities, log_indent + 1
-                    ),
-                )
-        # A version?
-        if entity.entity_type == 'AssetVersion':
-            self.logger.debug(
-                '(Resolver) {}going to version'.format(' ' * (2 * log_indent))
             )
+            self.session.populate(entity, next_entity_type)
             self.conditional_add_contexts(
                 result,
                 self.get_linked_contexts_recursive(
-                    entity['task'], processed_entities, log_indent + 1
-                ),
-            )
-        # A task or asset?
-        elif 'parent' in entity and entity['parent'] is not None:
-            self.logger.debug(
-                '(Resolver) {}going to parent'.format(' ' * (2 * log_indent))
-            )
-            self.conditional_add_contexts(
-                result,
-                self.get_linked_contexts_recursive(
-                    entity['parent'], processed_entities, log_indent + 1
-                ),
-            )
-        # Look at parent project as a last thing
-        elif 'project' in entity:
-            self.logger.debug(
-                '(Resolver) {}going to parent'.format(' ' * (2 * log_indent))
-            )
-            self.conditional_add_contexts(
-                result,
-                self.get_linked_contexts_recursive(
-                    entity['project'], processed_entities, log_indent + 1
+                    entity[next_entity_type], processed_entities
                 ),
             )
         return result
 
+    def str_version(self, context, asset_version):
+        return '%s_%s_v%03d' % (
+            context['name'],
+            asset_version['asset']['name'],
+            asset_version['version'],
+        )
+
     def conditional_add_latest_version(
-        self, versions, context, asset, asset_type_option
+        self,
+        versions,
+        context,
+        asset,
+        asset_type_option,
     ):
         '''Filter context *ctx* and *asset* against *asset_type_option*, if they pass,
         add latest version to *versions*'''
         # We have a matching asset type, find latest version
-        latest_version = self.session.query(
-            'AssetVersion where asset.id={} and is_latest_version is true'.format(
-                asset['id']
-            )
-        ).first()
+        no_status_include_constraints = len(
+            self._status_names_include or []
+        ) == 0 or (
+            len(self._status_names_include) == 1
+            and self._status_names_include[0] == '.*'
+        )
+        no_status_exclude_constraints = len(
+            self._status_names_exclude or []
+        ) == 0 or (
+            len(self._status_names_exclude) == 1
+            and self._status_names_exclude[0] == '.^'
+        )
+        latest_version = None
+        self.session.populate(asset, 'versions')
+        if no_status_include_constraints and no_status_exclude_constraints:
+            # No version status constraints
+            latest_version = self.session.query(
+                'AssetVersion where asset.id={} and is_latest_version is true'.format(
+                    asset['id']
+                )
+            ).first()
+        elif (
+            no_status_include_constraints
+            and len(self._status_names_exclude) == 1
+            and self._status_names_exclude[0] == '^Omitted$'
+        ):
+            # Framework default, treat this special to save performance
+            latest_version = self.session.query(
+                'AssetVersion where asset.id={} and status.name != "Omitted" '
+                'order by version desc'.format(asset['id'])
+            ).first()
+        else:
+            # Find latest version by iterating versions and check statuses
+            for version in self.session.query(
+                'AssetVersion where asset.id={} '
+                'order by version desc'.format(asset['id'])
+            ):
+                # Check so it's not the calling context
+                if version['task']['id'] == self._context['id']:
+                    self.logger.debug(
+                        '(Resolver) Not considering version {} - beneath same context: {}.'.format(
+                            self.str_version(context, version),
+                            self._context['name'],
+                        )
+                    )
+                    continue
+                if len(self._status_names_include or []) > 0:
+                    include = False
+                    for status_name_include in self._status_names_include:
+                        if re.match(
+                            status_name_include, version['status']['name']
+                        ):
+                            include = True
+                            break
+                    if not include:
+                        self.logger.debug(
+                            '(Resolver) Not considering version {} - does not include status(es): {}.'.format(
+                                self.str_version(context, version),
+                                self._status_names_include,
+                            )
+                        )
+                        continue
+                if len(self._status_names_exclude or []) > 0:
+                    exclude = False
+                    for status_name_exclude in self._status_names_exclude:
+                        if re.match(
+                            status_name_exclude, version['status']['name']
+                        ):
+                            exclude = True
+                            break
+                    if exclude:
+                        self.logger.debug(
+                            '(Resolver) Not considering version {} - matches exclude status(es): {}.'.format(
+                                self.str_version(context, version),
+                                status_name_exclude,
+                            )
+                        )
+                        continue
+                latest_version = version
+                break
+
         if latest_version:
             self.logger.debug(
-                '(Resolver) Got latest version %s_%s_v%03d, filtering and adding.'
-                % (
-                    context['name'],
-                    latest_version['asset']['name'],
-                    latest_version['version'],
+                '(Resolver) Got latest version {}, filtering and adding.'.format(
+                    self.str_version(context, latest_version)
                 )
             )
             if 'task_names_include' in asset_type_option.get('filters', {}):
@@ -367,7 +457,10 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     def resolve_task_dependencies(self, context, options):
         try:
             # Fetch all linked asset containers (contexts: shots, asset builds, sequences and so on)
-            linked_contexts = self.get_linked_contexts_recursive(context, [])
+            self._context = context
+            linked_contexts = self.get_linked_contexts_recursive(
+                context, []
+            )  # Do not include deps on target context
 
             # Define task type resolver mappings
             TASK_TYPE_RESOLVERS = {
@@ -416,6 +509,12 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 resolver_name = '*'
 
             if resolver_name in TASK_TYPE_RESOLVERS:
+                self._status_names_include = options.get(
+                    'status_names_include'
+                )
+                self._status_names_exclude = options.get(
+                    'status_names_exclude'
+                )
                 return {
                     'versions': TASK_TYPE_RESOLVERS[resolver_name.lower()](
                         linked_contexts, resolver_options

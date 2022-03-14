@@ -107,6 +107,12 @@
           "type": "boolean",
           "default": true
         },
+        "file_formats": {
+          "type": "array",
+          "items": {"type": "string"},
+          "minItems": 1,
+          "uniqueItems": true
+        },
         "selected": {
           "type": "boolean",
           "default": true
@@ -464,6 +470,9 @@
         {
           "$ref": "#/definitions/Step"
         }
+      ],
+      "required": [
+        "file_formats"
       ],
       "properties": {
         "stages": {

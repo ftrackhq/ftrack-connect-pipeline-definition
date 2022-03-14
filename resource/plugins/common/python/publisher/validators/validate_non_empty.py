@@ -13,7 +13,7 @@ class NonEmptyValidatorPlugin(plugin.PublisherValidatorPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
         output = len(collected_objects) > 0 and all(
-            bool(datum) for datum in collected_objects
+            bool(datum is not None) for datum in collected_objects
         )
         return output
 

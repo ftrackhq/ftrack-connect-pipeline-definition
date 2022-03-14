@@ -76,6 +76,23 @@ class CameraCollectorWidget(BaseOptionsWidget):
                 self.cameras.currentText(), key='camera_name'
             )
 
+    def report_input(self):
+        '''(Override) Amount of collected objects has changed, notify parent(s)'''
+        message = ''
+        status = False
+        num_objects = 1 if self.cameras.isEnabled() else 0
+        if num_objects > 0:
+            message = '{} camera{} selected'.format(
+                num_objects, 's' if num_objects > 1 else ''
+            )
+            status = True
+        self.inputChanged.emit(
+            {
+                'status': status,
+                'message': message,
+            }
+        )
+
 
 class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
     plugin_name = 'camera'

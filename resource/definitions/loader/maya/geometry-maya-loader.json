@@ -90,7 +90,7 @@
               "name": "Import paths to Maya",
               "plugin": "load_maya",
               "options": {
-                "load_mode": "Import",
+                "load_mode": "Reference",
                 "load_options": {
                   "preserve_references": true,
                   "add_namespace": true,
@@ -113,6 +113,7 @@
     },
      {
       "name": "cache",
+      "file_formats": [".abc"],
       "optional": true,
       "selected": false,
       "stages": [
@@ -121,10 +122,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".abc"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -150,6 +148,7 @@
     },
     {
       "name": "game",
+      "file_formats": [".fbx"],
       "optional": true,
       "selected": false,
       "stages": [
@@ -158,10 +157,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".fbx"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
