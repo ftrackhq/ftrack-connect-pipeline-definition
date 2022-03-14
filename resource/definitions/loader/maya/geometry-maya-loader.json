@@ -90,7 +90,7 @@
               "name": "Import paths to Maya",
               "plugin": "load_maya",
               "options": {
-                "load_mode": "Import",
+                "load_mode": "Reference",
                 "load_options": {
                   "preserve_references": true,
                   "add_namespace": true,
