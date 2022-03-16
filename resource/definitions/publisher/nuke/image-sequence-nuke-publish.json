@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Scene Publisher",
-  "package": "image_sequence_nuke",
+  "name": "Image Sequence Publisher",
+  "asset_type": "img",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -23,14 +23,14 @@
   ],
   "components": [
     {
-      "name": "nukescript",
+      "name": "snapshot",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
               "name": "collect scene",
-              "plugin": "nukescene"
+              "plugin": "nukescript"
             }
           ]
         },
@@ -177,31 +177,31 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result",
-              "visible": false
+              "plugin": "pre_result"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result.nuke",
-              "visible": false
+              "plugin": "result_nuke"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result",
-              "visible": false
+              "plugin": "post_result"
             }
           ]
         }

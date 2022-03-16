@@ -3,9 +3,9 @@
 
 import ftrack_api
 
-from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
-from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
+from ftrack_connect_pipeline_nuke import plugin
+from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
+from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
 def extract_load_mode_component_name(data):
@@ -23,15 +23,15 @@ def extract_load_mode_component_name(data):
     return None
 
 
-class MayaFinalize(plugin.LoaderFinalizerMayaPlugin):
-    plugin_name = 'maya_finalize'
+class NukeFinalize(plugin.LoaderFinalizerNukePlugin):
+    plugin_name = 'nuke_finalize'
 
     def run(self, context_data=None, data=None, options=None):
         result = {}
         message = 'No work file copy needed.'
         load_mode, filename = extract_load_mode_component_name(data)
         if load_mode.lower() == load_const.OPEN_MODE.lower():
-            work_path, message = maya_utils.save_snapshot(
+            work_path, message = nuke_utils.save_snapshot(
                 filename,
                 context_data['context_id'],
                 self.session,
@@ -49,5 +49,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaFinalize(api_object)
+    plugin = NukeFinalize(api_object)
     plugin.register()

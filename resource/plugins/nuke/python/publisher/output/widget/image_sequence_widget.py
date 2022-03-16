@@ -1,9 +1,11 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
+from functools import partial
+
+import nuke
 
 import ftrack_api
 
-from functools import partial
 
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
@@ -38,10 +40,17 @@ class SequenceWidget(BaseOptionsWidget):
     def build(self):
 
         super(SequenceWidget, self).build()
+        import json
 
+        nuke.tprint(
+            '@@@ SequenceWidget; data: {}, options: {}'.format(
+                json.dumps(self.data, indent=4),
+                json.dumps(self.options, indent=4),
+            )
+        )
         frames_option = {
-            'start_frame': 1,
-            'end_frame': 10,
+            'start_frame': nuke.root()['first_frame'].value(),
+            'end_frame': nuke.root()['last_frame'].value(),
         }
         self.file_formats = ['exr', 'jpeg', 'png', 'pic', 'targa', 'tiff']
         self.default_file_format = self.options.get('file_format')

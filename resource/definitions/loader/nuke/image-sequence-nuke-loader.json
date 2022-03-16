@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Scene Opener",
-  "package": "image_sequence_nuke",
+  "name": "Image Sequence Loader",
+  "asset_type": "img",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -30,7 +30,8 @@
   ],
   "components": [
     {
-      "name": "nukescript",
+      "name": "snapshot",
+      "file_formats": [".nk"],
       "optional": true,
       "stages": [
         {
@@ -38,10 +39,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".nk"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -67,6 +65,7 @@
     },
     {
       "name": "sequence",
+      "file_formats": [".exr", ".dpx", ".tif", ".png"],
       "optional": true,
       "stages": [
         {
@@ -74,10 +73,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
-              "options": {
-                "accepted_formats": [".exr"]
-              }
+              "plugin": "collect_from_context"
             }
           ]
         },
@@ -108,31 +104,38 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
-              "visible": false
+              "plugin": "pre_finalizer_test"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
+            {
+              "name": "Copy script to working directory",
+              "plugin": "nuke_finalize",
+              "mode": "open"
+            },
             {
               "name": "Do nothing",
               "plugin": "finalizer_test",
+              "mode": "import",
               "visible": false
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test",
-              "visible": false
+              "plugin": "post_finalizer_test"
             }
           ]
         }

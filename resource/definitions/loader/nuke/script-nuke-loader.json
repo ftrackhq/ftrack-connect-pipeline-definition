@@ -1,8 +1,8 @@
 {
   "type": "loader",
-  "name": "Scene Loader",
-  "asset_type": "scene",
-  "host_type": "maya",
+  "name": "Script Loader",
+  "asset_type": "script",
+  "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
     {
@@ -31,7 +31,8 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".mb", ".ma"],
+      "file_formats": [".nk"],
+      "optional": true,
       "stages": [
         {
           "name": "collector",
@@ -46,16 +47,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import paths to Maya",
-              "plugin": "load_maya",
-              "options": {
-                "load_mode": "Import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
+              "name": "load Scene",
+              "plugin": "load_nuke"
             }
           ]
         },
@@ -63,7 +56,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "maya",
+              "name": "nuke",
               "plugin": "post_import_test"
             }
           ]
@@ -87,10 +80,11 @@
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "Save Snapshot",
-              "plugin": "maya_finalize",
+              "name": "Copy script to working directory",
+              "plugin": "nuke_finalize",
               "mode": "open"
             },
             {

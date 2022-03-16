@@ -80,6 +80,23 @@ class NodeSelectorWidget(BaseOptionsWidget):
         else:
             self.set_option_result(self.nodes_cb.currentText(), 'node_name')
 
+    def report_input(self):
+        '''(Override) Amount of collected objects has changed, notify parent(s)'''
+        message = ''
+        status = False
+        num_objects = 1 if len(self.options.get('node_name') or '') > 0 else 0
+        if num_objects > 0:
+            message = '{} node{} selected'.format(
+                num_objects, 's' if num_objects > 1 else ''
+            )
+            status = True
+        self.inputChanged.emit(
+            {
+                'status': status,
+                'message': message,
+            }
+        )
+
 
 class NodeSelectorPluginWidget(plugin.PublisherCollectorNukeWidget):
     plugin_name = 'node_selector'

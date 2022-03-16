@@ -200,7 +200,7 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Copy scene to working directory",
+              "name": "Save Snapshot",
               "plugin": "maya_finalize",
               "mode": "open"
             },

@@ -189,7 +189,7 @@
                         }
                     },
                     "status_names_include": [".*"],
-                    "status_names_exclude": ["(?i)(\\W|^)(Omitted|WIP)(\\W|$)"]
+                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"]
                 }
             }
         ]

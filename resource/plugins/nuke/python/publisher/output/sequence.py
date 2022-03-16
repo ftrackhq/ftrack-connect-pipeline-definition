@@ -28,6 +28,22 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
 
         write_node = nuke.createNode('Write')
         write_node.setInput(0, input_node)
+        write_node['first'].setValue(
+            int(
+                float(
+                    options.get('start_frame')
+                    or nuke.root()['first_frame'].value()
+                )
+            )
+        )
+        write_node['last'].setValue(
+            int(
+                float(
+                    options.get('end_frame')
+                    or nuke.root()['last_frame'].value()
+                )
+            )
+        )
 
         default_file_format = str(options.get('file_format'))
         selected_file_format = str(options.get('image_format'))
@@ -55,9 +71,12 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
                 write_node[k].setValue(int(v))
 
         ranges = nuke.FrameRanges('{}-{}'.format(first, last))
+        self.logger.debug(
+            'Rendering sequence [{}-{}] to "{}"'.format(
+                first, last, temp_seq_path
+            )
+        )
         nuke.render(write_node, ranges)
-
-        component_name = options['component_name']
 
         # delete temporal write node
         nuke.delete(write_node)

@@ -28,7 +28,7 @@ class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
                 if not message is None:
                     self.logger.info(message)
                 scene_name = cmds.file(q=True, sceneName=True)
-            if not scene_name:
+            if len(scene_name or '') == 0:
                 self.logger.error(
                     "Error exporting the scene: Please save the scene with a "
                     "name before publish"

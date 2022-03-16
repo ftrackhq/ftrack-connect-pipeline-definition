@@ -11,5 +11,41 @@
                 "options": {"clear_selection":  false}
             }
         ]
+    },
+    "resolvers":{
+        "resolve_dependencies":[
+            {
+                "name": "Resolve Maya context asset dependencies",
+                "plugin": "resolve_dependencies",
+                "options": {
+                    "task_types":{
+                        "*": {
+                            "asset_types": [
+                                {
+                                    "asset_type": "img",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                },
+                                {
+                                    "asset_type": "render",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "status_names_include": [".*"],
+                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"]
+                }
+            }
+        ]
     }
 }

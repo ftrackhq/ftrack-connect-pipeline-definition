@@ -53,14 +53,14 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         indent = ' ' * 3 * len(link)  # Make logs easy to read
 
         self.logger.debug(
-            '(Resolver) {}Processing: {}({})'.format(
+            '(Linked contexts) {}Processing: {}({})'.format(
                 indent, '/'.join(link), entity['id']
             )
         )
         if 'assets' in entity:
             # Can only add context that has assets
             self.logger.debug(
-                '(Resolver) {}Considering for resolve'.format(indent)
+                '(Linked contexts) {}Considering for resolve'.format(indent)
             )
             result.append(entity)
         # Any explicit links? Make sure to fetch updated data from backend
@@ -69,7 +69,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             if entity['incoming_links'] is not None:
                 for entity_link in entity.get('incoming_links'):
                     self.logger.debug(
-                        '(Resolver) {}Traveling via incoming link from: {}'.format(
+                        '(Linked contexts) {}Traveling via incoming link from: {}'.format(
                             indent, entity_link['from']
                         )
                     )
@@ -81,7 +81,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     )
         if next_entity_type:
             self.logger.debug(
-                '(Resolver) {}Traveling to: {}'.format(
+                '(Linked contexts) {}Traveling to: {}'.format(
                     indent, next_entity_type
                 )
             )
@@ -151,7 +151,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 # Check so it's not the calling context
                 if version['task']['id'] == self._context['id']:
                     self.logger.debug(
-                        '(Resolver) Not considering version {} - beneath same context: {}.'.format(
+                        '(Version) Not considering version {} - beneath same context: {}.'.format(
                             self.str_version(context, version),
                             self._context['name'],
                         )
@@ -167,7 +167,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             break
                     if not include:
                         self.logger.debug(
-                            '(Resolver) Not considering version {} - does not include status(es): {}.'.format(
+                            '(Version) Not considering version {} - does not include status(es): {}.'.format(
                                 self.str_version(context, version),
                                 self._status_names_include,
                             )
@@ -183,7 +183,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             break
                     if exclude:
                         self.logger.debug(
-                            '(Resolver) Not considering version {} - matches exclude status(es): {}.'.format(
+                            '(Version) Not considering version {} - matches exclude status(es): {}.'.format(
                                 self.str_version(context, version),
                                 status_name_exclude,
                             )
@@ -194,7 +194,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
         if latest_version:
             self.logger.debug(
-                '(Resolver) Got latest version {}, filtering and adding.'.format(
+                '(Version) Got latest version {}, filtering and adding.'.format(
                     self.str_version(context, latest_version)
                 )
             )
@@ -208,7 +208,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if not matches_all:
                     self.logger.debug(
-                        '(Resolver)    Task name include filter mismatch: {} '.format(
+                        '(Version)    Task name include filter mismatch: {} '.format(
                             context['name']
                         )
                     )
@@ -223,7 +223,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if matches_any:
                     self.logger.debug(
-                        '(Resolver)    Task name exclude filter mismatch: {} '.format(
+                        '(Version)    Task name exclude filter mismatch: {} '.format(
                             context['name']
                         )
                     )
@@ -238,7 +238,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if not matches_all:
                     self.logger.debug(
-                        '(Resolver)    Asset name include filter mismatch: {} '.format(
+                        '(Version)    Asset name include filter mismatch: {} '.format(
                             asset['name']
                         )
                     )
@@ -253,7 +253,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if matches_any:
                     self.logger.debug(
-                        '(Resolver)    Asset name exclude filter mismatch: {} '.format(
+                        '(Version)    Asset name exclude filter mismatch: {} '.format(
                             asset['name']
                         )
                     )
@@ -263,7 +263,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             versions.append({'entity': latest_version})
         else:
             self.logger.debug(
-                '(Resolver) No latest version on {}_{}.'.format(
+                '(Version) No latest version on {}_{}.'.format(
                     context['name'], asset['name']
                 )
             )
@@ -271,20 +271,31 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     def resolve_dependencies(self, contexts, options):
         '''Generic dependency resolve, locates latest versions from *context*,
         based on task type resolvable asset types supplied *options* and filters.'''
+        self.logger.debug(
+            'Resolving asset dependencies on {} context(s)'.format(
+                len(contexts)
+            )
+        )
         versions = []
+        if len(options.get('asset_types', [])) == 0:
+            self.logger.debug('No asset type rules in options!')
+            return versions
         for context in contexts:
             for asset in context.get('assets'):
                 asset_type_matches = False
-                for asset_type_option in options.get('asset_types', []):
+                for asset_type_option in options['asset_types']:
                     if (
                         asset_type_option['asset_type'] != '*'
                         and asset['type']['name'].lower()
                         != asset_type_option['asset_type'].lower()
+                        and asset['type']['short'].lower()
+                        != asset_type_option['asset_type'].lower()
                     ):
                         self.logger.debug(
-                            '(Resolver) {} Asset type mismatch: {}>{}.'.format(
+                            '[{}] Asset type mismatch: {}|{}!={}.'.format(
                                 context['name'],
                                 asset['type']['name'],
+                                asset['type']['short'],
                                 asset_type_option['asset_type'],
                             )
                         )

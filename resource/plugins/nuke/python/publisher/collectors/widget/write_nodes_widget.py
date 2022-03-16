@@ -64,6 +64,7 @@ class WriteNodesNukeWidget(BaseOptionsWidget):
             self.nodes_cb.setDisabled(True)
         else:
             self.nodes_cb.addItems(self.node_names)
+        self.report_input()
 
     def post_build(self):
         super(WriteNodesNukeWidget, self).post_build()
@@ -72,6 +73,23 @@ class WriteNodesNukeWidget(BaseOptionsWidget):
         self.nodes_cb.editTextChanged.connect(update_fn)
         if self.node_names:
             self.set_option_result(self.node_names[0], 'node_name')
+
+    def report_input(self):
+        '''(Override) Amount of collected objects has changed, notify parent(s)'''
+        message = ''
+        status = False
+        num_objects = 1 if len(self.options.get('node_name') or '') > 0 else 0
+        if num_objects > 0:
+            message = '{} write node{} selected'.format(
+                num_objects, 's' if num_objects > 1 else ''
+            )
+            status = True
+        self.inputChanged.emit(
+            {
+                'status': status,
+                'message': message,
+            }
+        )
 
 
 class WriteNodesPluginWidget(plugin.PublisherCollectorNukeWidget):
