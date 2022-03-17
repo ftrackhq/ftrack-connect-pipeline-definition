@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Image Sequence Publisher",
-  "asset_type": "img",
+  "name": "Geometry Publisher",
+  "asset_type": "geo",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -22,51 +22,15 @@
     }
   ],
   "components": [
-    {
-      "name": "snapshot",
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "collect scene",
-              "plugin": "nukescript"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "Check file saved",
-              "plugin": "file_saved"
-            },
-            {
-              "name": "validate file exists",
-              "plugin": "file_exists"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "write nuke script",
-              "plugin": "nukescript"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "sequence",
+     {
+      "name": "cache",
       "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
+              "name": "Selection collector",
               "plugin": "selection"
             }
           ]
@@ -75,12 +39,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
-              "plugin": "nonempty"
-            },
-            {
-              "name": "Can connect to write node",
-              "plugin": "can_connect_to_write_node"
+              "name": "no validator",
+              "plugin": "publish_validator_test"
             }
           ]
         },
@@ -88,15 +48,13 @@
           "name": "output",
           "plugins":[
             {
-              "name": "render or pickup sequence",
-              "plugin": "sequence",
+              "name": "Export geometry",
+              "plugin": "geometry",
               "options": {
-                "render": true,
-                "file_format": "exr",
-                "file_format_options": {
-                  "datatype": 1,
-                  "compression": 1
-                }
+                  "file_type": "abc",
+                  "animation" : true,
+                  "start" : "",
+                  "end" : ""
               }
             }
           ]
@@ -104,13 +62,14 @@
       ]
     },
     {
-      "name": "thumbnail",
+      "name": "game",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
+              "name": "Selection collector",
               "plugin": "selection"
             }
           ]
@@ -119,8 +78,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
-              "plugin": "can_connect_to_write_node"
+              "name": "no validator",
+              "plugin": "publish_validator_test"
             }
           ]
         },
@@ -128,21 +87,25 @@
           "name": "output",
           "plugins":[
             {
-              "name": "write thumbnail",
-              "plugin": "thumbnail"
+              "name": "Export geometry",
+              "plugin": "geometry",
+              "options": {
+                  "file_type": "fbx"
+              }
             }
           ]
         }
       ]
     },
     {
-      "name": "reviewable",
+      "name": "geo",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
+              "name": "Selection collector",
               "plugin": "selection"
             }
           ]
@@ -151,12 +114,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
-              "plugin": "nonempty"
-            },
-            {
-              "name": "Can connect to write node",
-              "plugin": "can_connect_to_write_node"
+              "name": "no validator",
+              "plugin": "publish_validator_test"
             }
           ]
         },
@@ -164,14 +123,17 @@
           "name": "output",
           "plugins":[
             {
-              "name": "write reviewable",
-              "plugin": "reviewable"
+              "name": "Export geometry",
+              "plugin": "geometry",
+              "options": {
+                  "file_type": "obj"
+              }
             }
           ]
         }
       ]
     }
-  ],
+    ],
   "finalizers": [
     {
       "name": "main",
@@ -192,7 +154,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result_nuke"
+              "plugin": "result.nuke"
             }
           ]
         },

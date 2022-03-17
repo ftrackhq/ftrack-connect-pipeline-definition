@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Image Sequence Loader",
-  "asset_type": "img",
+  "name": "Reference Loader",
+  "asset_type": "upload",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [

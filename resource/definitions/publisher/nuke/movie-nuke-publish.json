@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Image Sequence Publisher",
-  "asset_type": "img",
+  "name": "Movie Publisher",
+  "asset_type": "render",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "name": "sequence",
+      "name": "movie",
       "optional": true,
       "stages": [
         {
@@ -88,15 +88,13 @@
           "name": "output",
           "plugins":[
             {
-              "name": "render or pickup sequence",
-              "plugin": "sequence",
+              "name": "write movie",
+              "plugin": "movie",
               "options": {
                 "render": true,
-                "file_format": "exr",
-                "file_format_options": {
-                  "datatype": 1,
-                  "compression": 1
-                }
+                "file_format": "mov",
+                "mov64_code": "appr",
+                "mov_prores_codec_profile": "ProRes 4:4:4:4 12-bit"
               }
             }
           ]

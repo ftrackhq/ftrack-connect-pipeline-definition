@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Image Sequence Loader",
-  "asset_type": "img",
+  "name": "Movie Loader",
+  "asset_type": "render",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -64,8 +64,8 @@
       ]
     },
     {
-      "name": "sequence",
-      "file_formats": [".exr", ".dpx", ".cin", ".dng", ".tga", ".yuv", ".tif", ".tiff", ".jpg", ".jpeg", ".png", ".dtex", ".gif", ".iff", ".psd", ".sgi"],
+      "name": "movie",
+      "file_formats": [".mov", ".r3d", ".mxf", ".avi"],
       "optional": true,
       "stages": [
         {
@@ -81,8 +81,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import image sequence",
-              "plugin": "import_image_sequence"
+              "name": "Import movie",
+              "plugin": "import_movie"
             }
           ]
         },
