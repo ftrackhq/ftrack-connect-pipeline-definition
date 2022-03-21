@@ -154,7 +154,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result.nuke"
+              "plugin": "result_nuke"
             }
           ]
         },

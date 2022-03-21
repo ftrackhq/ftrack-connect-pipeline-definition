@@ -40,7 +40,11 @@ class MovieWidget(BaseOptionsWidget):
     def build(self):
 
         super(MovieWidget, self).build()
-        import json
+
+        bg = QtWidgets.QButtonGroup(self)
+        self.render_rb = QtWidgets.QRadioButton('Render movie from script')
+        bg.addButton(self.render_rb)
+        self.layout().addWidget(self.render_rb)
 
         frames_option = {
             'start_frame': nuke.root()['first_frame'].value(),
@@ -88,8 +92,43 @@ class MovieWidget(BaseOptionsWidget):
         options_v_lay.addLayout(range_v_lay)
         self.layout().addWidget(self.option_group)
 
+        self.render_from_sequence_rb = QtWidgets.QRadioButton(
+            'Render movie from existing rendered sequence write/read node'
+        )
+        bg.addButton(self.render_from_sequence_rb)
+        self.layout().addWidget(self.render_from_sequence_rb)
+
+        self.render_from_sequence_note = QtWidgets.QLabel(
+            '<html><i>Make sure you select a write/read node pointing to a rendered sequence.</i></html>'
+        )
+        self.render_from_sequence_note.setVisible(False)
+        self.layout().addWidget(self.render_from_sequence_note)
+
+        self.pickup_rb = QtWidgets.QRadioButton(
+            'Pick up existing movie from selected write/read node'
+        )
+        bg.addButton(self.pickup_rb)
+        self.layout().addWidget(self.pickup_rb)
+
+        self.pickup_note = QtWidgets.QLabel(
+            '<html><i>Make sure you select a write/read node pointing to a rendered movie.</i></html>'
+        )
+        self.pickup_note.setVisible(False)
+        self.layout().addWidget(self.pickup_note)
+
+        if self.options.get('render') is True:
+            self.render_rb.setChecked(True)
+        elif self.options.get('render_from_sequence') is True:
+            self.render_from_sequence_rb.setChecked(True)
+        else:
+            self.pickup_rb.setChecked(True)
+
     def post_build(self):
         super(MovieWidget, self).post_build()
+
+        self.render_rb.clicked.connect(self._update_render_mode)
+        self.render_from_sequence_rb.clicked.connect(self._update_render_mode)
+        self.pickup_rb.clicked.connect(self._update_render_mode)
 
         update_fn = partial(self.set_option_result, key='image_format')
         self.img_format_cb.editTextChanged.connect(update_fn)
@@ -108,6 +147,18 @@ class MovieWidget(BaseOptionsWidget):
         update_fn = partial(self.set_option_result, key='end_frame')
         self.enf_text_edit.textChanged.connect(update_fn)
         self.set_option_result(self.enf_text_edit.text(), 'end_frame')
+
+    def _update_render_mode(self):
+        value = 'render'
+        if self.render_from_sequence_rb.isChecked():
+            value = 'render_from_sequence'
+        elif self.pickup_rb.isChecked():
+            value = 'pickup'
+        self.set_option_result(value, 'render')
+        self.render_from_sequence_note.setVisible(
+            self.render_from_sequence_rb.isChecked()
+        )
+        self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
 class MoviePluginWidget(plugin.PublisherOutputNukeWidget):

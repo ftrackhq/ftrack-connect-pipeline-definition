@@ -25,90 +25,99 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
         input_node = nuke.toNode(node_name)
         selected_nodes = nuke.selectedNodes()
         nuke_utils.cleanSelection()
-
-        if options.get('render') is True:
-            write_node = nuke.createNode('Write')
-            write_node.setInput(0, input_node)
-            write_node['first'].setValue(
-                int(
-                    float(
-                        options.get('start_frame')
-                        or nuke.root()['first_frame'].value()
+        try:
+            if options.get('render') is True:
+                write_node = nuke.createNode('Write')
+                write_node.setInput(0, input_node)
+                write_node['first'].setValue(
+                    int(
+                        float(
+                            options.get('start_frame')
+                            or nuke.root()['first_frame'].value()
+                        )
                     )
                 )
-            )
-            write_node['last'].setValue(
-                int(
-                    float(
-                        options.get('end_frame')
-                        or nuke.root()['last_frame'].value()
+                write_node['last'].setValue(
+                    int(
+                        float(
+                            options.get('end_frame')
+                            or nuke.root()['last_frame'].value()
+                        )
                     )
                 )
-            )
 
-            default_file_format = str(options.get('file_format'))
-            selected_file_format = str(options.get('image_format'))
-            default_file_format_options = options.get('file_format_options')
-
-            # Generate output file name for mov.
-            temp_name = tempfile.NamedTemporaryFile()
-
-            first = str(int(write_node['first'].getValue()))
-            last = str(int(write_node['last'].getValue()))
-            digit_len = int(len(last) + 1)
-
-            temp_seq_path = '{}.%0{}d.{}'.format(
-                temp_name.name, digit_len, selected_file_format
-            )
-            sequence_path = clique.parse(
-                '{} [{}-{}]'.format(temp_seq_path, first, last)
-            )
-
-            write_node['file'].setValue(temp_seq_path.replace('\\', '/'))
-
-            write_node['file_type'].setValue(selected_file_format)
-            if selected_file_format == default_file_format:
-                for k, v in default_file_format_options.items():
-                    write_node[k].setValue(int(v))
-
-            ranges = nuke.FrameRanges('{}-{}'.format(first, last))
-            self.logger.debug(
-                'Rendering sequence [{}-{}] to "{}"'.format(
-                    first, last, temp_seq_path
+                default_file_format = str(options.get('file_format'))
+                selected_file_format = str(options.get('image_format'))
+                default_file_format_options = options.get(
+                    'file_format_options'
                 )
-            )
-            nuke.render(write_node, ranges)
 
-            # delete temporal write node
-            nuke.delete(write_node)
+                # Generate output file name for mov.
+                temp_name = tempfile.NamedTemporaryFile()
+
+                first = str(int(write_node['first'].getValue()))
+                last = str(int(write_node['last'].getValue()))
+                digit_len = int(len(last) + 1)
+
+                temp_sequence_path = '{}.%0{}d.{}'.format(
+                    temp_name.name, digit_len, selected_file_format
+                )
+                sequence_path = clique.parse(
+                    '{} [{}-{}]'.format(temp_sequence_path, first, last)
+                )
+
+                write_node['file'].setValue(
+                    temp_sequence_path.replace('\\', '/')
+                )
+
+                write_node['file_type'].setValue(selected_file_format)
+                if selected_file_format == default_file_format:
+                    for k, v in default_file_format_options.items():
+                        write_node[k].setValue(int(v))
+
+                ranges = nuke.FrameRanges('{}-{}'.format(first, last))
+                self.logger.debug(
+                    'Rendering sequence [{}-{}] to "{}"'.format(
+                        first, last, temp_sequence_path
+                    )
+                )
+                nuke.render(write_node, ranges)
+
+                # delete temporal write node
+                nuke.delete(write_node)
+
+            else:
+                # Find sequence write/read node among selected nodes
+                file_node = None
+                for node in selected_nodes:
+                    if node.Class() in ['Read', 'Write']:
+                        # Is it a sequence?
+                        if len(
+                            node['file'].value() or ''
+                        ) and not os.path.splitext(node['file'].value())[
+                            1
+                        ].lower() in [
+                            '.mov',
+                            '.mxf',
+                        ]:
+                            file_node = node
+                            break
+                if file_node is None:
+                    return (
+                        False,
+                        {'message': 'No sequence write node selected!'},
+                    )
+                self.logger.debug(
+                    'Using existing node {} file sequence path: "{}"'.format(
+                        file_node.name(), file_node['file'].value()
+                    )
+                )
+                sequence_path = file_node['file'].value()
+        finally:
             # restore selection
             nuke_utils.cleanSelection()
             for node in selected_nodes:
                 node['selected'].setValue(True)
-        else:
-            # Find sequence write/read node among selected nodes
-            file_node = None
-            for node in selected_nodes:
-                if node.Class() in ['Read', 'Write']:
-                    # Is it a sequence?
-                    if len(
-                        file_node['file'].value() or ''
-                    ) and not os.path.splitext(file_node['file'].value())[
-                        1
-                    ].lower() in [
-                        '.mov',
-                        'mxf',
-                    ]:
-                        file_node = node
-                        break
-            if file_node is None:
-                return (False, {'message': 'No sequence write node selected!'})
-            self.logger.debug(
-                'Using existing node {} file sequence path: "{)"'.format(
-                    file_node.name(), file_node['file'].value()
-                )
-            )
-            sequence_path = file_node['file'].value()
 
         return [str(sequence_path)]
 

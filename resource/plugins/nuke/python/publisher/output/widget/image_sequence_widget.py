@@ -42,7 +42,7 @@ class SequenceWidget(BaseOptionsWidget):
         super(SequenceWidget, self).build()
 
         bg = QtWidgets.QButtonGroup(self)
-        self.render_rb = QtWidgets.QCheckBox('Render sequence')
+        self.render_rb = QtWidgets.QRadioButton('Render sequence from script')
         bg.addButton(self.render_rb)
         self.layout().addWidget(self.render_rb)
 
@@ -102,15 +102,22 @@ class SequenceWidget(BaseOptionsWidget):
         options_v_lay.addLayout(range_v_lay)
         self.layout().addWidget(self.option_group)
 
-        self.pickup_rb = QtWidgets.QCheckBox('Pickup sequence from write node')
+        self.pickup_rb = QtWidgets.QRadioButton(
+            'Pick up existing sequence from selected write/read node'
+        )
         bg.addButton(self.pickup_rb)
         self.layout().addWidget(self.pickup_rb)
 
         self.pickup_note = QtWidgets.QLabel(
-            'Make sure you select a write/read node pointing to a rendered sequence.'
+            '<html><i>Make sure you select a write/read node pointing to a rendered sequence.</i></html>'
         )
         self.pickup_note.setVisible(False)
         self.layout().addWidget(self.pickup_note)
+
+        if self.options.get('render') is True:
+            self.render_rb.setChecked(True)
+        else:
+            self.pickup_rb.setChecked(True)
 
     def post_build(self):
         super(SequenceWidget, self).post_build()
