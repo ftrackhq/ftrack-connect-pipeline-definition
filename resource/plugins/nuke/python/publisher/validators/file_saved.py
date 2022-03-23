@@ -2,11 +2,11 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import ftrack_api
-import os
-
-from ftrack_connect_pipeline_nuke import plugin
 
 import nuke
+
+from ftrack_connect_pipeline_nuke import plugin
+from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class FileSavedValidatorPlugin(plugin.PublisherValidatorNukePlugin):
@@ -16,7 +16,17 @@ class FileSavedValidatorPlugin(plugin.PublisherValidatorNukePlugin):
         if nuke.Root().name() != 'Root' and nuke.root().modified() != True:
             return True
         else:
-            self.logger.debug("Nuke Scene is not saved")
+            # Attempt to save (snapshot)
+            if nuke.Root().name() == 'Root':
+                # Save snapshot
+                self.logger.debug("Nuke Scene is not saved, saving snapshot")
+                nuke_utils.save_snapshot(
+                    None, context_data['context_id'], self.session
+                )
+            else:
+                self.logger.debug("Nuke Scene is not saved, saving script")
+                nuke.scriptSave()
+            return True
         return False
 
 

@@ -117,7 +117,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "Copy script to working directory",
+              "name": "Save script to working directory",
               "plugin": "nuke_finalize",
               "mode": "open"
             },

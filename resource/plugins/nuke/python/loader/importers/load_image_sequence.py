@@ -44,20 +44,22 @@ class ImportNukeImageSequencePlugin(plugin.LoaderImporterNukePlugin):
             # Detect frame range based on files on disk (safe)
             if component_path.find('%0') > 0:
                 try:
-                    directory, sequence_pattern = os.path.split(component_path)
+                    directory, filename = os.path.split(component_path)
+                    self.logger.debug(
+                        'Calculating frame range from contents in: {}, sequence: {}'.format(
+                            directory, filename
+                        )
+                    )
                     if os.path.exists(directory):
-                        prefix = sequence_pattern[: sequence_pattern.find('%')]
-                        suffix = sequence_pattern[
-                            sequence_pattern.rfind('d') + 1
-                        ]
+                        split_pos = filename.find('%')
+                        prefix = filename[:split_pos]
+                        suffix = filename[filename.find('d', split_pos) + 1 :]
                         files = []
-                        for filename in os.listdir(directory):
-                            if filename.startswith(
-                                prefix
-                            ) and filename.endswith(suffix):
-                                files.append(filename)
-                        collection = clique.assemble(files)
-                        range = collection.format('{range}')
+                        for fn in sorted(os.listdir(directory)):
+                            if fn.startswith(prefix) and fn.endswith(suffix):
+                                files.append(fn)
+                        collections = clique.assemble(files)[0]
+                        range = collections[0].format('{range}')
                         read_first = int(range.split('-')[0])
                         read_last = int(range.split('-')[1])
                         resulting_node["first"].setValue(read_first)

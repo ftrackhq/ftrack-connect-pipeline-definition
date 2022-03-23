@@ -5,6 +5,7 @@ import ftrack_api
 import os
 import clique
 import tempfile
+import shutil
 
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
@@ -27,13 +28,12 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
         nuke_utils.cleanSelection()
 
         try:
-            if (
-                options.get('render') is True
-                or options.get('render_from_sequence') is True
-            ):
-                write_node = None
+            mode = (options.get('mode') or 'render').lower()
+            if mode == 'render' or mode == 'render_from_sequence':
+                write_node = read_node = None
                 delete_write_node = True
-                if options.get('render_from_sequence') is True:
+                delete_read_node = False
+                if mode == 'render_from_sequence':
                     # Find sequence read/write node
                     file_node = None
                     for node in selected_nodes:
@@ -52,7 +52,9 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
                     if file_node is None:
                         return (
                             False,
-                            {'message': 'No sequence write node selected!'},
+                            {
+                                'message': 'No sequence write/read node selected!'
+                            },
                         )
                     self.logger.debug(
                         'Using existing node {} file sequence path: "{}"'.format(
@@ -60,15 +62,25 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
                         )
                     )
                     if file_node.Class() in ['Write']:
-                        write_node = file_node
-                        delete_write_node = False
-                    else:
-                        input_node = (
-                            file_node  # Use this read node during render
+                        # Read the sequence
+                        read_node = nuke.createNode('Read')
+                        read_node.setInput(0, input_node)
+                        read_node['file'].fromUserText(
+                            file_node['file'].value()
                         )
-                if write_node is None:
-                    write_node = nuke.createNode('Write')
-                    write_node.setInput(0, input_node)
+                        read_node['first'].setValue(file_node['first'].value())
+                        read_node['last'].setValue(file_node['first'].value())
+                        read_node['colorspace'].setValue(
+                            file_node['colorspace'].value()
+                        )
+                        input_node = read_node
+                        delete_read_node = True
+                    else:
+                        read_node = (
+                            input_node
+                        ) = file_node  # Use this read node during render
+                write_node = nuke.createNode('Write')
+                write_node.setInput(0, input_node)
 
                 write_node['first'].setValue(
                     int(
@@ -98,26 +110,22 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
 
                 first = str(int(write_node['first'].getValue()))
                 last = str(int(write_node['last'].getValue()))
-                digit_len = int(len(last) + 1)
 
-                temp_movie_path = '{}.%0{}d.{}'.format(
-                    temp_name.name, digit_len, selected_file_format
-                )
-                movie_path = clique.parse(
-                    '{} [{}-{}]'.format(temp_movie_path, first, last)
+                movie_path = '{}.{}'.format(
+                    temp_name.name, selected_file_format
                 )
 
-                write_node['file'].setValue(temp_movie_path.replace('\\', '/'))
+                write_node['file'].setValue(movie_path.replace('\\', '/'))
 
                 write_node['file_type'].setValue(selected_file_format)
-                if selected_file_format == default_file_format:
-                    for k, v in default_file_format_options.items():
-                        write_node[k].setValue(int(v))
+                if len(options.get(selected_file_format) or {}) > 0:
+                    for k, v in options[selected_file_format].items():
+                        write_node[k].setValue(v)
 
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
                 self.logger.debug(
                     'Rendering movie [{}-{}] to "{}"'.format(
-                        first, last, temp_movie_path
+                        first, last, movie_path
                     )
                 )
                 nuke.render(write_node, ranges)
@@ -125,6 +133,8 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
                 if delete_write_node:
                     # delete temporal write node
                     nuke.delete(write_node)
+                if delete_read_node:
+                    nuke.delete(read_node)
             else:
                 # Find movie write/read node among selected nodes
                 file_node = None
@@ -144,14 +154,22 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
                 if file_node is None:
                     return (
                         False,
-                        {'message': 'No movie write node selected!'},
+                        {'message': 'No movie write/read node selected!'},
                     )
                 self.logger.debug(
-                    'Using existing node {} movie path: "{}"'.format(
+                    'Using existing node {} movie path: "{}", copying to temp.'.format(
                         file_node.name(), file_node['file'].value()
                     )
                 )
-                movie_path = file_node['file'].value()
+
+                # Make a copy of the file so it can be moved
+                # Generate output file name for mov.
+                movie_path = tempfile.NamedTemporaryFile(
+                    delete=False, suffix='.mov'
+                ).name
+
+                shutil.copy(file_node['file'].value(), movie_path)
+
         finally:
             # restore selection
             nuke_utils.cleanSelection()

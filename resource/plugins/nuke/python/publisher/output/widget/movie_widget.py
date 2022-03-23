@@ -116,12 +116,15 @@ class MovieWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(False)
         self.layout().addWidget(self.pickup_note)
 
-        if self.options.get('render') is True:
-            self.render_rb.setChecked(True)
-        elif self.options.get('render_from_sequence') is True:
+        if not 'mode' in self.options:
+            self.set_option_result('render', 'mode')
+        mode = self.options['mode'].lower()
+        if mode == 'render_from_sequence':
+            self.pickup_rb.setChecked(True)
+        elif mode == 'pickup':
             self.render_from_sequence_rb.setChecked(True)
         else:
-            self.pickup_rb.setChecked(True)
+            self.render_rb.setChecked(True)
 
     def post_build(self):
         super(MovieWidget, self).post_build()
@@ -154,7 +157,7 @@ class MovieWidget(BaseOptionsWidget):
             value = 'render_from_sequence'
         elif self.pickup_rb.isChecked():
             value = 'pickup'
-        self.set_option_result(value, 'render')
+        self.set_option_result(value, 'mode')
         self.render_from_sequence_note.setVisible(
             self.render_from_sequence_rb.isChecked()
         )

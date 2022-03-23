@@ -79,6 +79,10 @@
               "plugin": "nonempty"
             },
             {
+              "name": "Script saved",
+              "plugin": "file_saved"
+            },
+            {
               "name": "Can connect to write node",
               "plugin": "can_connect_to_write_node"
             }
@@ -91,10 +95,12 @@
               "name": "write movie",
               "plugin": "movie",
               "options": {
-                "render": true,
+                "mode": "render",
                 "file_format": "mov",
-                "mov64_code": "appr",
-                "mov_prores_codec_profile": "ProRes 4:4:4:4 12-bit"
+                "mov": {
+                  "mov64_codec": "appr",
+                  "mov_prores_codec_profile": "ProRes 4:4:4:4 12-bit"
+                }
               }
             }
           ]
@@ -163,7 +169,10 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "reviewable"
+              "plugin": "reviewable",
+              "options": {
+                  "mode": "render"
+              }
             }
           ]
         }

@@ -61,7 +61,7 @@ class SequenceWidget(BaseOptionsWidget):
             'dng',
             'sgi',
         ]
-        self.default_file_format = self.options.get('file_format')
+        self.default_file_format = self.options.get('file_format') or 'exr'
 
         self.option_group = QtWidgets.QGroupBox('Image sequence options')
         self.option_group.setToolTip(self.description)
@@ -114,10 +114,13 @@ class SequenceWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(False)
         self.layout().addWidget(self.pickup_note)
 
-        if self.options.get('render') is True:
-            self.render_rb.setChecked(True)
-        else:
+        if not 'mode' in self.options:
+            self.set_option_result('render', 'mode')
+        mode = self.options['mode'].lower()
+        if mode == 'pickup':
             self.pickup_rb.setChecked(True)
+        else:
+            self.render_rb.setChecked(True)
 
     def post_build(self):
         super(SequenceWidget, self).post_build()
@@ -125,8 +128,11 @@ class SequenceWidget(BaseOptionsWidget):
         self.render_rb.clicked.connect(self._update_render_mode)
         self.pickup_rb.clicked.connect(self._update_render_mode)
 
-        update_fn = partial(self.set_option_result, key='image_format')
-        self.img_format_cb.editTextChanged.connect(update_fn)
+        def update_fn(index):
+            text = self.img_format_cb.itemText(index)
+            self.set_option_result(text, 'image_format')
+
+        self.img_format_cb.currentIndexChanged.connect(update_fn)
         if self.default_file_format:
             index = self.img_format_cb.findText(self.default_file_format)
             if index:
@@ -146,7 +152,9 @@ class SequenceWidget(BaseOptionsWidget):
         self._update_render_mode()
 
     def _update_render_mode(self):
-        self.set_option_result(self.render_rb.isChecked(), 'render')
+        self.set_option_result(
+            'render' if self.render_rb.isChecked() else 'pickup', 'mode'
+        )
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 

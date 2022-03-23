@@ -10,6 +10,7 @@ from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 import nuke
+import shutil
 
 
 class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
@@ -26,7 +27,8 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
         selected_nodes = nuke.selectedNodes()
         nuke_utils.cleanSelection()
         try:
-            if options.get('render') is True:
+            mode = (options.get('mode') or 'render').lower()
+            if mode == 'render':
                 write_node = nuke.createNode('Write')
                 write_node.setInput(0, input_node)
                 write_node['first'].setValue(
@@ -46,11 +48,8 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
                     )
                 )
 
-                default_file_format = str(options.get('file_format'))
                 selected_file_format = str(options.get('image_format'))
-                default_file_format_options = options.get(
-                    'file_format_options'
-                )
+                file_format_options = options.get('file_format_options') or {}
 
                 # Generate output file name for mov.
                 temp_name = tempfile.NamedTemporaryFile()
@@ -71,9 +70,14 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
                 )
 
                 write_node['file_type'].setValue(selected_file_format)
-                if selected_file_format == default_file_format:
-                    for k, v in default_file_format_options.items():
-                        write_node[k].setValue(int(v))
+                if (
+                    len(file_format_options.get(selected_file_format) or {})
+                    > 0
+                ):
+                    for k, v in file_format_options[
+                        selected_file_format
+                    ].items():
+                        write_node[k].setValue(v)
 
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
                 self.logger.debug(
@@ -108,11 +112,44 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
                         {'message': 'No sequence write node selected!'},
                     )
                 self.logger.debug(
-                    'Using existing node {} file sequence path: "{}"'.format(
+                    'Using existing node {} file sequence path: "{}", copying to temp.'.format(
                         file_node.name(), file_node['file'].value()
                     )
                 )
-                sequence_path = file_node['file'].value()
+
+                expression = '{} [{}-{}]'.format(
+                    file_node['file'].value(),
+                    int(file_node['first'].value()),
+                    int(file_node['last'].value()),
+                )
+
+                collections = clique.parse(expression)
+
+                temp_sequence_dir = tempfile.mkdtemp()
+                if not os.path.exists(temp_sequence_dir):
+                    os.makedirs(temp_sequence_dir)
+
+                # Copy sequence
+                for collection in collections:
+                    source_path = str(collection)
+                    destination_path = os.path.join(
+                        temp_sequence_dir, os.path.basename(source_path)
+                    )
+                    self.logger.debug(
+                        'Copying "{}" > "{}"'.format(
+                            source_path, destination_path
+                        )
+                    )
+                    shutil.copy(source_path, destination_path)
+
+                sequence_path = '{} [{}-{}]'.format(
+                    os.path.join(
+                        temp_sequence_dir,
+                        os.path.basename(file_node['file'].value()),
+                    ),
+                    int(file_node['first'].value()),
+                    int(file_node['last'].value()),
+                )
         finally:
             # restore selection
             nuke_utils.cleanSelection()

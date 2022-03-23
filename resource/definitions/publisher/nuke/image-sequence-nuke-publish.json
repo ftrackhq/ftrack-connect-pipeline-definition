@@ -75,8 +75,12 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
+              "name": "Validate selection",
               "plugin": "nonempty"
+            },
+            {
+              "name": "Script saved",
+              "plugin": "file_saved"
             },
             {
               "name": "Can connect to write node",
@@ -91,11 +95,13 @@
               "name": "render or pickup sequence",
               "plugin": "sequence",
               "options": {
-                "render": true,
+                "mode": "render",
                 "file_format": "exr",
                 "file_format_options": {
-                  "datatype": 1,
-                  "compression": 1
+                  "exr": {
+                    "datatype": 1,
+                    "compression": 1
+                  }
                 }
               }
             }
@@ -165,7 +171,10 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "reviewable"
+              "plugin": "reviewable",
+              "options": {
+                  "mode": "render"
+              }
             }
           ]
         }
