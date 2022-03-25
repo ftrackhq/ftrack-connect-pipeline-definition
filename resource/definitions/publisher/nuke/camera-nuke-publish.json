@@ -1,9 +1,8 @@
 {
   "type": "publisher",
-  "name": "Light Rig Publisher",
-  "asset_type": "lgt",
-  "task_type": "lighting",
-  "host_type": "maya",
+  "name": "Camera Publisher",
+  "asset_type": "cam",
+  "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
     {
@@ -23,88 +22,55 @@
     }
   ],
   "components": [
-    {
-      "name": "snapshot",
+     {
+      "name": "cache",
+      "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_scene_selection",
-              "plugin": "scene_or_selection",
-              "options": {
-                "export": ["scene", "export_selected"]
+              "name": "Selection collector",
+              "plugin": "selection"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "node_type",
+              "options" : {
+                "node_type": "Camera"
               }
             }
           ]
         },
         {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "nonempty"
-            }
-          ]
-        },
-        {
           "name": "output",
           "plugins":[
             {
-              "name": "maya",
-              "plugin": "maya_output",
-              "widget": "maya_options"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "light_rig",
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "generic_collector",
-              "plugin": "generic_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "nonempty"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "maya",
-              "plugin": "maya_output",
-              "widget": "maya_options"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "thumbnail",
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "select camera to playblast",
+              "name": "Export camera",
               "plugin": "camera",
               "options": {
-                "camera_name": "persp"
-              },
-              "widget": "camera"
+                  "file_type": "abc"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Selection collector",
+              "plugin": "selection"
             }
           ]
         },
@@ -113,42 +79,49 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
-            }
-          ]
-        },
-        {
-          "name": "output",
-          "plugins":[
-            {
-              "name": "write thumbnail",
-              "plugin": "thumbnail"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "reviewable",
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "select camera to playblast",
-              "plugin": "camera",
-              "options": {
-                "camera_name": "persp"
+              "plugin": "node_type",
+              "options" : {
+                "node_type": "Camera"
               }
             }
           ]
         },
         {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "Export camera",
+              "plugin": "camera",
+              "options": {
+                  "file_type": "fbx"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "geo",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Selection collector",
+              "plugin": "selection"
+            }
+          ]
+        },
+        {
           "name": "validator",
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "node_type",
+              "options" : {
+                "node_type": "Camera"
+              }
             }
           ]
         },
@@ -156,45 +129,48 @@
           "name": "output",
           "plugins":[
             {
-              "name": "write reviewable",
-              "plugin": "reviewable"
+              "name": "Export camera",
+              "plugin": "camera",
+              "options": {
+                  "file_type": "obj"
+              }
             }
           ]
         }
       ]
     }
-  ],
+    ],
   "finalizers": [
     {
       "name": "main",
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result",
-              "visible": false
+              "plugin": "pre_result"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result_maya",
-              "visible": false
+              "plugin": "result_nuke"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result",
-              "visible": false
+              "plugin": "post_result"
             }
           ]
         }

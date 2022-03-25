@@ -1,8 +1,8 @@
 {
   "type": "loader",
-  "name": "Light Rig Loader",
-  "asset_type": "lgt",
-  "host_type": "maya",
+  "name": "Script Loader",
+  "asset_type": "script",
+  "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
     {
@@ -31,48 +31,7 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".mb", ".ma"],
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "collect_from_context"
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import paths to Maya",
-              "plugin": "load_maya",
-              "options": {
-                "load_mode": "Import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "maya",
-              "plugin": "post_import_test"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "light_rig",
-      "file_formats": [".mb", ".ma"],
+      "file_formats": [".nk"],
       "optional": true,
       "stages": [
         {
@@ -88,16 +47,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import paths to Maya",
-              "plugin": "load_maya",
-              "options": {
-                "load_mode": "Import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
+              "name": "load Scene",
+              "plugin": "load_nuke"
             }
           ]
         },
@@ -105,7 +56,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "maya",
+              "name": "nuke",
               "plugin": "post_import_test"
             }
           ]
@@ -119,20 +70,21 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
-              "visible": false
+              "plugin": "pre_finalizer_test"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "Copy scene to working directory",
-              "plugin": "maya_finalize",
+              "name": "Copy script to working directory",
+              "plugin": "nuke_finalize",
               "mode": "open"
             },
             {

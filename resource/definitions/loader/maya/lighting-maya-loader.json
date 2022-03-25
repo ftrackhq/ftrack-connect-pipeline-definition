@@ -1,8 +1,8 @@
 {
   "type": "loader",
-  "name": "Image Sequence Loader",
-  "asset_type": "img",
-  "host_type": "nuke",
+  "name": "Lighting Loader",
+  "asset_type": "lgt",
+  "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
     {
@@ -31,8 +31,7 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".nk"],
-      "optional": true,
+      "file_formats": [".mb", ".ma"],
       "stages": [
         {
           "name": "collector",
@@ -47,8 +46,16 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "load Scene",
-              "plugin": "load_nuke"
+              "name": "Import paths to Maya",
+              "plugin": "load_maya",
+              "options": {
+                "load_mode": "Import",
+                "load_options": {
+                  "preserve_references": true,
+                  "add_namespace": true,
+                  "namespace_option": "file_name"
+                }
+              }
             }
           ]
         },
@@ -56,7 +63,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "nuke",
+              "name": "maya",
               "plugin": "post_import_test"
             }
           ]
@@ -64,8 +71,8 @@
       ]
     },
     {
-      "name": "sequence",
-      "file_formats": [".exr", ".dpx", ".cin", ".dng", ".tga", ".yuv", ".tif", ".tiff", ".jpg", ".jpeg", ".png", ".dtex", ".gif", ".iff", ".psd", ".sgi"],
+      "name": "lighting",
+      "file_formats": [".mb", ".ma"],
       "optional": true,
       "stages": [
         {
@@ -81,8 +88,16 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import image sequence",
-              "plugin": "import_image_sequence"
+              "name": "Import paths to Maya",
+              "plugin": "load_maya",
+              "options": {
+                "load_mode": "Import",
+                "load_options": {
+                  "preserve_references": true,
+                  "add_namespace": true,
+                  "namespace_option": "file_name"
+                }
+              }
             }
           ]
         },
@@ -90,7 +105,7 @@
           "name": "post_import",
           "plugins":[
             {
-              "name": "nuke",
+              "name": "maya",
               "plugin": "post_import_test"
             }
           ]
@@ -104,21 +119,21 @@
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "pre_finalizer_test",
+              "visible": false
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": false,
           "plugins":[
             {
-              "name": "Save script to working directory",
-              "plugin": "nuke_finalize",
+              "name": "Save Scene",
+              "description" : "Upon open, save Maya scene to local snapshot directory",
+              "plugin": "maya_finalize",
               "mode": "open"
             },
             {

@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Image Sequence Loader",
-  "asset_type": "img",
+  "name": "Reference Loader",
+  "asset_type": "upload",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -117,7 +117,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "Save script to working directory",
+              "name": "Copy script to working directory",
               "plugin": "nuke_finalize",
               "mode": "open"
             },

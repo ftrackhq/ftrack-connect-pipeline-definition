@@ -13,7 +13,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
 from Qt import QtWidgets
 
 
-class SequenceWidget(BaseOptionsWidget):
+class MovieWidget(BaseOptionsWidget):
     def __init__(
         self,
         parent=None,
@@ -26,7 +26,7 @@ class SequenceWidget(BaseOptionsWidget):
         asset_type_name=None,
     ):
 
-        super(SequenceWidget, self).__init__(
+        super(MovieWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -39,10 +39,10 @@ class SequenceWidget(BaseOptionsWidget):
 
     def build(self):
 
-        super(SequenceWidget, self).build()
+        super(MovieWidget, self).build()
 
         bg = QtWidgets.QButtonGroup(self)
-        self.render_rb = QtWidgets.QRadioButton('Render sequence from script')
+        self.render_rb = QtWidgets.QRadioButton('Render movie from script')
         bg.addButton(self.render_rb)
         self.layout().addWidget(self.render_rb)
 
@@ -50,20 +50,10 @@ class SequenceWidget(BaseOptionsWidget):
             'start_frame': nuke.root()['first_frame'].value(),
             'end_frame': nuke.root()['last_frame'].value(),
         }
-        self.file_formats = [
-            'exr',
-            'jpeg',
-            'png',
-            'pic',
-            'targa',
-            'tiff',
-            'dpx',
-            'dng',
-            'sgi',
-        ]
-        self.default_file_format = self.options.get('file_format') or 'exr'
+        self.file_formats = ['mov', 'mxf']
+        self.default_file_format = self.options.get('file_format')
 
-        self.option_group = QtWidgets.QGroupBox('Image sequence options')
+        self.option_group = QtWidgets.QGroupBox('Movie options')
         self.option_group.setToolTip(self.description)
         options_v_lay = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(options_v_lay)
@@ -102,14 +92,26 @@ class SequenceWidget(BaseOptionsWidget):
         options_v_lay.addLayout(range_v_lay)
         self.layout().addWidget(self.option_group)
 
+        self.render_from_sequence_rb = QtWidgets.QRadioButton(
+            'Render movie from existing rendered sequence write/read node'
+        )
+        bg.addButton(self.render_from_sequence_rb)
+        self.layout().addWidget(self.render_from_sequence_rb)
+
+        self.render_from_sequence_note = QtWidgets.QLabel(
+            '<html><i>Make sure you select a write/read node pointing to a rendered sequence.</i></html>'
+        )
+        self.render_from_sequence_note.setVisible(False)
+        self.layout().addWidget(self.render_from_sequence_note)
+
         self.pickup_rb = QtWidgets.QRadioButton(
-            'Pick up existing sequence from selected write/read node'
+            'Pick up existing movie from selected write/read node'
         )
         bg.addButton(self.pickup_rb)
         self.layout().addWidget(self.pickup_rb)
 
         self.pickup_note = QtWidgets.QLabel(
-            '<html><i>Make sure you select a write/read node pointing to a rendered sequence.</i></html>'
+            '<html><i>Make sure you select a write/read node pointing to a rendered movie.</i></html>'
         )
         self.pickup_note.setVisible(False)
         self.layout().addWidget(self.pickup_note)
@@ -117,22 +119,22 @@ class SequenceWidget(BaseOptionsWidget):
         if not 'mode' in self.options:
             self.set_option_result('render', 'mode')
         mode = self.options['mode'].lower()
-        if mode == 'pickup':
+        if mode == 'render_from_sequence':
             self.pickup_rb.setChecked(True)
+        elif mode == 'pickup':
+            self.render_from_sequence_rb.setChecked(True)
         else:
             self.render_rb.setChecked(True)
 
     def post_build(self):
-        super(SequenceWidget, self).post_build()
+        super(MovieWidget, self).post_build()
 
         self.render_rb.clicked.connect(self._update_render_mode)
+        self.render_from_sequence_rb.clicked.connect(self._update_render_mode)
         self.pickup_rb.clicked.connect(self._update_render_mode)
 
-        def update_fn(index):
-            text = self.img_format_cb.itemText(index)
-            self.set_option_result(text, 'image_format')
-
-        self.img_format_cb.currentIndexChanged.connect(update_fn)
+        update_fn = partial(self.set_option_result, key='image_format')
+        self.img_format_cb.editTextChanged.connect(update_fn)
         if self.default_file_format:
             index = self.img_format_cb.findText(self.default_file_format)
             if index:
@@ -149,23 +151,27 @@ class SequenceWidget(BaseOptionsWidget):
         self.enf_text_edit.textChanged.connect(update_fn)
         self.set_option_result(self.enf_text_edit.text(), 'end_frame')
 
-        self._update_render_mode()
-
     def _update_render_mode(self):
-        self.set_option_result(
-            'render' if self.render_rb.isChecked() else 'pickup', 'mode'
+        value = 'render'
+        if self.render_from_sequence_rb.isChecked():
+            value = 'render_from_sequence'
+        elif self.pickup_rb.isChecked():
+            value = 'pickup'
+        self.set_option_result(value, 'mode')
+        self.render_from_sequence_note.setVisible(
+            self.render_from_sequence_rb.isChecked()
         )
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class ImageSequencePluginWidget(plugin.PublisherOutputNukeWidget):
-    plugin_name = 'sequence'
-    widget = SequenceWidget
+class MoviePluginWidget(plugin.PublisherOutputNukeWidget):
+    plugin_name = 'movie'
+    widget = MovieWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = ImageSequencePluginWidget(api_object)
+    plugin = MoviePluginWidget(api_object)
     plugin.register()

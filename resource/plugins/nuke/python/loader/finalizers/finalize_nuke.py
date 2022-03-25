@@ -3,12 +3,12 @@
 
 import ftrack_api
 
-from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
-from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
+from ftrack_connect_pipeline_nuke import plugin
+from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
+from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
-def extract_load_mode_component_name(data):
+def extract_load_mode(data):
     for step_result in data:
         if step_result['type'] != 'component':
             continue
@@ -19,26 +19,28 @@ def extract_load_mode_component_name(data):
                         'load_mode'
                     )
                     if load_mode:
-                        return load_mode, step_result['name']
-    return None
+                        return load_mode
+    return load_const.IMPORT_MODE
 
 
-class MayaFinalize(plugin.LoaderFinalizerMayaPlugin):
-    plugin_name = 'maya_finalize'
+class NukeFinalize(plugin.LoaderFinalizerNukePlugin):
+    plugin_name = 'nuke_finalize'
 
     def run(self, context_data=None, data=None, options=None):
         result = {}
         message = 'No work file copy needed.'
-        load_mode, filename = extract_load_mode_component_name(data)
+        load_mode = extract_load_mode(data)
         if load_mode.lower() == load_const.OPEN_MODE.lower():
-            work_path, message = maya_utils.save_snapshot(
-                filename, context_data['context_id'], self.session
+            self.logger.debug('Saving Nuke snapshot on open')
+            work_path, message = nuke_utils.save_snapshot(
+                context_data['context_id'], self.session
             )
             if work_path:
                 result['work_path'] = work_path
             else:
                 result = False
-            maya_utils.init_maya(self.session)
+            self.logger.debug('Initialising Nuke snapshot on open')
+            nuke_utils.init_nuke(self.session)
 
         return (result, {'message': message})
 
@@ -47,5 +49,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaFinalize(api_object)
+    plugin = NukeFinalize(api_object)
     plugin.register()

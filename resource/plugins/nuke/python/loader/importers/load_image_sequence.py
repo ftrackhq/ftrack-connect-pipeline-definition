@@ -1,5 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
+import os
+import traceback
+import clique
 
 import ftrack_api
 
@@ -11,7 +14,7 @@ from ftrack_connect_pipeline_nuke.constants import asset as asset_const
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
-class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
+class ImportNukeImageSequencePlugin(plugin.LoaderImporterNukePlugin):
     plugin_name = 'import_image_sequence'
 
     def run(self, context_data=None, data=None, options=None):
@@ -30,15 +33,41 @@ class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
                 context_data, data, options, self.session
             )
             asset_info_class = asset_info.FtrackAssetInfo(arguments_dict)
-            unique_name = nuke_utils.get_unique_scene_name(
-                '{}_{}'.format(
-                    asset_info_class[asset_const.ASSET_NAME],
-                    asset_info_class[asset_const.COMPONENT_NAME],
-                )
-            )
-            resulting_node['name'].setValue(unique_name)
+            # unique_name = nuke_utils.get_unique_scene_name(
+            #    '{}_{}'.format(
+            #        asset_info_class[asset_const.ASSET_NAME],
+            #        asset_info_class[asset_const.COMPONENT_NAME],
+            #    )
+            # )
+            # resulting_node['name'].setValue(unique_name)
             resulting_node['file'].fromUserText(component_path)
-            # Todo: Set start end frames from ftrack
+            # Detect frame range based on files on disk (safe)
+            if component_path.find('%0') > 0:
+                try:
+                    directory, filename = os.path.split(component_path)
+                    self.logger.debug(
+                        'Calculating frame range from contents in: {}, sequence: {}'.format(
+                            directory, filename
+                        )
+                    )
+                    if os.path.exists(directory):
+                        split_pos = filename.find('%')
+                        prefix = filename[:split_pos]
+                        suffix = filename[filename.find('d', split_pos) + 1 :]
+                        files = []
+                        for fn in sorted(os.listdir(directory)):
+                            if fn.startswith(prefix) and fn.endswith(suffix):
+                                files.append(fn)
+                        collections = clique.assemble(files)[0]
+                        range = collections[0].format('{range}')
+                        read_first = int(range.split('-')[0])
+                        read_last = int(range.split('-')[1])
+                        resulting_node["first"].setValue(read_first)
+                        resulting_node["last"].setValue(read_last)
+                        resulting_node["origfirst"].setValue(read_first)
+                        resulting_node["origlast"].setValue(read_last)
+                except:
+                    self.logger.warning(traceback.format_exc())
 
             results[component_path] = resulting_node.name()
 
@@ -49,5 +78,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = ImportNukePlugin(api_object)
+    plugin = ImportNukeImageSequencePlugin(api_object)
     plugin.register()

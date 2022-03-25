@@ -1,19 +1,20 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
-import tempfile
-import os
-import shutil
 
 import ftrack_api
-
-import nuke
+import os
+import clique
+import tempfile
+import shutil
 
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
+import nuke
 
-class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
-    plugin_name = 'reviewable'
+
+class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
+    plugin_name = 'movie'
 
     def run(self, context_data=None, data=None, options=None):
 
@@ -29,11 +30,11 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
         try:
             mode = (options.get('mode') or 'render').lower()
             if mode == 'render' or mode == 'render_from_sequence':
-                # Render a new reviewable from script, or
-                # pickup a already rendered sequence and make movie out of that
-                delete_read_node = delete_write_node = False
-                read_node = write_node = None
+                write_node = read_node = None
+                delete_write_node = True
+                delete_read_node = False
                 if mode == 'render_from_sequence':
+                    # Find sequence read/write node
                     file_node = None
                     for node in selected_nodes:
                         if node.Class() in ['Read', 'Write']:
@@ -60,65 +61,80 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
                             file_node.name(), file_node['file'].value()
                         )
                     )
+                    if file_node.Class() in ['Write']:
+                        # Read the sequence
+                        read_node = nuke.createNode('Read')
+                        read_node.setInput(0, input_node)
+                        read_node['file'].fromUserText(
+                            file_node['file'].value()
+                        )
+                        read_node['first'].setValue(file_node['first'].value())
+                        read_node['last'].setValue(file_node['first'].value())
+                        read_node['colorspace'].setValue(
+                            file_node['colorspace'].value()
+                        )
+                        input_node = read_node
+                        delete_read_node = True
+                    else:
+                        read_node = (
+                            input_node
+                        ) = file_node  # Use this read node during render
+                write_node = nuke.createNode('Write')
+                write_node.setInput(0, input_node)
 
-                    read_node = nuke.createNode('Read')
-                    read_node.setInput(0, input_node)
-                    read_node['file'].fromUserText(file_node['file'].value())
-                    read_node['first'].setValue(file_node['first'].value())
-                    read_node['last'].setValue(file_node['first'].value())
-                    read_node['colorspace'].setValue(
-                        file_node['colorspace'].value()
+                write_node['first'].setValue(
+                    int(
+                        float(
+                            options.get('start_frame')
+                            or nuke.root()['first_frame'].value()
+                        )
                     )
-                    input_node = read_node
-                    delete_read_node = True
-                else:
-                    write_node = nuke.createNode('Write')
-                    write_node.setInput(0, input_node)
-                    # Get the input of the given write ftrack_object.
-                    input_node = write_node
-                    delete_write_node = True
+                )
+                write_node['last'].setValue(
+                    int(
+                        float(
+                            options.get('end_frame')
+                            or nuke.root()['last_frame'].value()
+                        )
+                    )
+                )
+
+                default_file_format = str(options.get('file_format'))
+                selected_file_format = str(options.get('image_format'))
+                default_file_format_options = options.get(
+                    'file_format_options'
+                )
 
                 # Generate output file name for mov.
-                temp_review_mov_path = tempfile.NamedTemporaryFile(
-                    delete=False, suffix='.mov'
-                ).name
+                temp_name = tempfile.NamedTemporaryFile()
 
-                first = str(int(nuke.root().knob('first_frame').value()))
-                last = str(int(nuke.root().knob('last_frame').value()))
+                first = str(int(write_node['first'].getValue()))
+                last = str(int(write_node['last'].getValue()))
 
-                # Create a new write_node.
-                review_node = nuke.createNode('Write')
-                review_node.setInput(0, input_node)
-                review_node['file'].setValue(
-                    temp_review_mov_path.replace('\\', '/')
+                movie_path = '{}.{}'.format(
+                    temp_name.name, selected_file_format
                 )
-                review_node['file_type'].setValue('mov')
-                review_node['mov64_codec'].setValue('png')
 
-                if input_node['use_limit'].getValue():
-                    review_node['use_limit'].setValue(True)
+                write_node['file'].setValue(movie_path.replace('\\', '/'))
 
-                    first = str(int(input_node['first'].getValue()))
-                    last = str(int(input_node['last'].getValue()))
+                write_node['file_type'].setValue(selected_file_format)
+                if len(options.get(selected_file_format) or {}) > 0:
+                    for k, v in options[selected_file_format].items():
+                        write_node[k].setValue(v)
 
-                    review_node['first'].setValue(int(first))
-                    review_node['last'].setValue(int(last))
-
-                self.logger.debug(
-                    'Rendering reviewable movie {}-{}'.format(first, last)
-                )
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
-                nuke.render(review_node, ranges)
+                self.logger.debug(
+                    'Rendering movie [{}-{}] to "{}"'.format(
+                        first, last, movie_path
+                    )
+                )
+                nuke.render(write_node, ranges)
 
-                # delete thumbnail network after render
-                nuke.delete(review_node)
-
-                # delete temporal read and write nodes
+                if delete_write_node:
+                    # delete temporal write node
+                    nuke.delete(write_node)
                 if delete_read_node:
                     nuke.delete(read_node)
-                if delete_write_node:
-                    nuke.delete(write_node)
-
             else:
                 # Find movie write/read node among selected nodes
                 file_node = None
@@ -141,17 +157,18 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
                         {'message': 'No movie write/read node selected!'},
                     )
                 self.logger.debug(
-                    'Using existing node {} movie path: "{}", copying to temp...'.format(
+                    'Using existing node {} movie path: "{}", copying to temp.'.format(
                         file_node.name(), file_node['file'].value()
                     )
                 )
+
                 # Make a copy of the file so it can be moved
                 # Generate output file name for mov.
-                temp_review_mov_path = tempfile.NamedTemporaryFile(
+                movie_path = tempfile.NamedTemporaryFile(
                     delete=False, suffix='.mov'
                 ).name
 
-                shutil.copy(file_node['file'].value(), temp_review_mov_path)
+                shutil.copy(file_node['file'].value(), movie_path)
 
         finally:
             # restore selection
@@ -159,12 +176,12 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
             for node in selected_nodes:
                 node['selected'].setValue(True)
 
-        return [temp_review_mov_path]
+        return [str(movie_path)]
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = OutputReviewablePlugin(api_object)
+    plugin = OutputMoviePlugin(api_object)
     plugin.register()

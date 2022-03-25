@@ -1,0 +1,99 @@
+{
+  "type": "publisher",
+  "name": "Script Publisher",
+  "asset_type": "script",
+  "host_type": "nuke",
+  "ui_type": "qt",
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "context.publish",
+              "widget": "context.publish"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "name": "snapshot",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect scene",
+              "plugin": "nukescript"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "Check file saved",
+              "plugin": "file_saved"
+            },
+            {
+              "name": "validate file exists",
+              "plugin": "file_exists"
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "plugins":[
+            {
+              "name": "write nuke script",
+              "plugin": "nukescript"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "pre_finalizer",
+          "visible": false,
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "pre_result"
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "visible": false,
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "result_nuke"
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "visible": false,
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "post_result"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -8,8 +8,8 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class AbcNukeImportPlugin(plugin.LoaderImporterNukePlugin):
-    plugin_name = 'abc_nuke_import'
+class CameraNukeImportPlugin(plugin.LoaderImporterNukePlugin):
+    plugin_name = 'camera'
 
     def run(self, context_data=None, data=None, options=None):
         results = {}
@@ -21,7 +21,7 @@ class AbcNukeImportPlugin(plugin.LoaderImporterNukePlugin):
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
             import_result = nuke.createNode(
-                'ReadGeo2', 'file {}'.format(component_path)
+                'Camera2', 'file {}'.format(component_path)
             )
             results[component_path] = import_result.name()
 
@@ -32,5 +32,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = AbcNukeImportPlugin(api_object)
+    plugin = CameraNukeImportPlugin(api_object)
     plugin.register()

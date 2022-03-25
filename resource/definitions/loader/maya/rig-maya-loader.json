@@ -217,7 +217,8 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Copy scene to working directory",
+              "name": "Save Scene",
+              "description" : "Upon open, save Maya scene to local snapshot directory",
               "plugin": "maya_finalize",
               "mode": "open"
             },

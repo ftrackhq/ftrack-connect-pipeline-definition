@@ -1,8 +1,9 @@
 {
   "type": "publisher",
-  "name": "Image Sequence Publisher",
-  "asset_type": "img",
-  "host_type": "nuke",
+  "name": "Lighting Publisher",
+  "asset_type": "lgt",
+  "task_type": "lighting",
+  "host_type": "maya",
   "ui_type": "qt",
   "contexts": [
     {
@@ -29,8 +30,11 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect scene",
-              "plugin": "nukescript"
+              "name": "collect_scene_selection",
+              "plugin": "scene_or_selection",
+              "options": {
+                "export": ["scene", "export_selected"]
+              }
             }
           ]
         },
@@ -38,12 +42,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Check file saved",
-              "plugin": "file_saved"
-            },
-            {
-              "name": "validate file exists",
-              "plugin": "file_exists"
+              "name": "validate selection",
+              "plugin": "nonempty"
             }
           ]
         },
@@ -51,23 +51,23 @@
           "name": "output",
           "plugins":[
             {
-              "name": "write nuke script",
-              "plugin": "nukescript"
+              "name": "maya",
+              "plugin": "maya_output",
+              "widget": "maya_options"
             }
           ]
         }
       ]
     },
     {
-      "name": "sequence",
-      "optional": true,
+      "name": "lighting",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "selection"
+              "name": "generic_collector",
+              "plugin": "generic_collector"
             }
           ]
         },
@@ -75,16 +75,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Validate selection",
+              "name": "validate selection",
               "plugin": "nonempty"
-            },
-            {
-              "name": "Script saved",
-              "plugin": "file_saved"
-            },
-            {
-              "name": "Can connect to write node",
-              "plugin": "can_connect_to_write_node"
             }
           ]
         },
@@ -92,18 +84,9 @@
           "name": "output",
           "plugins":[
             {
-              "name": "render or pickup sequence",
-              "plugin": "sequence",
-              "options": {
-                "mode": "render",
-                "file_format": "exr",
-                "file_format_options": {
-                  "exr": {
-                    "datatype": 1,
-                    "compression": 1
-                  }
-                }
-              }
+              "name": "maya",
+              "plugin": "maya_output",
+              "widget": "maya_options"
             }
           ]
         }
@@ -116,8 +99,12 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
-              "plugin": "selection"
+              "name": "select camera to playblast",
+              "plugin": "camera",
+              "options": {
+                "camera_name": "persp"
+              },
+              "widget": "camera"
             }
           ]
         },
@@ -126,7 +113,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "can_connect_to_write_node"
+              "plugin": "nonempty"
             }
           ]
         },
@@ -148,8 +135,11 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "selection"
+              "name": "select camera to playblast",
+              "plugin": "camera",
+              "options": {
+                "camera_name": "persp"
+              }
             }
           ]
         },
@@ -159,10 +149,6 @@
             {
               "name": "validate selection",
               "plugin": "nonempty"
-            },
-            {
-              "name": "Can connect to write node",
-              "plugin": "can_connect_to_write_node"
             }
           ]
         },
@@ -171,10 +157,7 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "reviewable",
-              "options": {
-                  "mode": "render"
-              }
+              "plugin": "reviewable"
             }
           ]
         }
@@ -187,31 +170,31 @@
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result"
+              "plugin": "pre_result",
+              "visible": false
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": false,
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result_nuke"
+              "plugin": "result_maya",
+              "visible": false
             }
           ]
         },
         {
           "name": "post_finalizer",
-          "visible": false,
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result"
+              "plugin": "post_result",
+              "visible": false
             }
           ]
         }

@@ -20,6 +20,17 @@
                 "options": {
                     "task_types":{
                         "rendering":{
+                            "asset_types": [
+                                {
+                                    "asset_type": "lgt",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                }
+                            ]
                         },
                         "animation": {
                             "asset_types": [
@@ -32,7 +43,15 @@
                                         "asset_names_exclude": [".^"]
                                     }
                                 },{
-                                    "asset_type": "geometry",
+                                    "asset_type": "geo",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                },{
+                                    "asset_type": "lgt",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -45,7 +64,7 @@
                         "modeling": {
                             "asset_types": [
                                 {
-                                    "asset_type": "geometry",
+                                    "asset_type": "geo",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -66,7 +85,7 @@
                                         "asset_names_exclude": [".^"]
                                     }
                                 },{
-                                    "asset_type": "geometry",
+                                    "asset_type": "geo",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -79,7 +98,7 @@
                         "lighting": {
                             "asset_types": [
                                 {
-                                    "asset_type": "geometry",
+                                    "asset_type": "geo",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -110,6 +129,14 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },{
+                                    "asset_type": "lgt",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 }
                             ]
                         },
@@ -131,7 +158,16 @@
                         "rigging": {
                             "asset_types": [
                                 {
-                                    "asset_type": "geometry",
+                                    "asset_type": "geo",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                },
+                                {
+                                    "asset_type": "rig",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -144,6 +180,25 @@
                         "concept art": {
                         },
                         "conform": {
+                            "asset_types": [
+                                {
+                                    "asset_type": "geo",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                },{
+                                    "asset_type": "rig",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                }
+                            ]
                         },
                         "texture": {
                         },
@@ -156,7 +211,15 @@
                         "layout": {
                             "asset_types": [
                                 {
-                                    "asset_type": "geometry",
+                                    "asset_type": "geo",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_excludFe": [".^"]
+                                    }
+                                },{
+                                    "asset_type": "camera",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -164,7 +227,7 @@
                                         "asset_names_exclude": [".^"]
                                     }
                                 },{
-                                    "asset_type": "camera",
+                                    "asset_type": "lgt",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -189,7 +252,7 @@
                         }
                     },
                     "status_names_include": [".*"],
-                    "status_names_exclude": ["(?i)(\\W|^)(Omitted|WIP)(\\W|$)"]
+                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"]
                 }
             }
         ]

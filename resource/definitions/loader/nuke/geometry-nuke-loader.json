@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Image Sequence Loader",
-  "asset_type": "img",
+  "name": "Geometry Loader",
+  "asset_type": "geo",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -12,16 +12,9 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "import",
               "name": "context selector",
               "plugin": "context.load",
               "widget": "context.load"
-            },
-            {
-              "mode": "open",
-              "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
             }
           ]
         }
@@ -29,9 +22,9 @@
     }
   ],
   "components": [
-    {
-      "name": "snapshot",
-      "file_formats": [".nk"],
+     {
+      "name": "cache",
+      "file_formats": [".abc"],
       "optional": true,
       "stages": [
         {
@@ -47,8 +40,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "load Scene",
-              "plugin": "load_nuke"
+              "name": "Import paths to Nuke",
+              "plugin": "geometry"
             }
           ]
         },
@@ -64,8 +57,8 @@
       ]
     },
     {
-      "name": "sequence",
-      "file_formats": [".exr", ".dpx", ".cin", ".dng", ".tga", ".yuv", ".tif", ".tiff", ".jpg", ".jpeg", ".png", ".dtex", ".gif", ".iff", ".psd", ".sgi"],
+      "name": "gamse",
+      "file_formats": [".fbx"],
       "optional": true,
       "stages": [
         {
@@ -81,8 +74,42 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import image sequence",
-              "plugin": "import_image_sequence"
+              "name": "Import paths to Nuke",
+              "plugin": "geometry"
+            }
+          ]
+        },
+        {
+          "name": "post_import",
+          "plugins":[
+            {
+              "name": "nuke",
+              "plugin": "post_import_test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "geo",
+      "file_formats": [".obj"],
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "collect_from_context"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Nuke",
+              "plugin": "geometry"
             }
           ]
         },
@@ -104,38 +131,31 @@
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "pre_finalizer_test",
+              "visible": false
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": false,
           "plugins":[
-            {
-              "name": "Save script to working directory",
-              "plugin": "nuke_finalize",
-              "mode": "open"
-            },
             {
               "name": "Do nothing",
               "plugin": "finalizer_test",
-              "mode": "import",
               "visible": false
             }
           ]
         },
         {
           "name": "post_finalizer",
-          "visible": false,
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "post_finalizer_test",
+              "visible": false
             }
           ]
         }
