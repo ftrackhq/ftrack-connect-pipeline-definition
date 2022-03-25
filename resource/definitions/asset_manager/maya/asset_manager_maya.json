@@ -20,6 +20,17 @@
                 "options": {
                     "task_types":{
                         "rendering":{
+                            "asset_types": [
+                                {
+                                    "asset_type": "lgt",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                }
+                            ]
                         },
                         "animation": {
                             "asset_types": [
@@ -110,6 +121,14 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },{
+                                    "asset_type": "lgt",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 }
                             ]
                         },
@@ -138,12 +157,40 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },
+                                {
+                                    "asset_type": "rig",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 }
                             ]
                         },
                         "concept art": {
                         },
                         "conform": {
+                            "asset_types": [
+                                {
+                                    "asset_type": "geometry",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                },{
+                                    "asset_type": "rig",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
+                                }
+                            ]
                         },
                         "texture": {
                         },

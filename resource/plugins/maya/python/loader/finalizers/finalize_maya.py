@@ -38,6 +38,7 @@ class MayaFinalize(plugin.LoaderFinalizerMayaPlugin):
                 result['work_path'] = work_path
             else:
                 result = False
+            maya_utils.init_maya(self.session)
 
         return (result, {'message': message})
 

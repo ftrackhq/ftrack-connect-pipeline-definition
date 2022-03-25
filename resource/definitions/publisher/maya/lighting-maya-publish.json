@@ -1,6 +1,6 @@
 {
   "type": "publisher",
-  "name": "Light Rig Publisher",
+  "name": "Lighting Publisher",
   "asset_type": "lgt",
   "task_type": "lighting",
   "host_type": "maya",
@@ -60,7 +60,7 @@
       ]
     },
     {
-      "name": "light_rig",
+      "name": "lighting",
       "stages": [
         {
           "name": "collector",

@@ -1,6 +1,6 @@
 {
   "type": "loader",
-  "name": "Light Rig Loader",
+  "name": "Lighting Loader",
   "asset_type": "lgt",
   "host_type": "maya",
   "ui_type": "qt",
@@ -71,7 +71,7 @@
       ]
     },
     {
-      "name": "light_rig",
+      "name": "lighting",
       "file_formats": [".mb", ".ma"],
       "optional": true,
       "stages": [
@@ -131,7 +131,8 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Save Snapshot",
+              "name": "Save Scene",
+              "description" : "Upon open, save Maya scene to local snapshot directory",
               "plugin": "maya_finalize",
               "mode": "open"
             },
