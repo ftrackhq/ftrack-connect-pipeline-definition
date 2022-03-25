@@ -281,6 +281,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             self.logger.debug('No asset type rules in options!')
             return versions
         for context in contexts:
+            self.session.populate(context, 'assets')
             for asset in context.get('assets'):
                 asset_type_matches = False
                 for asset_type_option in options['asset_types']:
