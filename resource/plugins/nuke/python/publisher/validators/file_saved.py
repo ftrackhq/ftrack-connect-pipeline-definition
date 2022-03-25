@@ -21,7 +21,7 @@ class FileSavedValidatorPlugin(plugin.PublisherValidatorNukePlugin):
                 # Save snapshot
                 self.logger.debug("Nuke Scene is not saved, saving snapshot")
                 nuke_utils.save_snapshot(
-                    None, context_data['context_id'], self.session
+                    context_data['context_id'], self.session
                 )
             else:
                 self.logger.debug("Nuke Scene is not saved, saving script")
