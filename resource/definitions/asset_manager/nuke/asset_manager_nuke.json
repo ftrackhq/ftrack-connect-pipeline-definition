@@ -43,7 +43,8 @@
                         }
                     },
                     "status_names_include": [".*"],
-                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"]
+                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"],
+                    "max_link_depth": 1
                 }
             }
         ]

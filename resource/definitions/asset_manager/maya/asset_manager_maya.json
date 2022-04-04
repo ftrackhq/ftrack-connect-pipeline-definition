@@ -71,6 +71,15 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },
+                                {
+                                    "asset_type": "rig",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 }
                             ]
                         },
@@ -216,7 +225,7 @@
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
                                         "asset_names_include": [".*"],
-                                        "asset_names_excludFe": [".^"]
+                                        "asset_names_exclude": [".^"]
                                     }
                                 },{
                                     "asset_type": "camera",
@@ -252,7 +261,8 @@
                         }
                     },
                     "status_names_include": [".*"],
-                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"]
+                    "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"],
+                    "max_link_depth": 1
                 }
             }
         ]

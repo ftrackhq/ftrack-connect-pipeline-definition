@@ -12,18 +12,36 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
     def conditional_add_contexts(self, result, contexts):
         '''Add to list of linked contexts, if not already there'''
-        result_context_ids = [ctx['id'] for ctx in result]
-        for ctx in contexts:
-            if not ctx['id'] in result_context_ids:
-                result.append(ctx)
+        result_context_ids = [entry[0]['id'] for entry in result]
+        for entry in contexts:
+            if not entry[0]['id'] in result_context_ids:
+                result.append(entry)
 
-    def get_linked_contexts_recursive(self, entity, processed_entities):
-        '''Add context if it has assets property that can be resolved. Follow
-        links/go upstream to recursively add further related contexts.'''
+    def get_linked_contexts_recursive(
+        self,
+        entity,
+        max_link_depth,
+        processed_entities=None,
+        is_link=False,
+        link_depth=0,
+        task_and_version_constraints=None,
+    ):
+        '''Add *entity* to result if it has assets property that can be resolved. Follow
+        links/go upstream to recursively add further related contexts, up to a *link_depth* of maximum 1 (default).
+        Prevent cycles by adding *entity* to *processed_entities*.'''
         result = []
+        if processed_entities is None:
+            processed_entities = []
         if entity is None or entity['id'] in processed_entities:
+            self.logger.debug(
+                'Not resolving dependencies for {}({}) - non existent or already processed({})!'.format(
+                    entity['name'] if entity else 'None',
+                    entity['id'] if entity else 'None',
+                    len(processed_entities),
+                )
+            )
             return result
-        processed_entities.append(entity['id'])  # Prevent cycles
+        processed_entities.append(entity['id'])  # Prevent infinite cycles
 
         # Find out entity type
         next_entity_type = context = asset = version_nr = None
@@ -32,6 +50,12 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             context = entity['task']
             asset = entity['asset']
             version_nr = entity['version']
+            if is_link:
+                # Only resolve this explicitly linked version
+                task_and_version_constraints = {
+                    'task_id': context['id'],
+                    'version_id': entity['id'],
+                }
         elif entity.entity_type == 'Asset':
             next_entity_type = 'parent'
             context = entity['parent']
@@ -39,9 +63,11 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         elif 'parent' in entity and entity['parent'] is not None:
             next_entity_type = 'parent'
             context = entity
+            if is_link and entity.entity_type == 'Task':
+                # Only resolve versions beneath the task
+                task_and_version_constraints = {'task_id': context['id']}
         elif 'project' in entity:
             next_entity_type = 'project'
-
         if context:
             link = [ctx['name'] for ctx in context['link']]
         else:
@@ -62,23 +88,50 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             self.logger.debug(
                 '(Linked contexts) {}Considering for resolve'.format(indent)
             )
-            result.append(entity)
+            result.append((entity, task_and_version_constraints))
         # Any explicit links? Make sure to fetch updated data from backend
         if 'incoming_links' in entity:
+            have_links = False
             self.session.populate(entity, 'incoming_links')
             if entity['incoming_links'] is not None:
                 for entity_link in entity.get('incoming_links'):
-                    self.logger.debug(
-                        '(Linked contexts) {}Traveling via incoming link from: {}'.format(
-                            indent, entity_link['from']
+                    if link_depth < max_link_depth:
+
+                        self.logger.debug(
+                            '(Linked contexts) {}Traveling via incoming link from: {}'.format(
+                                indent, entity_link['from']
+                            )
                         )
+                        linked_contexts = self.get_linked_contexts_recursive(
+                            entity_link['from'],
+                            max_link_depth,
+                            processed_entities=processed_entities,
+                            is_link=True,
+                            link_depth=link_depth + 1,
+                        )
+                        if len(linked_contexts) > 0:
+                            self.conditional_add_contexts(
+                                result, linked_contexts
+                            )
+                            have_links = True
+                    else:
+                        self.logger.debug(
+                            '(Linked contexts) {}NOT Traveling via incoming link from: {}, max link depth of {} encountered'.format(
+                                indent, entity_link['from'], link_depth
+                            )
+                        )
+            if (
+                have_links
+                and entity.entity_type == 'Task'
+                and entity['id'] == self._context['id']
+            ):
+                # The resolved context have explicit links, stop harvest dependencies within this context and its parents
+                self.logger.debug(
+                    '(Linked contexts) {}Context has incoming links, not resolving further parent contexts'.format(
+                        indent
                     )
-                    self.conditional_add_contexts(
-                        result,
-                        self.get_linked_contexts_recursive(
-                            entity_link['from'], processed_entities
-                        ),
-                    )
+                )
+                next_entity_type = None
         if next_entity_type:
             self.logger.debug(
                 '(Linked contexts) {}Traveling to: {}'.format(
@@ -89,7 +142,11 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             self.conditional_add_contexts(
                 result,
                 self.get_linked_contexts_recursive(
-                    entity[next_entity_type], processed_entities
+                    entity[next_entity_type],
+                    max_link_depth,
+                    processed_entities=processed_entities,
+                    link_depth=link_depth,
+                    task_and_version_constraints=task_and_version_constraints,
                 ),
             )
         return result
@@ -107,6 +164,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         context,
         asset,
         asset_type_option,
+        task_and_version_constraints,
     ):
         '''Filter context *ctx* and *asset* against *asset_type_option*, if they pass,
         add latest version to *versions*'''
@@ -157,6 +215,31 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         )
                     )
                     continue
+                if task_and_version_constraints is not None:
+                    if (
+                        'version_id' in task_and_version_constraints
+                        and version['id']
+                        != task_and_version_constraints['version_id']
+                    ):
+                        self.logger.debug(
+                            '(Version) Not considering version {} - not the explicitly linked version: {}.'.format(
+                                self.str_version(context, version),
+                                task_and_version_constraints['version_id'],
+                            )
+                        )
+                        continue
+                    elif (
+                        'task_id' in task_and_version_constraints
+                        and version['task']['id']
+                        != task_and_version_constraints['task_id']
+                    ):
+                        self.logger.debug(
+                            '(Version) Not considering version {} - not bound to the explicitly linked task: {}.'.format(
+                                self.str_version(context, version),
+                                task_and_version_constraints['task_id'],
+                            )
+                        )
+                        continue
                 if len(self._status_names_include or []) > 0:
                     include = False
                     for status_name_include in self._status_names_include:
@@ -280,7 +363,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         if len(options.get('asset_types', [])) == 0:
             self.logger.debug('No asset type rules in options!')
             return versions
-        for context in contexts:
+        for (context, task_and_version_constraints) in contexts:
             self.session.populate(context, 'assets')
             for asset in context.get('assets'):
                 asset_type_matches = False
@@ -305,7 +388,11 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if asset_type_matches:
                     self.conditional_add_latest_version(
-                        versions, context, asset, asset_type_option
+                        versions,
+                        context,
+                        asset,
+                        asset_type_option,
+                        task_and_version_constraints,
                     )
 
         return versions
@@ -468,10 +555,15 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
     def resolve_task_dependencies(self, context, options):
         try:
+            self.logger.info(
+                'Resolving dependencies for {} {}({})'.format(
+                    context.entity_type, context['name'], context['id']
+                )
+            )
             # Fetch all linked asset containers (contexts: shots, asset builds, sequences and so on)
             self._context = context
             linked_contexts = self.get_linked_contexts_recursive(
-                context, []
+                context, options.get('max_link_depth', 1)
             )  # Do not include deps on target context
 
             # Define task type resolver mappings
