@@ -33,7 +33,7 @@
               "name": "collect_scene_selection",
               "plugin": "scene_or_selection",
               "options": {
-                "export": ["scene", "export_selected"]
+                "export": ["scene"]
               }
             }
           ]
@@ -42,7 +42,7 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
+              "name": "validate scene",
               "plugin": "nonempty"
             }
           ]

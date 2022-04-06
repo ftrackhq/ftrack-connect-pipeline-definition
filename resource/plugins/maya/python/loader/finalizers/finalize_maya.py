@@ -32,7 +32,7 @@ class MayaFinalize(plugin.LoaderFinalizerMayaPlugin):
         load_mode, filename = extract_load_mode_component_name(data)
         if load_mode.lower() == load_const.OPEN_MODE.lower():
             work_path, message = maya_utils.save_snapshot(
-                filename, context_data['context_id'], self.session
+                context_data['context_id'], self.session
             )
             if work_path:
                 result['work_path'] = work_path
