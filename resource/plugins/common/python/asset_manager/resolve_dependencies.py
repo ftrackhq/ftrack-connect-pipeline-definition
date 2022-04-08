@@ -65,7 +65,10 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             context = entity
             if is_link and entity.entity_type == 'Task':
                 # Only resolve versions beneath the task
-                task_and_version_constraints = {'task_id': context['id']}
+                task_and_version_constraints = {
+                    'task_id': context['id'],
+                    'version_id': None,
+                }
         elif 'project' in entity:
             next_entity_type = 'project'
         if context:
@@ -218,6 +221,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 if task_and_version_constraints is not None:
                     if (
                         'version_id' in task_and_version_constraints
+                        and version['id'] is not None
                         and version['id']
                         != task_and_version_constraints['version_id']
                     ):
