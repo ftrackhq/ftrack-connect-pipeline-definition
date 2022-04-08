@@ -10,6 +10,12 @@ from ftrack_connect_pipeline import plugin
 class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     plugin_name = 'resolve_dependencies'
 
+    # Resolver config, loaded from options
+    max_link_depth = 1
+    follow_links = True
+    follow_parents = True
+    resolve_linked_task_parent = True
+
     def conditional_add_contexts(self, result, contexts):
         '''Add to list of linked contexts, if not already there'''
         result_context_ids = [entry[0]['id'] for entry in result]
@@ -20,7 +26,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     def get_linked_contexts_recursive(
         self,
         entity,
-        max_link_depth,
+        calling_entity=None,
         processed_entities=None,
         is_link=False,
         link_depth=0,
@@ -30,21 +36,39 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         links/go upstream to recursively add further related contexts, up to a *link_depth* of maximum 1 (default).
         Prevent cycles by adding *entity* to *processed_entities*.'''
         result = []
-        if processed_entities is None:
-            processed_entities = []
-        if entity is None or entity['id'] in processed_entities:
+        if entity is None:
             self.logger.debug(
-                'Not resolving dependencies for {}({}) - non existent or already processed({})!'.format(
+                'Not resolving dependencies for {}({}) - null entity!'.format(
                     entity['name'] if entity else 'None',
                     entity['id'] if entity else 'None',
-                    len(processed_entities),
                 )
             )
             return result
-        processed_entities.append(entity['id'])  # Prevent infinite cycles
+        if processed_entities is None:
+            processed_entities = []
+        if calling_entity is not None:
+            calling_entity_id = calling_entity['id']
+        else:
+            calling_entity_id = ''
+        for (entity_id, processed_calling_entity_id) in processed_entities:
+            if (
+                entity_id == entity['id']
+                and processed_calling_entity_id == calling_entity_id
+            ):
+                self.logger.debug(
+                    'Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
+                        entity['name'] if entity else 'None',
+                        entity_id,
+                        calling_entity_id,
+                    )
+                )
+                return result
+        # Prevent infinite cycles - on called from the samme entity
+        processed_entities.append((entity['id'], calling_entity_id))
 
         # Find out entity type
         next_entity_type = context = asset = version_nr = None
+        carry_task_and_version_constraints = True
         if entity.entity_type == 'AssetVersion':
             next_entity_type = 'task'
             context = entity['task']
@@ -60,17 +84,23 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             next_entity_type = 'parent'
             context = entity['parent']
             asset = entity
-        elif 'parent' in entity and entity['parent'] is not None:
+        elif entity.entity_type == 'Task':
             next_entity_type = 'parent'
             context = entity
-            if is_link and entity.entity_type == 'Task':
+            if is_link:
                 # Only resolve versions beneath the task
                 task_and_version_constraints = {
                     'task_id': context['id'],
                     'version_id': None,
                 }
-        elif 'project' in entity:
-            next_entity_type = 'project'
+        else:
+            carry_task_and_version_constraints = False
+            if 'parent' in entity and entity['parent'] is not None:
+                if self.follow_parents is True:
+                    next_entity_type = 'parent'
+                    context = entity
+            elif 'project' in entity:
+                next_entity_type = 'project'
         if context:
             link = [ctx['name'] for ctx in context['link']]
         else:
@@ -88,17 +118,20 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         )
         if 'assets' in entity:
             # Can only add context that has assets
-            self.logger.debug(
-                '(Linked contexts) {}Considering for resolve'.format(indent)
-            )
-            result.append((entity, task_and_version_constraints))
+            if not entity['id'] in [e[0]['id'] for e in result]:
+                self.logger.debug(
+                    '(Linked contexts) {}Considering for resolve'.format(
+                        indent
+                    )
+                )
+                result.append((entity, task_and_version_constraints))
         # Any explicit links? Make sure to fetch updated data from backend
-        if 'incoming_links' in entity:
+        if 'incoming_links' in entity and self.follow_links is True:
             have_links = False
             self.session.populate(entity, 'incoming_links')
             if entity['incoming_links'] is not None:
                 for entity_link in entity.get('incoming_links'):
-                    if link_depth < max_link_depth:
+                    if link_depth < self.max_link_depth:
 
                         self.logger.debug(
                             '(Linked contexts) {}Traveling via incoming link from: {}'.format(
@@ -107,7 +140,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         )
                         linked_contexts = self.get_linked_contexts_recursive(
                             entity_link['from'],
-                            max_link_depth,
+                            calling_entity=entity,
                             processed_entities=processed_entities,
                             is_link=True,
                             link_depth=link_depth + 1,
@@ -124,7 +157,8 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             )
                         )
             if (
-                have_links
+                self.resolve_linked_task_parent is False
+                and have_links
                 and entity.entity_type == 'Task'
                 and entity['id'] == self._context['id']
             ):
@@ -146,10 +180,12 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 result,
                 self.get_linked_contexts_recursive(
                     entity[next_entity_type],
-                    max_link_depth,
+                    calling_entity=entity,
                     processed_entities=processed_entities,
                     link_depth=link_depth,
-                    task_and_version_constraints=task_and_version_constraints,
+                    task_and_version_constraints=task_and_version_constraints
+                    if carry_task_and_version_constraints
+                    else None,
                 ),
             )
         return result
@@ -221,7 +257,8 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 if task_and_version_constraints is not None:
                     if (
                         'version_id' in task_and_version_constraints
-                        and version['id'] is not None
+                        and task_and_version_constraints['version_id']
+                        is not None
                         and version['id']
                         != task_and_version_constraints['version_id']
                     ):
@@ -243,7 +280,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                                 task_and_version_constraints['task_id'],
                             )
                         )
-                        continue
+                        break
                 if len(self._status_names_include or []) > 0:
                     include = False
                     for status_name_include in self._status_names_include:
@@ -566,8 +603,9 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             )
             # Fetch all linked asset containers (contexts: shots, asset builds, sequences and so on)
             self._context = context
+
             linked_contexts = self.get_linked_contexts_recursive(
-                context, options.get('max_link_depth', 1)
+                context
             )  # Do not include deps on target context
 
             # Define task type resolver mappings
@@ -668,7 +706,15 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     )
                 },
             )
-
+        # Load resolve options
+        for key in [
+            'max_link_depth',
+            'follow_links',
+            'follow_parents',
+            'resolve_linked_task_parent',
+        ]:
+            if key in options:
+                setattr(self, key, options[key])
         return self.resolve_task_dependencies(context, options)
 
 
