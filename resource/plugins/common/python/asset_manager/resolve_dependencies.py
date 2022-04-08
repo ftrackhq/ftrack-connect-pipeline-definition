@@ -191,6 +191,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         return result
 
     def str_version(self, context, asset_version):
+        '''Generate a human readable string representation of *asset_version* beneath *context*'''
         return '%s_%s_v%03d' % (
             context['name'],
             asset_version['asset']['name'],
@@ -382,9 +383,22 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         )
                     )
                     return
-            # Add a dictionary, allowing further metadata to be passed with resolve at
-            # a later stage
-            versions.append({'entity': latest_version})
+            # Check so it's not already in there
+            has_duplicate = False
+            for version_data in versions:
+                if version_data['entity']['id'] == latest_version['id']:
+                    has_duplicate = True
+                    break
+            if not has_duplicate:
+                # Add a dictionary, allowing further metadata to be passed with resolve at
+                # a later stage
+                versions.append({'entity': latest_version})
+            else:
+                self.logger.debug(
+                    '(Version)    Version already resolved: {} '.format(
+                        self.str_version(latest_version)
+                    )
+                )
         else:
             self.logger.debug(
                 '(Version) No latest version on {}_{}.'.format(
