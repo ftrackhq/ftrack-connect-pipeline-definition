@@ -135,8 +135,11 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
                         self.logger.debug(
                             '(Linked contexts) {}[{}]Traveling via incoming link from: {} {}({})'.format(
-                                indent, entity['name'], entity_link['from'].entity_type,
-                                entity_link['from']['name'], entity_link['from_id']
+                                indent,
+                                entity['name'],
+                                entity_link['from'].entity_type,
+                                entity_link['from']['name'],
+                                entity_link['from_id'],
                             )
                         )
                         linked_contexts = self.get_linked_contexts_recursive(
@@ -153,27 +156,31 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             have_links = True
                     else:
                         self.logger.debug(
-                            '(Linked contexts) {}NOT Traveling via incoming link from: {}, max link depth of {} encountered'.format(
-                                indent, entity_link['from'], link_depth
+                            '(Linked contexts) {}[{}]NOT Traveling via incoming link from: {}, max link depth of {} encountered'.format(
+                                indent,
+                                entity['name'],
+                                entity_link['from'],
+                                link_depth,
                             )
                         )
             if (
                 self.resolve_linked_task_parent is False
+                and link_depth > 0
                 and have_links
                 and entity.entity_type == 'Task'
                 and entity['id'] == self._context['id']
             ):
                 # The resolved context have explicit links, stop harvest dependencies within this context and its parents
                 self.logger.debug(
-                    '(Linked contexts) {}Context has incoming links, not resolving further parent contexts'.format(
-                        indent
+                    '(Linked contexts) {}[{}]Context has incoming links, not resolving further parent contexts'.format(
+                        indent, entity['name']
                     )
                 )
                 next_entity_type = None
         if next_entity_type:
             self.logger.debug(
-                '(Linked contexts) {}Traveling to: {}'.format(
-                    indent, next_entity_type
+                '(Linked contexts) {}[{}]Traveling to: {}'.format(
+                    indent, entity['name'], next_entity_type
                 )
             )
             self.session.populate(entity, next_entity_type)
