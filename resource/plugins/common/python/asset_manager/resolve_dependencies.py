@@ -26,6 +26,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     def get_linked_contexts_recursive(
         self,
         entity,
+        result=None,
         calling_entity=None,
         processed_entities=None,
         is_link=False,
@@ -35,7 +36,6 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         '''Add *entity* to result if it has assets property that can be resolved. Follow
         links/go upstream to recursively add further related contexts, up to a *link_depth* of maximum 1 (default).
         Prevent cycles by adding *entity* to *processed_entities*.'''
-        result = []
         if entity is None:
             self.logger.debug(
                 'Not resolving dependencies for {}({}) - null entity!'.format(
@@ -56,7 +56,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 and processed_calling_entity_id == calling_entity_id
             ):
                 self.logger.debug(
-                    'Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
+                    '(Linked contexts) Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
                         entity['name'] if entity else 'None',
                         entity_id,
                         calling_entity_id,
@@ -118,21 +118,35 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         )
         if 'assets' in entity:
             # Can only add context that has assets
-            if not entity['id'] in [e[0]['id'] for e in result]:
+            has_duplicate = False
+            for entry in result:
+                if entry[0]['id'] == entity['id'] and str(entry[0]) == str(
+                    task_and_version_constraints
+                ):
+                    self.logger.debug(
+                        '(Linked contexts) {}NOT considering for resolve - already present'.format(
+                            indent
+                        )
+                    )
+                    has_duplicate = True
+                    break
+            if not has_duplicate:
                 self.logger.debug(
                     '(Linked contexts) {}Considering for resolve'.format(
                         indent
                     )
                 )
                 result.append((entity, task_and_version_constraints))
+
         # Any explicit links? Make sure to fetch updated data from backend
         if 'incoming_links' in entity and self.follow_links is True:
             have_links = False
             self.session.populate(entity, 'incoming_links')
             if entity['incoming_links'] is not None:
                 for entity_link in entity.get('incoming_links'):
+                    if entity_link['from_id'] == entity['id']:
+                        continue  # Ignore link to itself
                     if link_depth < self.max_link_depth:
-
                         self.logger.debug(
                             '(Linked contexts) {}[{}]Traveling via incoming link from: {} {}({})'.format(
                                 indent,
@@ -144,6 +158,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         )
                         linked_contexts = self.get_linked_contexts_recursive(
                             entity_link['from'],
+                            result,
                             calling_entity=entity,
                             processed_entities=processed_entities,
                             is_link=True,
@@ -156,10 +171,12 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             have_links = True
                     else:
                         self.logger.debug(
-                            '(Linked contexts) {}[{}]NOT Traveling via incoming link from: {}, max link depth of {} encountered'.format(
+                            '(Linked contexts) {}[{}]NOT Traveling via incoming link from: {} {}[{}], max link depth of {} encountered'.format(
                                 indent,
                                 entity['name'],
-                                entity_link['from'],
+                                entity_link['from'].entity_type,
+                                entity_link['from']['name'],
+                                entity_link['from_id'],
                                 link_depth,
                             )
                         )
@@ -188,6 +205,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 result,
                 self.get_linked_contexts_recursive(
                     entity[next_entity_type],
+                    result,
                     calling_entity=entity,
                     processed_entities=processed_entities,
                     link_depth=link_depth,
@@ -205,6 +223,72 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             asset_version['asset']['name'],
             asset_version['version'],
         )
+
+    def resolve_dependencies(self, contexts, options):
+        '''Generic dependency resolve, locates latest versions from *context*,
+        based on task type resolvable asset types supplied *options* and filters.'''
+        self.logger.debug(
+            'Resolving asset dependencies on {} context(s)'.format(
+                len(contexts)
+            )
+        )
+        versions = []
+        if len(options.get('asset_types', [])) == 0:
+            self.logger.debug('No asset type rules in options!')
+            return versions
+        for (context, task_and_version_constraints) in contexts:
+            s = ''
+            if (
+                task_and_version_constraints
+                and len(task_and_version_constraints) > 0
+            ):
+                s = ' (trask constraints: {}{})'.format(
+                    task_and_version_constraints['task_id'],
+                    (
+                        ', version: {}'.format(
+                            task_and_version_constraints['version_id']
+                        )
+                        if task_and_version_constraints['version_id']
+                        else ''
+                    ),
+                )
+            self.logger.debug(
+                '(Assets) Resolving context {}[{}]{}'.format(
+                    context['name'], context['id'], s
+                )
+            )
+            self.session.populate(context, 'assets')
+            for asset in context.get('assets'):
+                asset_type_matches = False
+                for asset_type_option in options['asset_types']:
+                    if (
+                        asset_type_option['asset_type'] != '*'
+                        and asset['type']['name'].lower()
+                        != asset_type_option['asset_type'].lower()
+                        and asset['type']['short'].lower()
+                        != asset_type_option['asset_type'].lower()
+                    ):
+                        self.logger.debug(
+                            '(Assets)    [{}]Asset type mismatch: {}|{}!={}.'.format(
+                                context['name'],
+                                asset['type']['name'],
+                                asset['type']['short'],
+                                asset_type_option['asset_type'],
+                            )
+                        )
+                    else:
+                        asset_type_matches = True
+                        break
+                if asset_type_matches:
+                    self.conditional_add_latest_version(
+                        versions,
+                        context,
+                        asset,
+                        asset_type_option,
+                        task_and_version_constraints,
+                    )
+
+        return versions
 
     def conditional_add_latest_version(
         self,
@@ -257,7 +341,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 # Check so it's not the calling context
                 if version['task']['id'] == self._context['id']:
                     self.logger.debug(
-                        '(Version) Not considering version {} - beneath same context: {}.'.format(
+                        '(Version)    Not considering version {} - beneath same context: {}.'.format(
                             self.str_version(context, version),
                             self._context['name'],
                         )
@@ -272,7 +356,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         != task_and_version_constraints['version_id']
                     ):
                         self.logger.debug(
-                            '(Version) Not considering version {} - not the explicitly linked version: {}.'.format(
+                            '(Version)    Not considering version {} - not the explicitly linked version: {}.'.format(
                                 self.str_version(context, version),
                                 task_and_version_constraints['version_id'],
                             )
@@ -284,7 +368,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         != task_and_version_constraints['task_id']
                     ):
                         self.logger.debug(
-                            '(Version) Not considering version {} - not bound to the explicitly linked task: {}.'.format(
+                            '(Version)    Not considering version {} - not bound to the explicitly linked task: {}.'.format(
                                 self.str_version(context, version),
                                 task_and_version_constraints['task_id'],
                             )
@@ -300,7 +384,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             break
                     if not include:
                         self.logger.debug(
-                            '(Version) Not considering version {} - does not include status(es): {}.'.format(
+                            '(Version)    Not considering version {} - does not include status(es): {}.'.format(
                                 self.str_version(context, version),
                                 self._status_names_include,
                             )
@@ -316,7 +400,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                             break
                     if exclude:
                         self.logger.debug(
-                            '(Version) Not considering version {} - matches exclude status(es): {}.'.format(
+                            '(Version)    Not considering version {} - matches exclude status(es): {}.'.format(
                                 self.str_version(context, version),
                                 status_name_exclude,
                             )
@@ -327,7 +411,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
         if latest_version:
             self.logger.debug(
-                '(Version) Got latest version {}, filtering and adding.'.format(
+                '(Version)    Got latest version {}, filtering and adding.'.format(
                     self.str_version(context, latest_version)
                 )
             )
@@ -341,7 +425,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if not matches_all:
                     self.logger.debug(
-                        '(Version)    Task name include filter mismatch: {} '.format(
+                        '(Version)       Task name include filter mismatch: {} '.format(
                             context['name']
                         )
                     )
@@ -356,7 +440,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if matches_any:
                     self.logger.debug(
-                        '(Version)    Task name exclude filter mismatch: {} '.format(
+                        '(Version)       Task name exclude filter mismatch: {} '.format(
                             context['name']
                         )
                     )
@@ -371,7 +455,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if not matches_all:
                     self.logger.debug(
-                        '(Version)    Asset name include filter mismatch: {} '.format(
+                        '(Version)       Asset name include filter mismatch: {} '.format(
                             asset['name']
                         )
                     )
@@ -386,7 +470,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         break
                 if matches_any:
                     self.logger.debug(
-                        '(Version)    Asset name exclude filter mismatch: {} '.format(
+                        '(Version)       Asset name exclude filter mismatch: {} '.format(
                             asset['name']
                         )
                     )
@@ -400,65 +484,25 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             if not has_duplicate:
                 # Add a dictionary, allowing further metadata to be passed with resolve at
                 # a later stage
+                self.logger.debug(
+                    '(Version)       Resolved: {}({}) '.format(
+                        self.str_version(context, latest_version),
+                        latest_version['id'],
+                    )
+                )
                 versions.append({'entity': latest_version})
             else:
                 self.logger.debug(
-                    '(Version)    Version already resolved: {} '.format(
-                        self.str_version(latest_version)
+                    '(Version)       Version already resolved: {} '.format(
+                        self.str_version(context, latest_version)
                     )
                 )
         else:
             self.logger.debug(
-                '(Version) No latest version on {}_{}.'.format(
+                '(Version)    No latest version on {}_{}.'.format(
                     context['name'], asset['name']
                 )
             )
-
-    def resolve_dependencies(self, contexts, options):
-        '''Generic dependency resolve, locates latest versions from *context*,
-        based on task type resolvable asset types supplied *options* and filters.'''
-        self.logger.debug(
-            'Resolving asset dependencies on {} context(s)'.format(
-                len(contexts)
-            )
-        )
-        versions = []
-        if len(options.get('asset_types', [])) == 0:
-            self.logger.debug('No asset type rules in options!')
-            return versions
-        for (context, task_and_version_constraints) in contexts:
-            self.session.populate(context, 'assets')
-            for asset in context.get('assets'):
-                asset_type_matches = False
-                for asset_type_option in options['asset_types']:
-                    if (
-                        asset_type_option['asset_type'] != '*'
-                        and asset['type']['name'].lower()
-                        != asset_type_option['asset_type'].lower()
-                        and asset['type']['short'].lower()
-                        != asset_type_option['asset_type'].lower()
-                    ):
-                        self.logger.debug(
-                            '[{}] Asset type mismatch: {}|{}!={}.'.format(
-                                context['name'],
-                                asset['type']['name'],
-                                asset['type']['short'],
-                                asset_type_option['asset_type'],
-                            )
-                        )
-                    else:
-                        asset_type_matches = True
-                        break
-                if asset_type_matches:
-                    self.conditional_add_latest_version(
-                        versions,
-                        context,
-                        asset,
-                        asset_type_option,
-                        task_and_version_constraints,
-                    )
-
-        return versions
 
     # Task type specific resolvers
 
@@ -626,8 +670,10 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             # Fetch all linked asset containers (contexts: shots, asset builds, sequences and so on)
             self._context = context
 
-            linked_contexts = self.get_linked_contexts_recursive(
-                context
+            linked_contexts = []
+
+            self.get_linked_contexts_recursive(
+                context, linked_contexts
             )  # Do not include deps on target context
 
             # Define task type resolver mappings
