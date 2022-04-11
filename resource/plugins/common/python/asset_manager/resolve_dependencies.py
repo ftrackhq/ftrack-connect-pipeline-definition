@@ -134,8 +134,9 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     if link_depth < self.max_link_depth:
 
                         self.logger.debug(
-                            '(Linked contexts) {}Traveling via incoming link from: {}'.format(
-                                indent, entity_link['from']
+                            '(Linked contexts) {}[{}]Traveling via incoming link from: {} {}({})'.format(
+                                indent, entity['name'], entity_link.entity_type,
+                                entity_link['from']['name'], entity_link['from_id']
                             )
                         )
                         linked_contexts = self.get_linked_contexts_recursive(

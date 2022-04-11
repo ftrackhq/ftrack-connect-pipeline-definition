@@ -264,7 +264,7 @@
                     "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"],
                     "follow_links": true,
                     "follow_parents": true,
-                    "resolve_linked_task_parent": true,
+                    "resolve_linked_task_parent": false,
                     "max_link_depth": 1
                 }
             }
