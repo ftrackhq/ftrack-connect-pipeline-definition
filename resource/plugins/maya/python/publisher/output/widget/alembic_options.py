@@ -5,6 +5,7 @@ from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
 
@@ -77,7 +78,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         '''build function , mostly used to create the widgets.'''
         super(AlembicOptionsWidget, self).build()
 
-        self.option_group = QtWidgets.QGroupBox('Alembic Output Options')
+        self.option_group = group_box.GroupBox('Alembic Output Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()

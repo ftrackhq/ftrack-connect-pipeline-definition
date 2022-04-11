@@ -2,6 +2,8 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 from functools import partial
 
+from Qt import QtWidgets
+
 import nuke
 
 import ftrack_api
@@ -9,8 +11,7 @@ import ftrack_api
 
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
-
-from Qt import QtWidgets
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class MovieWidget(BaseOptionsWidget):
@@ -53,7 +54,7 @@ class MovieWidget(BaseOptionsWidget):
         self.file_formats = ['mov', 'mxf']
         self.default_file_format = self.options.get('file_format')
 
-        self.option_group = QtWidgets.QGroupBox('Movie options')
+        self.option_group = group_box.GroupBox('Movie options')
         self.option_group.setToolTip(self.description)
         options_v_lay = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(options_v_lay)

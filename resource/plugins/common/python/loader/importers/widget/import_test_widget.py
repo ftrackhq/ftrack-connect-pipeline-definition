@@ -9,6 +9,7 @@ from ftrack_connect_pipeline_qt import plugin as pluginWidget
 from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
     LoadBaseWidget,
 )
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class LoadTestWidget(LoadBaseWidget):
@@ -39,7 +40,7 @@ class LoadTestWidget(LoadBaseWidget):
     def build(self):
         super(LoadTestWidget, self).build()
 
-        self.options_gb = QtWidgets.QGroupBox('')
+        self.options_gb = group_box.GroupBox('')
         options_lay = QtWidgets.QVBoxLayout()
         self.some_test_option_cb = QtWidgets.QCheckBox('Some test option')
 

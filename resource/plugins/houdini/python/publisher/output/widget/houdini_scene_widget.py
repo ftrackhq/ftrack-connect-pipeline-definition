@@ -5,6 +5,7 @@ from functools import partial
 
 from ftrack_connect_pipeline_houdini import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
 
@@ -43,7 +44,7 @@ class HoudiniSceneOptionsWidget(DynamicWidget):
 
         options = []
 
-        self.option_group = QtWidgets.QGroupBox('Houdini Output Options')
+        self.option_group = group_box.GroupBox('Houdini Output Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
