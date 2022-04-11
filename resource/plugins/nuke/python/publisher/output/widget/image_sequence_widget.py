@@ -9,6 +9,7 @@ import ftrack_api
 
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
 
@@ -63,7 +64,7 @@ class SequenceWidget(BaseOptionsWidget):
         ]
         self.default_file_format = self.options.get('file_format') or 'exr'
 
-        self.option_group = QtWidgets.QGroupBox('Image sequence options')
+        self.option_group = group_box.GroupBox('Image sequence options')
         self.option_group.setToolTip(self.description)
         options_v_lay = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(options_v_lay)
