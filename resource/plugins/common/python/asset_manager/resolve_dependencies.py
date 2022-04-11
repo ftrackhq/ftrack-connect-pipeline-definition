@@ -135,7 +135,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
 
                         self.logger.debug(
                             '(Linked contexts) {}[{}]Traveling via incoming link from: {} {}({})'.format(
-                                indent, entity['name'], entity_link.entity_type,
+                                indent, entity['name'], entity_link['from'].entity_type,
                                 entity_link['from']['name'], entity_link['from_id']
                             )
                         )
