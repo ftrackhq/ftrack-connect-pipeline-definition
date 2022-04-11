@@ -6,6 +6,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
     LoadBaseWidget,
 )
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
 import ftrack_api
@@ -39,12 +40,12 @@ class LoadMayaWidget(LoadBaseWidget):
     def build(self):
         super(LoadMayaWidget, self).build()
 
-        self.options_gb = QtWidgets.QGroupBox('Options')
+        self.options_gb = group_box.GroupBox('Options')
         options_lay = QtWidgets.QVBoxLayout()
         self.preserve_ref_cb = QtWidgets.QCheckBox('Preserve References')
 
         self.add_namespace_cb = QtWidgets.QCheckBox('Add Namespace')
-        self.namespace_options_gb = QtWidgets.QGroupBox('Namespace Options')
+        self.namespace_options_gb = group_box.GroupBox('Namespace Options')
         namespace_lay = QtWidgets.QVBoxLayout()
         self.namespace_bg = QtWidgets.QButtonGroup(self)
         file_name_rb = QtWidgets.QRadioButton('file_name')

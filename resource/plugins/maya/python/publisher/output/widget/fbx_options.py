@@ -5,6 +5,7 @@ from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
 
@@ -58,7 +59,7 @@ class FbxOptionsWidget(DynamicWidget):
             'FBXExportEmbeddedTextures',
         ]
 
-        self.option_group = QtWidgets.QGroupBox('FBX Output Options')
+        self.option_group = group_box.GroupBox('FBX Output Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
