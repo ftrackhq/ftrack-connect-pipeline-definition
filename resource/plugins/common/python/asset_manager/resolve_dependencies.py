@@ -16,26 +16,18 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     follow_parents = True
     resolve_linked_task_parent = True
 
-    def conditional_add_contexts(self, result, contexts):
-        '''Add to list of linked contexts, if not already there'''
-        result_context_ids = [entry[0]['id'] for entry in result]
-        for entry in contexts:
-            if not entry[0]['id'] in result_context_ids:
-                result.append(entry)
-
-    def get_linked_contexts_recursive(
+    def get_linked_entities_recursive(
         self,
         entity,
-        result=None,
+        result,
+        processed_entities,
         calling_entity=None,
-        processed_entities=None,
         is_link=False,
         link_depth=0,
-        task_and_version_constraints=None,
     ):
-        '''Add *entity* to result if it has assets property that can be resolved. Follow
-        links/go upstream to recursively add further related contexts, up to a *link_depth* of maximum 1 (default).
-        Prevent cycles by adding *entity* to *processed_entities*.'''
+        '''Add *entity* to *result* if it has assets property that can be resolved or directly linked. Follow
+        links/go to upstream parent to recursively add further related contexts, up to
+        a *link_depth* of maximum 1 (default). Prevents cycles by adding *entity* to *processed_entities*.'''
         if entity is None:
             self.logger.debug(
                 'Not resolving dependencies for {}({}) - null entity!'.format(
@@ -43,9 +35,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     entity['id'] if entity else 'None',
                 )
             )
-            return result
-        if processed_entities is None:
-            processed_entities = []
+            return
         if calling_entity is not None:
             calling_entity_id = calling_entity['id']
         else:
@@ -62,39 +52,32 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         calling_entity_id,
                     )
                 )
-                return result
+                return
         # Prevent infinite cycles - on called from the samme entity
         processed_entities.append((entity['id'], calling_entity_id))
 
         # Find out entity type
         next_entity_type = context = asset = version_nr = None
-        carry_task_and_version_constraints = True
+        add_entity = False
         if entity.entity_type == 'AssetVersion':
-            next_entity_type = 'task'
             context = entity['task']
             asset = entity['asset']
             version_nr = entity['version']
             if is_link:
-                # Only resolve this explicitly linked version
-                task_and_version_constraints = {
-                    'task_id': context['id'],
-                    'version_id': entity['id'],
-                }
+                add_entity = True
+            else:
+                next_entity_type = 'task'
         elif entity.entity_type == 'Asset':
             next_entity_type = 'parent'
             context = entity['parent']
             asset = entity
         elif entity.entity_type == 'Task':
-            next_entity_type = 'parent'
             context = entity
             if is_link:
-                # Only resolve versions beneath the task
-                task_and_version_constraints = {
-                    'task_id': context['id'],
-                    'version_id': None,
-                }
+                add_entity = True
+            else:
+                next_entity_type = 'parent'
         else:
-            carry_task_and_version_constraints = False
             if 'parent' in entity and entity['parent'] is not None:
                 if self.follow_parents is True:
                     next_entity_type = 'parent'
@@ -117,12 +100,12 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             )
         )
         if 'assets' in entity:
+            add_entity = True
+        if add_entity:
             # Can only add context that has assets
             has_duplicate = False
-            for entry in result:
-                if entry[0]['id'] == entity['id'] and str(entry[0]) == str(
-                    task_and_version_constraints
-                ):
+            for existing_entity in result:
+                if existing_entity['id'] == entity['id']:
                     self.logger.debug(
                         '(Linked contexts) {}NOT considering for resolve - already present'.format(
                             indent
@@ -136,7 +119,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         indent
                     )
                 )
-                result.append((entity, task_and_version_constraints))
+                result.append(entity)
 
         # Any explicit links? Make sure to fetch updated data from backend
         if 'incoming_links' in entity and self.follow_links is True:
@@ -156,19 +139,14 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                                 entity_link['from_id'],
                             )
                         )
-                        linked_contexts = self.get_linked_contexts_recursive(
+                        self.get_linked_entities_recursive(
                             entity_link['from'],
                             result,
+                            processed_entities,
                             calling_entity=entity,
-                            processed_entities=processed_entities,
                             is_link=True,
                             link_depth=link_depth + 1,
                         )
-                        if len(linked_contexts) > 0:
-                            self.conditional_add_contexts(
-                                result, linked_contexts
-                            )
-                            have_links = True
                     else:
                         self.logger.debug(
                             '(Linked contexts) {}[{}]NOT Traveling via incoming link from: {} {}[{}], max link depth of {} encountered'.format(
@@ -182,10 +160,8 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         )
             if (
                 self.resolve_linked_task_parent is False
-                and link_depth > 0
                 and have_links
                 and entity.entity_type == 'Task'
-                and entity['id'] == self._context['id']
             ):
                 # The resolved context have explicit links, stop harvest dependencies within this context and its parents
                 self.logger.debug(
@@ -194,27 +170,20 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     )
                 )
                 next_entity_type = None
-        if next_entity_type:
+        if next_entity_type is not None:
             self.logger.debug(
                 '(Linked contexts) {}[{}]Traveling to: {}'.format(
                     indent, entity['name'], next_entity_type
                 )
             )
             self.session.populate(entity, next_entity_type)
-            self.conditional_add_contexts(
+            self.get_linked_entities_recursive(
+                entity[next_entity_type],
                 result,
-                self.get_linked_contexts_recursive(
-                    entity[next_entity_type],
-                    result,
-                    calling_entity=entity,
-                    processed_entities=processed_entities,
-                    link_depth=link_depth,
-                    task_and_version_constraints=task_and_version_constraints
-                    if carry_task_and_version_constraints
-                    else None,
-                ),
+                processed_entities,
+                calling_entity=entity,
+                link_depth=link_depth,
             )
-        return result
 
     def str_version(self, context, asset_version):
         '''Generate a human readable string representation of *asset_version* beneath *context*'''
@@ -224,79 +193,69 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
             asset_version['version'],
         )
 
-    def resolve_dependencies(self, contexts, options):
-        '''Generic dependency resolve, locates latest versions from *context*,
+    def resolve_dependencies(self, entities, options):
+        '''Generic dependency resolve, locates latest versions from *entities*,
         based on task type resolvable asset types supplied *options* and filters.'''
         self.logger.debug(
             'Resolving asset dependencies on {} context(s)'.format(
-                len(contexts)
+                len(entities)
             )
         )
         versions = []
         if len(options.get('asset_types', [])) == 0:
             self.logger.debug('No asset type rules in options!')
             return versions
-        for (context, task_and_version_constraints) in contexts:
-            s = ''
-            if (
-                task_and_version_constraints
-                and len(task_and_version_constraints) > 0
-            ):
-                s = ' (trask constraints: {}{})'.format(
-                    task_and_version_constraints['task_id'],
-                    (
-                        ', version: {}'.format(
-                            task_and_version_constraints['version_id']
-                        )
-                        if task_and_version_constraints['version_id']
-                        else ''
-                    ),
-                )
+        for entity in entities:
             self.logger.debug(
-                '(Assets) Resolving context {}[{}]{}'.format(
-                    context['name'], context['id'], s
+                '(Assets) Resolving entity {}[{}]'.format(
+                    entity['name'], entity['id']
                 )
             )
-            self.session.populate(context, 'assets')
-            for asset in context.get('assets'):
-                asset_type_matches = False
-                for asset_type_option in options['asset_types']:
-                    if (
-                        asset_type_option['asset_type'] != '*'
-                        and asset['type']['name'].lower()
-                        != asset_type_option['asset_type'].lower()
-                        and asset['type']['short'].lower()
-                        != asset_type_option['asset_type'].lower()
-                    ):
-                        self.logger.debug(
-                            '(Assets)    [{}]Asset type mismatch: {}|{}!={}.'.format(
-                                context['name'],
-                                asset['type']['name'],
-                                asset['type']['short'],
-                                asset_type_option['asset_type'],
-                            )
+            add_version = False
+            if entity.entity_type == 'AssetVersion':
+                # Add this version
+                asset_version = entity
+                context = asset_version['asset']['parent']
+                self.conditional_add_version(context, versions, asset_version)
+            else:
+                task = None
+                assets = None
+                if entity.entity_type == 'Task':
+                    task = entity
+                    context = task['parent']
+                else:
+                    context = entity
+                self.session.populate(context, 'assets')
+                have_matching_asset = False
+                for asset in context.get('assets'):
+                    asset_type_matches = False
+                    for asset_type_option in options['asset_types']:
+                        if (
+                            asset_type_option['asset_type'] == '*'
+                            or asset['type']['name'].lower()
+                            == asset_type_option['asset_type'].lower()
+                            or asset['type']['short'].lower()
+                            == asset_type_option['asset_type'].lower()
+                        ):
+                            have_matching_asset = True
+                            asset_type_matches = True
+                            break
+
+                    if asset_type_matches:
+                        self.conditional_add_latest_version(
+                            versions, context, task, asset, asset_type_option
                         )
-                    else:
-                        asset_type_matches = True
-                        break
-                if asset_type_matches:
-                    self.conditional_add_latest_version(
-                        versions,
-                        context,
-                        asset,
-                        asset_type_option,
-                        task_and_version_constraints,
+                if not have_matching_asset:
+                    self.logger.debug(
+                        '(Assets)    [{}]No matching assets found, supported types:{}'.format(
+                            context['name'], options['asset_types']
+                        )
                     )
 
         return versions
 
     def conditional_add_latest_version(
-        self,
-        versions,
-        context,
-        asset,
-        asset_type_option,
-        task_and_version_constraints,
+        self, versions, context, task, asset, asset_type_option
     ):
         '''Filter context *ctx* and *asset* against *asset_type_option*, if they pass,
         add latest version to *versions*'''
@@ -315,11 +274,14 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         )
         latest_version = None
         self.session.populate(asset, 'versions')
+        task_projection = (
+            (' and task.id={}'.format(task['id'])) if task else ''
+        )
         if no_status_include_constraints and no_status_exclude_constraints:
             # No version status constraints
             latest_version = self.session.query(
-                'AssetVersion where asset.id={} and is_latest_version is true'.format(
-                    asset['id']
+                'AssetVersion where asset.id={}{} and is_latest_version is true'.format(
+                    asset['id'], task_projection
                 )
             ).first()
         elif (
@@ -329,14 +291,14 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         ):
             # Framework default, treat this special to save performance
             latest_version = self.session.query(
-                'AssetVersion where asset.id={} and status.name != "Omitted" '
-                'order by version desc'.format(asset['id'])
+                'AssetVersion where asset.id={}{} and status.name != "Omitted" '
+                'order by version desc'.format(asset['id'], task_projection)
             ).first()
         else:
             # Find latest version by iterating versions and check statuses
             for version in self.session.query(
-                'AssetVersion where asset.id={} '
-                'order by version desc'.format(asset['id'])
+                'AssetVersion where asset.id={}{} '
+                'order by version desc'.format(asset['id'], task_projection)
             ):
                 # Check so it's not the calling context
                 if version['task']['id'] == self._context['id']:
@@ -347,33 +309,6 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                         )
                     )
                     continue
-                if task_and_version_constraints is not None:
-                    if (
-                        'version_id' in task_and_version_constraints
-                        and task_and_version_constraints['version_id']
-                        is not None
-                        and version['id']
-                        != task_and_version_constraints['version_id']
-                    ):
-                        self.logger.debug(
-                            '(Version)    Not considering version {} - not the explicitly linked version: {}.'.format(
-                                self.str_version(context, version),
-                                task_and_version_constraints['version_id'],
-                            )
-                        )
-                        continue
-                    elif (
-                        'task_id' in task_and_version_constraints
-                        and version['task']['id']
-                        != task_and_version_constraints['task_id']
-                    ):
-                        self.logger.debug(
-                            '(Version)    Not considering version {} - not bound to the explicitly linked task: {}.'.format(
-                                self.str_version(context, version),
-                                task_and_version_constraints['task_id'],
-                            )
-                        )
-                        break
                 if len(self._status_names_include or []) > 0:
                     include = False
                     for status_name_include in self._status_names_include:
@@ -476,187 +411,190 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     )
                     return
             # Check so it's not already in there
-            has_duplicate = False
-            for version_data in versions:
-                if version_data['entity']['id'] == latest_version['id']:
-                    has_duplicate = True
-                    break
-            if not has_duplicate:
-                # Add a dictionary, allowing further metadata to be passed with resolve at
-                # a later stage
-                self.logger.debug(
-                    '(Version)       Resolved: {}({}) '.format(
-                        self.str_version(context, latest_version),
-                        latest_version['id'],
-                    )
-                )
-                versions.append({'entity': latest_version})
-            else:
-                self.logger.debug(
-                    '(Version)       Version already resolved: {} '.format(
-                        self.str_version(context, latest_version)
-                    )
-                )
+            self.conditional_add_version(context, versions, latest_version)
         else:
             self.logger.debug(
-                '(Version)    No latest version on {}_{}.'.format(
+                '(Version)    No latest version on asset {}_{}.'.format(
                     context['name'], asset['name']
+                )
+            )
+
+    def conditional_add_version(self, context, versions, asset_version):
+        has_duplicate = False
+        for version_data in versions:
+            if version_data['entity']['id'] == asset_version['id']:
+                has_duplicate = True
+                break
+        if not has_duplicate:
+            # Add a dictionary, allowing further metadata to be passed with resolve at
+            # a later stage
+            self.logger.debug(
+                '(Version)       Resolved: {}({}) '.format(
+                    self.str_version(context, asset_version),
+                    asset_version['id'],
+                )
+            )
+            versions.append({'entity': asset_version})
+        else:
+            self.logger.debug(
+                '(Version)       Version already resolved: {} '.format(
+                    self.str_version(context, asset_version)
                 )
             )
 
     # Task type specific resolvers
 
-    def resolve_texture_dependencies(self, contexts, options):
+    def resolve_texture_dependencies(self, entities, options):
         '''Find latest texture dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further texture specific resolves/checks on result here
         return versions
 
-    def resolve_vehicle_dependencies(self, contexts, options):
+    def resolve_vehicle_dependencies(self, entities, options):
         '''Find latest vehicle dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further vehicle specific resolves/checks on result here
         return versions
 
-    def resolve_conform_dependencies(self, contexts, options):
+    def resolve_conform_dependencies(self, entities, options):
         '''Find latest conform dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further conform specific resolves/checks on result here
         return versions
 
-    def resolve_environment_dependencies(self, contexts, options):
+    def resolve_environment_dependencies(self, entities, options):
         '''Find latest environment dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
         versions = self.resolve_dependencies(contexts, options)
         # Perform further environment specific resolves/checks on result here
         return versions
 
-    def resolve_matte_painting_dependencies(self, contexts, options):
+    def resolve_matte_painting_dependencies(self, entities, options):
         '''Find latest matte_painting dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further matte painting specific resolves/checks on result here
         return versions
 
-    def resolve_prop_dependencies(self, contexts, options):
+    def resolve_prop_dependencies(self, entities, options):
         '''Find latest prop dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further prop specific resolves/checks on result here
         return versions
 
-    def resolve_character_dependencies(self, contexts, options):
+    def resolve_character_dependencies(self, entities, options):
         '''Find latest character dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further character specific resolves/checks on result here
         return versions
 
-    def resolve_editing_dependencies(self, contexts, options):
+    def resolve_editing_dependencies(self, entities, options):
         '''Find latest editing dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further editing specific resolves/checks on result here
         return versions
 
-    def resolve_production_dependencies(self, contexts, options):
+    def resolve_production_dependencies(self, entities, options):
         '''Find latest production dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further production specific resolves/checks on result here
         return versions
 
-    def resolve_modeling_dependencies(self, contexts, options):
+    def resolve_modeling_dependencies(self, entities, options):
         '''Find latest modeling dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further modeling specific resolves/checks on result here
         return versions
 
-    def resolve_previz_dependencies(self, contexts, options):
+    def resolve_previz_dependencies(self, entities, options):
         '''Find latest previz dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further previz specific resolves/checks on result here
         return versions
 
-    def resolve_tracking_dependencies(self, contexts, options):
+    def resolve_tracking_dependencies(self, entities, options):
         '''Find latest tracking dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further tracking specific resolves/checks on result here
         return versions
 
-    def resolve_rigging_dependencies(self, contexts, options):
+    def resolve_rigging_dependencies(self, entities, options):
         '''Find latest rigging dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further rigging specific resolves/checks on result here
         return versions
 
-    def resolve_animation_dependencies(self, contexts, options):
+    def resolve_animation_dependencies(self, entities, options):
         '''Find latest animation dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further animation specific resolves/checks on result here
         return versions
 
-    def resolve_fx_dependencies(self, contexts, options):
+    def resolve_fx_dependencies(self, entities, options):
         '''Find latest fx dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further fx specific resolves/checks on result here
         return versions
 
-    def resolve_lighting_dependencies(self, contexts, options):
+    def resolve_lighting_dependencies(self, entities, options):
         '''Find latest lighting dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further lighting specific resolves/checks on result here
         return versions
 
-    def resolve_rotoscoping_dependencies(self, contexts, options):
+    def resolve_rotoscoping_dependencies(self, entities, options):
         '''Find latest rotoscoping dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further rotoscoping specific resolves/checks on result here
         return versions
 
-    def resolve_compositing_dependencies(self, contexts, options):
+    def resolve_compositing_dependencies(self, entities, options):
         '''Find latest compositing dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further compositing specific resolves/checks on result here
         return versions
 
-    def resolve_deliverable_dependencies(self, contexts, options):
+    def resolve_deliverable_dependencies(self, entities, options):
         '''Find latest deliverable dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further deliverable specific resolves/checks on result here
         return versions
 
-    def resolve_layout_dependencies(self, contexts, options):
+    def resolve_layout_dependencies(self, entities, options):
         '''Find latest layout dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further layout specific resolves/checks on result here
         return versions
 
-    def resolve_rendering_dependencies(self, contexts, options):
+    def resolve_rendering_dependencies(self, entities, options):
         '''Find latest rendering dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further rendering specific resolves/checks on result here
         return versions
 
-    def resolve_concept_art_dependencies(self, contexts, options):
+    def resolve_concept_art_dependencies(self, entities, options):
         '''Find latest concept art dependency versions *contexts*, based on task type resolvable
         asset types supplied *options*'''
-        versions = self.resolve_dependencies(contexts, options)
+        versions = self.resolve_dependencies(entities, options)
         # Perform further concept art specific resolves/checks on result here
         return versions
 
@@ -667,14 +605,15 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     context.entity_type, context['name'], context['id']
                 )
             )
+            self._context = context  # Do not include deps on target context
+
+            entities = []
+            processed_entities = []
+
             # Fetch all linked asset containers (contexts: shots, asset builds, sequences and so on)
-            self._context = context
-
-            linked_contexts = []
-
-            self.get_linked_contexts_recursive(
-                context, linked_contexts
-            )  # Do not include deps on target context
+            self.get_linked_entities_recursive(
+                context, entities, processed_entities
+            )
 
             # Define task type resolver mappings
             TASK_TYPE_RESOLVERS = {
@@ -731,7 +670,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 )
                 return {
                     'versions': TASK_TYPE_RESOLVERS[resolver_name.lower()](
-                        linked_contexts, resolver_options
+                        entities, resolver_options
                     )
                 }
             else:
@@ -743,6 +682,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     },
                 )
         except:
+            # Print exception as it might get squeezed further up
             import traceback
 
             sys.stderr.write(traceback.format_exc())
