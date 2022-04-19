@@ -9,7 +9,7 @@ import ftrack_api
 import nuke
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline.asset import asset_info
+from ftrack_connect_pipeline.asset import asset_info as ainfo
 from ftrack_connect_pipeline_nuke.constants import asset as asset_const
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
@@ -29,14 +29,15 @@ class ImportNukeImageSequencePlugin(plugin.LoaderImporterNukePlugin):
                 'Loading image sequence {}'.format(component_path)
             )
             resulting_node = nuke.createNode('Read', inpanel=False)
-            arguments_dict = asset_info.generate_asset_info_dict_from_args(
-                context_data, data, options, self.session
-            )
-            asset_info_class = asset_info.FtrackAssetInfo(arguments_dict)
+            # TODO: This code is not used, should we remove it? Check this on nuke test task
+            # arguments_dict = ainfo.generate_asset_info_dict_from_args(
+            #     context_data, data, options, self.session
+            # )
+            # asset_info = ainfo.FtrackAssetInfo(arguments_dict)
             # unique_name = nuke_utils.get_unique_scene_name(
             #    '{}_{}'.format(
-            #        asset_info_class[asset_const.ASSET_NAME],
-            #        asset_info_class[asset_const.COMPONENT_NAME],
+            #        asset_info[asset_const.ASSET_NAME],
+            #        asset_info[asset_const.COMPONENT_NAME],
             #    )
             # )
             # resulting_node['name'].setValue(unique_name)
