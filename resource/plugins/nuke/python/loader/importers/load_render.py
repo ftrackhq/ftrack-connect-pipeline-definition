@@ -9,7 +9,6 @@ import ftrack_api
 import nuke
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline.asset import asset_info
 
 
 class ImportNukeRenderPlugin(plugin.LoaderImporterNukePlugin):
@@ -25,9 +24,6 @@ class ImportNukeRenderPlugin(plugin.LoaderImporterNukePlugin):
         for component_path in paths_to_import:
             self.logger.debug('Loading render/movie {}'.format(component_path))
             resulting_node = nuke.createNode('Read', inpanel=False)
-            arguments_dict = asset_info.generate_asset_info_dict_from_args(
-                context_data, data, options, self.session
-            )
             resulting_node['file'].fromUserText(component_path)
 
             results[component_path] = resulting_node.name()
