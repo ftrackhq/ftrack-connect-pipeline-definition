@@ -102,8 +102,8 @@ class MovieWidget(BaseOptionsWidget):
         self.render_from_sequence_note = QtWidgets.QLabel(
             '<html><i>Make sure you select a write/read node pointing to a rendered sequence.</i></html>'
         )
-        self.render_from_sequence_note.setVisible(False)
         self.layout().addWidget(self.render_from_sequence_note)
+        self.render_from_sequence_note.setVisible(False)
 
         self.pickup_rb = QtWidgets.QRadioButton(
             'Pick up existing movie from selected write/read node'

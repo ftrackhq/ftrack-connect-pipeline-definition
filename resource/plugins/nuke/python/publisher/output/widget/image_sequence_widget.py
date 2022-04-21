@@ -112,8 +112,8 @@ class SequenceWidget(BaseOptionsWidget):
         self.pickup_note = QtWidgets.QLabel(
             '<html><i>Make sure you select a write/read node pointing to a rendered sequence.</i></html>'
         )
-        self.pickup_note.setVisible(False)
         self.layout().addWidget(self.pickup_note)
+        self.pickup_note.setVisible(False)
 
         if not 'mode' in self.options:
             self.set_option_result('render', 'mode')
