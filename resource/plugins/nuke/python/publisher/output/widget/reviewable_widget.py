@@ -57,8 +57,8 @@ class ReviewableWidget(BaseOptionsWidget):
         self.render_from_sequence_note = QtWidgets.QLabel(
             '<html><i>Make sure you select a write/read node pointing rendered media.</i></html>'
         )
-        self.render_from_sequence_note.setVisible(False)
         self.layout().addWidget(self.render_from_sequence_note)
+        self.render_from_sequence_note.setVisible(False)
 
         self.pickup_rb = QtWidgets.QRadioButton(
             'Pick up existing movie from selected write/read node'
@@ -69,8 +69,8 @@ class ReviewableWidget(BaseOptionsWidget):
         self.pickup_note = QtWidgets.QLabel(
             '<html><i>Make sure you select a write/read node pointing to an existing rendered movie.</i></html>'
         )
-        self.pickup_note.setVisible(False)
         self.layout().addWidget(self.pickup_note)
+        self.pickup_note.setVisible(False)
 
         if not 'mode' in self.options:
             self.set_option_result('render', 'mode')
