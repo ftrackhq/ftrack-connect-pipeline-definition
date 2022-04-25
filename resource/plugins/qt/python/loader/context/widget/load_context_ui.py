@@ -11,7 +11,7 @@ class ContextLoadWidget(plugin.LoaderContextWidget):
     widget = context_widget.LoadContextWidget
 
 
-class ContextOpenWidget(plugin.LoaderContextWidget):
+class ContextOpenWidget(plugin.OpenerContextWidget):
     plugin_name = 'context.open'
     widget = context_widget.OpenContextWidget
 
