@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Reference Loader",
+  "type": "opener",
+  "name": "Reference Opener",
   "asset_type": "upload",
   "host_type": "nuke",
   "ui_type": "qt",

@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Image Sequence Loader",
+  "type": "opener",
+  "name": "Image Sequence Opener",
   "asset_type": "img",
   "host_type": "nuke",
   "ui_type": "qt",

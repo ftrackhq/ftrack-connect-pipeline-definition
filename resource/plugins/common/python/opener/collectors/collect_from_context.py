@@ -7,7 +7,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CollectFromContextPlugin(plugin.OpenerCollectorPlugin):
+class CollectFromContextOpenerPlugin(plugin.OpenerCollectorPlugin):
     plugin_name = 'collect_from_context'
 
     def run(self, context_data=None, data=None, options=None):
@@ -44,5 +44,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CollectFromContextPlugin(api_object)
+    plugin = CollectFromContextOpenerPlugin(api_object)
     plugin.register()

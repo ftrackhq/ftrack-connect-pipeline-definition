@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Movie Loader",
+  "type": "opener",
+  "name": "Movie Opener",
   "asset_type": "render",
   "host_type": "nuke",
   "ui_type": "qt",

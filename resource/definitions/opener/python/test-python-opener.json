@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "File Loader",
+  "type": "opener",
+  "name": "File Opener",
   "asset_type": "scene",
   "host_type": "python",
   "contexts": [

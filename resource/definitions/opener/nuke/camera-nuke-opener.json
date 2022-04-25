@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Camera Loader",
+  "type": "opener",
+  "name": "Camera Opener",
   "asset_type": "cam",
   "host_type": "nuke",
   "ui_type": "qt",

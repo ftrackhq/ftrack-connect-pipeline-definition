@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Geometry Loader",
+  "type": "opener",
+  "name": "Geometry Opener",
   "asset_type": "geo",
   "host_type": "nuke",
   "ui_type": "qt",

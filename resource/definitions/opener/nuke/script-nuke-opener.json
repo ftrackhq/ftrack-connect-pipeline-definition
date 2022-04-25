@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Script Loader",
+  "type": "opener",
+  "name": "Script Opener",
   "asset_type": "script",
   "host_type": "nuke",
   "ui_type": "qt",
