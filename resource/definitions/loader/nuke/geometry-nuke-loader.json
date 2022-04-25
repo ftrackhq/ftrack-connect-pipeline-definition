@@ -57,7 +57,7 @@
       ]
     },
     {
-      "name": "gamse",
+      "name": "game",
       "file_formats": [".fbx"],
       "optional": true,
       "stages": [

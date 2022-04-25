@@ -12,16 +12,9 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "import",
               "name": "context selector",
               "plugin": "context.load",
               "widget": "context.load"
-            },
-            {
-              "mode": "open",
-              "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
             }
           ]
         }
@@ -80,17 +73,10 @@
         },
         {
           "name": "finalizer",
-          "visible": false,
           "plugins":[
-            {
-              "name": "Copy script to working directory",
-              "plugin": "nuke_finalize",
-              "mode": "open"
-            },
             {
               "name": "Do nothing",
               "plugin": "finalizer_test",
-              "mode": "import",
               "visible": false
             }
           ]

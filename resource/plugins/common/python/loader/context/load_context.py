@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class EnvContextPlugin(plugin.LoaderContextPlugin):
+class EnvContextLoadPlugin(plugin.LoaderContextPlugin):
     plugin_name = 'context.load'
 
     def run(self, context_data=None, data=None, options=None):
@@ -18,5 +18,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = EnvContextPlugin(api_object)
+    plugin = EnvContextLoadPlugin(api_object)
     plugin.register()

@@ -12,7 +12,7 @@ class PostImportLoaderTest(plugin.LoaderPostImportPlugin):
         return (
             {},
             {
-                'message': 'No Data is imported this is for testing propouses',
+                'message': 'No Data is imported this is for testing purposes',
                 'data': ['abcde'],
             },
         )

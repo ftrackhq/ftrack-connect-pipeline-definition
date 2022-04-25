@@ -403,7 +403,7 @@
         "type",
         "default_method"
       ],
-      "order":["type", "category", "name", "description", "plugin", "widget", "options", "default_method", "mode"],
+      "order":["type", "category", "name", "description", "plugin", "widget", "options", "default_method"],
       "additionalProperties": false,
       "properties": {
         "category": {
@@ -453,15 +453,6 @@
         "default_method": {
           "type": "string",
           "default": "run"
-        },
-        "mode": {
-          "type": "string",
-          "enum": [
-            "open",
-            "import",
-            "null"
-          ],
-          "default": "null"
         }
       }
     },

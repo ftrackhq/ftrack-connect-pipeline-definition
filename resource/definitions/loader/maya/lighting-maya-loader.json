@@ -12,16 +12,9 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "import",
               "name": "context selector",
               "plugin": "context.load",
               "widget": "context.load"
-            },
-            {
-              "mode": "open",
-              "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
             }
           ]
         }
@@ -129,18 +122,11 @@
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "Save Scene",
-              "description" : "Upon open, save Maya scene to local snapshot directory",
-              "plugin": "maya_finalize",
-              "mode": "open"
-            },
-            {
               "name": "Do nothing",
-              "plugin": "finalizer_test",
-              "mode": "import",
-              "visible": false
+              "plugin": "finalizer_test"
             }
           ]
         },
