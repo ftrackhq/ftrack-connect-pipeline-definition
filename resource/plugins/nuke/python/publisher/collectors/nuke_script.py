@@ -19,7 +19,7 @@ class CollectNukeScenePlugin(plugin.PublisherCollectorNukePlugin):
             # Script is not saved, save it first.
             self.logger.warning('Nuke not saved, saving local snapshot..')
             work_path, message = nuke_utils.save_snapshot(
-                utils.get_current_context_id(), self.session
+                utils.get_global_context_id(), self.session
             )
             if not message is None:
                 self.logger.info(message)

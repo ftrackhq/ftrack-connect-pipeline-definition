@@ -20,7 +20,7 @@ class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
                 # Scene is not saved, save it first.
                 self.logger.warning('Maya not saved, saving local snapshot..')
                 work_path, message = maya_utils.save_snapshot(
-                    utils.get_current_context_id(), self.session
+                    utils.get_global_context_id(), self.session
                 )
                 if not message is None:
                     self.logger.info(message)
