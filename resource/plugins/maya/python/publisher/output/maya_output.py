@@ -56,7 +56,7 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
                 # care of by scene collector.
                 self.logger.warning('Maya not saved, saving local snapshot..')
                 work_path, message = maya_utils.save_snapshot(
-                    utils.get_global_context_id(), self.session
+                    utils.global_context(), self.session
                 )
                 if not message is None:
                     self.logger.info(message)
