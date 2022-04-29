@@ -27,12 +27,12 @@ class OutputThumbnailPlugin(plugin.PublisherOutputNukePlugin):
         write_node = nuke.createNode('Write')
         write_node.setInput(0, input_node)
 
-        # create reformat ftrack_object
+        # create reformat dcc_object
         reformat_node = nuke.nodes.Reformat()
         reformat_node['type'].setValue("to box")
         reformat_node['box_width'].setValue(200.0)
 
-        # connect given write ftrack_object to reformat.
+        # connect given write dcc_object to reformat.
         reformat_node.setInput(0, write_node)
 
         # create new write for reformat and connect it.

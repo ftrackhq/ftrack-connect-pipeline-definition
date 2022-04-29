@@ -74,7 +74,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
                 else:
                     write_node = nuke.createNode('Write')
                     write_node.setInput(0, input_node)
-                    # Get the input of the given write ftrack_object.
+                    # Get the input of the given write dcc_object.
                     input_node = write_node
                     delete_write_node = True
 
