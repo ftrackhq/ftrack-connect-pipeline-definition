@@ -63,7 +63,7 @@ class NodeSelectorWidget(BaseOptionsWidget):
             self.node_names.append(self.options.get('node_name'))
 
         if not self.node_names:
-            self.nodes_cb.addItem('No ftrack_objects found.')
+            self.nodes_cb.addItem('No dcc_objects found.')
             self.nodes_cb.setDisabled(True)
         else:
             self.nodes_cb.addItems(self.node_names)
