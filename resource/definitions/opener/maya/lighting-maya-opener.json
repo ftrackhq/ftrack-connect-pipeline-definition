@@ -12,7 +12,6 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "open",
               "name": "context selector",
               "plugin": "context.open",
               "widget": "context.open"
@@ -101,11 +100,11 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
-              "visible": false
+              "plugin": "pre_finalizer_test"
             }
           ]
         },
