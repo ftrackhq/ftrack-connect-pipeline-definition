@@ -13,7 +13,7 @@ import nuke
 import shutil
 
 
-class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
+class OutputSequencePlugin(plugin.NukePublisherExporterPlugin):
     plugin_name = 'sequence'
 
     def run(self, context_data=None, data=None, options=None):
@@ -51,7 +51,7 @@ class OutputSequencePlugin(plugin.PublisherOutputNukePlugin):
                 selected_file_format = str(options.get('image_format'))
                 file_format_options = options.get('file_format_options') or {}
 
-                # Generate output file name for mov.
+                # Generate exporters file name for mov.
                 temp_name = tempfile.NamedTemporaryFile()
 
                 first = str(int(write_node['first'].getValue()))

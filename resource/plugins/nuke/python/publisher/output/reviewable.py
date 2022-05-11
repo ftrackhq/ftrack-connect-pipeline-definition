@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
-class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
+class OutputReviewablePlugin(plugin.NukePublisherExporterPlugin):
     plugin_name = 'reviewable'
 
     def run(self, context_data=None, data=None, options=None):
@@ -78,7 +78,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
                     input_node = write_node
                     delete_write_node = True
 
-                # Generate output file name for mov.
+                # Generate exporters file name for mov.
                 temp_review_mov_path = tempfile.NamedTemporaryFile(
                     delete=False, suffix='.mov'
                 ).name
@@ -146,7 +146,7 @@ class OutputReviewablePlugin(plugin.PublisherOutputNukePlugin):
                     )
                 )
                 # Make a copy of the file so it can be moved
-                # Generate output file name for mov.
+                # Generate exporters file name for mov.
                 temp_review_mov_path = tempfile.NamedTemporaryFile(
                     delete=False, suffix='.mov'
                 ).name

@@ -12,7 +12,7 @@ from Qt import QtWidgets
 import ftrack_api
 
 
-class FbxOptionsWidget(DynamicWidget):
+class MayaDefaultExporterOptionsWidget(DynamicWidget):
     def __init__(
         self,
         parent=None,
@@ -27,7 +27,7 @@ class FbxOptionsWidget(DynamicWidget):
 
         self.options_cb = {}
 
-        super(FbxOptionsWidget, self).__init__(
+        super(MayaDefaultExporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -40,54 +40,59 @@ class FbxOptionsWidget(DynamicWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(FbxOptionsWidget, self).build()
+        super(MayaDefaultExporterOptionsWidget, self).build()
 
-        bool_options = [
-            'FBXExportScaleFactor',
-            'FBXExportUpAxis',
-            'FBXExportFileVersion',
-            'FBXExportSmoothMesh',
-            'FBXExportInAscii',
-            'FBXExportAnimationOnly',
-            'FBXExportInstances',
-            'FBXExportApplyConstantKeyReducer',
-            'FBXExportBakeComplexAnimation',
-            'FBXExportBakeResampleAnimation',
-            'FBXExportCameras',
-            'FBXExportLights',
-            'FBXExportConstraints',
-            'FBXExportEmbeddedTextures',
+        options = [
+            'history',
+            'channels',
+            'preserve_reference',
+            'shader',
+            'constraints',
+            'expressions',
         ]
-
-        self.option_group = group_box.GroupBox('FBX Output Options')
+        self.option_group = group_box.GroupBox('Maya exporter Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(self.option_layout)
 
-        self.layout().addWidget(self.option_group)
-        for option in bool_options:
+        self.file_type_combo = QtWidgets.QComboBox()
+        self.file_type_combo.addItem('mayaBinary (.mb)')
+        self.file_type_combo.addItem('mayaAscii (.ma)')
+        self.option_layout.addWidget(self.file_type_combo)
+
+        for option in options:
             option_check = QtWidgets.QCheckBox(option)
 
             self.options_cb[option] = option_check
             self.option_layout.addWidget(option_check)
 
+        self.layout().addWidget(self.option_group)
+
     def post_build(self):
-        super(FbxOptionsWidget, self).post_build()
+        super(MayaDefaultExporterOptionsWidget, self).post_build()
 
         for option, widget in self.options_cb.items():
             update_fn = partial(self.set_option_result, key=option)
             widget.stateChanged.connect(update_fn)
 
+        self.file_type_combo.currentIndexChanged.connect(
+            self._on_file_type_set
+        )
 
-class FbxOptionsPluginWidget(plugin.PublisherOutputMayaWidget):
-    plugin_name = 'fbx_options'
-    widget = FbxOptionsWidget
+    def _on_file_type_set(self, index):
+        value = self.file_type_combo.currentText()
+        self.set_option_result(value.split(' ')[0], 'file_type')
+
+
+class MayaDefaultExporterOptionsPluginWidget(plugin.MayaPublisherExporterPluginWidget):
+    plugin_name = 'maya_default_exporter_options'
+    widget = MayaDefaultExporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = FbxOptionsPluginWidget(api_object)
+    plugin = MayaDefaultExporterOptionsPluginWidget(api_object)
     plugin.register()

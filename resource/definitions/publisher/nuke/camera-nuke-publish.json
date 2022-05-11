@@ -48,7 +48,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export camera",
@@ -87,7 +87,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export camera",
@@ -126,7 +126,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export camera",

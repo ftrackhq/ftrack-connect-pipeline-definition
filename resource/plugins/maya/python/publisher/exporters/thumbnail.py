@@ -10,7 +10,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class OutputMayaThumbnailPlugin(plugin.PublisherOutputMayaPlugin):
+class OutputMayaThumbnailPlugin(plugin.MayaPublisherExporterPlugin):
     plugin_name = 'thumbnail'
 
     def run(self, context_data=None, data=None, options=None):

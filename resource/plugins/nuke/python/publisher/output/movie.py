@@ -13,7 +13,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 import nuke
 
 
-class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
+class OutputMoviePlugin(plugin.NukePublisherExporterPlugin):
     plugin_name = 'movie'
 
     def run(self, context_data=None, data=None, options=None):
@@ -105,7 +105,7 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
                     'file_format_options'
                 )
 
-                # Generate output file name for mov.
+                # Generate exporters file name for mov.
                 temp_name = tempfile.NamedTemporaryFile()
 
                 first = str(int(write_node['first'].getValue()))
@@ -163,7 +163,7 @@ class OutputMoviePlugin(plugin.PublisherOutputNukePlugin):
                 )
 
                 # Make a copy of the file so it can be moved
-                # Generate output file name for mov.
+                # Generate exporters file name for mov.
                 movie_path = tempfile.NamedTemporaryFile(
                     delete=False, suffix='.mov'
                 ).name

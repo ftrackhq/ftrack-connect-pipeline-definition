@@ -46,11 +46,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Render sequence",
-              "plugin": "sequence_output"
+              "plugin": "sequence_exporter"
             }
           ]
         }
@@ -80,11 +80,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Render sequence",
-              "plugin": "reviewable_output"
+              "plugin": "reviewable_exporter"
             }
           ]
         }
@@ -114,11 +114,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Package project",
-              "plugin": "package_output"
+              "plugin": "package_exporter"
             }
           ]
         }

@@ -47,12 +47,12 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_output",
-              "widget": "maya_options"
+              "plugin": "maya_default_exporter",
+              "widget": "maya_default_exporter_options"
             }
           ]
         }
@@ -84,7 +84,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",
@@ -119,7 +119,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write reviewable",

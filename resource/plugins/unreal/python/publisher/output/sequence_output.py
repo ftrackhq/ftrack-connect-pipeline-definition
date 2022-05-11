@@ -79,10 +79,10 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
             output_path = '-MovieFolder="{}"'.format(destination_path)
             cmdline_args.append(
                 output_path
-            )  # output folder, must match the work template
+            )  # exporters folder, must match the work template
 
             movie_name_arg = '-MovieName={}'.format(content_name)
-            cmdline_args.append(movie_name_arg)  # output filename
+            cmdline_args.append(movie_name_arg)  # exporters filename
 
             cmdline_args.append("-game")
             cmdline_args.append(
@@ -118,7 +118,7 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
 
                 msg = (
                     'Could not delete {}. The Sequencer will not be able to'
-                    ' output the movie to that file.'.format(output_filepath)
+                    ' exporters the movie to that file.'.format(output_filepath)
                 )
                 self.logger.error(msg)
                 return False, {'message': msg}

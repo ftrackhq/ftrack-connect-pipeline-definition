@@ -78,7 +78,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         '''build function , mostly used to create the widgets.'''
         super(AlembicOptionsWidget, self).build()
 
-        self.option_group = group_box.GroupBox('Alembic Output Options')
+        self.option_group = group_box.GroupBox('Alembic exporter Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
@@ -146,7 +146,7 @@ class AlembicOptionsWidget(BaseOptionsWidget):
         self.set_option_result(value, key='alembicAnimation')
 
 
-class AlembicOptionsPluginWidget(plugin.PublisherOutputMayaWidget):
+class AlembicOptionsPluginWidget(plugin.MayaPublisherExporterPluginWidget):
     plugin_name = 'alembic_options'
     widget = AlembicOptionsWidget
 

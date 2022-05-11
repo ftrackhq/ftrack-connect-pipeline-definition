@@ -47,11 +47,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_scene_output"
+              "plugin": "houdini_scene_exporter"
             }
           ]
         }
@@ -80,11 +80,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_nodes_output"
+              "plugin": "houdini_nodes_exporter"
             }
           ]
         }
@@ -113,11 +113,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
-              "name": "Alembic output options:",
-              "plugin": "alembic_output",
+              "name": "Alembic exporter options:",
+              "plugin": "alembic_exporter",
               "options": {
                 "ABCAnimation": true
               }
@@ -149,11 +149,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
-              "name": "FBX output options:",
-              "plugin": "fbx_output"
+              "name": "FBX exporter options:",
+              "plugin": "fbx_exporter"
             }
           ]
         }
@@ -181,7 +181,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",

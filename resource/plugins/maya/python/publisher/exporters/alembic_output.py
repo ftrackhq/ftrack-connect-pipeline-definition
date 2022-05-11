@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
+class OutputMayaAlembicPlugin(plugin.MayaPublisherExporterPlugin):
 
     plugin_name = 'alembic'
 
@@ -53,7 +53,7 @@ class OutputMayaAlembicPlugin(plugin.PublisherOutputMayaPlugin):
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling output options: data {}. options {}'.format(data, options)
+            'Calling exporters options: data {}. options {}'.format(data, options)
         )
 
         collected_objects = []

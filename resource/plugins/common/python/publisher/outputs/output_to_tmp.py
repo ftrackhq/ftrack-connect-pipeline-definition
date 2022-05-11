@@ -7,7 +7,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class TmpOutputPlugin(plugin.PublisherOutputPlugin):
+class TmpOutputPlugin(plugin.PublisherExporterPlugin):
     plugin_name = 'to_tmp'
 
     def run(self, context_data=None, data=None, options=None):

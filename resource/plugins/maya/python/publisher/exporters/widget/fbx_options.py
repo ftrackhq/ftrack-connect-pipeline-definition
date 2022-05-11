@@ -12,7 +12,7 @@ from Qt import QtWidgets
 import ftrack_api
 
 
-class MayaOptionsWidget(DynamicWidget):
+class FbxOptionsWidget(DynamicWidget):
     def __init__(
         self,
         parent=None,
@@ -27,7 +27,7 @@ class MayaOptionsWidget(DynamicWidget):
 
         self.options_cb = {}
 
-        super(MayaOptionsWidget, self).__init__(
+        super(FbxOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -40,59 +40,54 @@ class MayaOptionsWidget(DynamicWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(MayaOptionsWidget, self).build()
+        super(FbxOptionsWidget, self).build()
 
-        options = [
-            'history',
-            'channels',
-            'preserve_reference',
-            'shader',
-            'constraints',
-            'expressions',
+        bool_options = [
+            'FBXExportScaleFactor',
+            'FBXExportUpAxis',
+            'FBXExportFileVersion',
+            'FBXExportSmoothMesh',
+            'FBXExportInAscii',
+            'FBXExportAnimationOnly',
+            'FBXExportInstances',
+            'FBXExportApplyConstantKeyReducer',
+            'FBXExportBakeComplexAnimation',
+            'FBXExportBakeResampleAnimation',
+            'FBXExportCameras',
+            'FBXExportLights',
+            'FBXExportConstraints',
+            'FBXExportEmbeddedTextures',
         ]
-        self.option_group = group_box.GroupBox('Maya Output Options')
+
+        self.option_group = group_box.GroupBox('FBX exporter Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(self.option_layout)
 
-        self.file_type_combo = QtWidgets.QComboBox()
-        self.file_type_combo.addItem('mayaBinary (.mb)')
-        self.file_type_combo.addItem('mayaAscii (.ma)')
-        self.option_layout.addWidget(self.file_type_combo)
-
-        for option in options:
+        self.layout().addWidget(self.option_group)
+        for option in bool_options:
             option_check = QtWidgets.QCheckBox(option)
 
             self.options_cb[option] = option_check
             self.option_layout.addWidget(option_check)
 
-        self.layout().addWidget(self.option_group)
-
     def post_build(self):
-        super(MayaOptionsWidget, self).post_build()
+        super(FbxOptionsWidget, self).post_build()
 
         for option, widget in self.options_cb.items():
             update_fn = partial(self.set_option_result, key=option)
             widget.stateChanged.connect(update_fn)
 
-        self.file_type_combo.currentIndexChanged.connect(
-            self._on_file_type_set
-        )
 
-    def _on_file_type_set(self, index):
-        value = self.file_type_combo.currentText()
-        self.set_option_result(value.split(' ')[0], 'file_type')
-
-
-class MayaOptionsPluginWidget(plugin.PublisherOutputMayaWidget):
-    plugin_name = 'maya_options'
-    widget = MayaOptionsWidget
+class FbxOptionsPluginWidget(plugin.MayaPublisherExporterPluginWidget):
+    plugin_name = 'fbx_options'
+    widget = FbxOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaOptionsPluginWidget(api_object)
+    plugin = FbxOptionsPluginWidget(api_object)
     plugin.register()

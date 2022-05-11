@@ -10,7 +10,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
+class OutputMayaFbxPlugin(plugin.MayaPublisherExporterPlugin):
 
     plugin_name = 'fbx'
 
@@ -67,7 +67,7 @@ class OutputMayaFbxPlugin(plugin.PublisherOutputMayaPlugin):
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling output options: data {}. options {}'.format(data, options)
+            'Calling exporters options: data {}. options {}'.format(data, options)
         )
 
         collected_objects = []

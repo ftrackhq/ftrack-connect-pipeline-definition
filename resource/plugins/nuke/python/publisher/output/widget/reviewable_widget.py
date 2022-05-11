@@ -102,7 +102,7 @@ class ReviewableWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class ReviewablePluginWidget(plugin.PublisherOutputNukeWidget):
+class ReviewablePluginWidget(plugin.NukePublisherExporterPluginWidget):
     plugin_name = 'reviewable'
     widget = ReviewableWidget
 

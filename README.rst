@@ -74,8 +74,8 @@ Defines what components to publish and how.
               * "validate": [
                   * "<validate plugin Type [non_mailfold, non_null, ...]>",
                 ],
-              * "output": [
-                  * "<output plugin Type [mayabinary, nukefile, images, ...]>",
+              * "exporter": [
+                  * "<exporter plugin Type [mayabinary, nukefile, images, ...]>",
                 ]
             }
         },

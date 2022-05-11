@@ -165,7 +165,7 @@ class MovieWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class MoviePluginWidget(plugin.PublisherOutputNukeWidget):
+class MoviePluginWidget(plugin.NukePublisherExporterPluginWidget):
     plugin_name = 'movie'
     widget = MovieWidget
 

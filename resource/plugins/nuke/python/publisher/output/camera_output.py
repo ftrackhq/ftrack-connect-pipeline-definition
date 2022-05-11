@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 import nuke
 
 
-class OutputCameraPlugin(plugin.PublisherOutputNukePlugin):
+class OutputCameraPlugin(plugin.NukePublisherExporterPlugin):
     plugin_name = 'camera'
 
     def run(self, context_data=None, data=None, options=None):

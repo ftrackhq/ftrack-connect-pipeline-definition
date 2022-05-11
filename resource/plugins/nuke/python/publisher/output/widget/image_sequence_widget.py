@@ -159,7 +159,7 @@ class SequenceWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class ImageSequencePluginWidget(plugin.PublisherOutputNukeWidget):
+class ImageSequencePluginWidget(plugin.NukePublisherExporterPluginWidget):
     plugin_name = 'sequence'
     widget = SequenceWidget
 

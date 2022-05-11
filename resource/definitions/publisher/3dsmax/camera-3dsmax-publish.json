@@ -47,11 +47,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "3dsmaxbinary",
-              "plugin": "OutputMaxBinaryPlugin"
+              "plugin": "exporterMaxBinaryPlugin"
             }
           ]
         }
@@ -80,11 +80,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "3dsmaxbinary",
-              "plugin": "OutputMaxBinaryPlugin"
+              "plugin": "exporterMaxBinaryPlugin"
             }
           ]
         }
@@ -113,11 +113,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "alembic",
-              "plugin": "OutputMaxAlembicPlugin",
+              "plugin": "exporterMaxAlembicPlugin",
               "widget": "alembic_options",
               "options": {
                 "alembicAnimation": true
@@ -150,7 +150,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",
@@ -183,7 +183,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write reviewable",

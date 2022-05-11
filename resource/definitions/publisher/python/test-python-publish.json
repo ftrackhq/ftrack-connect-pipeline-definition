@@ -54,10 +54,10 @@
           ]
         },
         {
-          "name":"output",
+          "name":"exporter",
           "plugins": [
             {
-              "name": "passthrough output",
+              "name": "passthrough exporter",
               "plugin": "passthrough"
             }
           ]
@@ -91,10 +91,10 @@
           ]
         },
         {
-          "name":"output",
+          "name":"exporter",
           "plugins": [
             {
-              "name": "passthrough output",
+              "name": "passthrough exporter",
               "plugin": "passthrough"
             }
           ]

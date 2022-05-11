@@ -12,8 +12,9 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
-
+class MayaDefaultExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    plugin_name = 'maya_default_exporter'
+    
     extension = None
     filetype = None
 
@@ -69,7 +70,7 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
             # Export a subset of the scene
             options = self.extract_options(options)
             self.logger.debug(
-                'Calling output options: data {}. options {}'.format(
+                'Calling exporters options: data {}. options {}'.format(
                     collected_objects, options
                 )
             )
@@ -79,13 +80,9 @@ class OutputMayaPlugin(plugin.PublisherOutputMayaPlugin):
         return [new_file_path]
 
 
-class OutputMayaPlugin(OutputMayaPlugin):
-    plugin_name = 'maya_output'
-
-
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    output_plugin = OutputMayaPlugin(api_object)
+    output_plugin = MayaDefaultExporterPlugin(api_object)
     output_plugin.register()

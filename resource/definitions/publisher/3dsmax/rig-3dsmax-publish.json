@@ -47,11 +47,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "3dsmaxbinary",
-              "plugin": "OutputMaxBinaryPlugin"
+              "plugin": "exporterMaxBinaryPlugin"
             }
           ]
         }
@@ -80,11 +80,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "3dsmaxbinary",
-              "plugin": "OutputMaxBinaryPlugin"
+              "plugin": "exporterMaxBinaryPlugin"
             }
           ]
         }
@@ -113,7 +113,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",
@@ -146,7 +146,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write reviewable",

@@ -47,11 +47,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_scene_output"
+              "plugin": "houdini_scene_exporter"
             }
           ]
         }
@@ -79,7 +79,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",

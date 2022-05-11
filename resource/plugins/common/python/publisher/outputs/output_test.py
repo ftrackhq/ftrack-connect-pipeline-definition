@@ -7,7 +7,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class TestOutputPlugin(plugin.PublisherOutputPlugin):
+class TestOutputPlugin(plugin.PublisherExporterPlugin):
     plugin_name = 'publish_output_test'
 
     def run(self, context_data=None, data=None, options=None):
