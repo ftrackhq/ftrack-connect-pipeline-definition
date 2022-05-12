@@ -11,8 +11,8 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
     plugin_name = 'resolve_dependencies'
 
     # Resolver config, loaded from options
-    max_link_depth = 1 # Maximum number of links to traverse
-    linked_only = True # Only follow links, do not resolve parents (workflow) dependencies
+    max_link_depth = 1  # Maximum number of links to traverse
+    linked_only = True  # Only follow links, do not resolve parents (workflow) dependencies
 
     def get_linked_entities_recursive(
         self,
@@ -44,7 +44,7 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                 and processed_calling_entity_id == calling_entity_id
             ):
                 self.logger.debug(
-                    '(Linked contexts) Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
+                    '(Linked cFontexts) Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
                         entity['name'] if entity else 'None',
                         entity_id,
                         calling_entity_id,
@@ -91,7 +91,9 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
         if context:
             link = [ctx['name'] for ctx in context['link']]
         else:
-            link = [entity.get('full_name') or entity.get('name') or entity['id']]
+            link = [
+                entity.get('full_name') or entity.get('name') or entity['id']
+            ]
         if asset:
             link.append(asset['name'])
         if version_nr:
@@ -177,7 +179,11 @@ class AssetDependencyResolverPlugin(plugin.AssetManagerResolvePlugin):
                     )
                 )
                 next_entity_type = None
-        if next_entity_type is not None and self.linked_only is True and self.max_link_depth <= link_depth:
+        if (
+            next_entity_type is not None
+            and self.linked_only is True
+            and self.max_link_depth <= link_depth
+        ):
             self.logger.debug(
                 '(Linked contexts) {}[{}]Not resolving further parent contexts, max link depth of {} encountered'.format(
                     indent, entity['name'], link_depth
