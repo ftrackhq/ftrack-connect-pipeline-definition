@@ -10,7 +10,7 @@ from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 import ftrack_api
 
 
-class OpenMayaPlugin(plugin.OpenerImporterMayaPlugin):
+class OpenMayaOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
     plugin_name = 'open_maya'
 
     def run(self, context_data=None, data=None, options=None):
@@ -41,5 +41,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = OpenMayaPlugin(api_object)
+    plugin = OpenMayaOpenerImporterPlugin(api_object)
     plugin.register()

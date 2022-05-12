@@ -14,7 +14,7 @@ class LoadNukeWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
 
-class LoadNukePluginWidget(plugin.LoaderImporterNukeWidget):
+class LoadNukePluginWidget(plugin.NukeLoaderImporterPluginWidget):
     plugin_name = 'load_nuke'
     widget = LoadNukeWidget
 

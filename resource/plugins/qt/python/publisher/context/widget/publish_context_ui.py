@@ -6,7 +6,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets import context as context_widget
 import ftrack_api
 
 
-class ContextWidget(plugin.PublisherContextWidget):
+class ContextPluginWidget(plugin.PublisherContextPluginWidget):
     plugin_name = 'context.publish'
     widget = context_widget.PublishContextWidget
 
@@ -15,5 +15,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = ContextWidget(api_object)
+    plugin = ContextPluginWidget(api_object)
     plugin.register()

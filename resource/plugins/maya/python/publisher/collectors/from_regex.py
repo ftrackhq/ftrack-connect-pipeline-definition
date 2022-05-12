@@ -8,7 +8,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class CollectFromRegexMayaPlugin(plugin.PublisherCollectorMayaPlugin):
+class CollectFromRegexMayaPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'from_regex'
 
     def run(self, context_data=None, data=None, options=None):

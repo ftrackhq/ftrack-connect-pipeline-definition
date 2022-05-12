@@ -92,7 +92,7 @@ class WriteNodesNukeWidget(BaseOptionsWidget):
         )
 
 
-class WriteNodesPluginWidget(plugin.PublisherCollectorNukeWidget):
+class WriteNodesPluginWidget(plugin.NukePublisherCollectorPluginWidget):
     plugin_name = 'write_node'
     widget = WriteNodesNukeWidget
 

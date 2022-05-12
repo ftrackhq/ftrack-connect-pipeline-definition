@@ -7,7 +7,7 @@ import maya.cmds as cmds
 import ftrack_api
 
 
-class CheckGeoNamesValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
+class CheckGeoNamesValidatorPlugin(plugin.MayaPublisherValidatorPlugin):
     plugin_name = 'name_validator'
 
     def run(self, context_data=None, data=None, options=None):

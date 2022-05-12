@@ -11,7 +11,7 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class ImportNukeRenderPlugin(plugin.LoaderImporterNukePlugin):
+class ImportNukeRenderPlugin(plugin.NukeLoaderImporterPlugin):
     plugin_name = 'import_movie'
 
     def run(self, context_data=None, data=None, options=None):

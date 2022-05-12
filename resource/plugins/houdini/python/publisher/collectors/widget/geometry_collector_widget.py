@@ -36,7 +36,7 @@ class GeometryCollectorWidget(BaseCollectorWidget):
         )
 
 
-class GeometryCollectorPluginWidget(plugin.PublisherCollectorHoudiniWidget):
+class GeometryCollectorPluginWidget(plugin.PublisherCollectorHoudiniPluginWidget):
     plugin_name = 'geometry_collector'
     widget = GeometryCollectorWidget
 

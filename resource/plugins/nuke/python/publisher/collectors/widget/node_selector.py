@@ -98,7 +98,7 @@ class NodeSelectorWidget(BaseOptionsWidget):
         )
 
 
-class NodeSelectorPluginWidget(plugin.PublisherCollectorNukeWidget):
+class NodeSelectorPluginWidget(plugin.NukePublisherCollectorPluginWidget):
     plugin_name = 'node_selector'
     widget = NodeSelectorWidget
 

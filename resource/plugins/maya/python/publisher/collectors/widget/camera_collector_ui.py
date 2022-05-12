@@ -94,7 +94,7 @@ class CameraCollectorWidget(BaseOptionsWidget):
         )
 
 
-class CameraCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
+class CameraCollectorPluginWidget(plugin.MayaPublisherCollectorPluginWidget):
     plugin_name = 'camera'
     widget = CameraCollectorWidget
 

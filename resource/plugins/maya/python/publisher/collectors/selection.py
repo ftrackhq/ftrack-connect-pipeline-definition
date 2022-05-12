@@ -7,7 +7,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class CollectCameraMayaPlugin(plugin.PublisherCollectorMayaPlugin):
+class CollectCameraMayaPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'selection'
 
     def run(self, context_data=None, data=None, options=None):

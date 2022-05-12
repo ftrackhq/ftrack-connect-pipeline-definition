@@ -8,7 +8,7 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class CollectSelectedNodesNukePlugin(plugin.PublisherCollectorNukePlugin):
+class CollectSelectedNodesNukePlugin(plugin.NukePublisherCollectorPlugin):
     plugin_name = 'selection'
 
     def run(self, context_data=None, data=None, options=None):

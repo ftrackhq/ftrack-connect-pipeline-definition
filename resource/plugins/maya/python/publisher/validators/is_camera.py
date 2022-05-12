@@ -7,7 +7,7 @@ import maya.cmds as cmds
 import ftrack_api
 
 
-class CheckCamerasValidatorPlugin(plugin.PublisherValidatorMayaPlugin):
+class CheckCamerasValidatorPlugin(plugin.MayaPublisherValidatorPlugin):
     plugin_name = 'is_camera'
 
     def run(self, context_data=None, data=None, options=None):

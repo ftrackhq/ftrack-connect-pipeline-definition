@@ -7,7 +7,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class AbcMayaImportPlugin(plugin.LoaderImporterMayaPlugin):
+class AbcMayaImportLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
     plugin_name = 'abc_maya_import'
 
     def run(self, context_data=None, data=None, options=None):
@@ -32,5 +32,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = AbcMayaImportPlugin(api_object)
+    plugin = AbcMayaImportLoaderImporterPlugin(api_object)
     plugin.register()

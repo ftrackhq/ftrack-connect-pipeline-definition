@@ -36,7 +36,7 @@ class GeometryCollectorWidget(BaseCollectorWidget):
         )
 
 
-class GeometryCollectorPluginWidget(plugin.PublisherCollectorMaxWidget):
+class GeometryCollectorPluginWidget(plugin.PublisherCollectorMaxPluginWidget):
     plugin_name = 'geometry_collector'
     widget = GeometryCollectorWidget
 

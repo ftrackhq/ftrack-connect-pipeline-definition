@@ -36,7 +36,7 @@ class GeometryCollectorWidget(BaseCollectorWidget):
         )
 
 
-class GeometryCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
+class GeometryCollectorPluginWidget(plugin.MayaPublisherCollectorPluginWidget):
     plugin_name = 'geometry_collector'
     widget = GeometryCollectorWidget
 

@@ -126,7 +126,7 @@ class FileCollectorWidget(BaseOptionsWidget):
         self.inputChanged.emit({'status': status, 'message': message})
 
 
-class CollectorWidget(plugin.PublisherCollectorWidget):
+class CollectorPluginWidget(plugin.PublisherCollectorPluginWidget):
     plugin_name = 'file_collector.widget'
     widget = FileCollectorWidget
 
@@ -135,5 +135,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CollectorWidget(api_object)
+    plugin = CollectorPluginWidget(api_object)
     plugin.register()

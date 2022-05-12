@@ -14,7 +14,7 @@ class Load3dsMaxWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
 
-class Load3dsMaxPluginWidget(plugin.LoaderImporterMaxWidget):
+class Load3dsMaxPluginWidget(plugin.LoaderImporterMaxPluginWidget):
     plugin_name = 'load_max'
     widget = Load3dsMaxWidget
 

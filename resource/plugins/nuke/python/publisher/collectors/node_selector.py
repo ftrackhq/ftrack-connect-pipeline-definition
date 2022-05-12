@@ -8,7 +8,7 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class NodeSelectorNukePlugin(plugin.PublisherCollectorNukePlugin):
+class NodeSelectorNukePlugin(plugin.NukePublisherCollectorPlugin):
     plugin_name = 'node_selector'
 
     def fetch(self, context_data=None, data=None, options=None):

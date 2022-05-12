@@ -7,7 +7,7 @@ from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
-class ImportNukePlugin(plugin.LoaderImporterNukePlugin):
+class ImportNukePlugin(plugin.NukeLoaderImporterPlugin):
     plugin_name = 'load_nuke'
 
     load_modes = load_const.LOAD_MODES

@@ -7,7 +7,7 @@ import os
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class FtrackPublishNukePlugin(plugin.PublisherFinalizerNukePlugin):
+class FtrackPublishNukePlugin(plugin.NukePublisherFinalizerPlugin):
     plugin_name = 'result_nuke'
 
     def run(self, context_data=None, data=None, options=None):

@@ -169,7 +169,7 @@ class LoadUnrealRigWidget(LoadUnrealWidget):
     }
 
 
-class LoadUnrealRigPluginWidget(plugin.LoaderImporterUnrealWidget):
+class LoadUnrealRigPluginWidget(plugin.LoaderImporterUnrealPluginWidget):
     plugin_name = 'load_rig_unreal'
     widget = LoadUnrealRigWidget
 
@@ -204,7 +204,7 @@ class LoadUnrealAnimationWidget(LoadUnrealWidget):
     }
 
 
-class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealWidget):
+class LoadUnrealAnimationPluginWidget(plugin.LoaderImporterUnrealPluginWidget):
     plugin_name = 'load_animation_unreal'
     widget = LoadUnrealAnimationWidget
 
@@ -225,7 +225,7 @@ class LoadUnrealGeometryWidget(LoadUnrealWidget):
     }
 
 
-class LoadUnrealGeometryPluginWidget(plugin.LoaderImporterUnrealWidget):
+class LoadUnrealGeometryPluginWidget(plugin.LoaderImporterUnrealPluginWidget):
     plugin_name = 'load_geometry_unreal'
     widget = LoadUnrealGeometryWidget
 
@@ -241,7 +241,7 @@ class LoadUnrealImageSequenceWidget(LoadUnrealWidget):
     }
 
 
-class LoadUnrealImageSequencePluginWidget(plugin.LoaderImporterUnrealWidget):
+class LoadUnrealImageSequencePluginWidget(plugin.LoaderImporterUnrealPluginWidget):
     plugin_name = 'load_image_sequence_unreal'
     widget = LoadUnrealImageSequenceWidget
 

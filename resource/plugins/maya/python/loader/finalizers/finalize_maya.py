@@ -8,7 +8,7 @@ from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 
 
-class MayaFinalize(plugin.LoaderFinalizerMayaPlugin):
+class MayaFinalize(plugin.MayaLoaderFinalizerPlugin):
     plugin_name = 'maya_finalize'
 
 

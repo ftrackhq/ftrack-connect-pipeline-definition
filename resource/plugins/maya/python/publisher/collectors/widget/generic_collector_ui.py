@@ -36,7 +36,7 @@ class GenericCollectorWidget(BaseCollectorWidget):
         )
 
 
-class GenericCollectorPluginWidget(plugin.PublisherCollectorMayaWidget):
+class GenericCollectorPluginWidget(plugin.MayaPublisherCollectorPluginWidget):
     plugin_name = 'generic_collector'
     widget = GenericCollectorWidget
 

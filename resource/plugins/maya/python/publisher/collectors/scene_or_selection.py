@@ -9,7 +9,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class CollectSceneOrSelectionMayaPlugin(plugin.PublisherCollectorMayaPlugin):
+class CollectSceneOrSelectionMayaPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'scene_or_selection'
 
     def run(self, context_data=None, data=None, options=None):

@@ -8,7 +8,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
-class NukeFinalize(plugin.LoaderFinalizerNukePlugin):
+class NukeFinalize(plugin.NukeLoaderFinalizerPlugin):
     plugin_name = 'nuke_finalize'
 
 

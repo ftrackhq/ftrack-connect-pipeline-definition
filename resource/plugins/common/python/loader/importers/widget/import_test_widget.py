@@ -81,7 +81,7 @@ class LoadTestWidget(LoadBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class LoadTestPluginWidget(pluginWidget.LoaderImporterWidget):
+class LoadTestPluginPluginWidget(pluginWidget.LoaderImporterPluginWidget):
     plugin_name = 'importer_test'
     widget = LoadTestWidget
 
@@ -90,5 +90,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = LoadTestPluginWidget(api_object)
+    plugin = LoadTestPluginPluginWidget(api_object)
     plugin.register()

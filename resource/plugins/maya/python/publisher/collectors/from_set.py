@@ -7,7 +7,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class CollectFromSetMayaPlugin(plugin.PublisherCollectorMayaPlugin):
+class CollectFromSetMayaPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'from_set'
 
     def run(self, context_data=None, data=None, options=None):

@@ -7,7 +7,7 @@ from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
 
 
-class MayaFinalize(plugin.OpenerFinalizerMayaPlugin):
+class MayaFinalize(plugin.MayaOpenerFinalizerPlugin):
     plugin_name = 'maya_finalize'
 
     def run(self, context_data=None, data=None, options=None):

@@ -152,7 +152,7 @@ class LoadMayaWidget(LoadBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class LoadMayaPluginWidget(plugin.LoaderImporterMayaWidget):
+class LoadMayaLoaderImporterPluginWidget(plugin.MayaLoaderImporterPluginWidget):
     plugin_name = 'load_maya'
     widget = LoadMayaWidget
 
@@ -161,5 +161,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = LoadMayaPluginWidget(api_object)
+    plugin = LoadMayaLoaderImporterPluginWidget(api_object)
     plugin.register()

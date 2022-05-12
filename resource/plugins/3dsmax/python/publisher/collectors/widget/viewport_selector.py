@@ -77,7 +77,7 @@ class Viewport3dsMaxWidget(BaseOptionsWidget):
         self.set_option_result(self.nodes_cb.currentData(), 'viewport_index')
 
 
-class Viewport3dsMaxPluginWidget(plugin.PublisherCollectorMaxWidget):
+class Viewport3dsMaxPluginWidget(plugin.PublisherCollectorMaxPluginWidget):
     plugin_name = 'viewport'
     widget = Viewport3dsMaxWidget
 

@@ -37,7 +37,7 @@ class DefaultValidatorWidget(dynamic_widget.DynamicWidget):
         )
 
 
-class DefaultValidatorPluginWidget(plugin.PublisherValidatorWidget):
+class DefaultValidatorPluginPluginWidget(plugin.PublisherValidatorPluginWidget):
     plugin_name = 'default.validator.widget'
     widget = DefaultValidatorWidget
 
@@ -46,5 +46,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = DefaultValidatorPluginWidget(api_object)
+    plugin = DefaultValidatorPluginPluginWidget(api_object)
     plugin.register()

@@ -8,7 +8,7 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class GeometryNukeImportPlugin(plugin.LoaderImporterNukePlugin):
+class GeometryNukeImportPlugin(plugin.NukeLoaderImporterPlugin):
     plugin_name = 'geometry'
 
     def run(self, context_data=None, data=None, options=None):
