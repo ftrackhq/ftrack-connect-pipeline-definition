@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.open",
-              "widget": "context.open"
+              "plugin": "common_default_opener_context",
+              "widget": "common_default_opener_context"
             }
           ]
         }
@@ -31,7 +31,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_opener_collector"
             }
           ]
         },
@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "Open Maya Scene",
-              "plugin": "open_maya",
+              "plugin": "maya_default_opener_importer",
               "options": {
               }
             }
@@ -51,7 +51,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_opener_post_import"
             }
           ]
         }
@@ -66,7 +66,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_opener_collector"
             }
           ]
         },
@@ -75,7 +75,7 @@
           "plugins":[
             {
               "name": "Open Maya Scene",
-              "plugin": "open_maya",
+              "plugin": "maya_default_opener_importer",
               "options": {
               }
             }
@@ -86,7 +86,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_opener_post_import"
             }
           ]
         }
@@ -103,7 +103,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "common_default_opener_pre_finalizer"
             }
           ]
         },
@@ -113,7 +113,7 @@
             {
               "name": "Save Scene",
               "description" : "Upon open, save Maya scene to local snapshot directory",
-              "plugin": "maya_finalize"
+              "plugin": "maya_default_opener_finalizer"
             }
           ]
         },
@@ -123,7 +123,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "common_default_opener_post_finalizer"
             }
           ]
         }

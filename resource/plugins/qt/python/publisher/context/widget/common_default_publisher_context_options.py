@@ -7,7 +7,7 @@ import ftrack_api
 
 
 class CommonDefaultPublisherContextPluginWidget(plugin.PublisherContextPluginWidget):
-    plugin_name = 'common_default_publisher_context_options'
+    plugin_name = 'common_default_publisher_context'
     widget = context_widget.PublishContextWidget
 
 

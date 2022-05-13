@@ -13,8 +13,8 @@
           "plugins": [
             {
               "name": "context selector",
-              "plugin": "context.publish",
-              "widget": "context.publish",
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context",
               "options": {
                 "context_id": "690afd58-06d0-11ea-bbbb-ee594985c7e2",
                 "asset_name": "testFromPythonConsole",
@@ -36,8 +36,8 @@
           "plugins":[
             {
               "name": "collect from given path",
-              "plugin": "filesystem",
-              "widget": "file_collector.widget",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
               "options": {
                 "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
@@ -49,7 +49,7 @@
           "plugins": [
             {
               "name": "file exists",
-              "plugin": "file_exists"
+              "plugin": "common_fileExists_publisher_validator"
             }
           ]
         },
@@ -58,7 +58,7 @@
           "plugins": [
             {
               "name": "passthrough exporter",
-              "plugin": "passthrough"
+              "plugin": "common_passthrough_publisher_exporter"
             }
           ]
         }
@@ -73,8 +73,8 @@
           "plugins":[
             {
               "name": "collect from given path",
-              "plugin": "filesystem",
-              "widget": "file_collector.widget",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
               "options": {
                 "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
@@ -86,7 +86,7 @@
           "plugins": [
             {
               "name": "file exists",
-              "plugin": "file_exists"
+              "plugin": "common_fileExists_publisher_validator"
             }
           ]
         },
@@ -95,7 +95,7 @@
           "plugins": [
             {
               "name": "passthrough exporter",
-              "plugin": "passthrough"
+              "plugin": "common_passthrough_publisher_exporter"
             }
           ]
         }
@@ -111,7 +111,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result",
+              "plugin": "common_default_publisher_pre_finalizer",
               "visible": false
             }
           ]
@@ -121,7 +121,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result",
+              "plugin": "common_default_publisher_finalizer",
               "visible": false
             }
           ]
@@ -131,7 +131,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result",
+              "plugin": "common_default_publisher_post_finalizer",
               "visible": false
             }
           ]

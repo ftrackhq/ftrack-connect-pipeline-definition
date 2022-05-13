@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.load"
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
             }
           ]
         }
@@ -31,7 +31,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "load_maya",
+              "plugin": "maya_default_loader_importer",
               "options": {
                 "load_mode": "Import",
                 "load_options": {
@@ -57,7 +57,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_import"
             }
           ]
         }
@@ -73,7 +73,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -82,7 +82,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "load_maya",
+              "plugin": "maya_default_loader_importer",
               "options": {
                 "load_mode": "Import",
                 "load_options": {
@@ -99,7 +99,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_import"
             }
           ]
         }
@@ -115,7 +115,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
+              "plugin": "common_default_loader_pre_finalizer",
               "visible": false
             }
           ]
@@ -126,7 +126,7 @@
           "plugins":[
             {
               "name": "Do nothing",
-              "plugin": "finalizer_test"
+              "plugin": "common_default_loader_finalizer"
             }
           ]
         },
@@ -136,7 +136,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "common_default_loader_post_finalizer"
             }
           ]
         }
