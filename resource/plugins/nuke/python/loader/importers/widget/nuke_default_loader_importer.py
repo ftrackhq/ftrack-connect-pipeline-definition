@@ -14,7 +14,9 @@ class NukeDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
 
-class NukeDefaultLoaderImporterPluginWidget(plugin.NukeLoaderImporterPluginWidget):
+class NukeDefaultLoaderImporterPluginWidget(
+    plugin.NukeLoaderImporterPluginWidget
+):
     plugin_name = 'nuke_default_loader_importer'
     widget = NukeDefaultLoaderImporterOptionsWidget
 

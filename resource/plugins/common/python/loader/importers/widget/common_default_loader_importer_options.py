@@ -71,7 +71,9 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         #    self.options_gb.hide()
         # else:
         #    self.options_gb.show()
-        super(CommonDefaultLoaderImporterOptionsWidget, self)._on_load_mode_changed(radio_button)
+        super(
+            CommonDefaultLoaderImporterOptionsWidget, self
+        )._on_load_mode_changed(radio_button)
 
     def _on_set_some_test_option(self, checked):
         self._update_load_options('some_test_option', checked)
@@ -81,7 +83,9 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class CommonDefaultLoaderImporterPluginWidget(pluginWidget.LoaderImporterPluginWidget):
+class CommonDefaultLoaderImporterPluginWidget(
+    pluginWidget.LoaderImporterPluginWidget
+):
     plugin_name = 'common_default_loader_importer'
     widget = CommonDefaultLoaderImporterOptionsWidget
 

@@ -123,7 +123,9 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
             self.options_gb.hide()
         else:
             self.options_gb.show()
-        super(MayaDefaultLoaderImporterOptionsWidget, self)._on_load_mode_changed(radio_button)
+        super(
+            MayaDefaultLoaderImporterOptionsWidget, self
+        )._on_load_mode_changed(radio_button)
 
     def _on_namespace_status_changed(self, value):
         '''Updates the options dictionary with provided *path* when
@@ -152,7 +154,9 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class MayaDefaultLoaderImporterPluginWidget(plugin.MayaLoaderImporterPluginWidget):
+class MayaDefaultLoaderImporterPluginWidget(
+    plugin.MayaLoaderImporterPluginWidget
+):
     plugin_name = 'maya_default_loader_importer'
     widget = MayaDefaultLoaderImporterOptionsWidget
 

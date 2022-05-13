@@ -80,7 +80,9 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
             widget.stateChanged.connect(update_fn)
 
 
-class MayaFbxPublisherExporterOptionsPluginWidget(plugin.MayaPublisherExporterPluginWidget):
+class MayaFbxPublisherExporterOptionsPluginWidget(
+    plugin.MayaPublisherExporterPluginWidget
+):
     plugin_name = 'maya_fbx_publisher_exporter'
     widget = MayaFbxPublisherExporterOptionsWidget
 

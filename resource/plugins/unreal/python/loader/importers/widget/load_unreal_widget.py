@@ -241,7 +241,9 @@ class LoadUnrealImageSequenceWidget(LoadUnrealWidget):
     }
 
 
-class LoadUnrealImageSequencePluginWidget(plugin.LoaderImporterUnrealPluginWidget):
+class LoadUnrealImageSequencePluginWidget(
+    plugin.LoaderImporterUnrealPluginWidget
+):
     plugin_name = 'load_image_sequence_unreal'
     widget = LoadUnrealImageSequenceWidget
 

@@ -450,7 +450,10 @@ orig_definition = {
                 {
                     "name": "exporters",
                     "plugins": [
-                        {"name": "passthrough exporters", "plugin": "passthrough"}
+                        {
+                            "name": "passthrough exporters",
+                            "plugin": "passthrough",
+                        }
                     ],
                 },
             ],

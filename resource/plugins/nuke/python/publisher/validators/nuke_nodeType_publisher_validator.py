@@ -8,7 +8,9 @@ from ftrack_connect_pipeline_nuke import plugin
 import nuke
 
 
-class NukeNodeTypePublisherValidatorPlugin(plugin.NukePublisherValidatorPlugin):
+class NukeNodeTypePublisherValidatorPlugin(
+    plugin.NukePublisherValidatorPlugin
+):
     plugin_name = 'nuke_nodeType_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

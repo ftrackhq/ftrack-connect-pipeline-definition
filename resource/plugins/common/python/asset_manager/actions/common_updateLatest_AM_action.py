@@ -7,7 +7,9 @@ from ftrack_connect_pipeline.asset.asset_info import FtrackAssetInfo
 from ftrack_connect_pipeline.constants import asset as constants
 
 
-class CommonUpdateLatestAssetManagerActionPlugin(plugin.AssetManagerActionPlugin):
+class CommonUpdateLatestAssetManagerActionPlugin(
+    plugin.AssetManagerActionPlugin
+):
     plugin_name = 'common_updateLatest_AM_action'
 
     def run(self, context_data=None, data=None, options=None):

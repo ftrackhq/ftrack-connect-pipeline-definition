@@ -75,7 +75,7 @@
           "plugins":[
             {
               "name": "Import image sequence",
-              "plugin": "import_image_sequence"
+              "plugin": "nuke_sequence_loader_importer"
             }
           ]
         },

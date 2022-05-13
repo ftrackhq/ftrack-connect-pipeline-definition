@@ -14,7 +14,7 @@ import ftrack_api
 
 class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     plugin_name = 'maya_default_publisher_exporter'
-    
+
     extension = None
     filetype = None
 

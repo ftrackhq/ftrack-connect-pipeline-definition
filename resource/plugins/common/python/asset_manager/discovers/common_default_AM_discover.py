@@ -5,7 +5,9 @@ import ftrack_api
 from ftrack_connect_pipeline import plugin
 
 
-class CommonDefaultAssetManagerDiscoverPlugin(plugin.AssetManagerDiscoverPlugin):
+class CommonDefaultAssetManagerDiscoverPlugin(
+    plugin.AssetManagerDiscoverPlugin
+):
     plugin_name = 'common_default_AM_discover'
 
     def run(self, context_data=None, data=None, options=None):

@@ -85,7 +85,9 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
         self.set_option_result(value.split(' ')[0], 'file_type')
 
 
-class MayaDefaultPublisherExporterOptionsPluginWidget(plugin.MayaPublisherExporterPluginWidget):
+class MayaDefaultPublisherExporterOptionsPluginWidget(
+    plugin.MayaPublisherExporterPluginWidget
+):
     plugin_name = 'maya_default_publisher_exporter'
     widget = MayaDefaultPublisherExporterOptionsWidget
 

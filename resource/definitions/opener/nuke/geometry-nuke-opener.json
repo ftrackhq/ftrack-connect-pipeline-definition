@@ -55,41 +55,7 @@
           ]
         }
       ]
-     },
-     {
-      "name": "cache",
-      "file_formats": [".abc"],
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "common_context_opener_collector"
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import paths to Nuke",
-              "plugin": "nuke_geometry_opener_importer"
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "nuke",
-              "plugin": "common_default_opener_post_import"
-            }
-          ]
-        }
-      ]
-    }
+     }
   ],
   "finalizers": [
     {

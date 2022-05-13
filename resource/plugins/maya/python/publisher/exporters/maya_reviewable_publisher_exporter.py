@@ -10,7 +10,9 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class MayaReviewablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+class MayaReviewablePublisherExporterPlugin(
+    plugin.MayaPublisherExporterPlugin
+):
     plugin_name = 'maya_reviewable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

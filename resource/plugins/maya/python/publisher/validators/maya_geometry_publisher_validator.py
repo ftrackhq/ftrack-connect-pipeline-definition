@@ -7,7 +7,9 @@ import maya.cmds as cmds
 import ftrack_api
 
 
-class MayaGeometryPublisherValidatorPlugin(plugin.MayaPublisherValidatorPlugin):
+class MayaGeometryPublisherValidatorPlugin(
+    plugin.MayaPublisherValidatorPlugin
+):
     plugin_name = 'maya_geometry_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

@@ -52,7 +52,7 @@
           "plugins":[
             {
               "name": "write nuke script",
-              "plugin": "nuke_script_publisher_collector"
+              "plugin": "nuke_default_publisher_exporter"
             }
           ]
         }

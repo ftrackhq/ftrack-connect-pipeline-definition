@@ -55,40 +55,6 @@
           ]
         }
       ]
-    },
-    {
-      "name": "sequence",
-      "file_formats": [".exr", ".dpx", ".cin", ".dng", ".tga", ".yuv", ".tif", ".tiff", ".jpg", ".jpeg", ".png", ".dtex", ".gif", ".iff", ".psd", ".sgi"],
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "common_context_opener_collector"
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import image sequence",
-              "plugin": "nuke_sequence_opener_importer"
-            }
-          ]
-        },
-        {
-          "name": "post_import",
-          "plugins":[
-            {
-              "name": "nuke",
-              "plugin": "common_default_opener_post_import"
-            }
-          ]
-        }
-      ]
     }
   ],
   "finalizers": [

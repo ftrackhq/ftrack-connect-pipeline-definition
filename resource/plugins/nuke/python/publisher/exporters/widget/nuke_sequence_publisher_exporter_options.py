@@ -159,7 +159,9 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class NukeSequencePublisherExporterOptionsPluginWidget(plugin.NukePublisherExporterPluginWidget):
+class NukeSequencePublisherExporterOptionsPluginWidget(
+    plugin.NukePublisherExporterPluginWidget
+):
     plugin_name = 'nuke_sequence_publisher_exporter'
     widget = NukeSequencePublisherExporterOptionsWidget
 

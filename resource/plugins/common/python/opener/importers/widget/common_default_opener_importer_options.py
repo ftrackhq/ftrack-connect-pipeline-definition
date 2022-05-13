@@ -71,7 +71,9 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         #    self.options_gb.hide()
         # else:
         #    self.options_gb.show()
-        super(CommonDefaultOpenerImporterOptionsWidget, self)._on_load_mode_changed(radio_button)
+        super(
+            CommonDefaultOpenerImporterOptionsWidget, self
+        )._on_load_mode_changed(radio_button)
 
     def _on_set_some_test_option(self, checked):
         self._update_load_options('some_test_option', checked)
@@ -81,7 +83,9 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class CommonDefaultOpenerImporterPluginWidget(pluginWidget.OpenerImporterPluginWidget):
+class CommonDefaultOpenerImporterPluginWidget(
+    pluginWidget.OpenerImporterPluginWidget
+):
     plugin_name = 'common_default_opener_importer'
     widget = CommonDefaultOpenerImporterOptionsWidget
 

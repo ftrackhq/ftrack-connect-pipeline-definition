@@ -146,7 +146,9 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
         self.set_option_result(value, key='alembicAnimation')
 
 
-class MayaAbcPublisherExporterOptionsPluginWidget(plugin.MayaPublisherExporterPluginWidget):
+class MayaAbcPublisherExporterOptionsPluginWidget(
+    plugin.MayaPublisherExporterPluginWidget
+):
     plugin_name = 'maya_abc_publisher_exporter'
     widget = MayaAbcPublisherExporterOptionsWidget
 

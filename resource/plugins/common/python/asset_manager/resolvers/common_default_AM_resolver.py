@@ -7,7 +7,9 @@ import ftrack_api
 from ftrack_connect_pipeline import plugin
 
 
-class CommonDefaultAssetManagerResolverPlugin(plugin.AssetManagerResolvePlugin):
+class CommonDefaultAssetManagerResolverPlugin(
+    plugin.AssetManagerResolvePlugin
+):
     plugin_name = 'common_default_AM_resolver'
 
     # Resolver config, loaded from options

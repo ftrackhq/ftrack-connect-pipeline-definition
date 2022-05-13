@@ -37,7 +37,9 @@ class CommonDefaultSharedValidatorOptionsWidget(dynamic_widget.DynamicWidget):
         )
 
 
-class CommonDefaultSharedValidatorPluginWidget(plugin.PublisherValidatorPluginWidget):
+class CommonDefaultSharedValidatorPluginWidget(
+    plugin.PublisherValidatorPluginWidget
+):
     plugin_name = 'common_default_shared_validator'
     widget = CommonDefaultSharedValidatorOptionsWidget
 

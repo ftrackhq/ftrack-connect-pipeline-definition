@@ -6,7 +6,9 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultPublisherPostFinalizerPlugin(plugin.PublisherPostFinalizerPlugin):
+class CommonDefaultPublisherPostFinalizerPlugin(
+    plugin.PublisherPostFinalizerPlugin
+):
     plugin_name = 'common_default_publisher_post_finalizer'
 
     def run(self, context_data=None, data=None, options=None):

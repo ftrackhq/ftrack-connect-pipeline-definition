@@ -6,7 +6,9 @@ from ftrack_connect_pipeline_qt.plugin.widgets import context as context_widget
 import ftrack_api
 
 
-class CommonDefaultPublisherContextPluginWidget(plugin.PublisherContextPluginWidget):
+class CommonDefaultPublisherContextPluginWidget(
+    plugin.PublisherContextPluginWidget
+):
     plugin_name = 'common_default_publisher_context'
     widget = context_widget.PublishContextWidget
 

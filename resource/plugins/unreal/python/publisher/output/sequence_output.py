@@ -118,7 +118,9 @@ class OutputUnrealPlugin(plugin.PublisherOutputUnrealPlugin):
 
                 msg = (
                     'Could not delete {}. The Sequencer will not be able to'
-                    ' exporters the movie to that file.'.format(output_filepath)
+                    ' exporters the movie to that file.'.format(
+                        output_filepath
+                    )
                 )
                 self.logger.error(msg)
                 return False, {'message': msg}

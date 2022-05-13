@@ -7,7 +7,9 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class MayaSelectionPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+class MayaSelectionPublisherCollectorPlugin(
+    plugin.MayaPublisherCollectorPlugin
+):
     plugin_name = 'maya_selection_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

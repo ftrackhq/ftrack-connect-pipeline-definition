@@ -10,7 +10,9 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 import nuke
 
 
-class NukeWritableNodePublisherValidatorPlugin(plugin.NukePublisherValidatorPlugin):
+class NukeWritableNodePublisherValidatorPlugin(
+    plugin.NukePublisherValidatorPlugin
+):
     plugin_name = 'nuke_writableNode_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

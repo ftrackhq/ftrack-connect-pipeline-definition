@@ -165,7 +165,9 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class NukeMoviePublisherExporterOptionsPluginWidget(plugin.NukePublisherExporterPluginWidget):
+class NukeMoviePublisherExporterOptionsPluginWidget(
+    plugin.NukePublisherExporterPluginWidget
+):
     plugin_name = 'nuke_movie_publisher_exporter'
     widget = NukeMoviePublisherExporterOptionsWidget
 

@@ -98,7 +98,9 @@ class NukeNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
         )
 
 
-class NukeNodePublisherCollectorPluginWidget(plugin.NukePublisherCollectorPluginWidget):
+class NukeNodePublisherCollectorPluginWidget(
+    plugin.NukePublisherCollectorPluginWidget
+):
     plugin_name = 'nuke_node_publisher_collector'
     widget = NukeNodePublisherCollectorOptionsWidget
 

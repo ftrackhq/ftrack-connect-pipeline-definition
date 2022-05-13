@@ -8,7 +8,9 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class NukeWriteNodePublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+class NukeWriteNodePublisherCollectorPlugin(
+    plugin.NukePublisherCollectorPlugin
+):
     plugin_name = 'nuke_writeNode_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):

@@ -36,7 +36,9 @@ class MayaGeometryPublisherCollectorOptionsWidget(BaseCollectorWidget):
         )
 
 
-class MayaGeometryPublisherCollectorPluginWidget(plugin.MayaPublisherCollectorPluginWidget):
+class MayaGeometryPublisherCollectorPluginWidget(
+    plugin.MayaPublisherCollectorPluginWidget
+):
     plugin_name = 'maya_geometry_publisher_collector'
     widget = MayaGeometryPublisherCollectorOptionsWidget
 

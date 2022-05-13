@@ -6,7 +6,9 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonFileExistsPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
+class CommonFileExistsPublisherValidatorPlugin(
+    plugin.PublisherValidatorPlugin
+):
     plugin_name = 'common_fileExists_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

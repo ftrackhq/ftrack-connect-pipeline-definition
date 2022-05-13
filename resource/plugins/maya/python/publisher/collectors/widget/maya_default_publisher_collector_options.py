@@ -36,7 +36,9 @@ class MayaDefaultPublisherCollectorOptionsWidget(BaseCollectorWidget):
         )
 
 
-class MayaDefaultPublisherCollectorPluginWidget(plugin.MayaPublisherCollectorPluginWidget):
+class MayaDefaultPublisherCollectorPluginWidget(
+    plugin.MayaPublisherCollectorPluginWidget
+):
     plugin_name = 'maya_default_publisher_collector'
     widget = MayaDefaultPublisherCollectorOptionsWidget
 

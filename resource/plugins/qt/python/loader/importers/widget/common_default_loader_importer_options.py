@@ -6,7 +6,9 @@ from ftrack_connect_pipeline_qt.plugin.widgets import load_widget
 import ftrack_api
 
 
-class CommonDefaultLoaderImporterPluginWidget(plugin.LoaderImporterPluginWidget):
+class CommonDefaultLoaderImporterPluginWidget(
+    plugin.LoaderImporterPluginWidget
+):
     plugin_name = 'common_default_loader_importer'
     widget = load_widget.LoadBaseWidget
 

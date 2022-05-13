@@ -7,7 +7,9 @@ import os
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class NukeFileExistsPublisherValidatorPlugin(plugin.NukePublisherValidatorPlugin):
+class NukeFileExistsPublisherValidatorPlugin(
+    plugin.NukePublisherValidatorPlugin
+):
     plugin_name = 'nuke_fileExists_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

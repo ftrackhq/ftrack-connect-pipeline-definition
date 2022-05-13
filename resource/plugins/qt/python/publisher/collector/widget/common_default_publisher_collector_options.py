@@ -126,7 +126,9 @@ class CommonDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
         self.inputChanged.emit({'status': status, 'message': message})
 
 
-class CommonDefaultPublisherCollectorPluginWidget(plugin.PublisherCollectorPluginWidget):
+class CommonDefaultPublisherCollectorPluginWidget(
+    plugin.PublisherCollectorPluginWidget
+):
     plugin_name = 'common_default_publisher_collector'
     widget = CommonDefaultPublisherCollectorOptionsWidget
 

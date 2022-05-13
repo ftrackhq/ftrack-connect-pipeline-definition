@@ -53,7 +53,9 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling exporters options: data {}. options {}'.format(data, options)
+            'Calling exporters options: data {}. options {}'.format(
+                data, options
+            )
         )
 
         collected_objects = []

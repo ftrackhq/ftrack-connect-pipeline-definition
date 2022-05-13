@@ -102,7 +102,9 @@ class NukeReviewablePublisherExporterOptionsWidget(BaseOptionsWidget):
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
-class NukeReviewablePublisherExporterOptionsPluginWidget(plugin.NukePublisherExporterPluginWidget):
+class NukeReviewablePublisherExporterOptionsPluginWidget(
+    plugin.NukePublisherExporterPluginWidget
+):
     plugin_name = 'nuke_reviewable_publisher_exporter'
     widget = NukeReviewablePublisherExporterOptionsWidget
 

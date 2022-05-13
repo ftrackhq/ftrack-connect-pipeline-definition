@@ -94,7 +94,9 @@ class MayaCameraPublisherCollectorOptionsWidget(BaseOptionsWidget):
         )
 
 
-class MayaCameraPublisherCollectorPluginWidget(plugin.MayaPublisherCollectorPluginWidget):
+class MayaCameraPublisherCollectorPluginWidget(
+    plugin.MayaPublisherCollectorPluginWidget
+):
     plugin_name = 'maya_camera_publisher_collector'
     widget = MayaCameraPublisherCollectorOptionsWidget
 
