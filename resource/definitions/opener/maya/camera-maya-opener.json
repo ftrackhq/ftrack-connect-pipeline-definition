@@ -47,11 +47,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_opener_post_import"
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }
@@ -82,11 +82,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_opener_post_import"
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }

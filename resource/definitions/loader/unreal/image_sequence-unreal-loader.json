@@ -49,11 +49,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "common_default_loader_post_import"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }

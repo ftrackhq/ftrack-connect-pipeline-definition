@@ -52,11 +52,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "post import plugin",
-              "plugin": "common_default_loader_post_import"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -93,12 +93,12 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "visible": false,
           "plugins":[
             {
               "name": "post import plugin",
-              "plugin": "common_default_loader_post_import"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }

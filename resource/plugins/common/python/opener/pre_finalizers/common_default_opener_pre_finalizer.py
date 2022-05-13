@@ -15,7 +15,7 @@ class CommonDefaultOpenerPreFinalizerPlugin(plugin.OpenerPreFinalizerPlugin):
                 continue
 
             for stage in step['result']:
-                if stage['type'] != 'post_import':
+                if stage['type'] != 'post_importer':
                     continue
 
                 user_data = stage['result'][0].get('user_data')
