@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultOpenerContextPlugin(plugin.LoaderContextPlugin):
+class CommonDefaultOpenerContextPlugin(plugin.OpenerContextPlugin):
     plugin_name = 'common_default_opener_context'
 
     def run(self, context_data=None, data=None, options=None):

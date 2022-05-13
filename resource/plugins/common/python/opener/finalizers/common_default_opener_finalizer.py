@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultOpenerFinalizerPlugin(plugin.LoaderFinalizerPlugin):
+class CommonDefaultOpenerFinalizerPlugin(plugin.OpenerFinalizerPlugin):
     plugin_name = 'common_default_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
