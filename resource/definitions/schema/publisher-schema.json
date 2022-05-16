@@ -56,7 +56,7 @@
           "enum": [
             "collector",
             "validator",
-            "output",
+            "exporter",
             "context",
             "finalizer",
             "pre_finalizer",
@@ -198,7 +198,7 @@
         }
       }
     },
-    "OutputStage": {
+    "ExporterStage": {
       "allOf": [
         {
           "$ref": "#/definitions/Stage"
@@ -206,8 +206,8 @@
       ],
       "properties": {
         "name": {
-          "pattern": "^output$",
-          "default": "output"
+          "pattern": "^exporter$",
+          "default": "exporter"
         },
         "plugins": {
           "items": {
@@ -218,8 +218,8 @@
             ],
             "properties": {
               "type": {
-                "pattern": "^output$",
-                "default": "output"
+                "pattern": "^exporter$",
+                "default": "exporter"
               }
             }
           },
@@ -230,8 +230,8 @@
         },
         "type": {
           "type": "string",
-          "pattern": "^output$",
-          "default": "output"
+          "pattern": "^exporter$",
+          "default": "exporter"
         }
       }
     },
@@ -405,7 +405,7 @@
           "enum": [
             "collector",
             "validator",
-            "output",
+            "exporter",
             "context",
             "finalizer",
             "pre_finalizer",
@@ -460,7 +460,7 @@
             "oneOf":[
                       {"$ref": "#/definitions/CollectorStage"},
                       {"$ref": "#/definitions/ValidatorStage"},
-                    {"$ref": "#/definitions/OutputStage"}
+                    {"$ref": "#/definitions/ExporterStage"}
                   ]
           }
         },
@@ -470,7 +470,7 @@
           "default": [
             "collector",
             "validator",
-            "output"
+            "exporter"
           ]
         },
         "type": {

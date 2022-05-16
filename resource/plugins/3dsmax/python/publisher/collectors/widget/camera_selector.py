@@ -73,7 +73,7 @@ class Camera3dsMaxWidget(BaseOptionsWidget):
             self.set_option_result(self.cameras[0], key='camera_name')
 
 
-class Camera3dsMaxPluginWidget(plugin.PublisherCollectorMaxWidget):
+class Camera3dsMaxPluginWidget(plugin.PublisherCollectorMaxPluginWidget):
     plugin_name = 'camera'
     widget = Camera3dsMaxWidget
 

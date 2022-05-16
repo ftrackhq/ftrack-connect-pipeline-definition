@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.open",
-              "widget": "context.open"
+              "plugin": "common_default_opener_context",
+              "widget": "common_default_opener_context"
             }
           ]
         }
@@ -32,7 +32,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_opener_collector"
             }
           ]
         },
@@ -41,16 +41,16 @@
           "plugins":[
             {
               "name": "Open Nuke Script",
-              "plugin": "open_nuke"
+              "plugin": "nuke_default_opener_importer"
             }
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "post_import_test"
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }
@@ -67,7 +67,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "common_default_opener_pre_finalizer"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "plugins":[
             {
               "name": "Save script to working directory",
-              "plugin": "nuke_finalize"
+              "plugin": "nuke_default_opener_finalizer"
             }
           ]
         },
@@ -86,7 +86,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "common_default_opener_post_finalizer"
             }
           ]
         }

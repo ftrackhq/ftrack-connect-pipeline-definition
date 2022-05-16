@@ -57,7 +57,7 @@
             "context",
             "collector",
             "importer",
-            "post_import",
+            "post_importer",
             "finalizer",
             "pre_finalizer",
             "post_finalizer"
@@ -208,7 +208,7 @@
         }
       }
     },
-    "PostImportStage": {
+    "PostImporterStage": {
       "allOf": [
         {
           "$ref": "#/definitions/Stage"
@@ -216,8 +216,8 @@
       ],
       "properties": {
         "name": {
-          "pattern": "^post_import$",
-          "default": "post_import"
+          "pattern": "^post_importer$",
+          "default": "post_importer"
         },
         "plugins": {
           "items": {
@@ -228,8 +228,8 @@
             ],
             "properties": {
               "type": {
-                "pattern": "^post_import$",
-                "default": "post_import"
+                "pattern": "^post_importer$",
+                "default": "post_importer"
               }
             }
           },
@@ -240,8 +240,8 @@
         },
         "type": {
           "type": "string",
-          "pattern": "^post_import$",
-          "default": "post_import"
+          "pattern": "^post_importer$",
+          "default": "post_importer"
         }
       }
     },
@@ -416,7 +416,7 @@
           "enum": [
             "collector",
             "importer",
-            "post_import",
+            "post_importer",
             "finalizer",
             "pre_finalizer",
             "post_finalizer",
@@ -474,7 +474,7 @@
             "oneOf":[
               {"$ref": "#/definitions/CollectorStage"},
               {"$ref": "#/definitions/ImporterStage"},
-              {"$ref": "#/definitions/PostImportStage"}
+              {"$ref": "#/definitions/PostImporterStage"}
             ]
           }
         },
@@ -484,7 +484,7 @@
           "default": [
             "collector",
             "importer",
-            "post_import"
+            "post_importer"
           ]
         },
         "type": {

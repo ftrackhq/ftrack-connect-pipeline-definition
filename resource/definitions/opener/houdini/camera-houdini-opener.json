@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Camera Loader",
+  "type": "opener",
+  "name": "Camera opener",
   "package": "camera_houdini",
   "host_type": "houdini",
   "ui_type": "qt",
@@ -14,14 +14,14 @@
             {
               "mode": "import",
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.load"
+              "plugin": "common_default_opener_context",
+              "widget": "common_default_opener_context"
             },
             {
               "mode": "open",
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
+              "plugin": "common_default_opener_context",
+              "widget": "common_default_opener_context"
             }
           ]
         }
@@ -38,7 +38,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
+              "plugin": "common_context_opener_collector",
               "options": {
                 "accepted_formats": [".hip"]
               }
@@ -62,11 +62,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "post_import_test"
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }
@@ -81,7 +81,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
+              "plugin": "common_context_opener_collector",
               "options": {
                 "accepted_formats": [".abc"]
               }
@@ -98,11 +98,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "post_import_test"
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }
@@ -117,7 +117,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
+              "plugin": "common_context_opener_collector",
               "options": {
                 "accepted_formats": [".fbx"]
               }
@@ -134,11 +134,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "post_import_test"
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }
@@ -154,7 +154,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
+              "plugin": "common_default_opener_pre_finalizer",
               "visible": false
             }
           ]
@@ -164,7 +164,7 @@
           "plugins":[
             {
               "name": "Do nothing",
-              "plugin": "finalizer_test",
+              "plugin": "common_default_opener_finalizer",
               "visible": false
             }
           ]
@@ -174,7 +174,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test",
+              "plugin": "common_default_opener_post_finalizer",
               "visible": false
             }
           ]
