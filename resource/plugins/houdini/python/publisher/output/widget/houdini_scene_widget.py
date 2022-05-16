@@ -44,7 +44,7 @@ class HoudiniSceneOptionsWidget(DynamicWidget):
 
         options = []
 
-        self.option_group = group_box.GroupBox('Houdini Output Options')
+        self.option_group = group_box.GroupBox('Houdini exporter Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()

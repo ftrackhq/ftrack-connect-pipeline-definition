@@ -61,7 +61,9 @@ class OutputHoudiniFbxPlugin(plugin.PublisherOutputHoudiniPlugin):
         options = self.extract_options(options)
 
         self.logger.debug(
-            'Calling output options: data {}. options {}'.format(data, options)
+            'Calling exporters options: data {}. options {}'.format(
+                data, options
+            )
         )
 
         root_obj = hou.node('/obj')

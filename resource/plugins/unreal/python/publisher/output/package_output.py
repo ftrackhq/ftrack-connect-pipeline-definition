@@ -43,7 +43,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             except OSError as e:
                 msg = (
                     'Could not delete {}. The package process will not be '
-                    ' able to output to that file.'.format(output_zippath)
+                    ' able to exporters to that file.'.format(output_zippath)
                 )
                 self.logger.error(msg)
                 return False, {'message': msg}
@@ -64,7 +64,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
         except OSError:
             msg = (
                 'Could not create {}. The package will not be able to '
-                'output to that folder.'.format(destination_path)
+                'exporters to that folder.'.format(destination_path)
             )
             self.logger.error()
             return False, {'message': msg}
@@ -74,7 +74,7 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
             ue.SystemLibrary.get_project_saved_directory(), "Logs"
         )
         self.logger.debug(
-            'Detailed logs of editor output during migration '
+            'Detailed logs of editor exporters during migration '
             'found at: "{0}"'.format(unreal_windows_logs_dir)
         )
 

@@ -125,7 +125,7 @@ class LoadHoudiniWidget(LoadBaseWidget):
         super(LoadHoudiniWidget, self)._on_load_mode_changed(radio_button)
 
 
-class LoadHoudiniPluginWidget(plugin.LoaderImporterHoudiniWidget):
+class LoadHoudiniPluginWidget(plugin.LoaderImporterHoudiniPluginWidget):
     plugin_name = 'load_houdini'
     widget = LoadHoudiniWidget
 

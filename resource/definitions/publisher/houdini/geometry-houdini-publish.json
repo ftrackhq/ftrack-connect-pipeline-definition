@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.publish",
-              "widget": "context.publish"
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -42,16 +42,16 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "common_nonEmpty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_scene_output"
+              "plugin": "houdini_scene_exporter"
             }
           ]
         }
@@ -80,11 +80,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "houdini_nodes_output"
+              "plugin": "houdini_nodes_exporter"
             }
           ]
         }
@@ -113,11 +113,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
-              "name": "Alembic output options:",
-              "plugin": "alembic_output",
+              "name": "Alembic exporter options:",
+              "plugin": "alembic_exporter",
               "options": {
                 "ABCAnimation": true
               }
@@ -149,11 +149,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
-              "name": "FBX output options:",
-              "plugin": "fbx_output"
+              "name": "FBX exporter options:",
+              "plugin": "fbx_exporter"
             }
           ]
         }
@@ -181,7 +181,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",
@@ -201,7 +201,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result",
+              "plugin": "common_default_publisher_pre_finalizer",
               "visible": false
             }
           ]
@@ -221,7 +221,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result",
+              "plugin": "common_default_publisher_post_finalizer",
               "visible": false
             }
           ]

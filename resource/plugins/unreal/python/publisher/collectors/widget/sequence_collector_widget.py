@@ -36,7 +36,9 @@ class SequenceCollectorWidget(BaseCollectorWidget):
         )
 
 
-class SequenceCollectorPluginWidget(plugin.PublisherCollectorUnrealWidget):
+class SequenceCollectorPluginWidget(
+    plugin.PublisherCollectorUnrealPluginWidget
+):
     plugin_name = 'sequence_collector'
     widget = SequenceCollectorWidget
 
