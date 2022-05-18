@@ -6,7 +6,6 @@ import os
 
 import maya.cmds as cmds
 
-from ftrack_connect_pipeline import utils
 from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
 from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
@@ -56,8 +55,8 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 # Scene is not saved, save it first. Should have been taken
                 # care of by scene collector.
                 self.logger.warning('Maya not saved, saving local snapshot..')
-                work_path, message = maya_utils.save_snapshot(
-                    utils.ftrack_context_id(), self.session
+                work_path, message = maya_utils.save(
+                    context_data['context_id'], self.session
                 )
                 if not message is None:
                     self.logger.info(message)

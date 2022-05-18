@@ -13,7 +13,7 @@ class MayaDefaultOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
     def run(self, context_data=None, data=None, options=None):
         result = {}
 
-        work_path, message = maya_utils.save_snapshot(
+        work_path, message = maya_utils.save(
             context_data['context_id'], self.session
         )
         if work_path:
