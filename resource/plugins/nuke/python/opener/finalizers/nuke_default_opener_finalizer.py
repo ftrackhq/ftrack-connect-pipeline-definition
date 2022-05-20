@@ -14,11 +14,11 @@ class NukeDefaultOpenerFinalizerPlugin(plugin.NukeOpenerFinalizerPlugin):
         result = {}
 
         self.logger.debug('Saving Nuke snapshot on open')
-        work_path, message = nuke_utils.save(
+        save_path, message = nuke_utils.save(
             context_data['context_id'], self.session
         )
-        if work_path:
-            result['work_path'] = work_path
+        if save_path:
+            result['save_path'] = save_path
         else:
             result = False
         self.logger.debug('Initialising Nuke snapshot on open')

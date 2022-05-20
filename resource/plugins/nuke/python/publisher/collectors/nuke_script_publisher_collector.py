@@ -16,9 +16,9 @@ class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
         script_name = nuke.root().name()
         if script_name == 'Root':
             # Script is not saved, save it first.
-            self.logger.warning('Nuke not saved, saving local snapshot..')
-            work_path, message = nuke_utils.save(
-                context_data['context_id'], self.session
+            self.logger.warning('Nuke not saved, saving locally..')
+            save_path, message = nuke_utils.save(
+                context_data['context_id'], self.session, temp=True
             )
             if not message is None:
                 self.logger.info(message)

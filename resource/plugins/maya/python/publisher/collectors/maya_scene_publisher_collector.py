@@ -17,9 +17,9 @@ class MayaScenePublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
             scene_name = cmds.file(q=True, sceneName=True)
             if len(scene_name or '') == 0:
                 # Scene is not saved, save it first.
-                self.logger.warning('Maya not saved, saving local snapshot..')
-                work_path, message = maya_utils.save(
-                    ontext_data['context_id'], self.session
+                self.logger.warning('Maya not saved, saving locally')
+                save_path, message = maya_utils.save(
+                    context_data['context_id'], self.session, temp=True
                 )
                 if not message is None:
                     self.logger.info(message)

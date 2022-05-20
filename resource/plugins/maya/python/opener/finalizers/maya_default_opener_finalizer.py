@@ -13,11 +13,12 @@ class MayaDefaultOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
     def run(self, context_data=None, data=None, options=None):
         result = {}
 
-        work_path, message = maya_utils.save(
+        self.logger.debug('Saving Nuke snapshot on open')
+        save_path, message = maya_utils.save(
             context_data['context_id'], self.session
         )
-        if work_path:
-            result['work_path'] = work_path
+        if save_path:
+            result['save_path'] = save_path
         else:
             result = False
         maya_utils.init_maya(self.session)

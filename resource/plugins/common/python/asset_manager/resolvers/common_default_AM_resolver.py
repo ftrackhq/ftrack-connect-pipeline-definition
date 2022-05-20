@@ -738,13 +738,7 @@ class CommonDefaultAssetManagerResolverPlugin(
                 },
             )
         # Load resolve options
-        for key in [
-            'max_link_depth',
-            'linked_only',
-            #'follow_links'
-            #'follow_parents',
-            #'resolve_linked_task_parent',
-        ]:
+        for key in ['max_link_depth', 'linked_only']:
             if key in options:
                 setattr(self, key, options[key])
         return self.resolve_task_dependencies(context, options)
