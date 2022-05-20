@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 class NukeFileSavedPublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
-    plugin_name = 'nuke_fileSaved_publisher_validator'
+    plugin_name = 'nuke_file_saved_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
         if nuke.Root().name() != 'Root' and nuke.root().modified() != True:

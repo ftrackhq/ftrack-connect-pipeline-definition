@@ -49,7 +49,7 @@
           "plugins": [
             {
               "name": "file exists",
-              "plugin": "common_fileExists_publisher_validator"
+              "plugin": "common_file_exists_publisher_validator"
             }
           ]
         },
@@ -86,7 +86,7 @@
           "plugins": [
             {
               "name": "file exists",
-              "plugin": "common_fileExists_publisher_validator"
+              "plugin": "common_file_exists_publisher_validator"
             }
           ]
         },

@@ -2,19 +2,17 @@
 # :copyright: Copyright (c) 2014-2020 ftrack
 
 import ftrack_api
+import os
 
 from ftrack_connect_pipeline_nuke import plugin
 
-import nuke
 
-
-class NukeNodeTypePublisherValidatorPlugin(
+class NukeFileExistsPublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
-    plugin_name = 'nuke_nodeType_publisher_validator'
+    plugin_name = 'nuke_file_exists_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
-        node_type = options['node_type']
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
@@ -24,18 +22,17 @@ class NukeNodeTypePublisherValidatorPlugin(
             self.logger.error(msg)
             return (False, {'message': msg})
 
-        node_name = collected_objects[0]
-        node = nuke.toNode(node_name)
-        if node.Class() != node_type:
-            msg = 'Node {} is not of type {}'.format(node, node_type)
-            self.logger.error(msg)
-            return (False, {'message': msg})
-        return bool(node_name)
+        scene_path = collected_objects[0]
+        if os.path.exists(scene_path):
+            return True
+        else:
+            self.logger.debug("Nuke Scene file does not exists")
+        return False
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = NukeNodeTypePublisherValidatorPlugin(api_object)
+    plugin = NukeFileExistsPublisherValidatorPlugin(api_object)
     plugin.register()
