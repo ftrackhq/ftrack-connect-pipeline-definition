@@ -13,7 +13,7 @@ import nuke
 class NukeWritableNodePublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
-    plugin_name = 'nuke_writableNode_publisher_validator'
+    plugin_name = 'nuke_writable_node_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
         collected_objects = []

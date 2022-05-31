@@ -10,7 +10,7 @@ import ftrack_api
 
 
 class MayaMergeAbcLoaderFinalizerPlugin(plugin.MayaLoaderFinalizerPlugin):
-    plugin_name = 'maya_mergeAbc_loader_finalizer'
+    plugin_name = 'maya_merge_abc_loader_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
         result = {}

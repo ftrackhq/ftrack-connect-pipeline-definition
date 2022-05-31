@@ -6,7 +6,7 @@ import ftrack_api
 
 
 class CommonNonEmptyPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
-    plugin_name = 'common_nonEmpty_publisher_validator'
+    plugin_name = 'common_non_empty_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
         collected_objects = []

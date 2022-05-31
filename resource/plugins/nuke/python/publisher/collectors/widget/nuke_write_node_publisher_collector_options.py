@@ -95,7 +95,7 @@ class NukeWriteNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
 class NukeWriteNodePublisherCollectorPluginWidget(
     plugin.NukePublisherCollectorPluginWidget
 ):
-    plugin_name = 'nuke_writeNode_publisher_collector'
+    plugin_name = 'nuke_write_node_publisher_collector'
     widget = NukeWriteNodePublisherCollectorOptionsWidget
 
 

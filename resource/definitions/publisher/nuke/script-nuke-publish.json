@@ -39,11 +39,11 @@
           "plugins":[
             {
               "name": "Check file saved",
-              "plugin": "nuke_fileSaved_publisher_validator"
+              "plugin": "nuke_file_saved_publisher_validator"
             },
             {
               "name": "validate file exists",
-              "plugin": "nuke_fileExists_publisher_validator"
+              "plugin": "nuke_file_exists_publisher_validator"
             }
           ]
         },
