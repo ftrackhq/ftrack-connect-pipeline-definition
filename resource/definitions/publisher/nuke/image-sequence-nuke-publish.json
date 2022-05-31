@@ -39,11 +39,11 @@
           "plugins":[
             {
               "name": "Check file saved",
-              "plugin": "nuke_fileSaved_publisher_validator"
+              "plugin": "nuke_file_saved_publisher_validator"
             },
             {
               "name": "validate file exists",
-              "plugin": "nuke_fileExists_publisher_validator"
+              "plugin": "nuke_file_exists_publisher_validator"
             }
           ]
         },
@@ -76,15 +76,15 @@
           "plugins":[
             {
               "name": "Validate selection",
-              "plugin": "common_nonEmpty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             },
             {
               "name": "Script saved",
-              "plugin": "nuke_fileSaved_publisher_validator"
+              "plugin": "nuke_file_saved_publisher_validator"
             },
             {
               "name": "Can connect to write node",
-              "plugin": "nuke_writableNode_publisher_validator"
+              "plugin": "nuke_writable_node_publisher_validator"
             }
           ]
         },
@@ -126,7 +126,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nuke_writableNode_publisher_validator"
+              "plugin": "nuke_writable_node_publisher_validator"
             }
           ]
         },
@@ -158,11 +158,11 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_nonEmpty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             },
             {
               "name": "Can connect to write node",
-              "plugin": "nuke_writableNode_publisher_validator"
+              "plugin": "nuke_writable_node_publisher_validator"
             }
           ]
         },

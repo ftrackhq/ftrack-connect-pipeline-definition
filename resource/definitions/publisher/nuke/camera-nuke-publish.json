@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nuke_nodeType_publisher_validator",
+              "plugin": "nuke_node_type_publisher_validator",
               "options" : {
                 "node_type": "Camera"
               }
@@ -79,7 +79,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nuke_nodeType_publisher_validator",
+              "plugin": "nuke_node_type_publisher_validator",
               "options" : {
                 "node_type": "Camera"
               }
@@ -118,7 +118,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nuke_nodeType_publisher_validator",
+              "plugin": "nuke_node_type_publisher_validator",
               "options" : {
                 "node_type": "Camera"
               }

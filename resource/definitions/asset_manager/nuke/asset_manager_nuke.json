@@ -7,7 +7,7 @@
         "update":[
             {
                 "name": "Update to latest",
-                "plugin": "common_updateLatest_AM_action",
+                "plugin": "common_update_latest_AM_action",
                 "options": {"clear_selection":  false}
             }
         ]

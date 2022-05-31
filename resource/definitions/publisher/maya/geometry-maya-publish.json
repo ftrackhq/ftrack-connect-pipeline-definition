@@ -43,7 +43,7 @@
           "plugins":[
             {
               "name": "validate scene",
-              "plugin": "common_nonEmpty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -77,7 +77,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_nonEmpty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -188,7 +188,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_nonEmpty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -224,7 +224,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_nonEmpty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
