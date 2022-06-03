@@ -723,7 +723,7 @@ class CommonDefaultAssetManagerResolverPlugin(
             return (
                 {},
                 {
-                    'message': 'The context {} is now known to ftrack!'.format(
+                    'message': 'The context {} is not known to ftrack!'.format(
                         context_id
                     )
                 },
