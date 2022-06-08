@@ -58,6 +58,9 @@ class BuildPlugin(setuptools.Command):
 
         # Copy hook files
         shutil.copytree(HOOK_PATH, os.path.join(STAGING_PATH, 'hook'))
+        dependencies_path = os.path.join(STAGING_PATH, 'dependencies')
+
+        os.makedirs(dependencies_path)
 
         subprocess.check_call(
             [
@@ -67,7 +70,7 @@ class BuildPlugin(setuptools.Command):
                 'install',
                 '.',
                 '--target',
-                os.path.join(STAGING_PATH, 'dependencies'),
+                dependencies_path,
             ]
         )
 
@@ -117,7 +120,7 @@ setup(
     license='Apache License (2.0)',
     packages=find_packages(SOURCE_PATH),
     package_dir={'': 'source'},
-    python_requires='<3.8',
+    python_requires='<3.10',
     use_scm_version={
         'write_to': 'source/ftrack_connect_pipeline_definition/_version.py',
         'write_to_template': version_template,
