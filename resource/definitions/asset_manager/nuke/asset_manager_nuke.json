@@ -7,7 +7,7 @@
         "update":[
             {
                 "name": "Update to latest",
-                "plugin": "common_update_latest_AM_action",
+                "plugin": "common_update_latest_am_action",
                 "options": {"clear_selection":  false}
             }
         ]
@@ -16,7 +16,7 @@
         "resolve_dependencies":[
             {
                 "name": "Resolve Maya context asset dependencies",
-                "plugin": "common_default_AM_resolver",
+                "plugin": "common_default_am_resolver",
                 "options": {
                     "task_types":{
                         "*": {

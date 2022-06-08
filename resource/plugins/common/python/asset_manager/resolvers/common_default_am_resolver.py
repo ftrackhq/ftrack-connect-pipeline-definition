@@ -10,7 +10,7 @@ from ftrack_connect_pipeline import plugin
 class CommonDefaultAssetManagerResolverPlugin(
     plugin.AssetManagerResolvePlugin
 ):
-    plugin_name = 'common_default_AM_resolver'
+    plugin_name = 'common_default_am_resolver'
 
     # Resolver config, loaded from options
     max_link_depth = 1  # Maximum number of links to traverse
