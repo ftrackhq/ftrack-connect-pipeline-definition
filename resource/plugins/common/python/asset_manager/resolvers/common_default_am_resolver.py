@@ -46,7 +46,7 @@ class CommonDefaultAssetManagerResolverPlugin(
                 and processed_calling_entity_id == calling_entity_id
             ):
                 self.logger.debug(
-                    '(Linked cFontexts) Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
+                    '(Linked contexts) Not resolving dependencies for {}({}) - already processed from other entity({})!'.format(
                         entity['name'] if entity else 'None',
                         entity_id,
                         calling_entity_id,
