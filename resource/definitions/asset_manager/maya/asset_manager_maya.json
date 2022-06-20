@@ -235,6 +235,15 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },
+                                {
+                                    "asset_type": "rig",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 },{
                                     "asset_type": "cam",
                                     "filters": {

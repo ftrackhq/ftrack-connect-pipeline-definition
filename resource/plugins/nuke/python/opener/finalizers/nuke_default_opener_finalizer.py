@@ -13,7 +13,7 @@ class NukeDefaultOpenerFinalizerPlugin(plugin.NukeOpenerFinalizerPlugin):
     def run(self, context_data=None, data=None, options=None):
         result = {}
 
-        self.logger.debug('Saving Nuke snapshot on open')
+        self.logger.debug('Saving Nuke on open')
         save_path, message = nuke_utils.save(
             context_data['context_id'], self.session
         )
@@ -21,7 +21,7 @@ class NukeDefaultOpenerFinalizerPlugin(plugin.NukeOpenerFinalizerPlugin):
             result['save_path'] = save_path
         else:
             result = False
-        self.logger.debug('Initialising Nuke snapshot on open')
+        self.logger.debug('Initialising Nuke on open')
         nuke_utils.init_nuke(self.session)
 
         return (result, {'message': message})
