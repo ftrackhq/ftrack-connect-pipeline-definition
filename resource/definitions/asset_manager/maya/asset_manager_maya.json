@@ -7,7 +7,7 @@
         "update":[
             {
                 "name": "Update to latest",
-                "plugin": "common_update_latest_AM_action",
+                "plugin": "common_update_latest_am_action",
                 "options": {"clear_selection":  false}
             }
         ]
@@ -16,7 +16,7 @@
         "resolve_dependencies":[
             {
                 "name": "Resolve Maya context asset dependencies",
-                "plugin": "common_default_AM_resolver",
+                "plugin": "common_default_am_resolver",
                 "options": {
                     "task_types":{
                         "rendering":{
@@ -58,6 +58,14 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },{
+                                    "asset_type": "cam",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 }
                             ]
                         },
@@ -86,7 +94,7 @@
                         "fx": {
                             "asset_types": [
                                 {
-                                    "asset_type": "camera",
+                                    "asset_type": "cam",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -123,7 +131,7 @@
                                         "asset_names_exclude": [".^"]
                                     }
                                 },{
-                                    "asset_type": "camera",
+                                    "asset_type": "cam",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -227,8 +235,17 @@
                                         "asset_names_include": [".*"],
                                         "asset_names_exclude": [".^"]
                                     }
+                                },
+                                {
+                                    "asset_type": "rig",
+                                    "filters": {
+                                        "task_names_include": [".*"],
+                                        "task_names_exclude": [".^"],
+                                        "asset_names_include": [".*"],
+                                        "asset_names_exclude": [".^"]
+                                    }
                                 },{
-                                    "asset_type": "camera",
+                                    "asset_type": "cam",
                                     "filters": {
                                         "task_names_include": [".*"],
                                         "task_names_exclude": [".^"],
@@ -262,9 +279,7 @@
                     },
                     "status_names_include": [".*"],
                     "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"],
-                    "follow_links": true,
-                    "follow_parents": true,
-                    "resolve_linked_task_parent": false,
+                    "linked_only": true,
                     "max_link_depth": 1
                 }
             }

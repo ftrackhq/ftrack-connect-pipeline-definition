@@ -10,13 +10,11 @@ from ftrack_connect_pipeline import plugin
 class CommonDefaultAssetManagerResolverPlugin(
     plugin.AssetManagerResolvePlugin
 ):
-    plugin_name = 'common_default_AM_resolver'
+    plugin_name = 'common_default_am_resolver'
 
     # Resolver config, loaded from options
-    max_link_depth = 1
-    follow_links = True
-    follow_parents = True
-    resolve_linked_task_parent = True
+    max_link_depth = 1  # Maximum number of links to traverse
+    linked_only = True  # Only follow links, do not resolve parents (workflow) dependencies
 
     def get_linked_entities_recursive(
         self,
@@ -55,7 +53,7 @@ class CommonDefaultAssetManagerResolverPlugin(
                     )
                 )
                 return
-        # Prevent infinite cycles - on called from the samme entity
+        # Prevent infinite cycles - on called from the same entity
         processed_entities.append((entity['id'], calling_entity_id))
 
         # Find out entity type
@@ -70,26 +68,34 @@ class CommonDefaultAssetManagerResolverPlugin(
             else:
                 next_entity_type = 'task'
         elif entity.entity_type == 'Asset':
-            next_entity_type = 'parent'
             context = entity['parent']
             asset = entity
+            next_entity_type = 'parent'
         elif entity.entity_type == 'Task':
             context = entity
             if is_link:
                 add_entity = True
-            else:
+            elif 'parent' in entity and entity['parent'] is not None:
                 next_entity_type = 'parent'
         else:
             if 'parent' in entity and entity['parent'] is not None:
-                if self.follow_parents is True:
+                context = entity
+                if is_link:
+                    add_entity = True
+                else:
                     next_entity_type = 'parent'
-                    context = entity
-            elif 'project' in entity:
-                next_entity_type = 'project'
+            elif 'project' in entity and entity['parent'] is not None:
+                context = entity
+                if is_link:
+                    add_entity = True
+                else:
+                    next_entity_type = 'project'
         if context:
             link = [ctx['name'] for ctx in context['link']]
         else:
-            link = [entity['full_name']]
+            link = [
+                entity.get('full_name') or entity.get('name') or entity['id']
+            ]
         if asset:
             link.append(asset['name'])
         if version_nr:
@@ -101,8 +107,10 @@ class CommonDefaultAssetManagerResolverPlugin(
                 indent, '/'.join(link), entity['id']
             )
         )
-        if 'assets' in entity:
-            add_entity = True
+        if not add_entity:
+            # Resolve assets on context if
+            if 'assets' in entity and self.linked_only is False:
+                add_entity = True
         if add_entity:
             # Can only add context that has assets
             has_duplicate = False
@@ -124,13 +132,14 @@ class CommonDefaultAssetManagerResolverPlugin(
                 result.append(entity)
 
         # Any explicit links? Make sure to fetch updated data from backend
-        if 'incoming_links' in entity and self.follow_links is True:
+        if 'incoming_links' in entity:
             have_links = False
             self.session.populate(entity, 'incoming_links')
             if entity['incoming_links'] is not None:
                 for entity_link in entity.get('incoming_links'):
                     if entity_link['from_id'] == entity['id']:
                         continue  # Ignore link to itself
+                    have_links = True
                     if link_depth < self.max_link_depth:
                         self.logger.debug(
                             '(Linked contexts) {}[{}]Traveling via incoming link from: {} {}({})'.format(
@@ -161,18 +170,30 @@ class CommonDefaultAssetManagerResolverPlugin(
                             )
                         )
             if (
-                self.resolve_linked_task_parent is False
+                self.linked_only is True
                 and have_links
                 and entity.entity_type == 'Task'
             ):
-                # The resolved context have explicit links, stop harvest dependencies within this context and its parents
+                # The resolved context have explicit links, stop harvest dependencies within its parents
                 self.logger.debug(
                     '(Linked contexts) {}[{}]Context has incoming links, not resolving further parent contexts'.format(
                         indent, entity['name']
                     )
                 )
                 next_entity_type = None
+        if (
+            next_entity_type is not None
+            and self.linked_only is True
+            and self.max_link_depth <= link_depth
+        ):
+            self.logger.debug(
+                '(Linked contexts) {}[{}]Not resolving further parent contexts, max link depth of {} encountered'.format(
+                    indent, entity['name'], link_depth
+                )
+            )
+            next_entity_type = None
         if next_entity_type is not None:
+            # Go upstream, even if we only resolve linked assets we need to follow
             self.logger.debug(
                 '(Linked contexts) {}[{}]Traveling to: {}'.format(
                     indent, entity['name'], next_entity_type
@@ -702,7 +723,7 @@ class CommonDefaultAssetManagerResolverPlugin(
             return (
                 {},
                 {
-                    'message': 'The context {} is now known to ftrack!'.format(
+                    'message': 'The context {} is not known to ftrack!'.format(
                         context_id
                     )
                 },
@@ -717,12 +738,7 @@ class CommonDefaultAssetManagerResolverPlugin(
                 },
             )
         # Load resolve options
-        for key in [
-            'max_link_depth',
-            'follow_links',
-            'follow_parents',
-            'resolve_linked_task_parent',
-        ]:
+        for key in ['max_link_depth', 'linked_only']:
             if key in options:
                 setattr(self, key, options[key])
         return self.resolve_task_dependencies(context, options)

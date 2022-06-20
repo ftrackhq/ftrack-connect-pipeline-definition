@@ -6,7 +6,6 @@ import ftrack_api
 import nuke
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline import utils
 from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
@@ -17,9 +16,9 @@ class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
         script_name = nuke.root().name()
         if script_name == 'Root':
             # Script is not saved, save it first.
-            self.logger.warning('Nuke not saved, saving local snapshot..')
-            work_path, message = nuke_utils.save_snapshot(
-                utils.global_context(), self.session
+            self.logger.warning('Nuke not saved, saving locally..')
+            save_path, message = nuke_utils.save(
+                context_data['context_id'], self.session, temp=True
             )
             if not message is None:
                 self.logger.info(message)
