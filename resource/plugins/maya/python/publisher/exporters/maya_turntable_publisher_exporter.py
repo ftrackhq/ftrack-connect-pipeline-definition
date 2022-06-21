@@ -10,8 +10,8 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class OutputMayaReviewablePlugin(plugin.PublisherOutputMayaPlugin):
-    plugin_name = 'turntable'
+class MayaTurntablePublisherExporterPlugin(plugin.PublisherOutputMayaPlugin):
+    plugin_name = 'maya_turntable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
 
@@ -117,5 +117,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = OutputMayaReviewablePlugin(api_object)
+    plugin = MayaTurntablePublisherExporterPlugin(api_object)
     plugin.register()

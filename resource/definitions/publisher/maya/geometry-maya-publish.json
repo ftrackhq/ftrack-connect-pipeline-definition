@@ -232,8 +232,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "write reviewable",
-              "plugin": "maya_reviewable_publisher_exporter"
+              "name": "write turntable",
+              "plugin": "maya_turntable_publisher_exporter"
             }
           ]
         }
