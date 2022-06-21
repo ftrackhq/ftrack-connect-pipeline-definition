@@ -216,6 +216,10 @@
               "options": {
                 "camera_name": "persp"
               }
+            },
+            {
+              "name": "Geometry Collector",
+              "plugin": "maya_geometry_publisher_collector"
             }
           ]
         },

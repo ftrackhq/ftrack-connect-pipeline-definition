@@ -10,7 +10,7 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class MayaTurntablePublisherExporterPlugin(plugin.PublisherOutputMayaPlugin):
+class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     plugin_name = 'maya_turntable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
@@ -30,12 +30,12 @@ class MayaTurntablePublisherExporterPlugin(plugin.PublisherOutputMayaPlugin):
         sframe = cmds.playbackOptions(q=True, min=True)
         eframe = cmds.playbackOptions(q=True, max=True)
 
-        locator_to_delete = self.setup_turntable(selected_object)
+        locator_to_delete = self.setup_turntable(selected_object, sframe, eframe)
         reviwable_path = self.run_reviewable(camera_name, sframe, eframe, res_w, res_h)
         cmds.delete(locator_to_delete)
         return reviwable_path
 
-    def setup_turntable(object, sframe, eframe):
+    def setup_turntable(self, object, sframe, eframe):
         bb_vertices = cmds.exactWorldBoundingBox(object)
         x_loc = (bb_vertices[0]+bb_vertices[3])/2
         y_loc = bb_vertices[1]
@@ -78,9 +78,6 @@ class MayaTurntablePublisherExporterPlugin(plugin.PublisherOutputMayaPlugin):
         res_w = int(cmds.getAttr('defaultResolution.width'))
         res_h = int(cmds.getAttr('defaultResolution.height'))
 
-        start_frame = cmds.playbackOptions(q=True, min=True)
-        end_frame = cmds.playbackOptions(q=True, max=True)
-
         prev_selection = cmds.ls(sl=True)
         cmds.select(cl=True)
 
@@ -93,7 +90,7 @@ class MayaTurntablePublisherExporterPlugin(plugin.PublisherOutputMayaPlugin):
             viewer=0,
             offScreen=True,
             showOrnaments=0,
-            frame=range(int(start_frame), int(end_frame + 1)),
+            frame=range(int(sframe), int(eframe + 1)),
             filename=filename,
             fp=4,
             percent=100,
