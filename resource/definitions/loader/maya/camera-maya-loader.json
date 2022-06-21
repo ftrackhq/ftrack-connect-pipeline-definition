@@ -12,16 +12,9 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "import",
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.load"
-            },
-            {
-              "mode": "open",
-              "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
             }
           ]
         }
@@ -38,7 +31,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -47,7 +40,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "load_maya",
+              "plugin": "maya_default_loader_importer",
               "options": {
                 "load_mode": "Import",
                 "load_options": {
@@ -60,11 +53,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -79,7 +72,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -88,7 +81,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "load_maya",
+              "plugin": "maya_default_loader_importer",
               "options": {
                 "load_mode": "Import",
                 "load_options": {
@@ -101,11 +94,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -122,7 +115,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -131,16 +124,16 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "abc_maya_import"
+              "plugin": "maya_abc_loader_importer"
             }
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -157,7 +150,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -166,16 +159,16 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "abc_maya_import"
+              "plugin": "maya_abc_loader_importer"
             }
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -192,24 +185,17 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "common_default_loader_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "Save Scene",
-              "description" : "Upon open, save Maya scene to local snapshot directory",
-              "plugin": "maya_finalize",
-              "mode": "open"
-            },
-            {
               "name": "Do nothing",
-              "plugin": "finalizer_test",
-              "mode": "import",
-              "visible": false
+              "plugin": "common_default_loader_finalizer"
             }
           ]
         },
@@ -219,7 +205,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "common_default_loader_post_finalizer"
             }
           ]
         }

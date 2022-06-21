@@ -14,13 +14,13 @@
             {
               "mode": "import",
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.load"
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
             },
             {
               "mode": "open",
               "name": "context selector",
-              "plugin": "context.load",
+              "plugin": "common_default_loader_context",
               "widget": "context.open"
             }
           ]
@@ -38,7 +38,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
+              "plugin": "common_context_loader_collector",
               "options": {
                 "accepted_formats": [".hip"]
               }
@@ -62,11 +62,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -81,7 +81,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
+              "plugin": "common_context_loader_collector",
               "options": {
                 "accepted_formats": [".abc"]
               }
@@ -98,11 +98,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -117,7 +117,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context",
+              "plugin": "common_context_loader_collector",
               "options": {
                 "accepted_formats": [".fbx"]
               }
@@ -134,11 +134,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -154,7 +154,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test",
+              "plugin": "common_default_loader_pre_finalizer",
               "visible": false
             }
           ]
@@ -164,7 +164,7 @@
           "plugins":[
             {
               "name": "Do nothing",
-              "plugin": "finalizer_test",
+              "plugin": "common_default_loader_finalizer",
               "visible": false
             }
           ]
@@ -174,7 +174,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test",
+              "plugin": "common_default_loader_post_finalizer",
               "visible": false
             }
           ]

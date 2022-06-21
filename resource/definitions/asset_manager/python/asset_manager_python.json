@@ -7,7 +7,7 @@
         "update":[
             {
                 "name": "Update to latest",
-                "plugin": "update_latest",
+                "plugin": "common_update_latest_am_action",
                 "options": {"clear_selection":  false}
             }
         ]
@@ -16,7 +16,7 @@
         "resolve_dependencies":[
             {
                 "name": "Resolve python context asset dependencies",
-                "plugin": "resolve_dependencies",
+                "plugin": "common_default_am_resolver",
                 "options": {
                     "task_types":{
                         "rendering":{

@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.publish",
-              "widget": "context.publish"
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -31,7 +31,7 @@
           "plugins":[
             {
               "name": "Selection collector",
-              "plugin": "selection"
+              "plugin": "nuke_default_publisher_collector"
             }
           ]
         },
@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "node_type",
+              "plugin": "nuke_node_type_publisher_validator",
               "options" : {
                 "node_type": "Camera"
               }
@@ -48,11 +48,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export camera",
-              "plugin": "camera",
+              "plugin": "nuke_camera_publisher_exporter",
               "options": {
                   "file_type": "abc"
               }
@@ -70,7 +70,7 @@
           "plugins":[
             {
               "name": "Selection collector",
-              "plugin": "selection"
+              "plugin": "nuke_default_publisher_collector"
             }
           ]
         },
@@ -79,7 +79,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "node_type",
+              "plugin": "nuke_node_type_publisher_validator",
               "options" : {
                 "node_type": "Camera"
               }
@@ -87,11 +87,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export camera",
-              "plugin": "camera",
+              "plugin": "nuke_camera_publisher_exporter",
               "options": {
                   "file_type": "fbx"
               }
@@ -109,7 +109,7 @@
           "plugins":[
             {
               "name": "Selection collector",
-              "plugin": "selection"
+              "plugin": "nuke_default_publisher_collector"
             }
           ]
         },
@@ -118,7 +118,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "node_type",
+              "plugin": "nuke_node_type_publisher_validator",
               "options" : {
                 "node_type": "Camera"
               }
@@ -126,11 +126,11 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export camera",
-              "plugin": "camera",
+              "plugin": "nuke_camera_publisher_exporter",
               "options": {
                   "file_type": "obj"
               }
@@ -150,7 +150,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result"
+              "plugin": "common_default_publisher_pre_finalizer"
             }
           ]
         },
@@ -160,7 +160,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result_nuke"
+              "plugin": "nuke_default_publisher_finalizer"
             }
           ]
         },
@@ -170,7 +170,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result"
+              "plugin": "common_default_publisher_post_finalizer"
             }
           ]
         }

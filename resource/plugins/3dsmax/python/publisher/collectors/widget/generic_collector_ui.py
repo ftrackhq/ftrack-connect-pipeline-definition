@@ -36,7 +36,7 @@ class GenericCollectorWidget(BaseCollectorWidget):
         )
 
 
-class GenericCollectorPluginWidget(plugin.PublisherCollectorMaxWidget):
+class GenericCollectorPluginWidget(plugin.PublisherCollectorMaxPluginWidget):
     plugin_name = 'generic_collector'
     widget = GenericCollectorWidget
 

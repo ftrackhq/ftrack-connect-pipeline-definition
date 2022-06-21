@@ -7,7 +7,7 @@
         "update":[
             {
                 "name": "Update to latest",
-                "plugin": "update_latest",
+                "plugin": "common_update_latest_am_action",
                 "options": {"clear_selection":  false}
             }
         ]
@@ -16,7 +16,7 @@
         "resolve_dependencies":[
             {
                 "name": "Resolve Maya context asset dependencies",
-                "plugin": "resolve_dependencies",
+                "plugin": "common_default_am_resolver",
                 "options": {
                     "task_types":{
                         "*": {
@@ -44,9 +44,7 @@
                     },
                     "status_names_include": [".*"],
                     "status_names_exclude": ["(?i)(\\W|^)(Omitted)(\\W|$)"],
-                    "follow_links": true,
-                    "follow_parents": true,
-                    "resolve_linked_task_parent": false,
+                    "linked_only": true,
                     "max_link_depth": 1
                 }
             }

@@ -36,7 +36,7 @@ class AssetsCollectorWidget(BaseCollectorWidget):
         )
 
 
-class AssetsCollectorPluginWidget(plugin.PublisherCollectorUnrealWidget):
+class AssetsCollectorPluginWidget(plugin.PublisherCollectorUnrealPluginWidget):
     plugin_name = 'assets_collector'
     widget = AssetsCollectorWidget
 

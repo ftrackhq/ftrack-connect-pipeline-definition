@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.publish",
-              "widget": "context.publish"
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -30,7 +30,7 @@
           "plugins":[
             {
               "name": "collect_scene_selection",
-              "plugin": "scene_or_selection",
+              "plugin": "maya_scene_publisher_collector",
               "options": {
                 "export": ["scene"]
               }
@@ -42,17 +42,17 @@
           "plugins":[
             {
               "name": "validate scene",
-              "plugin": "nonempty"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_output",
-              "widget": "maya_options"
+              "plugin": "maya_default_publisher_exporter",
+              "widget": "maya_default_publisher_exporter"
             }
           ]
         }
@@ -66,11 +66,11 @@
           "plugins":[
             {
               "name": "select camera to playblast",
-              "plugin": "camera",
+              "plugin": "maya_camera_publisher_collector",
               "options": {
                 "camera_name": "persp"
               },
-              "widget": "camera"
+              "widget": "maya_camera_publisher_collector"
             }
           ]
         },
@@ -79,16 +79,16 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",
-              "plugin": "thumbnail"
+              "plugin": "maya_thumbnail_publisher_exporter"
             }
           ]
         }
@@ -102,7 +102,7 @@
           "plugins":[
             {
               "name": "select camera to playblast",
-              "plugin": "camera",
+              "plugin": "maya_camera_publisher_collector",
               "options": {
                 "camera_name": "persp"
               }
@@ -114,16 +114,16 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "reviewable"
+              "plugin": "maya_reviewable_publisher_exporter"
             }
           ]
         }
@@ -139,7 +139,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result",
+              "plugin": "common_default_publisher_pre_finalizer",
               "visible": false
             }
           ]
@@ -149,7 +149,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result_maya",
+              "plugin": "maya_default_publisher_finalizer",
               "visible": false
             }
           ]
@@ -159,7 +159,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result",
+              "plugin": "common_default_publisher_post_finalizer",
               "visible": false
             }
           ]

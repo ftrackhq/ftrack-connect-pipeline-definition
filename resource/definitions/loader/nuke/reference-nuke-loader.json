@@ -12,16 +12,9 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "import",
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.load"
-            },
-            {
-              "mode": "open",
-              "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
             }
           ]
         }
@@ -39,7 +32,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -48,16 +41,16 @@
           "plugins":[
             {
               "name": "load Scene",
-              "plugin": "load_nuke"
+              "plugin": "nuke_default_loader_importer"
             }
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -73,7 +66,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -82,16 +75,16 @@
           "plugins":[
             {
               "name": "Import image sequence",
-              "plugin": "import_image_sequence"
+              "plugin": "nuke_sequence_loader_importer"
             }
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -108,23 +101,16 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "common_default_loader_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": false,
           "plugins":[
             {
-              "name": "Copy script to working directory",
-              "plugin": "nuke_finalize",
-              "mode": "open"
-            },
-            {
               "name": "Do nothing",
-              "plugin": "finalizer_test",
-              "mode": "import",
+              "plugin": "common_default_loader_finalizer",
               "visible": false
             }
           ]
@@ -135,7 +121,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "common_default_loader_post_finalizer"
             }
           ]
         }

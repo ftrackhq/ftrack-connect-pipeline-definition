@@ -11,16 +11,9 @@
           "name": "context",
           "plugins":[
             {
-              "mode": "import",
               "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.load"
-            },
-            {
-              "mode": "open",
-              "name": "context selector",
-              "plugin": "context.load",
-              "widget": "context.open"
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
             }
           ]
         }
@@ -41,7 +34,7 @@
             },
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -50,8 +43,8 @@
           "plugins":[
             {
               "name": "importer",
-              "plugin": "importer_test",
-              "widget": "fakeImportModes",
+              "plugin": "common_default_loader_importer",
+              "widget": "common_default_loader_importer",
               "options": {
                 "load_mode": "Import"
               }
@@ -59,11 +52,11 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "plugins":[
             {
               "name": "post import plugin",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -78,11 +71,11 @@
           "plugins":[
             {
               "name": "Pick objects with suffix",
-              "plugin": "collector_test"
+              "plugin": "common_test_opener_collector"
             },
             {
               "name": "Collect components from context",
-              "plugin": "collect_from_context"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -91,8 +84,8 @@
           "plugins":[
             {
               "name": "importer",
-              "plugin": "importer_test",
-              "widget": "importer_test",
+              "plugin": "common_default_loader_importer",
+              "widget": "common_default_loader_importer",
               "options": {
                 "load_mode": "Import"
               }
@@ -100,12 +93,12 @@
           ]
         },
         {
-          "name": "post_import",
+          "name": "post_importer",
           "visible": false,
           "plugins":[
             {
               "name": "post import plugin",
-              "plugin": "post_import_test"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -122,7 +115,7 @@
           "plugins":[
             {
               "name": "pre from ftrack server",
-              "plugin": "pre_finalizer_test"
+              "plugin": "common_default_loader_pre_finalizer"
             }
           ]
         },
@@ -131,7 +124,7 @@
           "plugins":[
             {
               "name": "from ftrack server",
-              "plugin": "finalizer_test"
+              "plugin": "common_default_loader_finalizer"
             }
           ]
         },
@@ -140,7 +133,7 @@
           "plugins":[
             {
               "name": "post from ftrack server",
-              "plugin": "post_finalizer_test"
+              "plugin": "common_default_loader_post_finalizer"
             }
           ],
           "visible": false

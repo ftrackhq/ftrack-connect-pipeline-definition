@@ -1,0 +1,31 @@
+# :coding: utf-8
+# :copyright: Copyright (c) 2019 ftrack
+
+from ftrack_connect_pipeline import plugin
+import ftrack_api
+
+
+class CommonNumericPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
+    plugin_name = 'common_numeric_publisher_validator'
+
+    def run(self, context_data=None, data=None, options=None):
+        output = self.output
+        self.logger.debug('data: {}'.format(data))
+        test = options.get('test')
+        value = options.get('value')
+
+        if len(data) != 1:
+            output = False
+            return output
+
+        if test == '>=':
+            output = int(data[0]) >= int(value)
+            return output
+
+
+def register(api_object, **kw):
+    if not isinstance(api_object, ftrack_api.Session):
+        # Exit to avoid registering this plugin again.
+        return
+    plugin = CommonNumericPublisherValidatorPlugin(api_object)
+    plugin.register()

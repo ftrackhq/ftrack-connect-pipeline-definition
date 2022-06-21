@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.publish",
-              "widget": "context.publish"
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -31,7 +31,7 @@
           "plugins":[
             {
               "name": "Selection collector",
-              "plugin": "selection"
+              "plugin": "nuke_default_publisher_collector"
             }
           ]
         },
@@ -40,16 +40,16 @@
           "plugins":[
             {
               "name": "no validator",
-              "plugin": "publish_validator_test"
+              "plugin": "common_test_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export geometry",
-              "plugin": "geometry",
+              "plugin": "nuke_geometry_publisher_exporter",
               "options": {
                   "file_type": "abc",
                   "animation" : true,
@@ -70,7 +70,7 @@
           "plugins":[
             {
               "name": "Selection collector",
-              "plugin": "selection"
+              "plugin": "nuke_default_publisher_collector"
             }
           ]
         },
@@ -79,16 +79,16 @@
           "plugins":[
             {
               "name": "no validator",
-              "plugin": "publish_validator_test"
+              "plugin": "common_test_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export geometry",
-              "plugin": "geometry",
+              "plugin": "nuke_geometry_publisher_exporter",
               "options": {
                   "file_type": "fbx"
               }
@@ -106,7 +106,7 @@
           "plugins":[
             {
               "name": "Selection collector",
-              "plugin": "selection"
+              "plugin": "nuke_default_publisher_collector"
             }
           ]
         },
@@ -115,16 +115,16 @@
           "plugins":[
             {
               "name": "no validator",
-              "plugin": "publish_validator_test"
+              "plugin": "common_test_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "Export geometry",
-              "plugin": "geometry",
+              "plugin": "nuke_geometry_publisher_exporter",
               "options": {
                   "file_type": "obj"
               }
@@ -144,7 +144,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result"
+              "plugin": "common_default_publisher_pre_finalizer"
             }
           ]
         },
@@ -154,7 +154,7 @@
           "plugins":[
             {
               "name": "to ftrack server",
-              "plugin": "result_nuke"
+              "plugin": "nuke_default_publisher_finalizer"
             }
           ]
         },
@@ -164,7 +164,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result"
+              "plugin": "common_default_publisher_post_finalizer"
             }
           ]
         }

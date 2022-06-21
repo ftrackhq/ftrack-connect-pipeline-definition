@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "context.publish",
-              "widget": "context.publish"
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -42,12 +42,12 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "3dsmaxbinary",
@@ -81,7 +81,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "3dsmaxbinary",
@@ -114,7 +114,7 @@
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "alembic",
@@ -146,12 +146,12 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write thumbnail",
@@ -179,12 +179,12 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "nonempty"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "output",
+          "name": "exporter",
           "plugins":[
             {
               "name": "write reviewable",
@@ -204,7 +204,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "pre_result",
+              "plugin": "common_default_publisher_pre_finalizer",
               "visible": false
             }
           ]
@@ -224,7 +224,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "post_result",
+              "plugin": "common_default_publisher_post_finalizer",
               "visible": false
             }
           ]

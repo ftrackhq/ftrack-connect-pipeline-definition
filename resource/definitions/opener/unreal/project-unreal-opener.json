@@ -1,0 +1,137 @@
+{
+  "type": "opener",
+  "name": "Animation opener",
+  "package": "animation_unreal",
+  "host_type": "unreal",
+  "ui_type": "qt",
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "common_default_opener_context",
+              "widget": "common_default_opener_context"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+      {
+      "name": "alembic",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_opener_collector",
+              "options": {
+                "accepted_formats": [".abc"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import Alembic animation to Unreal",
+              "widget" : "load_animation_unreal",
+              "plugin": "abc_animation_unreal_import"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "unreal",
+              "plugin": "common_default_opener_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fbx",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_opener_collector",
+              "options": {
+                "accepted_formats": [".fbx"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import FBX animation to Unreal",
+              "widget" : "load_animation_unreal",
+              "plugin": "fbx_animation_unreal_import"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "unreal",
+              "plugin": "common_default_opener_post_importer"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "common_default_opener_pre_finalizer",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "Do nothing",
+              "plugin": "common_default_opener_finalizer",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "common_default_opener_post_finalizer",
+              "visible": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

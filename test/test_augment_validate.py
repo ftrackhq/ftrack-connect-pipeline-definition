@@ -20,7 +20,7 @@ orig_schema = {
                 "stage_order": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "default": ["collector", "validator", "output"],
+                    "default": ["collector", "validator", "exporter"],
                 },
                 "engine_type": {"type": "string", "default": "publisher"},
             },
@@ -42,7 +42,7 @@ orig_schema = {
                     "enum": [
                         "collector",
                         "validator",
-                        "output",
+                        "exporter",
                         "context",
                         "finalizer",
                     ],
@@ -90,17 +90,17 @@ orig_schema = {
                 },
             },
         },
-        "OutputStage": {
+        "ExporterStage": {
             "allOf": [{"$ref": "#/definitions/Stage"}],
             "properties": {
-                "name": {"pattern": "^output$", "default": "output"},
+                "name": {"pattern": "^exporter$", "default": "exporter"},
                 "plugins": {
                     "items": {
                         "allOf": [{"$ref": "#/definitions/Plugin"}],
                         "properties": {
                             "plugin_type": {
-                                "pattern": "^output$",
-                                "default": "output",
+                                "pattern": "^exporter$",
+                                "default": "exporter",
                             }
                         },
                     }
@@ -166,7 +166,7 @@ orig_schema = {
                     "enum": [
                         "collector",
                         "validator",
-                        "output",
+                        "exporters",
                         "context",
                         "finalizer",
                     ],
@@ -270,7 +270,7 @@ simple_schema = {
                 "stage_order": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "default": ["collector", "validator", "output"],
+                    "default": ["collector", "validator", "exporters"],
                 },
                 "engine_type": {"type": "string", "default": "publisher"},
             },
@@ -292,7 +292,7 @@ simple_schema = {
                     "enum": [
                         "collector",
                         "validator",
-                        "output",
+                        "exporters",
                         "context",
                         "finalizer",
                     ],
@@ -351,7 +351,7 @@ simple_schema = {
                     "enum": [
                         "collector",
                         "validator",
-                        "output",
+                        "exporters",
                         "context",
                         "finalizer",
                     ],
@@ -448,9 +448,12 @@ orig_definition = {
                     ],
                 },
                 {
-                    "name": "output",
+                    "name": "exporters",
                     "plugins": [
-                        {"name": "passthrough output", "plugin": "passthrough"}
+                        {
+                            "name": "passthrough exporters",
+                            "plugin": "passthrough",
+                        }
                     ],
                 },
             ],
