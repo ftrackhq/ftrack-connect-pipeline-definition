@@ -218,7 +218,7 @@
               }
             },
             {
-              "name": "Geometry Collector",
+              "name": "select target geometry",
               "plugin": "maya_geometry_publisher_collector"
             }
           ]
