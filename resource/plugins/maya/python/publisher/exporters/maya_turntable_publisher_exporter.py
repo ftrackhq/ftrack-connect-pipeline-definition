@@ -15,14 +15,12 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
     def run(self, context_data=None, data=None, options=None):
 
-        collected_objects = []
-        for collector in data:
-            collected_objects.extend(collector['result'])
+        camera_name = data[0]['result'][0] 
+        collected_objects = data[1]['result']
+        selected_object = self.get_top_trasform(collected_objects)
 
-        camera_name = options.get('camera_name', 'persp')
-        if collected_objects:
-            camera_name = collected_objects[0]
-            selected_object = self.get_top_trasform(collected_objects)
+        self.logger.debug(f'turntable - camera {camera_name}')
+        self.logger.debug(f'turntable - objects {selected_object}')
 
         res_w = int(cmds.getAttr('defaultResolution.width'))
         res_h = int(cmds.getAttr('defaultResolution.height'))
