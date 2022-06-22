@@ -56,7 +56,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 # care of by scene collector.
                 self.logger.warning('Maya not saved, saving locally..')
                 save_path, message = maya_utils.save(
-                    context_data['context_id'], self.session, temp=True
+                    context_data['context_id'], self.session
                 )
                 if not message is None:
                     self.logger.info(message)

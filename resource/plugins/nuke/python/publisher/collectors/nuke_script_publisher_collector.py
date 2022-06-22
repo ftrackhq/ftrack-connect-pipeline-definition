@@ -18,7 +18,7 @@ class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
             # Script is not saved, save it first.
             self.logger.warning('Nuke not saved, saving locally..')
             save_path, message = nuke_utils.save(
-                context_data['context_id'], self.session, temp=True
+                context_data['context_id'], self.session
             )
             if not message is None:
                 self.logger.info(message)
