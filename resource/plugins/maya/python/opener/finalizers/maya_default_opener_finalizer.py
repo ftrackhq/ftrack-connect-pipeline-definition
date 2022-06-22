@@ -15,7 +15,7 @@ class MayaDefaultOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
 
         self.logger.debug('Saving Maya on open')
         save_path, message = maya_utils.save(
-            context_data['context_id'], self.session
+            context_data['context_id'], self.session, save=False
         )
         if save_path:
             result['save_path'] = save_path
