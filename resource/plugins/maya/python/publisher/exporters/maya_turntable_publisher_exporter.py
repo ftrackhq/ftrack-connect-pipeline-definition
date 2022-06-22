@@ -17,9 +17,11 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         camera_name = data[0]['result'][0] 
         collected_objects = data[1]['result']
-        selected_object = self.get_top_trasform(collected_objects)
+        selected_object = collected_objects[0].split('|')[1]
+
 
         self.logger.debug(f'turntable - camera {camera_name}')
+        self.logger.debug(f'turntable - collected_objects {collected_objects}')
         self.logger.debug(f'turntable - objects {selected_object}')
 
         res_w = int(cmds.getAttr('defaultResolution.width'))
@@ -33,21 +35,6 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         cmds.delete(locator_to_delete)
         return reviwable_path
 
-    def get_top_trasform(self, selection):
-        for target in selection:
-            parent = None
-            stop = False
-            
-            while not stop:
-                p = cmds.listRelatives(parent or target, parent=True)
-                if p is None:
-                    stop = True
-                else:
-                    parent = p[0]
-                    
-                
-            if not parent:
-                return target
 
     def setup_turntable(self, object, sframe, eframe):
         bb_vertices = cmds.exactWorldBoundingBox(object)
