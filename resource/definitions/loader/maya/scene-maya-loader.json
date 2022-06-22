@@ -42,7 +42,7 @@
               "name": "Import paths to Maya",
               "plugin": "maya_default_loader_importer",
               "options": {
-                "load_mode": "Import",
+                "load_mode": "import",
                 "load_options": {
                   "preserve_references": true,
                   "add_namespace": true,

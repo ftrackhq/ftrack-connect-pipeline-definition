@@ -53,7 +53,7 @@
               "plugin": "load_houdini_nodes",
               "widget": "load_houdini",
               "options": {
-                "load_mode": "Import",
+                "load_mode": "import",
                 "load_options": {
                   "MergeOverwriteOnConflict": true
                 }
