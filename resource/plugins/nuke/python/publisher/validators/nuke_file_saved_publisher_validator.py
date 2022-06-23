@@ -22,9 +22,7 @@ class NukeFileSavedPublisherValidatorPlugin(
             if nuke.Root().name() == 'Root':
                 # Save snapshot
                 self.logger.debug("Nuke Scene is not saved, saving locally")
-                nuke_utils.save(
-                    context_data['context_id'], self.session, temp=True
-                )
+                nuke_utils.save(context_data['context_id'], self.session)
             else:
                 self.logger.debug("Nuke Scene is not saved, saving script")
                 nuke.scriptSave()
