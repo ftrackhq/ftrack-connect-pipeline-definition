@@ -13,7 +13,7 @@ class MayaDefaultOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
     def run(self, context_data=None, data=None, options=None):
         result = {}
 
-        self.logger.debug('Saving Maya on open')
+        self.logger.debug('Rename Maya scene on open')
         save_path, message = maya_utils.save(
             context_data['context_id'], self.session, save=False
         )

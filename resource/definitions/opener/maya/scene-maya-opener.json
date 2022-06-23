@@ -76,8 +76,8 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Save Scene",
-              "description" : "Upon open, save Maya scene to local snapshot directory",
+              "name": "Rename scene",
+              "description" : "Upon open, rename Maya scene to local temp directory",
               "plugin": "maya_default_opener_finalizer"
             }
           ]
