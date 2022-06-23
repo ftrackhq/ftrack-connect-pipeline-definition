@@ -44,10 +44,13 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         ).name
 
         collected_objects = []
+        is_scene_publish = False
         for collector in data:
             collected_objects.extend(collector['result'])
+            if collector.get('options', {}).get('export') == 'scene':
+                is_scene_publish = True
 
-        if os.path.isfile(collected_objects[0]):
+        if is_scene_publish:
             # Save entire scene
             options = {'typ': self.filetype, 'save': True}
             scene_name = cmds.file(q=True, sceneName=True)
@@ -56,7 +59,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 # care of by scene collector.
                 self.logger.warning('Maya not saved, saving locally..')
                 save_path, message = maya_utils.save(
-                    context_data['context_id'], self.session, temp=True
+                    context_data['context_id'], self.session
                 )
                 if not message is None:
                     self.logger.info(message)

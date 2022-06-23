@@ -13,7 +13,7 @@ from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
-    load_modes = ['Import', 'Reference']
+    load_modes = ['import', 'reference']
 
     def __init__(
         self,
