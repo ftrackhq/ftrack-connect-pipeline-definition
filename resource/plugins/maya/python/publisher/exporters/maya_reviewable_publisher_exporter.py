@@ -3,6 +3,7 @@
 
 import tempfile
 import glob
+import platform
 
 import maya.cmds as cmds
 
@@ -53,7 +54,7 @@ class MayaReviewablePublisherExporterPlugin(
 
         filename = tempfile.NamedTemporaryFile().name
 
-        cmds.playblast(
+        playblast_data = dict(
             format='movie',
             sequenceTime=0,
             clearCache=1,
@@ -67,6 +68,14 @@ class MayaReviewablePublisherExporterPlugin(
             quality=70,
             w=res_w,
             h=res_h,
+        )
+
+        if 'linux' in platform.platform().lower():
+            playblast_data['format']='qt'
+            playblast_data['compression'] = 'raw'
+
+        cmds.playblast(
+            **playblast_data
         )
 
         if len(prev_selection):
