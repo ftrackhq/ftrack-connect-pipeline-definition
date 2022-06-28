@@ -7,7 +7,7 @@ from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
-from Qt import QtWidgets
+from Qt import QtWidgets, QtCore
 
 import ftrack_api
 
@@ -40,16 +40,18 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(MayaDefaultPublisherExporterOptionsWidget, self).build()
 
-        options = [
-            'history',
-            'channels',
-            'preserve_reference',
-            'shader',
-            'constraints',
-            'expressions',
-        ]
+        options = {
+            'constructionHistory': False,
+            'channels': False,
+            'preserveReferences': False,
+            'shader': False,
+            'constraints': False,
+            'expressions': False,
+        }
+        # Update current options with the given ones from definitions
+        options.update(self.options)
+
         self.option_group = group_box.GroupBox('Maya exporter Options')
         self.option_group.setToolTip(self.description)
 
@@ -61,20 +63,28 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
         self.file_type_combo.addItem('mayaAscii (.ma)')
         self.option_layout.addWidget(self.file_type_combo)
 
-        for option in options:
-            option_check = QtWidgets.QCheckBox(option)
+        # set current options as self.options
+        self._options = options
 
-            self.options_cb[option] = option_check
-            self.option_layout.addWidget(option_check)
+        # Call the super build to automatically generate the options
+        super(MayaDefaultPublisherExporterOptionsWidget, self).build()
 
         self.layout().addWidget(self.option_group)
 
+    def _register_widget(self, name, widget):
+        '''Register *widget* with *name* and add it to main layout.'''
+        # Overriding this method in order to attach the widget to the option_layout
+        widget_layout = QtWidgets.QHBoxLayout()
+        widget_layout.setContentsMargins(1, 2, 1, 2)
+        widget_layout.setAlignment(QtCore.Qt.AlignTop)
+        label = QtWidgets.QLabel(name)
+
+        widget_layout.addWidget(label)
+        widget_layout.addWidget(widget)
+        self.option_layout.addLayout(widget_layout)
+
     def post_build(self):
         super(MayaDefaultPublisherExporterOptionsWidget, self).post_build()
-
-        for option, widget in self.options_cb.items():
-            update_fn = partial(self.set_option_result, key=option)
-            widget.stateChanged.connect(update_fn)
 
         self.file_type_combo.currentIndexChanged.connect(
             self._on_file_type_set
