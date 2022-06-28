@@ -17,7 +17,7 @@ class CommonContextLoaderCollectorPlugin(plugin.LoaderCollectorPlugin):
             'AssetVersion where id is "{}"'.format(version_id)
         ).one()
 
-        component_name = options['component_name']
+        component_name = data[0].get('name')
         file_formats = options.get('file_formats', [])
         location = self.session.pick_location()
         component_paths = []

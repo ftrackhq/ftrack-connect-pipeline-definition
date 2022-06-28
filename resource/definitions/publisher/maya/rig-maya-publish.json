@@ -87,7 +87,15 @@
             {
               "name": "maya",
               "plugin": "maya_default_publisher_exporter",
-              "widget": "maya_default_publisher_exporter"
+              "widget": "maya_default_publisher_exporter",
+              "options":{
+                "constructionHistory": true,
+                "channels": true,
+                "preserveReferences": true,
+                "shader": true,
+                "constraints": true,
+                "expressions": true
+              }
             }
           ]
         }

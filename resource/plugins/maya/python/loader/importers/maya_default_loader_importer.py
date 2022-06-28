@@ -50,7 +50,7 @@ class MayaDefaultLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
                     "."
                 )[0]
             elif maya_options.get('ns') == 'component':
-                maya_options['ns'] = options['component_name']
+                maya_options['ns'] = data[0].get('name')
 
             load_result = load_mode_fn(component_path, maya_options)
 
