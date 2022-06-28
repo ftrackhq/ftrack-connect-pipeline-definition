@@ -134,7 +134,6 @@ class OutputUnrealPackagePlugin(plugin.PublisherOutputUnrealPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Compress all project assets to a ZIP'''
-        component_name = options['component_name']
 
         collected_objects = []
         for collector in data:

@@ -45,7 +45,6 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         # ensure to load the alembic plugin
         cmds.loadPlugin('AbcExport.so', qt=1)
 
-        component_name = options['component_name']
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.abc'
         ).name
