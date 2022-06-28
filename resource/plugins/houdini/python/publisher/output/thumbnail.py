@@ -16,7 +16,6 @@ class OutputHoudiniThumbnailPlugin(plugin.PublisherOutputHoudiniPlugin):
     plugin_name = 'thumbnail'
 
     def run(self, context_data=None, data=None, options=None):
-        component_name = options['component_name']
 
         res = [1024, 768]
 

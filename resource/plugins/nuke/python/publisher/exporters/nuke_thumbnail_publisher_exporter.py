@@ -61,7 +61,6 @@ class NukeThumbnailPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
         for node in selected_nodes:
             node['selected'].setValue(True)
 
-        component_name = options['component_name']
         return [file_name]
 
 

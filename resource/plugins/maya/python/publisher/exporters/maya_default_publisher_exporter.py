@@ -18,21 +18,21 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     filetype = None
 
     def extract_options(self, options):
-        return {
+        main_options = {
             'op': 'v=0',
             'typ': self.filetype,
-            'constructionHistory': bool(options.get('history', False)),
-            'channels': bool(options.get('channels', False)),
-            'preserveReferences': bool(
-                options.get('preserve_reference', False)
-            ),
-            'shader': bool(options.get('shaders', False)),
-            'constraints': bool(options.get('constraints', False)),
-            'expressions': bool(options.get('expressions', False)),
+            'constructionHistory': False,
+            'channels': False,
+            'preserveReferences': False,
+            'shader': False,
+            'constraints': False,
+            'expressions': False,
             'exportSelected': True,
             'exportAll': False,
             'force': True,
         }
+        main_options.update(options)
+        return main_options
 
     def run(self, context_data=None, data=None, options=None):
 

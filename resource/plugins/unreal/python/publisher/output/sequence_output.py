@@ -153,7 +153,6 @@ class OutputUnrealSequencePlugin(OutputUnrealPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Render an image sequence'''
-        component_name = options['component_name']
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

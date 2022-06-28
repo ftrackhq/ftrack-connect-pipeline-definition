@@ -9,7 +9,6 @@ class CommonPassThroughPublisherExporterPlugin(plugin.PublisherExporterPlugin):
     plugin_name = 'common_passthrough_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
-        component_name = options['component_name']
         output = self.output
         for collector in data:
             output.append(collector['result'][0])

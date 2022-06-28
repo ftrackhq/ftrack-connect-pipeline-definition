@@ -15,7 +15,6 @@ class OutputThumbnailPlugin(plugin.PublisherOutputMaxPlugin):
     plugin_name = 'thumbnail'
 
     def run(self, context_data=None, data=None, options=None):
-        component_name = options['component_name']
         bm = rt.viewport.getViewportDib(index=rt.viewport.activeViewport)
         # rt.getBitmapInfo(bm)
         filename = '{0}.jpg'.format(uuid.uuid4().hex)
