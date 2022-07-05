@@ -71,12 +71,10 @@ class MayaReviewablePublisherExporterPlugin(
         )
 
         if 'linux' in platform.platform().lower():
-            playblast_data['format']='qt'
+            playblast_data['format'] = 'qt'
             playblast_data['compression'] = 'raw'
 
-        cmds.playblast(
-            **playblast_data
-        )
+        cmds.playblast(**playblast_data)
 
         if len(prev_selection):
             cmds.select(prev_selection)

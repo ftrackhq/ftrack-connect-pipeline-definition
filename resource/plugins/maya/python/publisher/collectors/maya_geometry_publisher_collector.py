@@ -21,8 +21,10 @@ class MayaGeometryPublisherCollectorPlugin(
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all the geometries in the scene'''
-        collected_objects = cmds.ls(geometry=True, l=True)
+        '''Fetch all selected geometries in the scene, if non selected return all'''
+        collected_objects = cmds.ls(sl=True, l=True)
+        if not collected_objects:
+            collected_objects = cmds.ls(geometry=True, l=True)
         return collected_objects
 
     def add(self, context_data=None, data=None, options=None):
