@@ -1,6 +1,6 @@
 {
-  "type": "loader",
-  "name": "Script Loader",
+  "type": "publisher",
+  "name": "Nodes Publisher",
   "asset_type": "script",
   "host_type": "nuke",
   "ui_type": "qt",
@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_loader_context",
-              "widget": "common_default_loader_context"
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -23,34 +23,32 @@
   ],
   "components": [
     {
-      "name": "snapshot",
-      "file_formats": [".nk"],
-      "optional": true,
+      "name": "nodes",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "Collect components from context",
-              "plugin": "common_context_loader_collector"
+              "name": "collect nodes",
+              "plugin": "nuke_nodes_publisher_collector"
             }
           ]
         },
         {
-          "name": "importer",
+          "name": "validator",
           "plugins":[
             {
-              "name": "load script",
-              "plugin": "nuke_default_loader_importer"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
         {
-          "name": "post_importer",
+          "name": "exporter",
           "plugins":[
             {
-              "name": "nuke",
-              "plugin": "common_default_loader_post_importer"
+              "name": "write nuke script",
+              "plugin": "nuke_default_publisher_exporter"
             }
           ]
         }
@@ -67,17 +65,17 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "common_default_loader_pre_finalizer"
+              "plugin": "common_default_publisher_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "Do nothing",
-              "plugin": "common_default_loader_finalizer",
-              "visible": false
+              "name": "to ftrack server",
+              "plugin": "nuke_default_publisher_finalizer"
             }
           ]
         },
@@ -87,7 +85,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "common_default_loader_post_finalizer"
+              "plugin": "common_default_publisher_post_finalizer"
             }
           ]
         }

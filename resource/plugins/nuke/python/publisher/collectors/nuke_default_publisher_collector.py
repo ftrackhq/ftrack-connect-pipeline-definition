@@ -12,7 +12,6 @@ class NukeDefaultPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
     plugin_name = 'nuke_default_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
-
         selected_nodes = nuke.selectedNodes()
         selected_node_names = []
         for node in selected_nodes:

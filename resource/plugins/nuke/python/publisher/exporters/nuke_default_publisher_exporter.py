@@ -4,7 +4,9 @@
 import ftrack_api
 
 import tempfile
+
 import nuke
+import nukescripts
 
 from ftrack_connect_pipeline_nuke import plugin
 
@@ -17,8 +19,30 @@ class NukeDefaultPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.nk'
         ).name
-        self.logger.debug('Calling extractor options: data {}'.format(data))
-        nuke.scriptSave(new_file_path)
+
+        collected_objects = []
+        is_script_publish = False
+        for collector in data:
+            collected_objects.extend(collector['result'])
+            if collector.get('options', {}).get('export') == 'script':
+                is_script_publish = True
+
+        if is_script_publish:
+            self.logger.debug(
+                'Publishing nuke script to: "{}"'.format(new_file_path)
+            )
+            nuke.scriptSave(new_file_path)
+        else:
+            # Select the nodes to export
+            nukescripts.clear_selection_recursive()
+            for node_name in collected_objects:
+                n = nuke.toNode(node_name)
+                if n:
+                    n.setSelected(True)
+            self.logger.debug(
+                'Saving selected nuke nodes to: "{}"'.format(new_file_path)
+            )
+            nuke.nodeCopy(new_file_path)
 
         return [new_file_path]
 
