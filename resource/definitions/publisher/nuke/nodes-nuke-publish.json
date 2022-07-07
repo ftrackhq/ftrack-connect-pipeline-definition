@@ -23,6 +23,46 @@
   ],
   "components": [
     {
+      "name": "snapshot",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect scene",
+              "plugin": "nuke_script_publisher_collector",
+              "options": {
+                "export": ["script"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "Check file saved",
+              "plugin": "nuke_file_saved_publisher_validator"
+            },
+            {
+              "name": "validate file exists",
+              "plugin": "nuke_file_exists_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "write nuke script",
+              "plugin": "nuke_default_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "nodes",
       "stages": [
         {
