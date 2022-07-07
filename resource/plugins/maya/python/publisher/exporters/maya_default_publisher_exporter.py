@@ -37,7 +37,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     def run(self, context_data=None, data=None, options=None):
 
         self.filetype = options.get('file_type') or 'mayaBinary'
-        self.extension = '.mb' if self.filetype is 'mayaBinary' else '.ma'
+        self.extension = '.mb' if self.filetype == 'mayaBinary' else '.ma'
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix=self.extension
