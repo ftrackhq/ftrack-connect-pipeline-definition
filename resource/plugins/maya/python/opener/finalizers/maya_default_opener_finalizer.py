@@ -21,7 +21,6 @@ class MayaDefaultOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
             result['save_path'] = save_path
         else:
             result = False
-        maya_utils.init_maya(self.session)
 
         return (result, {'message': message})
 
