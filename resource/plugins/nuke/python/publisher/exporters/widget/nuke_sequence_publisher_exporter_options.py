@@ -43,7 +43,9 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
         super(NukeSequencePublisherExporterOptionsWidget, self).build()
 
         bg = QtWidgets.QButtonGroup(self)
-        self.render_rb = QtWidgets.QRadioButton('Render sequence from script')
+        self.render_rb = QtWidgets.QRadioButton(
+            'Render sequence from script - create write'
+        )
         bg.addButton(self.render_rb)
         self.layout().addWidget(self.render_rb)
 
@@ -103,6 +105,18 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
         options_v_lay.addLayout(range_v_lay)
         self.layout().addWidget(self.option_group)
 
+        self.render_write_rb = QtWidgets.QRadioButton(
+            'Render sequence from selected write node'
+        )
+        bg.addButton(self.render_write_rb)
+        self.layout().addWidget(self.render_write_rb)
+
+        self.render_write_note = QtWidgets.QLabel(
+            '<html><i>Make sure you selected a write node that is setup to render a sequence.</i></html>'
+        )
+        self.layout().addWidget(self.render_write_note)
+        self.render_write_note.setVisible(False)
+
         self.pickup_rb = QtWidgets.QRadioButton(
             'Pick up existing sequence from selected write/read node'
         )
@@ -120,6 +134,8 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
         mode = self.options['mode'].lower()
         if mode == 'pickup':
             self.pickup_rb.setChecked(True)
+        elif mode == 'render_write':
+            self.render_write_rb.setChecked(True)
         else:
             self.render_rb.setChecked(True)
 
@@ -127,6 +143,7 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
         super(NukeSequencePublisherExporterOptionsWidget, self).post_build()
 
         self.render_rb.clicked.connect(self._update_render_mode)
+        self.render_write_rb.clicked.connect(self._update_render_mode)
         self.pickup_rb.clicked.connect(self._update_render_mode)
 
         def update_fn(index):
@@ -153,10 +170,14 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
         self._update_render_mode()
 
     def _update_render_mode(self):
-        self.set_option_result(
-            'render' if self.render_rb.isChecked() else 'pickup', 'mode'
-        )
+        mode = 'render'
+        if self.render_write_rb.isChecked():
+            mode = 'render_write'
+        elif self.pickup_rb.isChecked():
+            mode = 'pickup'
+        self.set_option_result(mode, 'mode')
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
+        self.render_write_note.setVisible(self.render_write_rb.isChecked())
 
 
 class NukeSequencePublisherExporterOptionsPluginWidget(
