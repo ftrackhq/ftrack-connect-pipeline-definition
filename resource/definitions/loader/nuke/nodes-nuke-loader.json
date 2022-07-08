@@ -1,6 +1,6 @@
 {
   "type": "loader",
-  "name": "Script Loader",
+  "name": "Nodes Loader",
   "asset_type": "script",
   "host_type": "nuke",
   "ui_type": "qt",
@@ -23,9 +23,9 @@
   ],
   "components": [
     {
-      "name": "snapshot",
+      "name": "nodes",
       "file_formats": [".nk"],
-      "optional": true,
+      "optional": false,
       "stages": [
         {
           "name": "collector",
@@ -40,8 +40,11 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "load script",
-              "plugin": "nuke_default_loader_importer"
+              "name": "load nodes",
+              "plugin": "nuke_default_loader_importer",
+              "options": {
+                "load_mode": "import"
+              }
             }
           ]
         },

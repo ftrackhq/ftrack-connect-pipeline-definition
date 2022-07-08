@@ -30,7 +30,10 @@
           "plugins":[
             {
               "name": "collect scene",
-              "plugin": "nuke_script_publisher_collector"
+              "plugin": "nuke_script_publisher_collector",
+              "options": {
+                "export": ["script"]
+              }
             }
           ]
         },
@@ -66,7 +69,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
+              "name": "collect movie/sequence node.",
               "plugin": "nuke_default_publisher_collector"
             }
           ]

@@ -90,6 +90,48 @@ class NukeSequencePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                 # delete temporal write node
                 nuke.delete(write_node)
 
+            elif mode == 'render_write':
+
+                # Find sequence write node among selected nodes
+                write_node = None
+                for node in selected_nodes:
+                    if node.Class() in ['Write']:
+                        # Is it a sequence?
+                        if len(
+                            node['file'].value() or ''
+                        ) and not os.path.splitext(node['file'].value())[
+                            1
+                        ].lower() in [
+                            '.mov',
+                            '.mxf',
+                        ]:
+                            write_node = node
+                            break
+                if write_node is None:
+                    return (
+                        False,
+                        {'message': 'No sequence write node selected!'},
+                    )
+                self.logger.debug(
+                    'Using existing node {} file sequence path: "{}", copying to temp.'.format(
+                        write_node.name(), write_node['file'].value()
+                    )
+                )
+                first = str(int(write_node['first'].getValue()))
+                last = str(int(write_node['last'].getValue()))
+                ranges = nuke.FrameRanges('{}-{}'.format(first, last))
+                self.logger.debug(
+                    'Rendering sequence [{}-{}] to "{}"'.format(
+                        first, last, write_node['file'].value()
+                    )
+                )
+                nuke.render(write_node, ranges)
+
+                sequence_path = clique.parse(
+                    '{} [{}-{}]'.format(
+                        write_node['file'].value(), first, last
+                    )
+                )
             else:
                 # Find sequence write/read node among selected nodes
                 file_node = None

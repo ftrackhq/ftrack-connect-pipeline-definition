@@ -43,7 +43,9 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         super(NukeMoviePublisherExporterOptionsWidget, self).build()
 
         bg = QtWidgets.QButtonGroup(self)
-        self.render_rb = QtWidgets.QRadioButton('Render movie from script')
+        self.render_rb = QtWidgets.QRadioButton(
+            'Render movie from script - create write'
+        )
         bg.addButton(self.render_rb)
         self.layout().addWidget(self.render_rb)
 
@@ -93,6 +95,18 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         options_v_lay.addLayout(range_v_lay)
         self.layout().addWidget(self.option_group)
 
+        self.render_write_rb = QtWidgets.QRadioButton(
+            'Render movie from selected write node'
+        )
+        bg.addButton(self.render_write_rb)
+        self.layout().addWidget(self.render_write_rb)
+
+        self.render_write_note = QtWidgets.QLabel(
+            '<html><i>Make sure you selected a write node that is setup to render a movie.</i></html>'
+        )
+        self.layout().addWidget(self.render_write_note)
+        self.render_write_note.setVisible(False)
+
         self.render_from_sequence_rb = QtWidgets.QRadioButton(
             'Render movie from existing rendered sequence write/read node'
         )
@@ -120,7 +134,9 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         if not 'mode' in self.options:
             self.set_option_result('render', 'mode')
         mode = self.options['mode'].lower()
-        if mode == 'render_from_sequence':
+        if mode == 'render_write':
+            self.render_write_rb.setChecked(True)
+        elif mode == 'render_from_sequence':
             self.pickup_rb.setChecked(True)
         elif mode == 'pickup':
             self.render_from_sequence_rb.setChecked(True)
@@ -131,6 +147,7 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         super(NukeMoviePublisherExporterOptionsWidget, self).post_build()
 
         self.render_rb.clicked.connect(self._update_render_mode)
+        self.render_write_rb.clicked.connect(self._update_render_mode)
         self.render_from_sequence_rb.clicked.connect(self._update_render_mode)
         self.pickup_rb.clicked.connect(self._update_render_mode)
 
@@ -154,7 +171,9 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
 
     def _update_render_mode(self):
         value = 'render'
-        if self.render_from_sequence_rb.isChecked():
+        if self.render_write_rb.isChecked():
+            value = 'render_write'
+        elif self.render_from_sequence_rb.isChecked():
             value = 'render_from_sequence'
         elif self.pickup_rb.isChecked():
             value = 'pickup'
@@ -162,6 +181,7 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         self.render_from_sequence_note.setVisible(
             self.render_from_sequence_rb.isChecked()
         )
+        self.render_write_note.setVisible(self.render_write_rb.isChecked())
         self.pickup_note.setVisible(self.pickup_rb.isChecked())
 
 
