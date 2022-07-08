@@ -24,7 +24,6 @@
   "components": [
     {
       "name": "snapshot",
-      "optional": true,
       "stages": [
         {
           "name": "collector",
