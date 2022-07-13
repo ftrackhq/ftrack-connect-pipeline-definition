@@ -31,6 +31,10 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         sframe = cmds.playbackOptions(q=True, min=True)
         eframe = cmds.playbackOptions(q=True, max=True)
 
+        # Ensure 50 frames are always set as minimum.
+        if eframe-sframe < 50:
+            eframe = sframe + 50 
+
         locator_to_delete = self.setup_turntable(selected_object, sframe, eframe)
         reviwable_path = self.run_reviewable(camera_name, sframe, eframe, res_w, res_h)
 
