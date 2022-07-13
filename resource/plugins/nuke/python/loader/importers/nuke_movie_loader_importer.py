@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeRenderLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
-    plugin_name = 'nuke_render_loader_importer'
+    plugin_name = 'nuke_movie_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
         results = {}

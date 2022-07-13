@@ -75,7 +75,7 @@
           "plugins":[
             {
               "name": "Import movie",
-              "plugin": "nuke_render_loader_importer"
+              "plugin": "nuke_movie_loader_importer"
             }
           ]
         },
