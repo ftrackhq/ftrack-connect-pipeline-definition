@@ -18,36 +18,39 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     filetype = None
 
     def extract_options(self, options):
-        return {
+        main_options = {
             'op': 'v=0',
             'typ': self.filetype,
-            'constructionHistory': bool(options.get('history', False)),
-            'channels': bool(options.get('channels', False)),
-            'preserveReferences': bool(
-                options.get('preserve_reference', False)
-            ),
-            'shader': bool(options.get('shaders', False)),
-            'constraints': bool(options.get('constraints', False)),
-            'expressions': bool(options.get('expressions', False)),
+            'constructionHistory': False,
+            'channels': False,
+            'preserveReferences': False,
+            'shader': False,
+            'constraints': False,
+            'expressions': False,
             'exportSelected': True,
             'exportAll': False,
             'force': True,
         }
+        main_options.update(options)
+        return main_options
 
     def run(self, context_data=None, data=None, options=None):
 
         self.filetype = options.get('file_type') or 'mayaBinary'
-        self.extension = '.mb' if self.filetype is 'mayaBinary' else '.ma'
+        self.extension = '.mb' if self.filetype == 'mayaBinary' else '.ma'
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix=self.extension
         ).name
 
         collected_objects = []
+        is_scene_publish = False
         for collector in data:
             collected_objects.extend(collector['result'])
+            if collector.get('options', {}).get('export') == 'scene':
+                is_scene_publish = True
 
-        if os.path.isfile(collected_objects[0]):
+        if is_scene_publish:
             # Save entire scene
             options = {'typ': self.filetype, 'save': True}
             scene_name = cmds.file(q=True, sceneName=True)
@@ -56,7 +59,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 # care of by scene collector.
                 self.logger.warning('Maya not saved, saving locally..')
                 save_path, message = maya_utils.save(
-                    context_data['context_id'], self.session, temp=True
+                    context_data['context_id'], self.session
                 )
                 if not message is None:
                     self.logger.info(message)

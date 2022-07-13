@@ -1,7 +1,7 @@
 {
   "type": "publisher",
-  "name": "Geometry Publisher",
-  "asset_type": "geo",
+  "name": "Nodes Publisher",
+  "asset_type": "script",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -62,15 +62,14 @@
       ]
     },
     {
-      "name": "cache",
-      "optional": true,
+      "name": "nodes",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "Selection collector",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "collect nodes",
+              "plugin": "nuke_nodes_publisher_collector"
             }
           ]
         },
@@ -78,8 +77,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -87,92 +86,14 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "Export geometry",
-              "plugin": "nuke_geometry_publisher_exporter",
-              "options": {
-                  "file_type": "abc",
-                  "animation" : true,
-                  "start" : "",
-                  "end" : ""
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "game",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Selection collector",
-              "plugin": "nuke_default_publisher_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "Export geometry",
-              "plugin": "nuke_geometry_publisher_exporter",
-              "options": {
-                  "file_type": "fbx"
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "geo",
-      "optional": true,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Selection collector",
-              "plugin": "nuke_default_publisher_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "Export geometry",
-              "plugin": "nuke_geometry_publisher_exporter",
-              "options": {
-                  "file_type": "obj"
-              }
+              "name": "write nuke script",
+              "plugin": "nuke_default_publisher_exporter"
             }
           ]
         }
       ]
     }
-    ],
+  ],
   "finalizers": [
     {
       "name": "main",

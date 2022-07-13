@@ -29,8 +29,11 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect scene",
-              "plugin": "nuke_script_publisher_collector"
+              "name": "collect script",
+              "plugin": "nuke_script_publisher_collector",
+              "options": {
+                "export": ["script"]
+              }
             }
           ]
         },

@@ -29,7 +29,7 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
 
         try:
             mode = (options.get('mode') or 'render').lower()
-            if mode == 'render' or mode == 'render_from_sequence':
+            if mode in ['render', 'render_from_sequence']:
                 write_node = read_node = None
                 delete_write_node = True
                 delete_read_node = False
@@ -135,12 +135,45 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                     nuke.delete(write_node)
                 if delete_read_node:
                     nuke.delete(read_node)
+            elif mode in ['render_write']:
+                # Find movie write node among selected nodes
+                write_node = None
+                for node in selected_nodes:
+                    if node.Class() in ['Write']:
+                        # Is it a movie?
+                        if len(
+                            node['file'].value() or ''
+                        ) and os.path.splitext(node['file'].value())[
+                            1
+                        ].lower() in [
+                            '.mov',
+                            '.mxf',
+                        ]:
+                            write_node = node
+                            break
+                if write_node is None:
+                    return (
+                        False,
+                        {'message': 'No movie write/read node selected!'},
+                    )
+                first = str(int(write_node['first'].getValue()))
+                last = str(int(write_node['last'].getValue()))
+
+                ranges = nuke.FrameRanges('{}-{}'.format(first, last))
+                movie_path = write_node['file'].value()
+                self.logger.debug(
+                    'Rendering movie [{}-{}] to "{}"'.format(
+                        first, last, movie_path
+                    )
+                )
+                nuke.render(write_node, ranges)
+
             else:
                 # Find movie write/read node among selected nodes
                 file_node = None
                 for node in selected_nodes:
                     if node.Class() in ['Read', 'Write']:
-                        # Is it a sequence?
+                        # Is it a movie?
                         if len(
                             node['file'].value() or ''
                         ) and os.path.splitext(node['file'].value())[

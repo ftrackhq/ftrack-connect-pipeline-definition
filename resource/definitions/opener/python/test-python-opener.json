@@ -46,7 +46,7 @@
               "plugin": "common_default_loader_importer",
               "widget": "common_default_loader_importer",
               "options": {
-                "load_mode": "Import"
+                "load_mode": "import"
               }
             }
           ]
@@ -87,7 +87,7 @@
               "plugin": "common_default_loader_importer",
               "widget": "common_default_loader_importer",
               "options": {
-                "load_mode": "Import"
+                "load_mode": "import"
               }
             }
           ]

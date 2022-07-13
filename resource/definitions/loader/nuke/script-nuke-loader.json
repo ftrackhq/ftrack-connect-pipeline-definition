@@ -40,7 +40,7 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "load Scene",
+              "name": "load script",
               "plugin": "nuke_default_loader_importer"
             }
           ]
