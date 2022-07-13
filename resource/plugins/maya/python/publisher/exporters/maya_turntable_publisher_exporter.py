@@ -32,6 +32,10 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         locator_to_delete = self.setup_turntable(selected_object, sframe, eframe)
         reviwable_path = self.run_reviewable(camera_name, sframe, eframe, res_w, res_h)
+
+        self.logger.debug(
+            f'Running turntable with frame range {sframe}-{eframe} from camera {camera_name}'
+        )
         cmds.delete(locator_to_delete)
         return reviwable_path
 
@@ -41,11 +45,15 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         x_loc = (bb_vertices[0]+bb_vertices[3])/2
         y_loc = bb_vertices[1]
         z_loc = (bb_vertices[2]+bb_vertices[5])/2
+
         object_locator = cmds.spaceLocator(
             absolute=True, 
             position=[x_loc, y_loc, z_loc],
             name="object_locator"
         )
+        
+        cmds.setAttr(f'{object_locator[0]}.visibility', False)
+        
         cmds.xform(object_locator, centerPivots = True)
         cmds.setKeyframe(object_locator, attribute="rotateY", value=0, time=sframe)
         cmds.setKeyframe(object_locator, attribute="rotateY", value=360, time=int(eframe)+1)
