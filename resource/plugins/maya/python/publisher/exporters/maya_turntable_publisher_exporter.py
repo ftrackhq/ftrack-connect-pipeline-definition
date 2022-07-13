@@ -34,8 +34,8 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         locator_to_delete = self.setup_turntable(selected_object, sframe, eframe)
         reviwable_path = self.run_reviewable(camera_name, sframe, eframe, res_w, res_h)
 
-        self.logger.debug(
-            f'Running turntable with frame range {sframe}-{eframe} from camera {camera_name}'
+        self.logger.info(
+            f'Running turntable with frame range: {sframe}-{eframe}, from camera: {camera_name}'
         )
         cmds.delete(locator_to_delete)
         return reviwable_path
@@ -52,9 +52,8 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             position=[x_loc, y_loc, z_loc],
             name="object_locator"
         )
-        
+
         cmds.setAttr(f'{object_locator[0]}.visibility', False)
-        
         cmds.xform(object_locator, centerPivots = True)
         cmds.setKeyframe(object_locator, attribute="rotateY", value=0, time=sframe)
         cmds.setKeyframe(object_locator, attribute="rotateY", value=360, time=int(eframe)+1)
@@ -90,8 +89,6 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         prev_selection = cmds.ls(sl=True)
         cmds.select(cl=True)
-
-        filename = tempfile.NamedTemporaryFile().name
 
         filename = tempfile.NamedTemporaryFile().name
 
