@@ -20,7 +20,6 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     def extract_options(self, options):
         main_options = {
             'op': 'v=0',
-            'typ': self.filetype,
             'constructionHistory': False,
             'channels': False,
             'preserveReferences': False,
@@ -36,8 +35,8 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
     def run(self, context_data=None, data=None, options=None):
 
-        self.filetype = options.get('file_type') or 'mayaBinary'
-        self.extension = '.mb' if self.filetype == 'mayaBinary' else '.ma'
+        self.file_type = options.get('type') or 'mayaBinary'
+        self.extension = '.mb' if self.file_type == 'mayaBinary' else '.ma'
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix=self.extension
@@ -52,7 +51,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         if is_scene_publish:
             # Save entire scene
-            options = {'typ': self.filetype, 'save': True}
+            maya_file_options = {'typ': self.file_type, 'save': True}
             scene_name = cmds.file(q=True, sceneName=True)
             if len(scene_name or '') == 0:
                 # Scene is not saved, save it first. Should have been taken
@@ -66,18 +65,18 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 scene_name = cmds.file(q=True, sceneName=True)
 
             cmds.file(rename=new_file_path)
-            cmds.file(**options)
+            cmds.file(**maya_file_options)
             cmds.file(rename=scene_name)
         else:
             # Export a subset of the scene
-            options = self.extract_options(options)
+            maya_file_options = self.extract_options(options)
             self.logger.debug(
                 'Calling exporters options: data {}. options {}'.format(
                     collected_objects, options
                 )
             )
             cmds.select(collected_objects, r=True)
-            cmds.file(new_file_path, **options)
+            cmds.file(new_file_path, **maya_file_options)
 
         return [new_file_path]
 
