@@ -22,7 +22,7 @@ class NukeDefaultOpenerFinalizerPlugin(plugin.NukeOpenerFinalizerPlugin):
         else:
             result = False
         self.logger.debug('Initialising Nuke on open')
-        nuke_utils.init_nuke(self.session)
+        nuke_utils.init_nuke(session=self.session)
 
         return (result, {'message': message})
 
