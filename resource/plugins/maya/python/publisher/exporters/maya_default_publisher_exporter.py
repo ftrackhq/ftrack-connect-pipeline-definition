@@ -36,7 +36,6 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
     def run(self, context_data=None, data=None, options=None):
 
-        print("options ---> {}".format(options))
         self.file_type = options.get('type') or 'mayaBinary'
         self.extension = '.mb' if self.file_type == 'mayaBinary' else '.ma'
 
@@ -65,7 +64,6 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 if not message is None:
                     self.logger.info(message)
                 scene_name = cmds.file(q=True, sceneName=True)
-            print("options2 ---> {}".format(options))
             cmds.file(rename=new_file_path)
             cmds.file(**options)
             cmds.file(rename=scene_name)
@@ -78,7 +76,6 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 )
             )
             cmds.select(collected_objects, r=True)
-            print("options 3---> {}".format(options))
             cmds.file(new_file_path, **options)
 
         return [new_file_path]
