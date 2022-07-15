@@ -92,7 +92,7 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
 
     def _on_file_type_set(self, index):
         value = self.file_type_combo.currentText()
-        self.set_option_result(value.split(' ')[0], 'file_type')
+        self.set_option_result(value.split(' ')[0], 'type')
 
 
 class MayaDefaultPublisherExporterOptionsPluginWidget(
