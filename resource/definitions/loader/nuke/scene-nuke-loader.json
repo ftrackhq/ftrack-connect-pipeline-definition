@@ -1,7 +1,7 @@
 {
-  "type": "opener",
-  "name": "Script Opener",
-  "asset_type": "script",
+  "type": "loader",
+  "name": "Scene Loader",
+  "asset_type": "scene",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_opener_context",
-              "widget": "common_default_opener_context"
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
             }
           ]
         }
@@ -32,7 +32,7 @@
           "plugins":[
             {
               "name": "Collect components from context",
-              "plugin": "common_context_opener_collector"
+              "plugin": "common_context_loader_collector"
             }
           ]
         },
@@ -40,8 +40,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Open Nuke Script",
-              "plugin": "nuke_default_opener_importer"
+              "name": "load scene",
+              "plugin": "nuke_default_loader_importer"
             }
           ]
         },
@@ -50,7 +50,7 @@
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "common_default_opener_post_importer"
+              "plugin": "common_default_loader_post_importer"
             }
           ]
         }
@@ -67,7 +67,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "common_default_opener_pre_finalizer"
+              "plugin": "common_default_loader_pre_finalizer"
             }
           ]
         },
@@ -75,8 +75,9 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Save script to working directory",
-              "plugin": "nuke_default_opener_finalizer"
+              "name": "Do nothing",
+              "plugin": "common_default_loader_finalizer",
+              "visible": false
             }
           ]
         },
@@ -86,7 +87,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "common_default_opener_post_finalizer"
+              "plugin": "common_default_loader_post_finalizer"
             }
           ]
         }

@@ -10,26 +10,26 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
-    plugin_name = 'nuke_script_publisher_collector'
+    plugin_name = 'nuke_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
-        script_name = nuke.root().name()
-        if script_name == 'Root':
-            # Script is not saved, save it first.
+        scene_name = nuke.root().name()
+        if scene_name == 'Root':
+            # scene is not saved, save it first.
             self.logger.warning('Nuke not saved, saving locally..')
             save_path, message = nuke_utils.save(
                 context_data['context_id'], self.session
             )
             if not message is None:
                 self.logger.info(message)
-            script_name = nuke.root().name()
-        if len(script_name or '') == 0:
+            scene_name = nuke.root().name()
+        if len(scene_name or '') == 0:
             self.logger.error(
-                "Error exporting the scene: Please save the script with a "
+                "Error exporting the scene: Please save the scene with a "
                 "name before publish"
             )
             return []
-        return [script_name]
+        return [scene_name]
 
 
 def register(api_object, **kw):

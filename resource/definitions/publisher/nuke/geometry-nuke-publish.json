@@ -30,9 +30,9 @@
           "plugins":[
             {
               "name": "collect scene",
-              "plugin": "nuke_script_publisher_collector",
+              "plugin": "nuke_scene_publisher_collector",
               "options": {
-                "export": ["script"]
+                "export": ["scene"]
               }
             }
           ]
@@ -54,7 +54,7 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "write nuke script",
+              "name": "write nuke scene",
               "plugin": "nuke_default_publisher_exporter"
             }
           ]

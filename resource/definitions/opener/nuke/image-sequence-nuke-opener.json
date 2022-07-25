@@ -40,7 +40,7 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Open Nuke Script",
+              "name": "Open Nuke Scene",
               "plugin": "nuke_default_opener_importer"
             }
           ]
@@ -75,7 +75,7 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Save script to working directory",
+              "name": "Save scene to working directory",
               "plugin": "nuke_default_opener_finalizer"
             }
           ]
