@@ -1,7 +1,7 @@
 {
-  "type": "publisher",
-  "name": "Script Publisher",
-  "asset_type": "script",
+  "type": "opener",
+  "name": "Scene Opener",
+  "asset_type": "scene",
   "host_type": "nuke",
   "ui_type": "qt",
   "contexts": [
@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_default_opener_context",
+              "widget": "common_default_opener_context"
             }
           ]
         }
@@ -24,38 +24,33 @@
   "components": [
     {
       "name": "snapshot",
+      "file_formats": [".nk"],
+      "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "collect script",
-              "plugin": "nuke_script_publisher_collector",
-              "options": {
-                "export": ["script"]
-              }
+              "name": "Collect components from context",
+              "plugin": "common_context_opener_collector"
             }
           ]
         },
         {
-          "name": "validator",
+          "name": "importer",
           "plugins":[
             {
-              "name": "Check file saved",
-              "plugin": "nuke_file_saved_publisher_validator"
-            },
-            {
-              "name": "validate file exists",
-              "plugin": "nuke_file_exists_publisher_validator"
+              "name": "Open Nuke Scene",
+              "plugin": "nuke_default_opener_importer"
             }
           ]
         },
         {
-          "name": "exporter",
+          "name": "post_importer",
           "plugins":[
             {
-              "name": "write nuke script",
-              "plugin": "nuke_default_publisher_exporter"
+              "name": "nuke",
+              "plugin": "common_default_opener_post_importer"
             }
           ]
         }
@@ -72,17 +67,16 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer"
+              "plugin": "common_default_opener_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "nuke_default_publisher_finalizer"
+              "name": "Save scene to working directory",
+              "plugin": "nuke_default_opener_finalizer"
             }
           ]
         },
@@ -92,7 +86,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer"
+              "plugin": "common_default_opener_post_finalizer"
             }
           ]
         }

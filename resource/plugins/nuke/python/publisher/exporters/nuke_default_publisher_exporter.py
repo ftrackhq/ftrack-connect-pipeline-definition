@@ -21,15 +21,15 @@ class NukeDefaultPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
         ).name
 
         collected_objects = []
-        is_script_publish = False
+        is_scene_publish = False
         for collector in data:
             collected_objects.extend(collector['result'])
-            if collector.get('options', {}).get('export') == 'script':
-                is_script_publish = True
+            if collector.get('options', {}).get('export') == 'scene':
+                is_scene_publish = True
 
-        if is_script_publish:
+        if is_scene_publish:
             self.logger.debug(
-                'Publishing nuke script to: "{}"'.format(new_file_path)
+                'Publishing nuke scene to: "{}"'.format(new_file_path)
             )
             nuke.scriptSave(new_file_path)
         else:

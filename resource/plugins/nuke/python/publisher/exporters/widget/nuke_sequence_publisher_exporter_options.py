@@ -44,7 +44,7 @@ class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
 
         bg = QtWidgets.QButtonGroup(self)
         self.render_rb = QtWidgets.QRadioButton(
-            'Render sequence from script - create write'
+            'Render sequence from scene - create write'
         )
         bg.addButton(self.render_rb)
         self.layout().addWidget(self.render_rb)

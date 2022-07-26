@@ -24,7 +24,7 @@ class NukeFileSavedPublisherValidatorPlugin(
                 self.logger.debug("Nuke Scene is not saved, saving locally")
                 nuke_utils.save(context_data['context_id'], self.session)
             else:
-                self.logger.debug("Nuke Scene is not saved, saving script")
+                self.logger.debug("Nuke Scene is not saved, saving scene")
                 nuke.scriptSave()
             return True
         return False
