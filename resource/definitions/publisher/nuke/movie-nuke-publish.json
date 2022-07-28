@@ -101,8 +101,7 @@
                 "mode": "render",
                 "file_format": "mov",
                 "mov": {
-                  "mov64_codec": "appr",
-                  "mov_prores_codec_profile": "ProRes 4:4:4:4 12-bit"
+                  "mov64_codec": "mp4v"
                 }
               }
             }

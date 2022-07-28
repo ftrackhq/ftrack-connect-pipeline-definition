@@ -95,7 +95,7 @@ class NukeReviewablePublisherExporterPlugin(
                     temp_review_mov_path.replace('\\', '/')
                 )
                 review_node['file_type'].setValue('mov')
-                review_node['mov64_codec'].setValue('png')
+                review_node['mov64_codec'].setValue('mp4v')
 
                 if input_node['use_limit'].getValue():
                     review_node['use_limit'].setValue(True)
@@ -110,7 +110,7 @@ class NukeReviewablePublisherExporterPlugin(
                     'Rendering reviewable movie {}-{}'.format(first, last)
                 )
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
-                nuke.render(review_node, ranges)
+                nuke.render(review_node, ranges, continueOnError=True)
 
                 # delete thumbnail network after render
                 nuke.delete(review_node)

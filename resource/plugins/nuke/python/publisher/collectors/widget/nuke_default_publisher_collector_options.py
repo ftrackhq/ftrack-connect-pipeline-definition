@@ -11,7 +11,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
 from Qt import QtWidgets
 
 
-class NukeWriteNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
+class NukeDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
@@ -29,7 +29,7 @@ class NukeWriteNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
 
         self.node_names = []
 
-        super(NukeWriteNodePublisherCollectorOptionsWidget, self).__init__(
+        super(NukeDefaultPublisherCollectorOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -52,7 +52,7 @@ class NukeWriteNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
         self.nodes_cb.addItems(self.node_names)
 
     def build(self):
-        super(NukeWriteNodePublisherCollectorOptionsWidget, self).build()
+        super(NukeDefaultPublisherCollectorOptionsWidget, self).build()
         self.nodes_cb = QtWidgets.QComboBox()
         self.layout().addWidget(self.nodes_cb)
 
@@ -60,19 +60,19 @@ class NukeWriteNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
             self.node_names.append(self.options.get('node_name'))
 
         if not self.node_names:
-            self.nodes_cb.addItem('No Write Node found.')
+            self.nodes_cb.addItem('No Node found.')
             self.nodes_cb.setDisabled(True)
         else:
             self.nodes_cb.addItems(self.node_names)
         self.report_input()
 
     def post_build(self):
-        super(NukeWriteNodePublisherCollectorOptionsWidget, self).post_build()
+        super(NukeDefaultPublisherCollectorOptionsWidget, self).post_build()
         update_fn = partial(self.set_option_result, key='node_name')
 
-        self.nodes_cb.editTextChanged.connect(update_fn)
+        self.nodes_cb.currentTextChanged.connect(update_fn)
         if self.node_names:
-            self.set_option_result(self.node_names[0], 'node_name')
+            self.set_option_result(self.currentText(), 'node_name')
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
@@ -92,16 +92,16 @@ class NukeWriteNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
         )
 
 
-class NukeWriteNodePublisherCollectorPluginWidget(
+class NukeDefaultPublisherCollectorPluginWidget(
     plugin.NukePublisherCollectorPluginWidget
 ):
-    plugin_name = 'nuke_write_node_publisher_collector'
-    widget = NukeWriteNodePublisherCollectorOptionsWidget
+    plugin_name = 'nuke_default_publisher_collector'
+    widget = NukeDefaultPublisherCollectorOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = NukeWriteNodePublisherCollectorPluginWidget(api_object)
+    plugin = NukeDefaultPublisherCollectorPluginWidget(api_object)
     plugin.register()

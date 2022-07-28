@@ -118,6 +118,9 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                 write_node['file'].setValue(movie_path.replace('\\', '/'))
 
                 write_node['file_type'].setValue(selected_file_format)
+                # Prevent macOs to crash and preselect mp4v codec if mov fileformat.
+                if write_node['file_type'].value() == 'mov':
+                    write_node['mov64_codec'].setValue('mp4v')
                 if len(options.get(selected_file_format) or {}) > 0:
                     for k, v in options[selected_file_format].items():
                         write_node[k].setValue(v)
@@ -128,7 +131,7 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                         first, last, movie_path
                     )
                 )
-                nuke.render(write_node, ranges)
+                nuke.render(write_node, ranges, continueOnError=True)
 
                 if delete_write_node:
                     # delete temporal write node
@@ -161,12 +164,17 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
 
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
                 movie_path = write_node['file'].value()
+
+                # Prevent macOs to crash and preselect mp4v codec if mov fileformat.
+                if write_node['file_type'].value() == 'mov':
+                    write_node['mov64_codec'].setValue('mp4v')
+
                 self.logger.debug(
                     'Rendering movie [{}-{}] to "{}"'.format(
                         first, last, movie_path
                     )
                 )
-                nuke.render(write_node, ranges)
+                nuke.render(write_node, ranges, continueOnError=True)
 
             else:
                 # Find movie write/read node among selected nodes
