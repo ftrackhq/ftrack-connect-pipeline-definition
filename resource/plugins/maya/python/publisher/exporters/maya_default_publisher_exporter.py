@@ -15,12 +15,11 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     plugin_name = 'maya_default_publisher_exporter'
 
     extension = None
-    filetype = None
+    file_type = None
 
     def extract_options(self, options):
         main_options = {
             'op': 'v=0',
-            'typ': self.filetype,
             'constructionHistory': False,
             'channels': False,
             'preserveReferences': False,
@@ -30,14 +29,15 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'exportSelected': True,
             'exportAll': False,
             'force': True,
+            'type': 'mayaBinary'
         }
         main_options.update(options)
         return main_options
 
     def run(self, context_data=None, data=None, options=None):
 
-        self.filetype = options.get('file_type') or 'mayaBinary'
-        self.extension = '.mb' if self.filetype == 'mayaBinary' else '.ma'
+        self.file_type = options.get('type') or 'mayaBinary'
+        self.extension = '.mb' if self.file_type == 'mayaBinary' else '.ma'
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix=self.extension
@@ -52,7 +52,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         if is_scene_publish:
             # Save entire scene
-            options = {'typ': self.filetype, 'save': True}
+            options = {'type': self.file_type, 'save': True}
             scene_name = cmds.file(q=True, sceneName=True)
             if len(scene_name or '') == 0:
                 # Scene is not saved, save it first. Should have been taken
@@ -64,7 +64,6 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
                 if not message is None:
                     self.logger.info(message)
                 scene_name = cmds.file(q=True, sceneName=True)
-
             cmds.file(rename=new_file_path)
             cmds.file(**options)
             cmds.file(rename=scene_name)
