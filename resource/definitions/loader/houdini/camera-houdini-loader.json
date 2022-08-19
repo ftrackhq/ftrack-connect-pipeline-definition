@@ -1,0 +1,211 @@
+{
+  "type": "loader",
+  "name": "Camera Loader",
+  "asset_type": "cam",
+  "host_type": "houdini",
+  "ui_type": "qt",
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "common_default_loader_context",
+              "widget": "common_default_loader_context"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+  {
+      "name": "snapshot",
+      "file_formats": [".hip"],
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Houdini",
+              "plugin": "houdini_default_loader_importer",
+              "options": {
+                "load_mode": "import",
+                "load_options": {
+                  "MergeOverwriteOnConflict": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "common_default_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "camera",
+      "file_formats": [".hip"],
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Houdini",
+              "plugin": "houdini_default_loader_importer",
+              "options": {
+                "load_mode": "import",
+                "load_options": {
+                  "MergeOverwriteOnConflict": true
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "common_default_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "file_formats": [".abc"],
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import Alembic paths to Houdini",
+              "plugin": "houdini_abc_loader_importer"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "common_default_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "file_formats": [".fbx"],
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import FBX paths to Houdini",
+              "plugin": "houdini_fbx_loader_importer"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "common_default_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "common_default_loader_pre_finalizer",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "Do nothing",
+              "plugin": "common_default_loader_finalizer",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "common_default_loader_post_finalizer",
+              "visible": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
