@@ -58,10 +58,13 @@ class HoudiniDefaultPublisherExporterPlugin(
                 del my_env['HOUDINI_PATH']
 
             self.logger.debug(
-                'Exporting scene with command: "{}".'.format(cmd)
+                'Exporting nodes {} with command: "{}".'.format(
+                    collected_objects, cmd
+                )
             )
 
-            subprocess.Popen(cmd, env=my_env)
+            if subprocess.Popen(cmd, env=my_env).wait() != 0:
+                return False, {'message': 'Node export failed!'}
 
         return [new_file_path]
 
