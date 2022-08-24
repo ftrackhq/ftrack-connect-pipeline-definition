@@ -22,9 +22,19 @@ class HoudiniGeometryPublisherCollectorPlugin(
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all the geometries in the scene'''
-        collected_objects = hou.node('/').allSubChildren()
-        return [obj.path() for obj in collected_objects]
+        '''Fetch all selected geometries in the scene, if non selected return all'''
+        selected_objects = hou.selectedNodes()
+        if selected_objects:
+            objPath = hou.node('/obj')
+            geometry_objects = objPath.glob('*')
+            collected_objects = []
+            for obj in selected_objects:
+                if obj in geometry_objects:
+                    collected_objects.append(obj.path())
+            return collected_objects
+        else:
+            collected_objects = hou.node('/obj').allSubChildren()
+            return [obj.path() for obj in collected_objects]
 
     def add(self, context_data=None, data=None, options=None):
         '''Return the selected geometries'''

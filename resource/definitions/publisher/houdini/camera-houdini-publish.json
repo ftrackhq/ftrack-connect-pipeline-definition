@@ -74,7 +74,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "houdini_geometry_publisher_validator"
+              "plugin": "houdini_camera_publisher_validator"
             }
           ]
         },
