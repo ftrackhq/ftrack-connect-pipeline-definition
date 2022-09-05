@@ -98,7 +98,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
+              "name": "Camera Collector",
               "plugin": "houdini_camera_publisher_collector"
             }
           ]
@@ -135,7 +135,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Geometry Collector",
+              "name": "Camera Collector",
               "plugin": "houdini_camera_publisher_collector"
             }
           ]

@@ -30,7 +30,7 @@ class HoudiniAbcPublisherExporterPlugin(plugin.HoudiniPublisherExporterPlugin):
             'ABCFrameRangeBy': float(options.get('ABCFrameRangeBy', '1.0')),
         }
 
-    def bakeCamAnim(self, node, frameRange):
+    def bake_camera_animation(self, node, frameRange):
         '''Bake camera to World Space'''
         if 'cam' in node.type().name():
             bake_node = hou.node('/obj').createNode(
@@ -74,11 +74,10 @@ class HoudiniAbcPublisherExporterPlugin(plugin.HoudiniPublisherExporterPlugin):
         objects = [hou.node(obj_path) for obj_path in collected_objects]
 
         if context_data['asset_type_name'] == 'cam':
-            bcam = self.bakeCamAnim(
+            bcam = self.bake_camera_animation(
                 objects[0],
                 [options['ABCFrameRangeStart'], options['ABCFrameRangeEnd']],
             )
-            objects = [bcam]
             objects = [bcam.path()]
 
         # Create Rop Net
@@ -98,7 +97,9 @@ class HoudiniAbcPublisherExporterPlugin(plugin.HoudiniPublisherExporterPlugin):
             abc_ropnet.parm('trange').set(0)
 
         abc_ropnet.parm('filename').set(new_file_path)
-        abc_ropnet.parm('root').set(objects[0].parent().path())
+
+        root_object = hou.node(objects[0])
+        abc_ropnet.parm('root').set(root_object.parent().path())
         abc_ropnet.parm('objects').set(object_paths)
         abc_ropnet.parm('format').set('hdf5')
         abc_ropnet.render()

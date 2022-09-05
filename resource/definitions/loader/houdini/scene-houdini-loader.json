@@ -24,7 +24,7 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".hip"],
+      "file_formats": [".hip",".hipnc"],
       "stages": [
         {
           "name": "collector",

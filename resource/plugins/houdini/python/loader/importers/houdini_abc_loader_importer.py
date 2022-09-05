@@ -12,6 +12,26 @@ import ftrack_api
 class HoudiniAbcImportPlugin(plugin.HoudiniLoaderImporterPlugin):
     plugin_name = 'houdini_abc_loader_importer'
 
+    def bake_camera_animation(self, node, frameRange):
+        '''Bake camera to World Space'''
+        bake_node = hou.node('/obj').createNode('cam', '%s_bake' % node.name())
+
+        for x in ['resx', 'resy']:
+            bake_node.parm(x).set(node.parm(x).eval())
+
+        for frame in range(
+            int(float(frameRange[0])), (int(float(frameRange[1])) + 1)
+        ):
+            time = (frame - 1) / hou.fps()
+            matrix = node.worldTransformAtTime(time).explode()
+
+            for parm in matrix:
+                if 'shear' not in parm:
+                    for x, p in enumerate(bake_node.parmTuple(parm[0])):
+                        p.setKeyframe(hou.Keyframe(matrix[parm][x], time))
+
+        return bake_node
+
     def run(self, context_data=None, data=None, options=None):
         results = {}
         paths_to_import = []
@@ -29,11 +49,14 @@ class HoudiniAbcImportPlugin(plugin.HoudiniLoaderImporterPlugin):
             node.moveToGoodPosition()
 
             if context_data['asset_type_name'] == 'cam':
+                # Bake the camera
                 for obj in node.glob('*'):
-                    if 'cam' in obj.type().name():
-                        bcam = self.bakeCamAnim(
+                    if 'cam' in obj.type().name().lower():
+                        self.logger.debug('Baking camera {}'.format(obj))
+                        bcam = self.bake_camera_animation(
                             obj, [os.getenv('FS'), os.getenv('FE')]
                         )
+                        node.destroy()
                         node = bcam
                         break
 
