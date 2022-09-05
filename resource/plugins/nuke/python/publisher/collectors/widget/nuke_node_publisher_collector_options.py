@@ -80,7 +80,7 @@ class NukeNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
         status = False
         num_objects = 1 if len(self.options.get('node_name') or '') > 0 else 0
         if num_objects > 0:
-            message = '{} write node{} selected'.format(
+            message = '{} node{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''
             )
             status = True
