@@ -92,6 +92,79 @@
           ]
         }
       ]
+    },
+    {
+      "name": "thumbnail",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect write node.",
+              "plugin": "nuke_default_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "nuke_writable_node_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "write thumbnail",
+              "plugin": "nuke_thumbnail_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect sequence node.",
+              "plugin": "nuke_default_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            },
+            {
+              "name": "Can connect to write node",
+              "plugin": "nuke_writable_node_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "write reviewable",
+              "plugin": "nuke_reviewable_publisher_exporter",
+              "options": {
+                  "mode": "render"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalizers": [
