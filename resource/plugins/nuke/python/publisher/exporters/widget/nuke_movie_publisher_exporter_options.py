@@ -53,7 +53,7 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
             'start_frame': nuke.root()['first_frame'].value(),
             'end_frame': nuke.root()['last_frame'].value(),
         }
-        self.file_formats = ['mov', 'mxf']
+        self.file_formats = self.options.get('file_formats', ['mov', 'mxf'])
         self.default_file_format = self.options.get('file_format')
 
         self.option_group = group_box.GroupBox('Movie options')
@@ -61,13 +61,22 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         options_v_lay = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(options_v_lay)
 
-        img_h_lay = QtWidgets.QHBoxLayout()
-        img_format_text = QtWidgets.QLabel("Image format")
-        self.img_format_cb = QtWidgets.QComboBox()
+        img_format_lay = QtWidgets.QHBoxLayout()
 
-        self.img_format_cb.addItems(self.file_formats)
-        img_h_lay.addWidget(img_format_text)
-        img_h_lay.addWidget(self.img_format_cb)
+        file_format_text = QtWidgets.QLabel("File format")
+        self.file_format_cb = QtWidgets.QComboBox()
+        self.file_format_cb.addItems(self.file_formats)
+
+        img_format_lay.addWidget(file_format_text)
+        img_format_lay.addWidget(self.file_format_cb)
+
+        img_codec_lay = QtWidgets.QHBoxLayout()
+
+        codec_text = QtWidgets.QLabel("Codec")
+        self.codec_cb = QtWidgets.QComboBox()
+
+        img_codec_lay.addWidget(codec_text)
+        img_codec_lay.addWidget(self.codec_cb)
 
         range_v_lay = QtWidgets.QVBoxLayout()
         range_h_lay = QtWidgets.QHBoxLayout()
@@ -91,7 +100,8 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         range_v_lay.addWidget(range_text)
         range_v_lay.addLayout(range_h_lay)
 
-        options_v_lay.addLayout(img_h_lay)
+        options_v_lay.addLayout(img_format_lay)
+        options_v_lay.addLayout(img_codec_lay)
         options_v_lay.addLayout(range_v_lay)
         self.layout().addWidget(self.option_group)
 
@@ -143,6 +153,39 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         else:
             self.render_rb.setChecked(True)
 
+    def on_file_format_update(self, file_format):
+        # file_format = self.file_format_cb.currentText()
+        self.set_option_result(file_format, key='file_format')
+        # Rebuild codecs
+        codec_knob_name = self.options.get(
+            self.file_format_cb.currentText(), {}
+        ).get('codec_knob_name')
+        if codec_knob_name:
+            default_codec = self.options.get(file_format, {}).get(
+                codec_knob_name
+            )
+        self.codec_cb.clear()
+        index = 0
+        for codec in self.options.get(file_format, {}).get('codecs'):
+            self.codec_cb.addItem(codec)
+            if (
+                default_codec
+                and codec.lower().find(default_codec.lower()) > -1
+            ):
+                self.codec_cb.setCurrentIndex(index)
+            index += 1
+
+        self.set_option_result(self.codec_cb.currentText(), 'codec')
+
+    def on_codec_update(self, codec_label):
+        codec_knob_name = self.options.get(
+            self.file_format_cb.currentText(), {}
+        ).get('codec_knob_name')
+        if codec_knob_name:
+            self.options[self.file_format_cb.currentText()][
+                codec_knob_name
+            ] = codec_label.split('|')[0]
+
     def post_build(self):
         super(NukeMoviePublisherExporterOptionsWidget, self).post_build()
 
@@ -151,15 +194,18 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         self.render_from_sequence_rb.clicked.connect(self._update_render_mode)
         self.pickup_rb.clicked.connect(self._update_render_mode)
 
-        update_fn = partial(self.set_option_result, key='image_format')
-        self.img_format_cb.editTextChanged.connect(update_fn)
+        self.file_format_cb.currentTextChanged.connect(
+            self.on_file_format_update
+        )
+        self.codec_cb.currentTextChanged.connect(self.on_codec_update)
         if self.default_file_format:
-            index = self.img_format_cb.findText(self.default_file_format)
+            index = self.file_format_cb.findText(self.default_file_format)
             if index:
                 self.nodes_cb.setCurrentIndex(index)
         self.set_option_result(
-            self.img_format_cb.currentText(), 'image_format'
+            self.file_format_cb.currentText(), 'file_format'
         )
+        self.on_file_format_update(self.file_format_cb.currentText())
 
         update_fn = partial(self.set_option_result, key='start_frame')
         self.stf_text_edit.textChanged.connect(update_fn)
