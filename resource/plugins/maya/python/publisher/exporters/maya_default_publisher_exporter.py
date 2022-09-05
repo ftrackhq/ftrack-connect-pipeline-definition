@@ -29,7 +29,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'exportSelected': True,
             'exportAll': False,
             'force': True,
-            'type': 'mayaBinary'
+            'type': 'mayaBinary',
         }
         main_options.update(options)
         return main_options

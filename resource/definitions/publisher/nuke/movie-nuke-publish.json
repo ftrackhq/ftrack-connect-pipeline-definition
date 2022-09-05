@@ -69,8 +69,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect movie/sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -116,8 +116,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -148,8 +148,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
