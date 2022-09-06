@@ -116,7 +116,7 @@
                     "v210|Uncompressed"
                   ],
                   "codec_knob_name": "mov64_codec",
-                  "mov64_codec": "appr"
+                  "mov64_codec": "mp4v"
                 },
                 "mxf" : {
                   "codecs" : ["Avid DNxHR"],
@@ -193,7 +193,9 @@
               "name": "write reviewable",
               "plugin": "nuke_reviewable_publisher_exporter",
               "options": {
-                  "mode": "render"
+                  "mode": "render",
+                  "file_type" : "mov",
+                  "codec": "mp4v"
               }
             }
           ]

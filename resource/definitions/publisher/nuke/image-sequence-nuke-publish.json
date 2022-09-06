@@ -176,7 +176,9 @@
               "name": "write reviewable",
               "plugin": "nuke_reviewable_publisher_exporter",
               "options": {
-                  "mode": "render"
+                  "mode": "render",
+                  "file_type" : "mov",
+                  "codec": "mp4v"
               }
             }
           ]
