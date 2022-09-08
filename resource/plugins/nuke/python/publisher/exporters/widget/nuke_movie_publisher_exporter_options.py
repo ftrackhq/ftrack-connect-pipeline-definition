@@ -154,7 +154,7 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
             self.render_rb.setChecked(True)
 
     def on_file_format_update(self, file_format):
-        # file_format = self.file_format_cb.currentText()
+        '''File format *file_format* has been chosen by user'''
         self.set_option_result(file_format, key='file_format')
         # Rebuild codecs
         codec_knob_name = self.options.get(
@@ -178,6 +178,7 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
         self.set_option_result(self.codec_cb.currentText(), 'codec')
 
     def on_codec_update(self, codec_label):
+        '''Movie codec *codec_label* has been chosen by user'''
         codec_knob_name = self.options.get(
             self.file_format_cb.currentText(), {}
         ).get('codec_knob_name')
