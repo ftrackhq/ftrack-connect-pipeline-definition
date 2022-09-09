@@ -8,8 +8,8 @@ import nuke
 from ftrack_connect_pipeline_nuke import plugin
 
 
-class NukeDefaultPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
-    plugin_name = 'nuke_default_publisher_collector'
+class NukeNodePublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+    plugin_name = 'nuke_node_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selecated nodes in nuke'''
@@ -27,5 +27,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = NukeDefaultPublisherCollectorPlugin(api_object)
+    plugin = NukeNodePublisherCollectorPlugin(api_object)
     plugin.register()
