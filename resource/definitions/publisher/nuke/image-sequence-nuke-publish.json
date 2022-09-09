@@ -69,8 +69,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -119,8 +119,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -151,8 +151,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -176,7 +176,9 @@
               "name": "write reviewable",
               "plugin": "nuke_reviewable_publisher_exporter",
               "options": {
-                  "mode": "render"
+                  "mode": "render",
+                  "file_type" : "mov",
+                  "codec": "mp4v"
               }
             }
           ]

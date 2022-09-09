@@ -99,11 +99,7 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                     )
                 )
 
-                default_file_format = str(options.get('file_format'))
-                selected_file_format = str(options.get('image_format'))
-                default_file_format_options = options.get(
-                    'file_format_options'
-                )
+                selected_file_format = str(options.get('file_format'))
 
                 # Generate exporters file name for mov.
                 temp_name = tempfile.NamedTemporaryFile()
@@ -118,12 +114,12 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                 write_node['file'].setValue(movie_path.replace('\\', '/'))
 
                 write_node['file_type'].setValue(selected_file_format)
-                # Prevent macOs to crash and preselect mp4v codec if mov fileformat.
-                if write_node['file_type'].value() == 'mov':
-                    write_node['mov64_codec'].setValue('mp4v')
+                # Set additional file format options
+                # TODO: Document macOs crash and how to choose mp4v codec if mov file format as a work around
                 if len(options.get(selected_file_format) or {}) > 0:
                     for k, v in options[selected_file_format].items():
-                        write_node[k].setValue(v)
+                        if k not in ['codecs', 'codec_knob_name']:
+                            write_node[k].setValue(v)
 
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
                 self.logger.debug(
@@ -164,10 +160,6 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
 
                 ranges = nuke.FrameRanges('{}-{}'.format(first, last))
                 movie_path = write_node['file'].value()
-
-                # Prevent macOs to crash and preselect mp4v codec if mov fileformat.
-                if write_node['file_type'].value() == 'mov':
-                    write_node['mov64_codec'].setValue('mp4v')
 
                 self.logger.debug(
                     'Rendering movie [{}-{}] to "{}"'.format(
