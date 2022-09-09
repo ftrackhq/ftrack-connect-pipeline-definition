@@ -99,7 +99,7 @@
               "plugin": "nuke_movie_publisher_exporter",
               "options": {
                 "mode": "render",
-                "file_formats": ["mov", "mxf"],
+                "supported_file_formats": ["mov", "mxf"],
                 "file_format": "mov",
                 "mov": {
                   "codecs" : [

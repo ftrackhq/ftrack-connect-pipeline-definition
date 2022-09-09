@@ -53,7 +53,9 @@ class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
             'start_frame': nuke.root()['first_frame'].value(),
             'end_frame': nuke.root()['last_frame'].value(),
         }
-        self.file_formats = self.options.get('file_formats', ['mov', 'mxf'])
+        self.file_formats = self.options.get(
+            'supported_file_formats', ['mov', 'mxf']
+        )
         self.default_file_format = self.options.get('file_format')
 
         self.option_group = group_box.GroupBox('Movie options')
