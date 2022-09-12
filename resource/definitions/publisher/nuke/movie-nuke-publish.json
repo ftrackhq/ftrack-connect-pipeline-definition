@@ -82,10 +82,6 @@
               "plugin": "common_non_empty_publisher_validator"
             },
             {
-              "name": "Scene saved",
-              "plugin": "nuke_file_saved_publisher_validator"
-            },
-            {
               "name": "Can connect to write node",
               "plugin": "nuke_writable_node_publisher_validator"
             }

@@ -66,13 +66,18 @@ class NukeNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
             self.nodes_cb.addItems(self.node_names)
         self.report_input()
 
+    def _on_node_selected(self, node_name):
+        if len(node_name) > 0:
+            self.set_option_result(node_name, 'node_name')
+        elif 'node_name' in self.options:
+            del self.options['node_name']
+
     def post_build(self):
         super(NukeNodePublisherCollectorOptionsWidget, self).post_build()
-        update_fn = partial(self.set_option_result, key='node_name')
 
-        self.nodes_cb.currentTextChanged.connect(update_fn)
+        self.nodes_cb.currentTextChanged.connect(self._on_node_selected)
         if self.node_names:
-            self.set_option_result(self.currentText(), 'node_name')
+            self._on_node_selected(self.currentText())
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''

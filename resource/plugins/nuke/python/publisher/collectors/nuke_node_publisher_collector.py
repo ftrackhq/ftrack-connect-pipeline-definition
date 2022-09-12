@@ -19,7 +19,11 @@ class NukeNodePublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Return the node name passed on the plugin *options*'''
-        node_name = options.get('node_name', [])
+        node_name = options.get('node_name')
+        if len(node_name or '') == 0:
+            msg = 'No node selected!'
+            self.logger.error(msg)
+            return (False, {'message': msg})
         return [node_name]
 
 
