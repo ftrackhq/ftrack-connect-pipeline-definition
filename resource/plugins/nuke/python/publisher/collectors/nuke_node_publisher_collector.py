@@ -24,6 +24,11 @@ class NukeNodePublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
             msg = 'No node selected!'
             self.logger.error(msg)
             return (False, {'message': msg})
+        node = nuke.toNode(node_name)
+        if not node:
+            msg = 'Node "{}" does not exist!'.format(node_name)
+            self.logger.error(msg)
+            return (False, {'message': msg})
         return [node_name]
 
 
