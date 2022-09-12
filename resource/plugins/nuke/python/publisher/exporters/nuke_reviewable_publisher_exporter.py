@@ -94,8 +94,14 @@ class NukeReviewablePublisherExporterPlugin(
                 review_node['file'].setValue(
                     temp_review_mov_path.replace('\\', '/')
                 )
-                review_node['file_type'].setValue('mov')
-                review_node['mov64_codec'].setValue('mp4v')
+                file_type = options.get('file_type', 'mov')
+                review_node['file_type'].setValue(file_type)
+                codec = options.get('codec', 'mp4v')
+                review_node[
+                    'mov64_codec'
+                    if file_type == 'mov'
+                    else 'mxf_video_codec_knob'
+                ].setValue(codec)
 
                 if input_node['use_limit'].getValue():
                     review_node['use_limit'].setValue(True)

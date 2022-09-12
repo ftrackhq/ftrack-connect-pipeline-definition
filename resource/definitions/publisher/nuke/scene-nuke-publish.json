@@ -60,6 +60,70 @@
           ]
         }
       ]
+    },
+    {
+      "name": "thumbnail",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Node graph collector",
+              "plugin": "common_test_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "Node graph validator",
+              "plugin": "common_test_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Grab screen shot from node graph",
+              "plugin": "nuke_thumbnail_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Node graph collector",
+              "plugin": "common_test_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "Node graph validator",
+              "plugin": "common_test_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Grab screen shot from node graph",
+              "plugin": "nuke_thumbnail_publisher_exporter"
+            }
+          ]
+        }
+      ]
     }
   ],
   "finalizers": [

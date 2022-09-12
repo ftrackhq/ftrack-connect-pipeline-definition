@@ -69,8 +69,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect movie/sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -80,10 +80,6 @@
             {
               "name": "validate selection",
               "plugin": "common_non_empty_publisher_validator"
-            },
-            {
-              "name": "Scene saved",
-              "plugin": "nuke_file_saved_publisher_validator"
             },
             {
               "name": "Can connect to write node",
@@ -99,9 +95,29 @@
               "plugin": "nuke_movie_publisher_exporter",
               "options": {
                 "mode": "render",
+                "supported_file_formats": ["mov", "mxf"],
                 "file_format": "mov",
                 "mov": {
+                  "codecs" : [
+                    "rle |Animation",
+                    "appr|Apple ProRes",
+                    "AVdn|Avid DNxHD",
+                    "AVdh|Avid DNxHR",
+                    "h264|H.264",
+                    "mjpa|Motion JPEG A",
+                    "mjpb|Motion JPEG B",
+                    "mp4v|MPEG-4",
+                    "jpeg|Photo JPEG",
+                    "png |PNG",
+                    "v210|Uncompressed"
+                  ],
+                  "codec_knob_name": "mov64_codec",
                   "mov64_codec": "mp4v"
+                },
+                "mxf" : {
+                  "codecs" : ["Avid DNxHR"],
+                  "codec_knob_name": "mxf_video_codec_knob",
+                  "mxf_video_codec_knob": "Avid DNxHR"
                 }
               }
             }
@@ -116,8 +132,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -148,8 +164,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -173,7 +189,9 @@
               "name": "write reviewable",
               "plugin": "nuke_reviewable_publisher_exporter",
               "options": {
-                  "mode": "render"
+                  "mode": "render",
+                  "file_type" : "mov",
+                  "codec": "mp4v"
               }
             }
           ]

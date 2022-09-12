@@ -20,8 +20,8 @@ class NukeWritableNodePublisherValidatorPlugin(
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        if len(collected_objects) == 0:
-            msg = 'No nodes selected!'
+        if not collected_objects:
+            msg = 'No node selected!'
             self.logger.error(msg)
             return (False, {'message': msg})
         scene_node = nuke.toNode(collected_objects[0])

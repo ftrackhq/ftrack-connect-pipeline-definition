@@ -69,8 +69,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Selection collector",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect geo node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -108,8 +108,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Selection collector",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect geo node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -144,8 +144,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Selection collector",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Collect geo node",
+              "plugin": "nuke_node_publisher_collector"
             }
           ]
         },
