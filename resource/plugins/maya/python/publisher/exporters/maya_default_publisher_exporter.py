@@ -31,7 +31,7 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'force': True,
             'type': 'mayaBinary',
         }
-        main_options.update(options)
+        main_options.update({key: value for (key, value) in options.items() if key[0] != '_'})
         return main_options
 
     def run(self, context_data=None, data=None, options=None):
