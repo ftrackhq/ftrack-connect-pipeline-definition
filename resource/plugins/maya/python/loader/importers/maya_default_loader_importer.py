@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 
@@ -11,6 +11,8 @@ import ftrack_api
 
 
 class MayaDefaultLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
+    '''Maya loader plugin'''
+
     plugin_name = 'maya_default_loader_importer'
 
     load_modes = load_const.LOAD_MODES

@@ -11,6 +11,8 @@ class NukeDefaultOpenerFinalizerPlugin(plugin.NukeOpenerFinalizerPlugin):
     plugin_name = 'nuke_default_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Save opened Nuke script to temp'''
+
         result = {}
 
         self.logger.debug('Saving Nuke on open')

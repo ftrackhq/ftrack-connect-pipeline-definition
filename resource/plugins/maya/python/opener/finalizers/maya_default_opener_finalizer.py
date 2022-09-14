@@ -11,6 +11,8 @@ class MayaDefaultOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
     plugin_name = 'maya_default_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Save opened Maya scene to temp'''
+
         result = {}
 
         self.logger.debug('Rename Maya scene on open')

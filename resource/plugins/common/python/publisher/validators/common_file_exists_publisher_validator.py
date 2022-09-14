@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 from ftrack_connect_pipeline import plugin
@@ -12,6 +12,7 @@ class CommonFileExistsPublisherValidatorPlugin(
     plugin_name = 'common_file_exists_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''(Standalone) Validate if the file paths provided in *data* exists'''
         output = self.output
         all_files = []
         for plugin_dict in data:

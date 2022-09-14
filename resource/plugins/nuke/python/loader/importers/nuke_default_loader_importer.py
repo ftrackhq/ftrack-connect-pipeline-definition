@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -19,6 +19,8 @@ class NukeDefaultLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
         return nuke_options
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load collected Nuke script(s) supplied with *data*'''
+
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
         load_mode_fn = self.load_modes.get(

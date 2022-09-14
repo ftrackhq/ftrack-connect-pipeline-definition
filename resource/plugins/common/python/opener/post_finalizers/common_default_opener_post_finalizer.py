@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
@@ -9,6 +9,7 @@ class CommonDefaultOpenerPostFinalizerPlugin(plugin.OpenerPostFinalizerPlugin):
     plugin_name = 'common_default_opener_post_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Default opener post finalizer plugin'''
         return {}
 
 

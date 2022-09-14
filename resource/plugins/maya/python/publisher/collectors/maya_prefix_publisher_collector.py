@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import maya.cmds as cmds
 
@@ -11,10 +11,11 @@ class MayaPrefixPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'maya_prefix_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Select and collect nodes matching prefix and suffix from *options*'''
         cmds.select(cl=True)
         prefix = str(options['prefix'])
-        sufix = str(options['sufix'])
-        cmds.select((prefix + '*' + sufix), r=True)
+        suffix = str(options['suffix'])
+        cmds.select((prefix + '*' + suffix), r=True)
         selection = cmds.ls(sl=True)
         return selection
 

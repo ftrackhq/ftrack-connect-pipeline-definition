@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -16,7 +16,7 @@ class NukeCameraPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
     plugin_name = 'nuke_camera_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
-
+        '''Export collected Nuke camera to a file based collected object in *data* and *options*'''
         file_type = options['file_type']
 
         collected_objects = []

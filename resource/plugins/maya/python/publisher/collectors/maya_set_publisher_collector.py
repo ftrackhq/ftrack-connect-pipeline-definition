@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import maya.cmds as cmds
 
@@ -11,6 +11,7 @@ class MayaSetPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'maya_set_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Collect and return Maya objects base on set name provided in *options*'''
 
         set_name = options['set_name']
         return cmds.sets(set_name, q=True)

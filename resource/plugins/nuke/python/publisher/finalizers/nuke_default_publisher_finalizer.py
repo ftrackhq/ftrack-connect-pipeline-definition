@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -11,6 +11,7 @@ class NukeDefaultPublisherFinalizerPlugin(plugin.NukePublisherFinalizerPlugin):
     plugin_name = 'nuke_default_publisher_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Nuke publisher finalizer plugin'''
         return {}
 
 

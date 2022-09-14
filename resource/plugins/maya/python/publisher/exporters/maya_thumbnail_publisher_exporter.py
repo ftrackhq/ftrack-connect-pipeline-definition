@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import tempfile
 import glob
@@ -14,6 +14,8 @@ class MayaThumbnailPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
     plugin_name = 'maya_thumbnail_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export Maya thumbnail based on collected objects in *data* and camera supplied in *options*'''
+
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

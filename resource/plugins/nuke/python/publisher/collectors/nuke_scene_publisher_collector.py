@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -13,6 +13,7 @@ class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
     plugin_name = 'nuke_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Collect Nuke script name, save to temp if unsaved'''
         scene_name = nuke.root().name()
         if scene_name == 'Root':
             # scene is not saved, save it first.

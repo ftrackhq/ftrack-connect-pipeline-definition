@@ -13,6 +13,8 @@ from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
+    '''Default loader importer plugin widget'''
+
     load_modes = ['import', 'reference']
 
     def __init__(
@@ -67,10 +69,6 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
 
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
-        # if radio_button.text() == load_const.OPEN_MODE:
-        #    self.options_gb.hide()
-        # else:
-        #    self.options_gb.show()
         super(
             CommonDefaultLoaderImporterOptionsWidget, self
         )._on_load_mode_changed(radio_button)

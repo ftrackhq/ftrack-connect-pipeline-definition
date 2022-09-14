@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 from ftrack_connect_pipeline import plugin
@@ -10,6 +10,7 @@ class CommonTestPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
     plugin_name = 'common_test_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Empty publisher validator'''
         return True
 
 

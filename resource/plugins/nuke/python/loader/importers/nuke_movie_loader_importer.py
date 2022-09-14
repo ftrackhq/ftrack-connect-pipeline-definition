@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 import os
 import traceback
 import clique
@@ -15,6 +15,8 @@ class NukeRenderLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
     plugin_name = 'nuke_movie_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load collected video file(s) supplied with *data* into Nuke'''
+
         results = {}
 
         paths_to_import = []

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 from functools import partial
 
 import nuke
@@ -14,6 +14,8 @@ from Qt import QtWidgets
 
 
 class NukeReviewablePublisherExporterOptionsWidget(BaseOptionsWidget):
+    '''Nuke reviewable publisher options widget'''
+
     def __init__(
         self,
         parent=None,

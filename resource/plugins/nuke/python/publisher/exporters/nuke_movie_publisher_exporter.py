@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -17,6 +17,7 @@ class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
     plugin_name = 'nuke_movie_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export a video file from Nuke from collected node with *data* based on *options*'''
 
         collected_objects = []
         for collector in data:

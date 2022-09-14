@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -13,6 +13,7 @@ class NukeFileExistsPublisherValidatorPlugin(
     plugin_name = 'nuke_file_exists_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return true if the file path pointed out by collected object in *data* exist'''
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

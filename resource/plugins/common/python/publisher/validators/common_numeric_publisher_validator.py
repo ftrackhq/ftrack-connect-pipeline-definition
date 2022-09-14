@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
@@ -9,8 +9,8 @@ class CommonNumericPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
     plugin_name = 'common_numeric_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
-        output = self.output
-        self.logger.debug('data: {}'.format(data))
+        '''Do a numerical validation on *data* based on *options*'''
+
         test = options.get('test')
         value = options.get('value')
 

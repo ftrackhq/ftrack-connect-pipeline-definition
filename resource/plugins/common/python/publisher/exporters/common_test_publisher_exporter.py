@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import shutil
 import tempfile
@@ -11,6 +11,7 @@ class CommonTestPublisherExporterPlugin(plugin.PublisherExporterPlugin):
     plugin_name = 'common_test_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Empty publisher'''
         return []
 
 

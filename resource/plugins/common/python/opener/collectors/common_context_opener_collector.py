@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 from ftrack_connect_pipeline import plugin
@@ -11,6 +11,8 @@ class CollectFromContextOpenerPlugin(plugin.OpenerCollectorPlugin):
     plugin_name = 'common_context_opener_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''(Standalone) Retrieve a list of component paths based on version id given in *context_data* matching file_formats given in *options*'''
+
         version_id = context_data.get('version_id', [])
 
         asset_version_entity = self.session.query(

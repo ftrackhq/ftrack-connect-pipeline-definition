@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
@@ -9,6 +9,7 @@ class CommonDefaultLoaderPreFinalizerPlugin(plugin.LoaderPreFinalizerPlugin):
     plugin_name = 'common_default_loader_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Default loader pre importer finalizer plugin'''
         user_data = None
         for step in data:
             if step['type'] != 'component':

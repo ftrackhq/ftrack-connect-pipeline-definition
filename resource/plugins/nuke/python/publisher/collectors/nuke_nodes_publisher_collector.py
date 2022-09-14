@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -22,7 +22,7 @@ class NukeNodesPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
                 n.setSelected(True)
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Return a dictionary with all selected noes, or all nodes
+        '''Return a dictionary with all selected nodes, or all nodes
         if none selected'''
         result = {}
         selected_nodes = nuke.selectedNodes()

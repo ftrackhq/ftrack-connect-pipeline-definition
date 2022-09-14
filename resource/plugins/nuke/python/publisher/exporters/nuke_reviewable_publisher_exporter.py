@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 import tempfile
 import os
 import shutil
@@ -18,6 +18,7 @@ class NukeReviewablePublisherExporterPlugin(
     plugin_name = 'nuke_reviewable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export a reviewable video file from Nuke from collected node with *data* based on *options*'''
 
         collected_objects = []
         for collector in data:

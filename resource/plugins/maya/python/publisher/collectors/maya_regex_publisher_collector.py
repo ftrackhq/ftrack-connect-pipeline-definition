@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 import re
 
 import maya.cmds as cmds
@@ -12,6 +12,8 @@ class MayaRegexPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
     plugin_name = 'maya_regex_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Select and collect nodes matching regular expression from *options*'''
+
         expr = options['expression']
         dag_objs = cmds.ls(ap=True, assemblies=True, dag=True)
         matched_objs = []

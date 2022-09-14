@@ -11,6 +11,10 @@ from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 class MayaDefaultLoaderFinalizerPlugin(plugin.MayaLoaderFinalizerPlugin):
     plugin_name = 'maya_default_loader_finalizer'
 
+    def run(self, context_data=None, data=None, options=None):
+        '''Default Maya loader finalizer plugin'''
+        return {}
+
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
