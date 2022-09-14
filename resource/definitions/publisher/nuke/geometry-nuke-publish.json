@@ -70,7 +70,10 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_node_publisher_collector",
+              "options": {
+                "classname": "Geo"
+              }
             }
           ]
         },
@@ -78,8 +81,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate if geometry can be written out of the selected node",
+              "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
         },
@@ -109,7 +112,10 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_node_publisher_collector",
+              "options": {
+                "classname": "Geo"
+              }
             }
           ]
         },
@@ -117,8 +123,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate if geometry can be written out of the selected node",
+              "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
         },
@@ -145,7 +151,10 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_node_publisher_collector",
+              "options": {
+                "classname": "Geo"
+              }
             }
           ]
         },
@@ -153,8 +162,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate if geometry can be written out of the selected node",
+              "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
         },

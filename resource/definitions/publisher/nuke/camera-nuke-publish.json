@@ -70,7 +70,10 @@
           "plugins":[
             {
               "name": "Collect camera node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_node_publisher_collector",
+              "options": {
+                "classname": "Camera"
+              }
             }
           ]
         },
@@ -81,7 +84,7 @@
               "name": "validate selection",
               "plugin": "nuke_node_type_publisher_validator",
               "options" : {
-                "node_type": "Camera"
+                "node_type": "Camera3"
               }
             }
           ]
@@ -109,7 +112,10 @@
           "plugins":[
             {
               "name": "Collect camera node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_node_publisher_collector",
+              "options": {
+                "classname": "Camera"
+              }
             }
           ]
         },
@@ -120,7 +126,7 @@
               "name": "validate selection",
               "plugin": "nuke_node_type_publisher_validator",
               "options" : {
-                "node_type": "Camera"
+                "node_type": "Camera3"
               }
             }
           ]
@@ -148,7 +154,10 @@
           "plugins":[
             {
               "name": "Collect camera node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_node_publisher_collector",
+              "options": {
+                "classname": "Camera"
+              }
             }
           ]
         },
@@ -159,7 +168,7 @@
               "name": "validate selection",
               "plugin": "nuke_node_type_publisher_validator",
               "options" : {
-                "node_type": "Camera"
+                "node_type": "Camera3"
               }
             }
           ]
