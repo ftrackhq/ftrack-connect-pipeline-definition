@@ -52,7 +52,7 @@ class HoudiniAbcPublisherExporterPlugin(plugin.HoudiniPublisherExporterPlugin):
         return bake_node
 
     def run(self, context_data=None, data=None, options=None):
-
+        '''Export collected object paths provided with *data* to a Alembic files'''
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.abc'
         ).name

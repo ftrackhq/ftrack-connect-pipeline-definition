@@ -11,7 +11,7 @@ class HoudiniFBXLoaderImporterPlugin(plugin.HoudiniLoaderImporterPlugin):
     plugin_name = 'houdini_fbx_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
-        # ensure to load the alembic plugin
+        '''Load FBX geometry into Houdini from collected paths provided with *data* based on *options*'''
 
         results = {}
         paths_to_import = []

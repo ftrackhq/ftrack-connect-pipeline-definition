@@ -15,6 +15,8 @@ import ftrack_api
 
 
 class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
+    '''Houdini loader importer plugin widget'''
+
     load_modes = list(load_const.LOAD_MODES.keys())
 
     OPTIONS = {

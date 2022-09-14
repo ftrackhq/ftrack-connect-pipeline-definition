@@ -51,7 +51,7 @@ class HoudiniFbxPublisherExporterPlugin(plugin.HoudiniPublisherExporterPlugin):
         }
 
     def run(self, context_data=None, data=None, options=None):
-        # ensure to load the fbx plugin
+        '''Export collected object paths provided with *data* to a FBX files'''
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.fbx'

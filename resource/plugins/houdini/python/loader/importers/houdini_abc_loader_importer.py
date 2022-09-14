@@ -33,6 +33,7 @@ class HoudiniAbcImportPlugin(plugin.HoudiniLoaderImporterPlugin):
         return bake_node
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load alembic geometry into Houdini from collected paths provided with *data* based on *options*'''
         results = {}
         paths_to_import = []
         for collector in data:

@@ -24,6 +24,7 @@ class HoudiniDefaultLoaderImporterPlugin(plugin.HoudiniLoaderImporterPlugin):
         return houdini_options
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load/merge geometry into Houdini from collected paths provided with *data* based on *options*'''
 
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})

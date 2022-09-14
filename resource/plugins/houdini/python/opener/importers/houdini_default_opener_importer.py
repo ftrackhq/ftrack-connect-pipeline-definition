@@ -10,6 +10,8 @@ class HoudiniDefaultOpenerImporterPlugin(plugin.HoudiniOpenerImporterPlugin):
     plugin_name = 'houdini_default_opener_importer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Open Houdini based on collected path provided in *data*'''
+
         load_mode = load_const.OPEN_MODE
         load_mode_fn = self.load_modes.get(load_mode)
 

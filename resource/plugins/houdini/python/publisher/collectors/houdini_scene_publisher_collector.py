@@ -17,6 +17,7 @@ class HoudiniScenePublisherCollectorPlugin(
     plugin_name = 'houdini_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Collect and return the scene name or the paths of selected objects'''
         export_option = options.get("export", 'scene')
         if export_option == 'scene':
             return [hou.hipFile.path()]

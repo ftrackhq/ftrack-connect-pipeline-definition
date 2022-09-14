@@ -10,6 +10,7 @@ class HoudiniPublishResultPlugin(plugin.HoudiniPublisherFinalizerPlugin):
     plugin_name = 'houdini_default_publisher_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Empty finalizer'''
         return {}
 
 

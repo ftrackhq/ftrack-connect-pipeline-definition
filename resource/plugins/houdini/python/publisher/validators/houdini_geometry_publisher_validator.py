@@ -17,6 +17,7 @@ class HoudiniGeometryPublisherValidatorPlugin(
     plugin_name = 'houdini_geometry_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return True if all the collected objects provided with *data* is geometry'''
         if not data:
             return (False, 'Please add objects for publishing!')
         collected_objects = []

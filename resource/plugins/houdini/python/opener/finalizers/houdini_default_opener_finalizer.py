@@ -13,6 +13,7 @@ class HoudiniDefaultOpenerFinalizerPlugin(plugin.HoudiniOpenerFinalizerPlugin):
     plugin_name = 'houdini_default_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Save opened Houdini scene to temp to avoid overwrite of published data on DCC save'''
         result = {}
 
         self.logger.debug('Rename Houdini scene on open')

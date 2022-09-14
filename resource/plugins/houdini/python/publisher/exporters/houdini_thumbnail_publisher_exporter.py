@@ -18,6 +18,7 @@ class HoudiniThumbnailPublisherExporterPlugin(
     plugin_name = 'houdini_thumbnail_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export a thumbnail of the viewport to a file'''
 
         res = [1024, 768]
 
