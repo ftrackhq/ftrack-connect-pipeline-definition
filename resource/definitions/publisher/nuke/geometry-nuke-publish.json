@@ -70,10 +70,8 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector",
-              "options": {
-                "classname": "Geo"
-              }
+              "plugin": "nuke_geometry_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -81,7 +79,14 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Validate if geometry can be written out of the selected node",
+              "name": "Validate selection",
+              "plugin": "common_amount_publisher_validator",
+              "options": {
+                "count": 1
+              }
+            },
+            {
+              "name": "Validate if geometry can be exported from the selected node",
               "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
@@ -112,10 +117,8 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector",
-              "options": {
-                "classname": "Geo"
-              }
+              "plugin": "nuke_geometry_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -123,7 +126,14 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Validate if geometry can be written out of the selected node",
+              "name": "Validate selection",
+              "plugin": "common_amount_publisher_validator",
+              "options": {
+                "count": 1
+              }
+            },
+            {
+              "name": "Validate if geometry can be exported from the selected node",
               "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
@@ -151,10 +161,8 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector",
-              "options": {
-                "classname": "Geo"
-              }
+              "plugin": "nuke_geometry_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -162,7 +170,14 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Validate if geometry can be written out of the selected node",
+              "name": "Validate selection",
+              "plugin": "common_amount_publisher_validator",
+              "options": {
+                "count": 1
+              }
+            },
+            {
+              "name": "Validate if geometry can be exported from the selected node",
               "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
