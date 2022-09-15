@@ -1,17 +1,16 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
 
-import os
-
-import maya.cmds as cmds
-
-from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 import ftrack_api
 
+from ftrack_connect_pipeline_nuke import plugin
+from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
-class MayaDefaultOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
-    plugin_name = 'maya_default_opener_importer'
+
+class NukeNativeOpenerImporterPlugin(plugin.NukeOpenerImporterPlugin):
+    plugin_name = 'nuke_native_opener_importer'
+
+    load_modes = load_const.LOAD_MODES
 
     def run(self, context_data=None, data=None, options=None):
         load_mode = load_const.OPEN_MODE
@@ -19,7 +18,7 @@ class MayaDefaultOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
             load_mode, list(self.load_modes.keys())[0]
         )
 
-        maya_options = {}
+        nuke_options = {}
 
         results = {}
 
@@ -30,8 +29,7 @@ class MayaDefaultOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Opening path {}'.format(component_path))
 
-            load_result = load_mode_fn(component_path, maya_options)
-
+            load_result = load_mode_fn(component_path, nuke_options)
             results[component_path] = load_result
 
         return results
@@ -41,5 +39,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaDefaultOpenerImporterPlugin(api_object)
+    plugin = NukeNativeOpenerImporterPlugin(api_object)
     plugin.register()

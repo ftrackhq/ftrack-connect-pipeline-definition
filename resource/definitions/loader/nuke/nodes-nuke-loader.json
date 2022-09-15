@@ -41,7 +41,7 @@
           "plugins":[
             {
               "name": "load nodes",
-              "plugin": "nuke_default_loader_importer",
+              "plugin": "nuke_native_loader_importer",
               "options": {
                 "load_mode": "import"
               }

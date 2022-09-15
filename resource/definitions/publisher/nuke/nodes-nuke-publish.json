@@ -55,7 +55,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }
@@ -87,7 +87,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }

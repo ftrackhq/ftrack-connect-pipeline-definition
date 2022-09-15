@@ -12,7 +12,7 @@ from Qt import QtWidgets
 import ftrack_api
 
 
-class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
+class MayaNativeLoaderImporterOptionsWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(
@@ -26,7 +26,7 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(MayaDefaultLoaderImporterOptionsWidget, self).__init__(
+        super(MayaNativeLoaderImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -38,7 +38,7 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         )
 
     def build(self):
-        super(MayaDefaultLoaderImporterOptionsWidget, self).build()
+        super(MayaNativeLoaderImporterOptionsWidget, self).build()
 
         self.options_gb = group_box.GroupBox('Options')
         options_lay = QtWidgets.QVBoxLayout()
@@ -76,7 +76,7 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.layout().addWidget(self.options_gb)
 
     def post_build(self):
-        super(MayaDefaultLoaderImporterOptionsWidget, self).post_build()
+        super(MayaNativeLoaderImporterOptionsWidget, self).post_build()
 
         self.preserve_ref_cb.stateChanged.connect(self._on_set_preserve_ref)
 
@@ -91,7 +91,7 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.custom_name_le.textChanged.connect(self._on_set_custom_namespace)
 
     def set_defaults(self):
-        super(MayaDefaultLoaderImporterOptionsWidget, self).set_defaults()
+        super(MayaNativeLoaderImporterOptionsWidget, self).set_defaults()
 
         self.add_namespace_cb.setChecked(
             self.default_options.get('add_namespace', False)
@@ -124,7 +124,7 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         else:
             self.options_gb.show()
         super(
-            MayaDefaultLoaderImporterOptionsWidget, self
+            MayaNativeLoaderImporterOptionsWidget, self
         )._on_load_mode_changed(radio_button)
 
     def _on_namespace_status_changed(self, value):
@@ -154,16 +154,16 @@ class MayaDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class MayaDefaultLoaderImporterPluginWidget(
+class MayaNativeLoaderImporterPluginWidget(
     plugin.MayaLoaderImporterPluginWidget
 ):
-    plugin_name = 'maya_default_loader_importer'
-    widget = MayaDefaultLoaderImporterOptionsWidget
+    plugin_name = 'maya_native_loader_importer'
+    widget = MayaNativeLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaDefaultLoaderImporterPluginWidget(api_object)
+    plugin = MayaNativeLoaderImporterPluginWidget(api_object)
     plugin.register()

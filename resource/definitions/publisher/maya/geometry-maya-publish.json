@@ -52,8 +52,8 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_default_publisher_exporter",
-              "widget": "maya_default_publisher_exporter"
+              "plugin": "maya_native_publisher_exporter",
+              "widget": "maya_native_publisher_exporter"
             }
           ]
         }
@@ -86,8 +86,8 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_default_publisher_exporter",
-              "widget": "maya_default_publisher_exporter"
+              "plugin": "maya_native_publisher_exporter",
+              "widget": "maya_native_publisher_exporter"
             }
           ]
         }

@@ -41,7 +41,7 @@
           "plugins":[
             {
               "name": "Open Nuke Scene",
-              "plugin": "nuke_default_opener_importer"
+              "plugin": "nuke_native_opener_importer"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "plugins":[
             {
               "name": "Save scene to working directory",
-              "plugin": "nuke_default_opener_finalizer"
+              "plugin": "nuke_native_opener_finalizer"
             }
           ]
         },

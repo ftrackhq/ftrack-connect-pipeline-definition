@@ -11,8 +11,8 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
-    plugin_name = 'maya_default_publisher_exporter'
+class MayaNativePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    plugin_name = 'maya_native_publisher_exporter'
 
     extension = None
     file_type = None
@@ -31,7 +31,9 @@ class MayaDefaultPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'force': True,
             'type': 'mayaBinary',
         }
-        main_options.update({key: value for (key, value) in options.items() if key[0] != '_'})
+        main_options.update(
+            {key: value for (key, value) in options.items() if key[0] != '_'}
+        )
         return main_options
 
     def run(self, context_data=None, data=None, options=None):
@@ -85,5 +87,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    output_plugin = MayaDefaultPublisherExporterPlugin(api_object)
+    output_plugin = MayaNativePublisherExporterPlugin(api_object)
     output_plugin.register()

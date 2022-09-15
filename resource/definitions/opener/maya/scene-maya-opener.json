@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "Open Maya Scene",
-              "plugin": "maya_default_opener_importer",
+              "plugin": "maya_native_opener_importer",
               "options": {
               }
             }
@@ -78,7 +78,7 @@
             {
               "name": "Rename scene",
               "description" : "Upon open, rename Maya scene to local temp directory",
-              "plugin": "maya_default_opener_finalizer"
+              "plugin": "maya_native_opener_finalizer"
             }
           ]
         },

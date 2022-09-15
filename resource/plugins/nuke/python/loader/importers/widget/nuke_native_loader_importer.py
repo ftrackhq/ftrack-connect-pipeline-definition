@@ -10,20 +10,20 @@ from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
 from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
-class NukeDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
+class NukeNativeLoaderImporterOptionsWidget(LoadBaseWidget):
     load_modes = list(load_const.LOAD_MODES.keys())
 
 
-class NukeDefaultLoaderImporterPluginWidget(
+class NukeNativeLoaderImporterPluginWidget(
     plugin.NukeLoaderImporterPluginWidget
 ):
-    plugin_name = 'nuke_default_loader_importer'
-    widget = NukeDefaultLoaderImporterOptionsWidget
+    plugin_name = 'nuke_native_loader_importer'
+    widget = NukeNativeLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = NukeDefaultLoaderImporterPluginWidget(api_object)
+    plugin = NukeNativeLoaderImporterPluginWidget(api_object)
     plugin.register()

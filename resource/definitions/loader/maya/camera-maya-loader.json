@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "maya_default_loader_importer",
+              "plugin": "maya_native_loader_importer",
               "options": {
                 "load_mode": "import",
                 "load_options": {
@@ -81,7 +81,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "maya_default_loader_importer",
+              "plugin": "maya_native_loader_importer",
               "options": {
                 "load_mode": "import",
                 "load_options": {

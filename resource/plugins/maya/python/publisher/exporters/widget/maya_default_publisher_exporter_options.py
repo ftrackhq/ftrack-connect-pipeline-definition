@@ -98,7 +98,7 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
 class MayaDefaultPublisherExporterOptionsPluginWidget(
     plugin.MayaPublisherExporterPluginWidget
 ):
-    plugin_name = 'maya_default_publisher_exporter'
+    plugin_name = 'maya_native_publisher_exporter'
     widget = MayaDefaultPublisherExporterOptionsWidget
 
 

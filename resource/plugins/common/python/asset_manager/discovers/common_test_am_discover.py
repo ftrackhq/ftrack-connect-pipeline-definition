@@ -5,10 +5,8 @@ import ftrack_api
 from ftrack_connect_pipeline import plugin
 
 
-class CommonDefaultAssetManagerDiscoverPlugin(
-    plugin.AssetManagerDiscoverPlugin
-):
-    plugin_name = 'common_default_am_discover'
+class CommonTestAssetManagerDiscoverPlugin(plugin.AssetManagerDiscoverPlugin):
+    plugin_name = 'common_test_am_discover'
 
     def run(self, context_data=None, data=None, options=None):
         # TODO: this is just an example
@@ -21,5 +19,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultAssetManagerDiscoverPlugin(api_object)
+    plugin = CommonTestAssetManagerDiscoverPlugin(api_object)
     plugin.register()

@@ -7,8 +7,8 @@ from ftrack_connect_pipeline_maya import plugin
 import ftrack_api
 
 
-class MayaDefaultPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
-    plugin_name = 'maya_default_publisher_collector'
+class MayaGenericPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+    plugin_name = 'maya_generic_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):
         '''Select all the items of the plugin *options*'''
@@ -39,5 +39,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaDefaultPublisherCollectorPlugin(api_object)
+    plugin = MayaGenericPublisherCollectorPlugin(api_object)
     plugin.register()

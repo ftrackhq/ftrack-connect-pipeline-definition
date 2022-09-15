@@ -10,8 +10,8 @@ from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
 import ftrack_api
 
 
-class MayaDefaultLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
-    plugin_name = 'maya_default_loader_importer'
+class MayaNativeLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
+    plugin_name = 'maya_native_loader_importer'
 
     load_modes = load_const.LOAD_MODES
 
@@ -63,5 +63,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaDefaultLoaderImporterPlugin(api_object)
+    plugin = MayaNativeLoaderImporterPlugin(api_object)
     plugin.register()

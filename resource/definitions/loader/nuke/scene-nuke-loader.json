@@ -41,7 +41,7 @@
           "plugins":[
             {
               "name": "load scene",
-              "plugin": "nuke_default_loader_importer"
+              "plugin": "nuke_native_loader_importer"
             }
           ]
         },
