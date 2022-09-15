@@ -102,7 +102,7 @@
           "plugins":[
             {
               "name": "collect write node.",
-              "plugin": "nuke_default_publisher_collector"
+              "plugin": "common_test_publisher_collector"
             }
           ]
         },
@@ -135,7 +135,7 @@
           "plugins":[
             {
               "name": "collect sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "plugin": "common_test_publisher_collector"
             }
           ]
         },
