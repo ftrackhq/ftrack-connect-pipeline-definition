@@ -11,8 +11,8 @@ from Qt import QtWidgets, QtCore
 import ftrack_api
 
 
-class CommonDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
-    '''Main class to represent a context widget on a publish process'''
+class CommonPathPublisherCollectorOptionsWidget(BaseOptionsWidget):
+    '''Main class to represent a context widget on a single path standalone publish process'''
 
     # We are enabling the run button for this single widget
     enable_run_plugin = True
@@ -28,10 +28,10 @@ class CommonDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
         description=None,
         options=None,
     ):
-        '''initialise CommonDefaultPublisherCollectorOptionsWidget with *parent*, *session*, *data*,
+        '''initialise CommonPathPublisherCollectorOptionsWidget with *parent*, *session*, *data*,
         *name*, *description*, *options*
         '''
-        super(CommonDefaultPublisherCollectorOptionsWidget, self).__init__(
+        super(CommonPathPublisherCollectorOptionsWidget, self).__init__(
             parent=parent,
             context_id=context_id,
             asset_type_name=asset_type_name,
@@ -48,7 +48,7 @@ class CommonDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
 
     def build(self):
         '''build function widgets.'''
-        super(CommonDefaultPublisherCollectorOptionsWidget, self).build()
+        super(CommonPathPublisherCollectorOptionsWidget, self).build()
 
         self._summary_widget = QtWidgets.QLabel()
         self.layout().addWidget(self._summary_widget)
@@ -76,7 +76,7 @@ class CommonDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
 
     def post_build(self):
         '''hook events'''
-        super(CommonDefaultPublisherCollectorOptionsWidget, self).post_build()
+        super(CommonPathPublisherCollectorOptionsWidget, self).post_build()
         self.browser_button.clicked.connect(self._show_file_dialog)
         self.file_selector.fileSelected.connect(self._on_select_file)
         self.line_edit.textChanged.connect(self._on_path_changed)
@@ -126,16 +126,16 @@ class CommonDefaultPublisherCollectorOptionsWidget(BaseOptionsWidget):
         self.inputChanged.emit({'status': status, 'message': message})
 
 
-class CommonDefaultPublisherCollectorPluginWidget(
+class CommonPathPublisherCollectorPluginWidget(
     plugin.PublisherCollectorPluginWidget
 ):
-    plugin_name = 'common_default_publisher_collector'
-    widget = CommonDefaultPublisherCollectorOptionsWidget
+    plugin_name = 'common_path_publisher_collector'
+    widget = CommonPathPublisherCollectorOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultPublisherCollectorPluginWidget(api_object)
+    plugin = CommonPathPublisherCollectorPluginWidget(api_object)
     plugin.register()

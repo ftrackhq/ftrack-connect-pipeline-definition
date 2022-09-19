@@ -68,8 +68,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Node graph collector",
-              "plugin": "common_test_publisher_collector"
+              "name": "Node graph",
+              "plugin": "common_default_publisher_collector"
             }
           ]
         },
@@ -77,8 +77,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Node graph validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Unused validator",
+              "plugin": "common_default_publisher_validator"
             }
           ]
         },
@@ -87,7 +87,10 @@
           "plugins":[
             {
               "name": "Grab screen shot from node graph",
-              "plugin": "nuke_thumbnail_publisher_exporter"
+              "plugin": "nuke_thumbnail_publisher_exporter",
+              "options": {
+                "target" : "node_graph"
+              }
             }
           ]
         }
@@ -100,8 +103,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Node graph collector",
-              "plugin": "common_test_publisher_collector"
+              "name": "Node graph",
+              "plugin": "common_default_publisher_collector"
             }
           ]
         },
@@ -109,8 +112,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Node graph validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Unused validator",
+              "plugin": "common_default_publisher_validator"
             }
           ]
         },
@@ -119,7 +122,10 @@
           "plugins":[
             {
               "name": "Grab screen shot from node graph",
-              "plugin": "nuke_thumbnail_publisher_exporter"
+              "plugin": "nuke_thumbnail_publisher_exporter",
+              "options": {
+                "target" : "node_graph"
+              }
             }
           ]
         }

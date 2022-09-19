@@ -79,7 +79,7 @@
           "plugins":[
             {
               "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -117,8 +117,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -153,8 +153,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },

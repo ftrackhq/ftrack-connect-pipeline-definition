@@ -36,8 +36,8 @@
           "plugins":[
             {
               "name": "collect from given path",
-              "plugin": "common_default_publisher_collector",
-              "widget": "common_default_publisher_collector",
+              "plugin": "common_path_publisher_collector",
+              "widget": "common_path_publisher_collector",
               "options": {
                 "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
@@ -73,8 +73,8 @@
           "plugins":[
             {
               "name": "collect from given path",
-              "plugin": "common_default_publisher_collector",
-              "widget": "common_default_publisher_collector",
+              "plugin": "common_path_publisher_collector",
+              "widget": "common_path_publisher_collector",
               "options": {
                 "path": "/Users/lluisftrack/Desktop/Screenshot.png"
               }
