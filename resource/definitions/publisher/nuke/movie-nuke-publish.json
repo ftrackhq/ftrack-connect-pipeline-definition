@@ -79,9 +79,9 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_amount_publisher_validator",
+              "plugin": "common_non_empty_publisher_validator",
               "options": {
-                "count": 1
+                "amount": 1
               }
             },
             {
