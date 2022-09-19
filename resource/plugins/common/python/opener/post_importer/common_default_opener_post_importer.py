@@ -9,13 +9,7 @@ class CommonDefaultOpenerPostImporterPlugin(plugin.OpenerPostImporterPlugin):
     plugin_name = 'common_default_opener_post_importer'
 
     def run(self, context_data=None, data=None, options=None):
-        return (
-            {},
-            {
-                'message': 'No Data is imported this is for testing purposes',
-                'data': ['abcde'],
-            },
-        )
+        return {}
 
 
 def register(api_object, **kw):
