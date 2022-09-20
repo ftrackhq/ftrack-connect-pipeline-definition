@@ -16,6 +16,9 @@ class CommonNonEmptyPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
             bool(datum is not None and len(datum) > 0)
             for datum in collected_objects
         )
+        if output is True and 'amount' in options:
+            amount = options['amount']
+            output = len(collected_objects) == amount
         return output
 
 
