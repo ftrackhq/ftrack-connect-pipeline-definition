@@ -79,7 +79,10 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_non_empty_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
             },
             {
               "name": "Can connect to write node",
