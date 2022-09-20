@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
             }
           ]
         }
@@ -102,7 +102,7 @@
           "plugins":[
             {
               "name": "Node graph",
-              "plugin": "common_default_publisher_collector"
+              "plugin": "common_passthrough_publisher_collector"
             }
           ]
         },
@@ -111,7 +111,7 @@
           "plugins":[
             {
               "name": "Unused validator",
-              "plugin": "common_default_publisher_validator"
+              "plugin": "common_passthrough_publisher_validator"
             }
           ]
         },
@@ -138,7 +138,7 @@
           "plugins":[
             {
               "name": "Node graph",
-              "plugin": "common_default_publisher_collector"
+              "plugin": "common_passthrough_publisher_collector"
             }
           ]
         },
@@ -147,7 +147,7 @@
           "plugins":[
             {
               "name": "Unused validator",
-              "plugin": "common_default_publisher_validator"
+              "plugin": "common_passthrough_publisher_validator"
             }
           ]
         },
@@ -176,7 +176,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer"
+              "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
         },
@@ -196,7 +196,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer"
+              "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
         }

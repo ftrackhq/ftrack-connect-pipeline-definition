@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_loader_context",
-              "widget": "common_default_loader_context"
+              "plugin": "common_passthrough_loader_context",
+              "widget": "common_passthrough_loader_context"
             }
           ]
         }
@@ -57,7 +57,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -98,7 +98,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -133,7 +133,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -176,7 +176,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -193,7 +193,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "common_default_loader_pre_finalizer"
+              "plugin": "common_passthrough_loader_pre_finalizer"
             }
           ]
         },
@@ -203,7 +203,7 @@
           "plugins":[
             {
               "name": "Do nothing",
-              "plugin": "common_default_loader_finalizer"
+              "plugin": "common_passthrough_loader_finalizer"
             }
           ]
         },
@@ -213,7 +213,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "common_default_loader_post_finalizer"
+              "plugin": "common_passthrough_loader_post_finalizer"
             }
           ]
         }

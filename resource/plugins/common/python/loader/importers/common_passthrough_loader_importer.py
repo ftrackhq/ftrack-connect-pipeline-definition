@@ -5,8 +5,8 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultLoaderFinalizerPlugin(plugin.LoaderFinalizerPlugin):
-    plugin_name = 'common_default_loader_finalizer'
+class CommonPassthroughLoaderImporterPlugin(plugin.LoaderImporterPlugin):
+    plugin_name = 'common_passthrough_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
         return {}
@@ -16,5 +16,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultLoaderFinalizerPlugin(api_object)
+    plugin = CommonPassthroughLoaderImporterPlugin(api_object)
     plugin.register()

@@ -5,16 +5,18 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultOpenerPostFinalizerPlugin(plugin.OpenerPostFinalizerPlugin):
-    plugin_name = 'common_default_opener_post_finalizer'
+class CommonPassthroughLoaderContextPlugin(plugin.LoaderContextPlugin):
+    plugin_name = 'common_passthrough_loader_context'
 
     def run(self, context_data=None, data=None, options=None):
-        return {}
+        output = self.output
+        output.update(options)
+        return output
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultOpenerPostFinalizerPlugin(api_object)
+    plugin = CommonPassthroughLoaderContextPlugin(api_object)
     plugin.register()

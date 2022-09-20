@@ -6,10 +6,10 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultPublisherPreFinalizerPlugin(
-    plugin.PublisherPreFinalizerPlugin
+class CommonPassthroughPublisherPostFinalizerPlugin(
+    plugin.PublisherPostFinalizerPlugin
 ):
-    plugin_name = 'common_default_publisher_pre_finalizer'
+    plugin_name = 'common_passthrough_publisher_post_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
         return {}
@@ -19,5 +19,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultPublisherPreFinalizerPlugin(api_object)
+    plugin = CommonPassthroughPublisherPostFinalizerPlugin(api_object)
     plugin.register()

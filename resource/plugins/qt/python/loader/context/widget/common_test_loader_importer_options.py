@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
-class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
+class CommonTestLoaderImporterOptionsWidget(LoadBaseWidget):
     load_modes = ['import', 'reference']
 
     def __init__(
@@ -26,7 +26,7 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(CommonDefaultLoaderImporterOptionsWidget, self).__init__(
+        super(CommonTestLoaderImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -38,7 +38,7 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         )
 
     def build(self):
-        super(CommonDefaultLoaderImporterOptionsWidget, self).build()
+        super(CommonTestLoaderImporterOptionsWidget, self).build()
 
         self.options_gb = group_box.GroupBox('')
         options_lay = QtWidgets.QVBoxLayout()
@@ -51,14 +51,14 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.layout().addWidget(self.options_gb)
 
     def post_build(self):
-        super(CommonDefaultLoaderImporterOptionsWidget, self).post_build()
+        super(CommonTestLoaderImporterOptionsWidget, self).post_build()
 
         self.some_test_option_cb.stateChanged.connect(
             self._on_set_some_test_option
         )
 
     def set_defaults(self):
-        super(CommonDefaultLoaderImporterOptionsWidget, self).set_defaults()
+        super(CommonTestLoaderImporterOptionsWidget, self).set_defaults()
 
         self.some_test_option_cb.setChecked(
             self.default_options.get('some_test_option', False)
@@ -67,12 +67,8 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
 
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
-        # if radio_button.text() == load_const.OPEN_MODE:
-        #    self.options_gb.hide()
-        # else:
-        #    self.options_gb.show()
         super(
-            CommonDefaultLoaderImporterOptionsWidget, self
+            CommonTestLoaderImporterOptionsWidget, self
         )._on_load_mode_changed(radio_button)
 
     def _on_set_some_test_option(self, checked):
@@ -83,16 +79,16 @@ class CommonDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class CommonDefaultLoaderImporterPluginWidget(
+class CommonTestLoaderImporterPluginWidget(
     pluginWidget.LoaderImporterPluginWidget
 ):
-    plugin_name = 'common_default_loader_importer'
-    widget = CommonDefaultLoaderImporterOptionsWidget
+    plugin_name = 'common_test_loader_importer'
+    widget = CommonTestLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultLoaderImporterPluginWidget(api_object)
+    plugin = CommonTestLoaderImporterPluginWidget(api_object)
     plugin.register()

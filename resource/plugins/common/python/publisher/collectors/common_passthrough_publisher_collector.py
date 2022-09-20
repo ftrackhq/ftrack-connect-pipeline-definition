@@ -5,16 +5,19 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonDefaultLoaderPostFinalizerPlugin(plugin.LoaderPostFinalizerPlugin):
-    plugin_name = 'common_default_loader_post_finalizer'
+class CommonPassthroughPublisherCollectorPlugin(
+    plugin.PublisherCollectorPlugin
+):
+    plugin_name = 'common_passthrough_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
-        return {}
+        '''Empty collector'''
+        return []
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultLoaderPostFinalizerPlugin(api_object)
+    plugin = CommonPassthroughPublisherCollectorPlugin(api_object)
     plugin.register()

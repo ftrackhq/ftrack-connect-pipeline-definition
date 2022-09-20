@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets.open_widget import (
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
-class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
+class CommonTestOpenerImporterOptionsWidget(OpenBaseWidget):
     load_modes = ['Open']
 
     def __init__(
@@ -26,7 +26,7 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(CommonDefaultOpenerImporterOptionsWidget, self).__init__(
+        super(CommonTestOpenerImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -38,7 +38,7 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         )
 
     def build(self):
-        super(CommonDefaultOpenerImporterOptionsWidget, self).build()
+        super(CommonTestOpenerImporterOptionsWidget, self).build()
 
         self.options_gb = group_box.GroupBox('')
         options_lay = QtWidgets.QVBoxLayout()
@@ -51,14 +51,14 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         self.layout().addWidget(self.options_gb)
 
     def post_build(self):
-        super(CommonDefaultOpenerImporterOptionsWidget, self).post_build()
+        super(CommonTestOpenerImporterOptionsWidget, self).post_build()
 
         self.some_test_option_cb.stateChanged.connect(
             self._on_set_some_test_option
         )
 
     def set_defaults(self):
-        super(CommonDefaultOpenerImporterOptionsWidget, self).set_defaults()
+        super(CommonTestOpenerImporterOptionsWidget, self).set_defaults()
 
         self.some_test_option_cb.setChecked(
             self.default_options.get('some_test_option', False)
@@ -72,7 +72,7 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         # else:
         #    self.options_gb.show()
         super(
-            CommonDefaultOpenerImporterOptionsWidget, self
+            CommonTestOpenerImporterOptionsWidget, self
         )._on_load_mode_changed(radio_button)
 
     def _on_set_some_test_option(self, checked):
@@ -83,16 +83,16 @@ class CommonDefaultOpenerImporterOptionsWidget(OpenBaseWidget):
         self.set_option_result(self.default_options, key='load_options')
 
 
-class CommonDefaultOpenerImporterPluginWidget(
+class CommonTestOpenerImporterPluginWidget(
     pluginWidget.OpenerImporterPluginWidget
 ):
-    plugin_name = 'common_default_opener_importer'
-    widget = CommonDefaultOpenerImporterOptionsWidget
+    plugin_name = 'common_test_opener_importer'
+    widget = CommonTestOpenerImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonDefaultOpenerImporterPluginWidget(api_object)
+    plugin = CommonTestOpenerImporterPluginWidget(api_object)
     plugin.register()

@@ -6,7 +6,7 @@ import ftrack_api
 
 
 class CommonDefaultLoaderPostImporterPlugin(plugin.LoaderPostImporterPlugin):
-    plugin_name = 'common_default_loader_post_importer'
+    plugin_name = 'common_passthrough_loader_post_importer'
 
     def run(self, context_data=None, data=None, options=None):
         return {}

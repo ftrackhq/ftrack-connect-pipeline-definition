@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_opener_context",
-              "widget": "common_default_opener_context"
+              "plugin": "common_passthrough_opener_context",
+              "widget": "common_passthrough_opener_context"
             }
           ]
         }
@@ -51,7 +51,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_opener_post_importer"
+              "plugin": "common_passthrough_opener_post_importer"
             }
           ]
         }
@@ -87,7 +87,7 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "common_default_opener_post_importer"
+              "plugin": "common_passthrough_opener_post_importer"
             }
           ]
         }
@@ -104,7 +104,7 @@
           "plugins":[
             {
               "name": "pre to ftrack server",
-              "plugin": "common_default_opener_pre_finalizer"
+              "plugin": "common_passthrough_opener_pre_finalizer"
             }
           ]
         },
@@ -124,7 +124,7 @@
           "plugins":[
             {
               "name": "post to ftrack server",
-              "plugin": "common_default_opener_post_finalizer"
+              "plugin": "common_passthrough_opener_post_finalizer"
             }
           ]
         }
