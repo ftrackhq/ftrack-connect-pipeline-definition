@@ -192,7 +192,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
+              "name": "Pre finalizer",
               "plugin": "common_passthrough_loader_pre_finalizer"
             }
           ]
@@ -202,7 +202,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "Do nothing",
+              "name": "Finalizer",
               "plugin": "common_passthrough_loader_finalizer"
             }
           ]
@@ -212,7 +212,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
+              "name": "Post finalizer",
               "plugin": "common_passthrough_loader_post_finalizer"
             }
           ]

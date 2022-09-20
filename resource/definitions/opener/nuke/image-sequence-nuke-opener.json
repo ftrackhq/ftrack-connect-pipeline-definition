@@ -66,7 +66,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
+              "name": "Pre finalizer",
               "plugin": "common_passthrough_opener_pre_finalizer"
             }
           ]
@@ -75,7 +75,7 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Save scene to working directory",
+              "name": "Upon open, rename Nuke script to local temp directory",
               "plugin": "nuke_native_opener_finalizer"
             }
           ]
@@ -85,7 +85,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
+              "name": "Post finalizer",
               "plugin": "common_passthrough_opener_post_finalizer"
             }
           ]

@@ -112,31 +112,33 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "pre from ftrack server",
+              "name": "Pre finalizer",
               "plugin": "common_passthrough_loader_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "from ftrack server",
+              "name": "Finalizer",
               "plugin": "common_passthrough_loader_finalizer"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "post from ftrack server",
+              "name": "Post finalizer",
               "plugin": "common_passthrough_loader_post_finalizer"
             }
-          ],
-          "visible": false
+          ]
         }
       ]
     }

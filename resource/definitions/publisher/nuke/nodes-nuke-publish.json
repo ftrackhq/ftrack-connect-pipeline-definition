@@ -175,7 +175,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
+              "name": "Pre publish to ftrack server",
               "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
@@ -185,7 +185,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
+              "name": "Publish to ftrack server",
               "plugin": "nuke_default_publisher_finalizer"
             }
           ]
@@ -195,7 +195,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
+              "name": "Post process publish",
               "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
