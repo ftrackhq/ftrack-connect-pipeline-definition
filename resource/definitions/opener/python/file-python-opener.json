@@ -13,7 +13,7 @@
             {
               "name": "context selector",
               "plugin": "common_passthrough_opener_context",
-              "widget": "common_passthrough_opener_context"
+              "widget": "common_default_opener_context"
             }
           ]
         }
@@ -44,7 +44,7 @@
             {
               "name": "importer",
               "plugin": "common_passthrough_loader_importer",
-              "widget": "common_passthrough_loader_importer",
+              "widget": "common_default_loader_importer",
               "options": {
                 "load_mode": "import"
               }
@@ -85,7 +85,7 @@
             {
               "name": "importer",
               "plugin": "common_passthrough_loader_importer",
-              "widget": "common_passthrough_loader_importer",
+              "widget": "common_default_loader_importer",
               "options": {
                 "load_mode": "import"
               }

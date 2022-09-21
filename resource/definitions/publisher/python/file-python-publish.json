@@ -14,7 +14,7 @@
             {
               "name": "context selector",
               "plugin": "common_passthrough_publisher_context",
-              "widget": "common_passthrough_publisher_context",
+              "widget": "common_default_publisher_context",
               "options": {
                 "context_id": "690afd58-06d0-11ea-bbbb-ee594985c7e2",
                 "asset_name": "testFromPythonConsole",

@@ -7,7 +7,7 @@ import ftrack_api
 
 
 class CommonDefaultOpenerContextPluginWidget(plugin.OpenerContextPluginWidget):
-    plugin_name = 'common_passthrough_opener_context'
+    plugin_name = 'common_default_opener_context'
     widget = context_widget.OpenContextWidget
 
 

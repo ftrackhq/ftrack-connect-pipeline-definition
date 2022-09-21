@@ -9,7 +9,7 @@ import ftrack_api
 class CommonDefaultPublisherContextPluginWidget(
     plugin.PublisherContextPluginWidget
 ):
-    plugin_name = 'common_passthrough_publisher_context'
+    plugin_name = 'common_default_publisher_context'
     widget = context_widget.PublishContextWidget
 
 

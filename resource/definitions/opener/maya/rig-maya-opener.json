@@ -14,7 +14,7 @@
             {
               "name": "context selector",
               "plugin": "common_passthrough_opener_context",
-              "widget": "common_passthrough_opener_context"
+              "widget": "common_default_opener_context"
             }
           ]
         }
