@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import tempfile
 import glob
@@ -12,10 +12,12 @@ import ftrack_api
 
 
 class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    ''' Maya turntable reviewable publisher plugin'''
+
     plugin_name = 'maya_turntable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
-
+        '''Render a turntable out of the camera and selected objects provided in *data*'''
         camera_name = data[0]['result'][0] 
         collected_objects = data[1]['result']
         selected_object = collected_objects[0].split('|')[1]
@@ -66,9 +68,7 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         cmds.orientConstraint(object_locator, object)
         return object_locator
 
-
     def run_reviewable(self, camera_name, sframe, eframe, res_w, res_h):
-
         current_panel = cmds.getPanel(wf=True)
         panel_type = cmds.getPanel(to=current_panel)  # scriptedPanel
         if panel_type != 'modelPanel':
