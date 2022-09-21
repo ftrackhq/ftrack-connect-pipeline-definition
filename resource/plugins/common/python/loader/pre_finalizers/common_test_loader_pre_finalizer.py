@@ -6,10 +6,12 @@ import ftrack_api
 
 
 class CommontTestLoaderPreFinalizerPlugin(plugin.LoaderPreFinalizerPlugin):
+    '''Loader pre finalizer test/template plugin'''
+
     plugin_name = 'common_test_loader_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Default opener pre finalizer plugin'''
+        '''Extract user data and prints them'''
         user_data = None
         for step in data:
             if step['type'] != 'component':

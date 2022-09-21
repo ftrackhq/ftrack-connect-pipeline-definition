@@ -12,6 +12,8 @@ import ftrack_api
 
 
 class MayaNativePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya native binary or ASCII exporter plugin'''
+
     plugin_name = 'maya_native_publisher_exporter'
 
     extension = None

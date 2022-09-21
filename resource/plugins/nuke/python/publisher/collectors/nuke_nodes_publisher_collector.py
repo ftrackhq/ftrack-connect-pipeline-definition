@@ -10,6 +10,8 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeNodesPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+    '''Nuke multiple nodes publisher collector plugin'''
+
     plugin_name = 'nuke_nodes_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):
@@ -24,7 +26,6 @@ class NukeNodesPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
     def fetch(self, context_data=None, data=None, options=None):
         '''Return a dictionary with all selected nodes, or all nodes
         if none selected'''
-        result = {}
         selected_nodes = nuke.selectedNodes()
         if len(selected_nodes) > 0:
             return [n.name() for n in selected_nodes]

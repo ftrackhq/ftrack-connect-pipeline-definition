@@ -10,7 +10,7 @@ import ftrack_api
 
 
 class MayaGeometryPublisherCollectorOptionsWidget(BaseCollectorWidget):
-    '''Maya geometry publisher plugin widget'''
+    '''Maya geometry user selection template plugin widget'''
 
     # Run fetch function on widget initialization
     auto_fetch_on_init = True

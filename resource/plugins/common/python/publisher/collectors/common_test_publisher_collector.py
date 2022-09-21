@@ -6,6 +6,8 @@ import ftrack_api
 
 
 class CommonTestPublisherCollectorPlugin(plugin.PublisherCollectorPlugin):
+    '''Publisher collector test/template plugin'''
+
     plugin_name = 'common_test_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

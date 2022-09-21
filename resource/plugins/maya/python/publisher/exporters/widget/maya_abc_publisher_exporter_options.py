@@ -13,7 +13,7 @@ import ftrack_api
 
 
 class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
-    '''Maya Alembic publisher options widget'''
+    '''Maya Alembic publisher options user input plugin widget'''
 
     auto_fetch_on_init = True
 

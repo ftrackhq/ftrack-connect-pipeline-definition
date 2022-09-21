@@ -9,6 +9,8 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeCameraLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
+    '''Nuke camera loader plugin'''
+
     plugin_name = 'nuke_camera_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):

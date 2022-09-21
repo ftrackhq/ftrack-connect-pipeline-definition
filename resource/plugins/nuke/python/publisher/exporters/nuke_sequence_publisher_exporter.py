@@ -14,6 +14,8 @@ import shutil
 
 
 class NukeSequencePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke image sequence exporter plugin'''
+
     plugin_name = 'nuke_sequence_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

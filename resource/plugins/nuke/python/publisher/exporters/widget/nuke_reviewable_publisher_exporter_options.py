@@ -14,7 +14,7 @@ from Qt import QtWidgets
 
 
 class NukeReviewablePublisherExporterOptionsWidget(BaseOptionsWidget):
-    '''Nuke reviewable publisher options widget'''
+    '''Nuke reviewable publisher options user input plugin widget'''
 
     def __init__(
         self,

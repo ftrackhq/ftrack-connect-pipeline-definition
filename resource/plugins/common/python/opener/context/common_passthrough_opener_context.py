@@ -6,10 +6,12 @@ import ftrack_api
 
 
 class CommonPassthroughOpenerContextPlugin(plugin.OpenerContextPlugin):
+    '''Option passthrough opener context plugin'''
+
     plugin_name = 'common_passthrough_opener_context'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Default publisher context plugin'''
+        '''Merge context output with *options*'''
         output = self.output
         output.update(options)
         return output

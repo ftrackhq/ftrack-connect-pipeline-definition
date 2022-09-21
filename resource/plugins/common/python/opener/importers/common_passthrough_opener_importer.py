@@ -6,10 +6,11 @@ import ftrack_api
 
 
 class CommonPassthroughOpenerImporterPlugin(plugin.OpenerImporterPlugin):
+    '''Empty/passthrough opener importer plugin'''
+
     plugin_name = 'common_passthrough_opener_importer'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Default loader finalizer plugin'''
         return {}
 
 

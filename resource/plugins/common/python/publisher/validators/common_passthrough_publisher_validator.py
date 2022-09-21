@@ -9,9 +9,12 @@ import ftrack_api
 class CommonPassthroughPublisherValidatorPlugin(
     plugin.PublisherValidatorPlugin
 ):
+    '''Empty/passthrough publisher validator plugin'''
+
     plugin_name = 'common_passthrough_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''No validation, accept collected data'''
         return True
 
 

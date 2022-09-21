@@ -9,6 +9,8 @@ import ftrack_api
 
 
 class MayaScenePublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+    '''Maya scene publisher collector plugin'''
+
     plugin_name = 'maya_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

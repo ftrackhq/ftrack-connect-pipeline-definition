@@ -13,7 +13,7 @@ import ftrack_api
 
 
 class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
-    '''Maya FBX publisher options widget'''
+    '''Maya FBX publisher options user input plugin widget'''
 
     def __init__(
         self,

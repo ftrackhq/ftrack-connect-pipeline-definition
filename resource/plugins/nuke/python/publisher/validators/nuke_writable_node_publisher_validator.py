@@ -13,6 +13,8 @@ import nuke
 class NukeWritableNodePublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
+    '''Nuke writeable type publisher validator'''
+
     plugin_name = 'nuke_writable_node_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

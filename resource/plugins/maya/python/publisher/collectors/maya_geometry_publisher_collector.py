@@ -10,6 +10,8 @@ import ftrack_api
 class MayaGeometryPublisherCollectorPlugin(
     plugin.MayaPublisherCollectorPlugin
 ):
+    '''Maya geometry publisher collector plugin'''
+
     plugin_name = 'maya_geometry_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):

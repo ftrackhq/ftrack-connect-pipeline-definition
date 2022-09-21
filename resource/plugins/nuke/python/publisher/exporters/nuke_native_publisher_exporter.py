@@ -12,6 +12,8 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeNativePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke native script exporter plugin'''
+
     plugin_name = 'nuke_native_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

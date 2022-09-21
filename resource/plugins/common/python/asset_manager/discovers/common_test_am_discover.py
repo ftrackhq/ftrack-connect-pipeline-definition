@@ -9,9 +9,8 @@ class CommonTestAssetManagerDiscoverPlugin(plugin.AssetManagerDiscoverPlugin):
     plugin_name = 'common_test_am_discover'
 
     def run(self, context_data=None, data=None, options=None):
-        '''TODO: This just an example'''
+        '''This just an test example of an asset manager discovery plugin'''
         filter = {'asset_name': 'torso', 'asset_type_name': 'geo'}
-
         return filter
 
 

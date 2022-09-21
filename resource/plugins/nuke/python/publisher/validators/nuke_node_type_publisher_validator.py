@@ -11,10 +11,13 @@ import nuke
 class NukeNodeTypePublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
+    '''Nuke node type publisher validator'''
+
     plugin_name = 'nuke_node_type_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
         '''Return true if the collected Nuke node supplied with *data* matches the node type provided with *options*'''
+
         node_type = options['node_type']
         collected_objects = []
         for collector in data:

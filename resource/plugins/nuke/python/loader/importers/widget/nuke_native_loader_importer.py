@@ -11,7 +11,7 @@ from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
 class NukeNativeLoaderImporterOptionsWidget(LoadBaseWidget):
-    '''User input of nuke loader import plugin options'''
+    '''Nuke loader import options user input test/template plugin widget'''
 
     load_modes = list(load_const.LOAD_MODES.keys())
 

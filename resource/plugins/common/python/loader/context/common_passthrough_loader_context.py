@@ -7,9 +7,10 @@ import ftrack_api
 
 class CommonPassthroughLoaderContextPlugin(plugin.LoaderContextPlugin):
     plugin_name = 'common_passthrough_loader_context'
+    '''Option passthrough loader context plugin'''
 
     def run(self, context_data=None, data=None, options=None):
-        '''Default loader context plugin'''
+        '''Merge context output with *options*'''
         output = self.output
         output.update(options)
         return output

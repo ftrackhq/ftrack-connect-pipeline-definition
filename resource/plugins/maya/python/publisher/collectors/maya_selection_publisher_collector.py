@@ -10,6 +10,8 @@ import ftrack_api
 class MayaSelectionPublisherCollectorPlugin(
     plugin.MayaPublisherCollectorPlugin
 ):
+    '''Maya scene selection publisher collector plugin'''
+
     plugin_name = 'maya_selection_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

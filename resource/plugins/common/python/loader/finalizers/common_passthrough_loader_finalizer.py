@@ -7,9 +7,9 @@ import ftrack_api
 
 class CommonPassthroughLoaderFinalizerPlugin(plugin.LoaderFinalizerPlugin):
     plugin_name = 'common_passthrough_loader_finalizer'
+    '''Empty/passthrough loader finalizer plugin'''
 
     def run(self, context_data=None, data=None, options=None):
-        '''Default loader importer plugin'''
         return {}
 
 

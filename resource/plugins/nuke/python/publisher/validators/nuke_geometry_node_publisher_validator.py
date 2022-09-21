@@ -13,9 +13,13 @@ import nuke
 class NukeGeometryNodePublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
+    '''Nuke geometry publisher validator plugin'''
+
     plugin_name = 'nuke_geometry_node_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return true if all collected nodes supplied in *data* are geometry nodes'''
+
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

@@ -11,6 +11,8 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeThumbnailPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke thumbnail exporter plugin'''
+
     plugin_name = 'nuke_thumbnail_publisher_exporter'
 
     def render_thumbnail(self, context_data=None, data=None, options=None):

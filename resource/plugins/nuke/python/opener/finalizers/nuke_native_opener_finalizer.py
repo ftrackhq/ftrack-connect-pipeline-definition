@@ -8,6 +8,8 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeNativeOpenerFinalizerPlugin(plugin.NukeOpenerFinalizerPlugin):
+    '''Plugin for finalizing the Nuke open process'''
+
     plugin_name = 'nuke_native_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):

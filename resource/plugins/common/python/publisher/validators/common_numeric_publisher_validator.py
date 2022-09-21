@@ -6,6 +6,8 @@ import ftrack_api
 
 
 class CommonNumericPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
+    '''Publisher numeric validator plugin'''
+
     plugin_name = 'common_numeric_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):

@@ -8,10 +8,11 @@ import ftrack_api
 
 
 class CommonTestPublisherExporterPlugin(plugin.PublisherExporterPlugin):
+    '''Publisher test/template exporter plugin'''
+
     plugin_name = 'common_test_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Empty publisher'''
         return []
 
 

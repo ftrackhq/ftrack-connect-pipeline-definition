@@ -7,10 +7,11 @@ import ftrack_api
 
 
 class CommonTestPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
+    '''Publisher validator test/empty plugin'''
+
     plugin_name = 'common_test_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Empty publisher validator'''
         return True
 
 

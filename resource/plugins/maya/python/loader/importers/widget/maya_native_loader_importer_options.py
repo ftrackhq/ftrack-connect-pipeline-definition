@@ -13,7 +13,7 @@ import ftrack_api
 
 
 class MayaNativeLoaderImporterOptionsWidget(LoadBaseWidget):
-    '''User input of maya loader importer plugin widget'''
+    '''User input of maya native loader importer plugin widget'''
 
     load_modes = list(load_const.LOAD_MODES.keys())
 

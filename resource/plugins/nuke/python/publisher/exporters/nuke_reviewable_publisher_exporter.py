@@ -15,6 +15,8 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 class NukeReviewablePublisherExporterPlugin(
     plugin.NukePublisherExporterPlugin
 ):
+    '''Nuke reviewable exporter plugin'''
+
     plugin_name = 'nuke_reviewable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

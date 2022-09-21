@@ -10,7 +10,7 @@ import ftrack_api
 
 
 class MayaGenericPublisherCollectorOptionsWidget(BaseCollectorWidget):
-    '''User input of maya publisher collector plugin options'''
+    '''Generic/template for Maya publisher collector plugin option user input'''
 
     # Run fetch function on widget initialization
     auto_fetch_on_init = True

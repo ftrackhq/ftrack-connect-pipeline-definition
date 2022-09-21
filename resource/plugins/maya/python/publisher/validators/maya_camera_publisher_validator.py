@@ -8,10 +8,12 @@ import ftrack_api
 
 
 class MayaCameraPublisherValidatorPlugin(plugin.MayaPublisherValidatorPlugin):
+    '''Maya camera publisher validator plugin'''
+
     plugin_name = 'maya_camera_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Maya camera publisher validator plugin'''
+        '''Make sure the collected objects supplied in *data* are cameras'''
 
         if not data:
             return False

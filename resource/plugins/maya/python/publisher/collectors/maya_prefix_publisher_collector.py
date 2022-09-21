@@ -8,6 +8,8 @@ import ftrack_api
 
 
 class MayaPrefixPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+    '''Maya prefix publisher collector plugin'''
+
     plugin_name = 'maya_prefix_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

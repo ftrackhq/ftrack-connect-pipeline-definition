@@ -13,6 +13,8 @@ import nuke
 
 
 class NukeCameraPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke camera exporter plugin'''
+
     plugin_name = 'nuke_camera_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

@@ -9,10 +9,12 @@ import ftrack_api
 class CommonFileExistsPublisherValidatorPlugin(
     plugin.PublisherValidatorPlugin
 ):
+    '''Standalone publisher file validator plugin'''
+
     plugin_name = 'common_file_exists_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
-        '''(Standalone) Validate if the file paths provided in *data* exists'''
+        '''Validate if the file paths provided in *data* exists'''
         output = self.output
         all_files = []
         for plugin_dict in data:

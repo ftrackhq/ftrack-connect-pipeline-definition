@@ -8,6 +8,8 @@ import ftrack_api
 class CommonPassthroughLoaderPreFinalizerPlugin(
     plugin.LoaderPreFinalizerPlugin
 ):
+    '''Passthrough/empty loader pre finalizer plugin'''
+
     plugin_name = 'common_passthrough_loader_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):

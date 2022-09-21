@@ -10,6 +10,7 @@ import ftrack_api
 
 
 class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya Alembic exporter plugin'''
 
     plugin_name = 'maya_abc_publisher_exporter'
 

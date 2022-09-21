@@ -13,7 +13,7 @@ import ftrack_api
 
 
 class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
-    '''Maya publisher options widget'''
+    '''Maya native binary or ASCII publisher options user input plugin widget'''
 
     def __init__(
         self,

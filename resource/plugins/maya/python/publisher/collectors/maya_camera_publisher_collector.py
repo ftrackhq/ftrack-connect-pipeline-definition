@@ -8,6 +8,8 @@ import ftrack_api
 
 
 class MayaCameraPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+    '''Maya camera publisher collector plugin'''
+
     plugin_name = 'maya_camera_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):

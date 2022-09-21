@@ -11,10 +11,12 @@ import ftrack_api
 
 
 class MayaNativeOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
+    '''Maya scene opener plugin'''
+
     plugin_name = 'maya_native_opener_importer'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Maya opener importer plugin'''
+        '''Open the collected path supplied in *data*'''
 
         load_mode = load_const.OPEN_MODE
         load_mode_fn = self.load_modes.get(

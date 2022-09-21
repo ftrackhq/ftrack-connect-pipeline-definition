@@ -15,7 +15,7 @@ from Qt import QtWidgets
 
 
 class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
-    '''Nuke image sequence publisher options widget'''
+    '''Nuke image sequence publisher options user input plugin widget'''
 
     def __init__(
         self,

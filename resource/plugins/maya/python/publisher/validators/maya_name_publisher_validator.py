@@ -8,10 +8,12 @@ import ftrack_api
 
 
 class MayaNamePublisherValidatorPlugin(plugin.MayaPublisherValidatorPlugin):
+    '''Maya name publisher validator plugin'''
+
     plugin_name = 'maya_name_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Maya name publisher validator plugin'''
+        '''Return True if all collected objects supplied in *data* starts with "ftrack_" prefix'''
 
         collected_objects = []
         for collector in data:

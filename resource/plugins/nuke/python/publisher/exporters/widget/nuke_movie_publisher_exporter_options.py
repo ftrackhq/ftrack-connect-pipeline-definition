@@ -15,7 +15,7 @@ from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
-    '''Nuke movie publisher options widget'''
+    '''Nuke movie publisher options user input plugin widget'''
 
     def __init__(
         self,

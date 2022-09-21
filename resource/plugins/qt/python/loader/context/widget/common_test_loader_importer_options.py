@@ -13,7 +13,7 @@ from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class CommonTestLoaderImporterOptionsWidget(LoadBaseWidget):
-    '''User input for opener importer plugin options'''
+    '''Opener importer options user input test/template plugin widget'''
 
     load_modes = ['import', 'reference']
 

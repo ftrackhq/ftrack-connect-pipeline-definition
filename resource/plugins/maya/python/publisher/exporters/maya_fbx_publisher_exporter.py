@@ -11,6 +11,7 @@ import ftrack_api
 
 
 class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya FBX exporter plugin'''
 
     plugin_name = 'maya_fbx_publisher_exporter'
 

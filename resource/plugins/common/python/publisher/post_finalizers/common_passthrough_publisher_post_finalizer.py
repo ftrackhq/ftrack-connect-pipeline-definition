@@ -9,10 +9,11 @@ import ftrack_api
 class CommonPassthroughPublisherPostFinalizerPlugin(
     plugin.PublisherPostFinalizerPlugin
 ):
+    '''Empty/passthrough publisher post finalizer plugin'''
+
     plugin_name = 'common_passthrough_publisher_post_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Default publisher post finalizer plugin'''
         return {}
 
 

@@ -8,6 +8,8 @@ import ftrack_api
 
 
 class MayaGenericPublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+    '''Maya generic publisher collector plugin'''
+
     plugin_name = 'maya_generic_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):

@@ -14,6 +14,8 @@ import nuke
 
 
 class NukeMoviePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke movie exporter plugin'''
+
     plugin_name = 'nuke_movie_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

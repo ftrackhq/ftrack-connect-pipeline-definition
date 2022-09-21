@@ -13,6 +13,8 @@ import nuke
 
 
 class NukeGeometryPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke geometry exporter plugin'''
+
     plugin_name = 'nuke_geometry_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

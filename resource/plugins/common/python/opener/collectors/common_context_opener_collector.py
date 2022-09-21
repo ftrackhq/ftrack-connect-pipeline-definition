@@ -8,10 +8,12 @@ import ftrack_api
 
 
 class CollectFromContextOpenerPlugin(plugin.OpenerCollectorPlugin):
+    '''Plugin that collects opener compatible component paths'''
+
     plugin_name = 'common_context_opener_collector'
 
     def run(self, context_data=None, data=None, options=None):
-        '''(Standalone) Retrieve a list of component paths based on version id given in *context_data* matching file_formats given in *options*'''
+        '''Retrieve a list of component paths based on version id given in *context_data* matching file_formats given in *options*'''
 
         version_id = context_data.get('version_id', [])
 

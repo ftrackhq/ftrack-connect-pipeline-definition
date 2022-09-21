@@ -10,6 +10,8 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+    '''Nuke scene/script nodes publisher collector plugin'''
+
     plugin_name = 'nuke_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

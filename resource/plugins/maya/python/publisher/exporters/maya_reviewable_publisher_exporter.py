@@ -14,6 +14,8 @@ import ftrack_api
 class MayaReviewablePublisherExporterPlugin(
     plugin.MayaPublisherExporterPlugin
 ):
+    '''Maya reviewable exporter plugin'''
+
     plugin_name = 'maya_reviewable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):

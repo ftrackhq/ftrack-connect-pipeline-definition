@@ -12,6 +12,8 @@ from Qt import QtWidgets
 
 
 class NukeNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
+    '''Nuke single node user selection plugin widget'''
+
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 

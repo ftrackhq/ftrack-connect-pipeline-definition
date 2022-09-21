@@ -8,6 +8,8 @@ from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
 class NukeNativeLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
+    '''Nuke native script loader plugin'''
+
     plugin_name = 'nuke_native_loader_importer'
 
     load_modes = load_const.LOAD_MODES
