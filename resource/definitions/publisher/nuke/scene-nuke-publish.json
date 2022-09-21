@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
             }
           ]
         }
@@ -55,7 +55,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }
@@ -68,8 +68,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Node graph collector",
-              "plugin": "common_test_publisher_collector"
+              "name": "Node graph",
+              "plugin": "common_passthrough_publisher_collector"
             }
           ]
         },
@@ -77,8 +77,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Node graph validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Unused validator",
+              "plugin": "common_passthrough_publisher_validator"
             }
           ]
         },
@@ -87,7 +87,10 @@
           "plugins":[
             {
               "name": "Grab screen shot from node graph",
-              "plugin": "nuke_thumbnail_publisher_exporter"
+              "plugin": "nuke_thumbnail_publisher_exporter",
+              "options": {
+                "target" : "node_graph"
+              }
             }
           ]
         }
@@ -100,8 +103,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Node graph collector",
-              "plugin": "common_test_publisher_collector"
+              "name": "Node graph",
+              "plugin": "common_passthrough_publisher_collector"
             }
           ]
         },
@@ -109,8 +112,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "Node graph validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Unused validator",
+              "plugin": "common_passthrough_publisher_validator"
             }
           ]
         },
@@ -119,7 +122,10 @@
           "plugins":[
             {
               "name": "Grab screen shot from node graph",
-              "plugin": "nuke_thumbnail_publisher_exporter"
+              "plugin": "nuke_thumbnail_publisher_exporter",
+              "options": {
+                "target" : "node_graph"
+              }
             }
           ]
         }
@@ -135,8 +141,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer"
+              "name": "Pre publish to ftrack server",
+              "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
         },
@@ -145,7 +151,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
+              "name": "Publish to ftrack server",
               "plugin": "nuke_default_publisher_finalizer"
             }
           ]
@@ -155,8 +161,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer"
+              "name": "Post process publish",
+              "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
         }
