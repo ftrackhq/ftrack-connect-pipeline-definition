@@ -1,5 +1,5 @@
-# :codin# :coding: utf-8
-# # :copyright: Copyright (c) 2014-2022 ftrack
+# :coding: utf-8
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import maya.cmds as cmds
 from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
