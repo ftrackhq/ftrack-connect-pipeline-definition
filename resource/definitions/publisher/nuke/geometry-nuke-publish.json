@@ -217,7 +217,7 @@
           "plugins":[
             {
               "name": "Publish to ftrack server",
-              "plugin": "nuke_default_publisher_finalizer"
+              "plugin": "common_passthrough_publisher_finalizer"
             }
           ]
         },
