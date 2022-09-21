@@ -11,11 +11,11 @@ from ftrack_connect_pipeline_houdini import plugin
 import ftrack_api
 
 
-class HoudiniDefaultPublisherExporterPlugin(
+class HoudiniNativePublisherExporterPlugin(
     plugin.HoudiniPublisherExporterPlugin
 ):
 
-    plugin_name = 'houdini_default_publisher_exporter'
+    plugin_name = 'houdini_native_publisher_exporter'
 
     extension = '.hip'
     filetype = 'hip'
@@ -74,5 +74,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    scene_plugin = HoudiniDefaultPublisherExporterPlugin(api_object)
+    scene_plugin = HoudiniNativePublisherExporterPlugin(api_object)
     scene_plugin.register()

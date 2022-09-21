@@ -9,8 +9,8 @@ from ftrack_connect_pipeline_houdini.utils import (
 )
 
 
-class HoudiniDefaultOpenerFinalizerPlugin(plugin.HoudiniOpenerFinalizerPlugin):
-    plugin_name = 'houdini_default_opener_finalizer'
+class HoudiniNativeOpenerFinalizerPlugin(plugin.HoudiniOpenerFinalizerPlugin):
+    plugin_name = 'houdini_native_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
         '''Save opened Houdini scene to temp to avoid overwrite of published data on DCC save'''
@@ -32,5 +32,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = HoudiniDefaultOpenerFinalizerPlugin(api_object)
+    plugin = HoudiniNativeOpenerFinalizerPlugin(api_object)
     plugin.register()

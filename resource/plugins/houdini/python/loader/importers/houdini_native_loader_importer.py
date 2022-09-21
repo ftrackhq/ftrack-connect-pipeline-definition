@@ -8,8 +8,8 @@ from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 import ftrack_api
 
 
-class HoudiniDefaultLoaderImporterPlugin(plugin.HoudiniLoaderImporterPlugin):
-    plugin_name = 'houdini_default_loader_importer'
+class HoudiniNativeLoaderImporterPlugin(plugin.HoudiniLoaderImporterPlugin):
+    plugin_name = 'houdini_native_loader_importer'
 
     load_modes = load_const.LOAD_MODES
 
@@ -71,5 +71,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = HoudiniDefaultLoaderImporterPlugin(api_object)
+    plugin = HoudiniNativeLoaderImporterPlugin(api_object)
     plugin.register()

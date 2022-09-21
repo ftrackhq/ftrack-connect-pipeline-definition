@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_loader_context",
-              "widget": "common_default_loader_context"
+              "plugin": "common_passthrough_loader_context",
+              "widget": "common_passthrough_loader_context"
             }
           ]
         }
@@ -40,7 +40,7 @@
           "plugins":[
             {
               "name": "Import paths to Houdini",
-              "plugin": "houdini_default_loader_importer",
+              "plugin": "houdini_native_loader_importer",
               "options": {
                 "load_mode": "import",
                 "load_options": {
@@ -55,7 +55,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -79,7 +79,7 @@
           "plugins":[
             {
               "name": "Import paths to Houdini",
-              "plugin": "houdini_default_loader_importer",
+              "plugin": "houdini_native_loader_importer",
               "options": {
                 "load_mode": "import",
                 "load_options": {
@@ -94,7 +94,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -129,7 +129,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -164,7 +164,7 @@
           "plugins":[
             {
               "name": "houdini",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -180,8 +180,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_loader_pre_finalizer"
+              "name": "Pre finalizer",
+              "plugin": "common_passthrough_loader_pre_finalizer"
             }
           ]
         },
@@ -190,8 +190,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "Do nothing",
-              "plugin": "common_default_loader_finalizer"
+              "name": "Finalizer",
+              "plugin": "common_passthrough_loader_finalizer"
             }
           ]
         },
@@ -200,8 +200,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_loader_post_finalizer"
+              "name": "Post finalizer",
+              "plugin": "common_passthrough_loader_post_finalizer"
             }
           ]
         }

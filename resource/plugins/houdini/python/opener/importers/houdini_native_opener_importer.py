@@ -6,8 +6,8 @@ from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
 import ftrack_api
 
 
-class HoudiniDefaultOpenerImporterPlugin(plugin.HoudiniOpenerImporterPlugin):
-    plugin_name = 'houdini_default_opener_importer'
+class HoudiniNativeOpenerImporterPlugin(plugin.HoudiniOpenerImporterPlugin):
+    plugin_name = 'houdini_native_opener_importer'
 
     def run(self, context_data=None, data=None, options=None):
         '''Open Houdini based on collected path provided in *data*'''
@@ -37,5 +37,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = HoudiniDefaultOpenerImporterPlugin(api_object)
+    plugin = HoudiniNativeOpenerImporterPlugin(api_object)
     plugin.register()

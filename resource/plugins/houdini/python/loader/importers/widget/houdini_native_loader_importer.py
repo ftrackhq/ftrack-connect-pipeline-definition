@@ -14,7 +14,7 @@ from Qt import QtWidgets
 import ftrack_api
 
 
-class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
+class HoudiniNativeLoaderImporterOptionsWidget(LoadBaseWidget):
     '''Houdini loader importer plugin widget'''
 
     load_modes = list(load_const.LOAD_MODES.keys())
@@ -39,7 +39,7 @@ class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
     ):
         self.widgets = {}
 
-        super(HoudiniDefaultLoaderImporterOptionsWidget, self).__init__(
+        super(HoudiniNativeLoaderImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -51,7 +51,7 @@ class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
         )
 
     def build(self):
-        super(HoudiniDefaultLoaderImporterOptionsWidget, self).build()
+        super(HoudiniNativeLoaderImporterOptionsWidget, self).build()
 
         for name, option in self.OPTIONS.items():
             default = None
@@ -76,7 +76,7 @@ class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
                 self.set_option_result(item['value'], name)
 
     def post_build(self):
-        super(HoudiniDefaultLoaderImporterOptionsWidget, self).post_build()
+        super(HoudiniNativeLoaderImporterOptionsWidget, self).post_build()
 
         for name, widget in self.widgets.items():
             option = self.OPTIONS[name]
@@ -91,7 +91,7 @@ class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
                 widget.textChanged.connect(update_fn)
 
     def set_defaults(self):
-        super(HoudiniDefaultLoaderImporterOptionsWidget, self).set_defaults()
+        super(HoudiniNativeLoaderImporterOptionsWidget, self).set_defaults()
 
         for name, widget in self.widgets.items():
             option = self.OPTIONS[name]
@@ -127,20 +127,20 @@ class HoudiniDefaultLoaderImporterOptionsWidget(LoadBaseWidget):
     def _on_load_mode_changed(self, radio_button):
         '''set the result options of value for the key.'''
         super(
-            HoudiniDefaultLoaderImporterOptionsWidget, self
+            HoudiniNativeLoaderImporterOptionsWidget, self
         )._on_load_mode_changed(radio_button)
 
 
-class HoudiniDefaultLoaderImporterPluginWidget(
+class HoudiniNativeLoaderImporterPluginWidget(
     plugin.HoudiniLoaderImporterPluginWidget
 ):
-    plugin_name = 'houdini_default_loader_importer'
-    widget = HoudiniDefaultLoaderImporterOptionsWidget
+    plugin_name = 'houdini_native_loader_importer'
+    widget = HoudiniNativeLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = HoudiniDefaultLoaderImporterPluginWidget(api_object)
+    plugin = HoudiniNativeLoaderImporterPluginWidget(api_object)
     plugin.register()

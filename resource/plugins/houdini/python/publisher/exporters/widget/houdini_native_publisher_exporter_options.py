@@ -68,7 +68,7 @@ class HoudiniDefaultPublisherExporterOptionsWidget(DynamicWidget):
 class HoudiniDefaultPublisherExporterOptionsPluginWidget(
     plugin.HoudiniPublisherExporterPluginWidget
 ):
-    plugin_name = 'houdini_default_publisher_exporter'
+    plugin_name = 'houdini_native_publisher_exporter'
     widget = HoudiniDefaultPublisherExporterOptionsWidget
 
 
