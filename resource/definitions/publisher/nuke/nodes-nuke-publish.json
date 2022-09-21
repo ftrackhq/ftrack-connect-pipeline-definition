@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
             }
           ]
         }
@@ -55,7 +55,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }
@@ -87,7 +87,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }
@@ -101,8 +101,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect write node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Node graph",
+              "plugin": "common_passthrough_publisher_collector"
             }
           ]
         },
@@ -110,8 +110,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
-              "plugin": "nuke_writable_node_publisher_validator"
+              "name": "Unused validator",
+              "plugin": "common_passthrough_publisher_validator"
             }
           ]
         },
@@ -120,7 +120,10 @@
           "plugins":[
             {
               "name": "write thumbnail",
-              "plugin": "nuke_thumbnail_publisher_exporter"
+              "plugin": "nuke_thumbnail_publisher_exporter",
+              "options": {
+                "target" : "node_graph"
+              }
             }
           ]
         }
@@ -134,8 +137,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect sequence node.",
-              "plugin": "nuke_default_publisher_collector"
+              "name": "Node graph",
+              "plugin": "common_passthrough_publisher_collector"
             }
           ]
         },
@@ -143,12 +146,8 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
-              "plugin": "common_non_empty_publisher_validator"
-            },
-            {
-              "name": "Can connect to write node",
-              "plugin": "nuke_writable_node_publisher_validator"
+              "name": "Unused validator",
+              "plugin": "common_passthrough_publisher_validator"
             }
           ]
         },
@@ -156,10 +155,10 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "write reviewable",
-              "plugin": "nuke_reviewable_publisher_exporter",
+              "name": "Grab screen shot from node graph",
+              "plugin": "nuke_thumbnail_publisher_exporter",
               "options": {
-                  "mode": "render"
+                "target" : "node_graph"
               }
             }
           ]
@@ -176,8 +175,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer"
+              "name": "Pre publish to ftrack server",
+              "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
         },
@@ -186,7 +185,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
+              "name": "Publish to ftrack server",
               "plugin": "nuke_default_publisher_finalizer"
             }
           ]
@@ -196,8 +195,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer"
+              "name": "Post process publish",
+              "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
         }

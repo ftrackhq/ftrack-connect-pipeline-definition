@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
             }
           ]
         }
@@ -55,7 +55,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }
@@ -70,7 +70,8 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_geometry_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -78,8 +79,15 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
+            },
+            {
+              "name": "Validate if geometry can be exported from the selected node",
+              "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
         },
@@ -109,7 +117,8 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_geometry_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -117,8 +126,15 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
+            },
+            {
+              "name": "Validate if geometry can be exported from the selected node",
+              "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
         },
@@ -145,7 +161,8 @@
           "plugins":[
             {
               "name": "Collect geo node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_geometry_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -153,8 +170,15 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "no validator",
-              "plugin": "common_test_publisher_validator"
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
+            },
+            {
+              "name": "Validate if geometry can be exported from the selected node",
+              "plugin": "nuke_geometry_node_publisher_validator"
             }
           ]
         },
@@ -182,8 +206,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer"
+              "name": "Pre publish to ftrack server",
+              "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
         },
@@ -192,7 +216,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
+              "name": "Publish to ftrack server",
               "plugin": "nuke_default_publisher_finalizer"
             }
           ]
@@ -202,8 +226,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer"
+              "name": "Post process publish",
+              "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
         }

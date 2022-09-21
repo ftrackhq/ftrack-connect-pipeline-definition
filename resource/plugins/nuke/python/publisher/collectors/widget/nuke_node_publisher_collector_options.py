@@ -77,7 +77,7 @@ class NukeNodePublisherCollectorOptionsWidget(BaseOptionsWidget):
 
         self.nodes_cb.currentTextChanged.connect(self._on_node_selected)
         if self.node_names:
-            self._on_node_selected(self.currentText())
+            self._on_node_selected(self.nodes_cb.currentText())
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
