@@ -126,10 +126,10 @@ class NukeThumbnailPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
         return [file_name]
 
     def run(self, context_data=None, data=None, options=None):
-
-        if context_data['asset_type_name'] == 'scene':
+        target = options.get('target') or 'render_from_node'
+        if target == 'node_graph':
             return self.grab_node_graph_thumbnail(context_data, data, options)
-        else:
+        elif target == 'render_from_node':
             return self.render_thumbnail(context_data, data, options)
 
 

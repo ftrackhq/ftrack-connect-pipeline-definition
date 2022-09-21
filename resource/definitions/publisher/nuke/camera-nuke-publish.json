@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
             }
           ]
         }
@@ -55,7 +55,7 @@
           "plugins":[
             {
               "name": "write nuke scene",
-              "plugin": "nuke_default_publisher_exporter"
+              "plugin": "nuke_native_publisher_exporter"
             }
           ]
         }
@@ -70,7 +70,8 @@
           "plugins":[
             {
               "name": "Collect camera node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_camera_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -79,9 +80,16 @@
           "plugins":[
             {
               "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
+            },
+            {
+              "name": "validate type",
               "plugin": "nuke_node_type_publisher_validator",
               "options" : {
-                "node_type": "Camera"
+                "node_type": "Camera3"
               }
             }
           ]
@@ -109,7 +117,8 @@
           "plugins":[
             {
               "name": "Collect camera node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_camera_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -117,10 +126,17 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
+            },
+            {
+              "name": "Validate type",
               "plugin": "nuke_node_type_publisher_validator",
               "options" : {
-                "node_type": "Camera"
+                "node_type": "Camera3"
               }
             }
           ]
@@ -148,7 +164,8 @@
           "plugins":[
             {
               "name": "Collect camera node",
-              "plugin": "nuke_node_publisher_collector"
+              "plugin": "nuke_camera_publisher_collector",
+              "widget": "nuke_node_publisher_collector"
             }
           ]
         },
@@ -156,10 +173,17 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate selection",
+              "name": "Validate selection",
+              "plugin": "common_non_empty_publisher_validator",
+              "options": {
+                "amount": 1
+              }
+            },
+            {
+              "name": "Validate type",
               "plugin": "nuke_node_type_publisher_validator",
               "options" : {
-                "node_type": "Camera"
+                "node_type": "Camera3"
               }
             }
           ]
@@ -188,8 +212,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer"
+              "name": "Pre publish to ftrack server",
+              "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
         },
@@ -198,8 +222,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "nuke_default_publisher_finalizer"
+              "name": "Publish to ftrack server",
+              "plugin": "common_passthrough_publisher_finalizer"
             }
           ]
         },
@@ -208,8 +232,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer"
+              "name": "Post process publish",
+              "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
         }

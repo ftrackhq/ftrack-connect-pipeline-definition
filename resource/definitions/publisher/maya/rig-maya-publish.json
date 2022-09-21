@@ -14,8 +14,8 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_publisher_context",
-              "widget": "common_default_publisher_context"
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
             }
           ]
         }
@@ -52,8 +52,8 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_default_publisher_exporter",
-              "widget": "maya_default_publisher_exporter"
+              "plugin": "maya_native_publisher_exporter",
+              "widget": "maya_native_publisher_exporter"
             }
           ]
         }
@@ -68,7 +68,7 @@
           "plugins":[
             {
               "name": "generic_collector",
-              "plugin": "maya_default_publisher_collector"
+              "plugin": "maya_generic_publisher_collector"
             }
           ]
         },
@@ -86,8 +86,8 @@
           "plugins":[
             {
               "name": "maya",
-              "plugin": "maya_default_publisher_exporter",
-              "widget": "maya_default_publisher_exporter",
+              "plugin": "maya_native_publisher_exporter",
+              "widget": "maya_native_publisher_exporter",
               "options":{
                 "constructionHistory": true,
                 "channels": true,
@@ -111,7 +111,7 @@
           "plugins":[
             {
               "name": "generic_collector",
-              "plugin": "maya_default_publisher_collector"
+              "plugin": "maya_generic_publisher_collector"
             }
           ]
         },
@@ -150,7 +150,7 @@
           "plugins":[
             {
               "name": "generic_collector",
-              "plugin": "maya_default_publisher_collector"
+              "plugin": "maya_generic_publisher_collector"
             }
           ]
         },
@@ -253,31 +253,31 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_publisher_pre_finalizer",
-              "visible": false
+              "name": "Pre publish to ftrack server",
+              "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "to ftrack server",
-              "plugin": "maya_default_publisher_finalizer",
-              "visible": false
+              "name": "Publish to ftrack server",
+              "plugin": "common_passthrough_publisher_finalizer"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_publisher_post_finalizer",
-              "visible": false
+              "name": "Post process publish",
+              "plugin": "common_passthrough_publisher_post_finalizer"
             }
           ]
         }

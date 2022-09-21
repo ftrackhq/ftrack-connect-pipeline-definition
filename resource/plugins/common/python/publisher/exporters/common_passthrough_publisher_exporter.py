@@ -5,7 +5,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class CommonPassThroughPublisherExporterPlugin(plugin.PublisherExporterPlugin):
+class CommonPassthroughPublisherExporterPlugin(plugin.PublisherExporterPlugin):
     plugin_name = 'common_passthrough_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
@@ -21,5 +21,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = CommonPassThroughPublisherExporterPlugin(api_object)
+    plugin = CommonPassthroughPublisherExporterPlugin(api_object)
     plugin.register()

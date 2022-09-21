@@ -14,21 +14,21 @@ class NukeNodePublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selecated nodes in nuke'''
         selected_nodes = nuke.selectedNodes()
-        node_names = [node.name() for node in selected_nodes]
+        if len(selected_nodes) == 0:
+            selected_nodes = nuke.allNodes()
+        node_names = []
+        for node in selected_nodes:
+            if (
+                len(options.get('classname') or "") > 0
+                and node.Class().find(options['classname']) == -1
+            ):
+                continue
+            node_names.append(node.name())
         return node_names
 
     def run(self, context_data=None, data=None, options=None):
         '''Return the node name passed on the plugin *options*'''
         node_name = options.get('node_name')
-        if len(node_name or '') == 0:
-            msg = 'No node selected!'
-            self.logger.error(msg)
-            return (False, {'message': msg})
-        node = nuke.toNode(node_name)
-        if not node:
-            msg = 'Node "{}" does not exist!'.format(node_name)
-            self.logger.error(msg)
-            return (False, {'message': msg})
         return [node_name]
 
 

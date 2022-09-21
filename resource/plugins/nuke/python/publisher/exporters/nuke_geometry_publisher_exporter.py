@@ -32,7 +32,7 @@ class NukeGeometryPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
         ).name
 
         try:
-            write_geo_node = nuke.nodes.WriteGeo()
+            write_geo_node = nuke.createNode('WriteGeo')
             write_geo_node['file_type'].setValue(file_type)
             write_geo_node.setInput(0, node)
 
