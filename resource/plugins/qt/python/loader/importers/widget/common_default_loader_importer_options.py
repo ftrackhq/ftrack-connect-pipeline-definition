@@ -9,7 +9,7 @@ import ftrack_api
 class CommonDefaultLoaderImporterPluginWidget(
     plugin.LoaderImporterPluginWidget
 ):
-    plugin_name = 'common_passthrough_loader_importer'
+    plugin_name = 'common_default_loader_importer'
     widget = load_widget.LoadBaseWidget
 
 
