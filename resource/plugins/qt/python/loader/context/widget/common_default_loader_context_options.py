@@ -9,7 +9,7 @@ import ftrack_api
 class CommonPassthroughLoaderContextPluginWidget(
     plugin.LoaderContextPluginWidget
 ):
-    plugin_name = 'common_passthrough_loader_context'
+    plugin_name = 'common_default_loader_context'
     widget = context_widget.LoadContextWidget
 
 

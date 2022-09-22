@@ -15,7 +15,7 @@
             {
               "name": "context selector",
               "plugin": "common_passthrough_publisher_context",
-              "widget": "common_passthrough_publisher_context"
+              "widget": "common_default_publisher_context"
             }
           ]
         }
