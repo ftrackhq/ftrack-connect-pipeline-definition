@@ -40,7 +40,6 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        super(MayaFbxPublisherExporterOptionsWidget, self).build()
 
         bool_options = [
             'FBXExportScaleFactor',
@@ -68,7 +67,8 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
         self.layout().addWidget(self.option_group)
         for option in bool_options:
             option_check = QtWidgets.QCheckBox(option)
-
+            if option in self.options:
+                option_check.setChecked(bool(self.options[option]))
             self.options_cb[option] = option_check
             self.option_layout.addWidget(option_check)
 

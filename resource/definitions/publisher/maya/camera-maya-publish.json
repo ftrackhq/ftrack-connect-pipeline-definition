@@ -160,7 +160,10 @@
             {
               "name": "maya_fbx_publisher_exporter",
               "plugin": "maya_fbx_publisher_exporter",
-              "widget": "maya_fbx_publisher_exporter"
+              "widget": "maya_fbx_publisher_exporter",
+              "options" : {
+                "FBXExportCameras": true
+              }
             }
           ]
         }
