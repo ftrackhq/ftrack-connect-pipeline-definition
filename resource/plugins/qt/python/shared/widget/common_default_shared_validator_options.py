@@ -7,7 +7,7 @@ import ftrack_api
 
 
 class CommonDefaultSharedValidatorOptionsWidget(dynamic_widget.DynamicWidget):
-    '''Shared/fallback dynamic validator options user input plugin widget '''
+    '''Shared/fallback dynamic validator options user input plugin widget'''
 
     enable_run_plugin = False
 

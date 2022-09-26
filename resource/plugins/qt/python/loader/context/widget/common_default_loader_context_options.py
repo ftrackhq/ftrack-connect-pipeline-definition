@@ -6,9 +6,7 @@ from ftrack_connect_pipeline_qt.plugin.widgets import context as context_widget
 import ftrack_api
 
 
-class CommonDefaultLoaderContextPluginWidget(
-    plugin.LoaderContextPluginWidget
-):
+class CommonDefaultLoaderContextPluginWidget(plugin.LoaderContextPluginWidget):
     '''Default loader context widget enabling user selection'''
 
     plugin_name = 'common_default_loader_context'
