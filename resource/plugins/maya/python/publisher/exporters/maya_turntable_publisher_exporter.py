@@ -4,6 +4,7 @@
 import tempfile
 import glob
 import platform
+import sys
 
 import maya.cmds as cmds
 
@@ -12,20 +13,18 @@ import ftrack_api
 
 
 class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
-    ''' Maya turntable reviewable publisher plugin'''
+    '''Maya turntable reviewable publisher plugin'''
 
     plugin_name = 'maya_turntable_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
         '''Render a turntable out of the camera and selected objects provided in *data*'''
-        camera_name = data[0]['result'][0] 
+        camera_name = data[0]['result'][0]
         collected_objects = data[1]['result']
-        selected_object = collected_objects[0].split('|')[1]
-
 
         self.logger.debug(f'turntable - camera {camera_name}')
         self.logger.debug(f'turntable - collected_objects {collected_objects}')
-        self.logger.debug(f'turntable - objects {selected_object}')
+        self.logger.debug(f'turntable - objects {collected_objects}')
 
         res_w = int(cmds.getAttr('defaultResolution.width'))
         res_h = int(cmds.getAttr('defaultResolution.height'))
@@ -34,39 +33,88 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         eframe = cmds.playbackOptions(q=True, max=True)
 
         # Ensure 50 frames are always set as minimum.
-        if eframe-sframe < 50:
-            eframe = sframe + 50 
+        if eframe - sframe < 50:
+            eframe = sframe + 50
 
-        locator_to_delete = self.setup_turntable(selected_object, sframe, eframe)
-        reviwable_path = self.run_reviewable(camera_name, sframe, eframe, res_w, res_h)
+        undo = False
+        try:
+            cmds.undoInfo(openChunk=True)
+            self.setup_turntable(collected_objects, sframe, eframe)
+            undo = True
+            result = self.run_reviewable(
+                camera_name, sframe, eframe, res_w, res_h
+            )
+        finally:
+            cmds.undoInfo(closeChunk=True)
+            if undo:
+                cmds.undo()
+        return result
 
-        self.logger.info(
-            f'Running turntable with frame range: {sframe}-{eframe}, from camera: {camera_name}'
-        )
-        cmds.delete(locator_to_delete)
-        return reviwable_path
+    def setup_turntable(self, collected_objects, sframe, eframe):
+        # Find bounding box for all objects
+        bb_collected_objects = [
+            sys.maxsize,
+            sys.maxsize,
+            sys.maxsize,
+            -sys.maxsize,
+            -sys.maxsize,
+            -sys.maxsize,
+        ]
+        for object in collected_objects:
+            selected_object = object
+            if 'transform' != cmds.nodeType(selected_object):
+                parent = cmds.listRelatives(selected_object, parent=True)
+                selected_object = parent[0]
 
+            bb_vertices = cmds.exactWorldBoundingBox(selected_object)
+            # Return :value
+            # float[]
+            # xmin, ymin, zmin, xmax, ymax, zmax
 
-    def setup_turntable(self, object, sframe, eframe):
-        bb_vertices = cmds.exactWorldBoundingBox(object)
-        x_loc = (bb_vertices[0]+bb_vertices[3])/2
-        y_loc = bb_vertices[1]
-        z_loc = (bb_vertices[2]+bb_vertices[5])/2
+            for idx in range(0, 3):
+                if bb_vertices[idx] < bb_collected_objects[idx]:
+                    bb_collected_objects[idx] = bb_vertices[idx]
+            for idx in range(3, 6):
+                if bb_vertices[idx] > bb_collected_objects[idx]:
+                    bb_collected_objects[idx] = bb_vertices[idx]
 
+        x_loc = (bb_collected_objects[0] + bb_collected_objects[3]) / 2
+        y_loc = bb_collected_objects[1]
+        z_loc = (bb_collected_objects[2] + bb_collected_objects[5]) / 2
         object_locator = cmds.spaceLocator(
-            absolute=True, 
+            absolute=True,
             position=[x_loc, y_loc, z_loc],
-            name="object_locator"
+            name="object_locator",
         )
-
-        cmds.setAttr(f'{object_locator[0]}.visibility', False)
-        cmds.xform(object_locator, centerPivots = True)
-        cmds.setKeyframe(object_locator, attribute="rotateY", value=0, time=sframe)
-        cmds.setKeyframe(object_locator, attribute="rotateY", value=360, time=int(eframe)+1)
-        cmds.keyTangent(object_locator, attribute="rotateY", index=(0, 1),
-                        inTangentType="linear", outTangentType="linear")
-        cmds.orientConstraint(object_locator, object)
-        return object_locator
+        cmds.xform(object_locator, centerPivots=True)
+        cmds.setKeyframe(
+            object_locator, attribute="rotateY", value=0, time=sframe
+        )
+        cmds.setKeyframe(
+            object_locator,
+            attribute="rotateY",
+            value=360,
+            time=int(eframe) + 1,
+        )
+        cmds.keyTangent(
+            object_locator,
+            attribute="rotateY",
+            index=(0, 1),
+            inTangentType="linear",
+            outTangentType="linear",
+        )
+        group = cmds.group(empty=True)
+        cmds.setAttr(group + ".translateX", x_loc)
+        cmds.setAttr(group + ".translateY", y_loc)
+        cmds.setAttr(group + ".translateZ", z_loc)
+        cmds.xform(group, centerPivots=True)
+        for object in collected_objects:
+            selected_object = object
+            if 'transform' != cmds.nodeType(selected_object):
+                parent = cmds.listRelatives(selected_object, parent=True)
+                selected_object = parent[0]
+            cmds.parent(selected_object, group)
+        cmds.orientConstraint(object_locator, group)
 
     def run_reviewable(self, camera_name, sframe, eframe, res_w, res_h):
         current_panel = cmds.getPanel(wf=True)
@@ -88,10 +136,7 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         cmds.lookThru(camera_name)
 
-        res_w = int(cmds.getAttr('defaultResolution.width'))
-        res_h = int(cmds.getAttr('defaultResolution.height'))
-
-        prev_selection = cmds.ls(sl=True)
+        # prev_selection = cmds.ls(sl=True)
         cmds.select(cl=True)
 
         filename = tempfile.NamedTemporaryFile().name
@@ -113,15 +158,13 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         )
 
         if 'linux' in platform.platform().lower():
-            playblast_data['format']='qt'
+            playblast_data['format'] = 'qt'
             playblast_data['compression'] = 'raw'
 
-        cmds.playblast(
-            **playblast_data
-        )
+        cmds.playblast(**playblast_data)
 
-        if len(prev_selection):
-            cmds.select(prev_selection)
+        # if len(prev_selection):
+        #    cmds.select(prev_selection)
 
         cmds.lookThru(previous_camera)
 
