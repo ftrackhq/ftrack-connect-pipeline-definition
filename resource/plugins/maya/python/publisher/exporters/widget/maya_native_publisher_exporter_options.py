@@ -48,9 +48,17 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
             'shader': False,
             'constraints': False,
             'expressions': False,
+            'type': [
+                {
+                    'label': 'mayaBinary (.mb)',
+                    'value': 'mayaBinary',
+                    'default': True,
+                },
+                {'label': 'mayaAscii (.ma)', 'value': 'mayaAscii'},
+            ],
         }
-        # Update current options with the given ones from definitions
-        options.update(self.options)
+        # Update current options with the given ones from definitions and store
+        self.update(options)
 
         self.option_group = group_box.GroupBox('Maya exporter Options')
         self.option_group.setToolTip(self.description)
@@ -58,18 +66,10 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
         self.option_layout = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(self.option_layout)
 
-        self.file_type_combo = QtWidgets.QComboBox()
-        self.file_type_combo.addItem('mayaBinary (.mb)')
-        self.file_type_combo.addItem('mayaAscii (.ma)')
-        self.option_layout.addWidget(self.file_type_combo)
-
-        # set current options as self.options
-        self._options = options
+        self.layout().addWidget(self.option_group)
 
         # Call the super build to automatically generate the options
         super(MayaDefaultPublisherExporterOptionsWidget, self).build()
-
-        self.layout().addWidget(self.option_group)
 
     def _register_widget(self, name, widget):
         '''Register *widget* with *name* and add it to main layout.'''
@@ -82,17 +82,6 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
         widget_layout.addWidget(label)
         widget_layout.addWidget(widget)
         self.option_layout.addLayout(widget_layout)
-
-    def post_build(self):
-        super(MayaDefaultPublisherExporterOptionsWidget, self).post_build()
-
-        self.file_type_combo.currentIndexChanged.connect(
-            self._on_file_type_set
-        )
-
-    def _on_file_type_set(self, index):
-        value = self.file_type_combo.currentText()
-        self.set_option_result(value.split(' ')[0], 'type')
 
 
 class MayaDefaultPublisherExporterOptionsPluginWidget(
