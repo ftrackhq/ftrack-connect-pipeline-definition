@@ -19,8 +19,8 @@ class NukeNodeTypePublisherValidatorPlugin(
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        if len(collected_objects) == 0:
-            msg = 'No nodes selected!'
+        if len(collected_objects) != 1:
+            msg = 'No single node selected!'
             self.logger.error(msg)
             return (False, {'message': msg})
 

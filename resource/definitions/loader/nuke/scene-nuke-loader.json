@@ -13,7 +13,7 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_loader_context",
+              "plugin": "common_passthrough_loader_context",
               "widget": "common_default_loader_context"
             }
           ]
@@ -41,7 +41,7 @@
           "plugins":[
             {
               "name": "load scene",
-              "plugin": "nuke_default_loader_importer"
+              "plugin": "nuke_native_loader_importer"
             }
           ]
         },
@@ -50,7 +50,7 @@
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "common_default_loader_post_importer"
+              "plugin": "common_passthrough_loader_post_importer"
             }
           ]
         }
@@ -66,18 +66,18 @@
           "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_loader_pre_finalizer"
+              "name": "Pre finalizer",
+              "plugin": "common_passthrough_loader_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "Do nothing",
-              "plugin": "common_default_loader_finalizer",
-              "visible": false
+              "name": "Finalizer",
+              "plugin": "common_passthrough_loader_finalizer"
             }
           ]
         },
@@ -86,8 +86,8 @@
           "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_loader_post_finalizer"
+              "name": "Post finalizer",
+              "plugin": "common_passthrough_loader_post_finalizer"
             }
           ]
         }

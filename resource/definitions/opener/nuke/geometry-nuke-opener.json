@@ -13,7 +13,7 @@
           "plugins":[
             {
               "name": "context selector",
-              "plugin": "common_default_opener_context",
+              "plugin": "common_passthrough_opener_context",
               "widget": "common_default_opener_context"
             }
           ]
@@ -41,7 +41,7 @@
           "plugins":[
             {
               "name": "Open Nuke Scene",
-              "plugin": "nuke_default_opener_importer"
+              "plugin": "nuke_native_opener_importer"
             }
           ]
         },
@@ -50,7 +50,7 @@
           "plugins":[
             {
               "name": "nuke",
-              "plugin": "common_default_opener_post_importer"
+              "plugin": "common_passthrough_opener_post_importer"
             }
           ]
         }
@@ -63,11 +63,11 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "pre to ftrack server",
-              "plugin": "common_default_opener_pre_finalizer",
-              "visible": false
+              "name": "Pre finalizer",
+              "plugin": "common_passthrough_opener_pre_finalizer"
             }
           ]
         },
@@ -75,18 +75,18 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Save scene to working directory",
-              "plugin": "nuke_default_opener_finalizer"
+              "name": "Upon open, rename Nuke script to local temp directory",
+              "plugin": "nuke_native_opener_finalizer"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
-              "name": "post to ftrack server",
-              "plugin": "common_default_opener_post_finalizer",
-              "visible": false
+              "name": "Post finalizer",
+              "plugin": "common_passthrough_opener_post_finalizer"
             }
           ]
         }

@@ -21,7 +21,7 @@ class NukeCameraLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
             import_result = nuke.createNode(
-                'Camera2', 'file {}'.format(component_path)
+                'Camera3', 'file {}'.format(component_path)
             )
             results[component_path] = import_result.name()
 
