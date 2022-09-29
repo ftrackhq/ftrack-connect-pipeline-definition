@@ -8,9 +8,13 @@ from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
 
 
 class MayaNativeOpenerFinalizerPlugin(plugin.MayaOpenerFinalizerPlugin):
+    '''Plugin for finalizing the Maya open process'''
+
     plugin_name = 'maya_native_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Save opened Maya scene to temp'''
+
         result = {}
 
         self.logger.debug('Rename Maya scene on open')

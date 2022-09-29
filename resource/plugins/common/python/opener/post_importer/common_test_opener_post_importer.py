@@ -6,6 +6,8 @@ import ftrack_api
 
 
 class CommonDefaultOpenerPostImporterPlugin(plugin.OpenerPostImporterPlugin):
+    '''Empty/passthrough opener post importer test/template plugin'''
+
     plugin_name = 'common_test_opener_post_importer'
 
     def run(self, context_data=None, data=None, options=None):

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import maya.cmds as cmds
 from ftrack_connect_pipeline_maya.utils import custom_commands as maya_utils
@@ -9,9 +9,12 @@ import ftrack_api
 
 
 class MayaScenePublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
+    '''Maya scene publisher collector plugin'''
+
     plugin_name = 'maya_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Collect Maya scene name, save to temp if unsaved'''
         export_option = options.get("export")
         if export_option and isinstance(export_option, list):
             export_option = export_option[0]

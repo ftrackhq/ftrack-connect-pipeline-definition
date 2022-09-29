@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_qt import plugin
 from ftrack_connect_pipeline_qt.plugin.widgets import context as context_widget
@@ -9,6 +9,8 @@ import ftrack_api
 class CommonDefaultPublisherContextPluginWidget(
     plugin.PublisherContextPluginWidget
 ):
+    '''Default publisher context widget enabling user selection'''
+
     plugin_name = 'common_default_publisher_context'
     widget = context_widget.PublishContextWidget
 

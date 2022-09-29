@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 
@@ -11,6 +11,8 @@ import ftrack_api
 
 
 class MayaNativeLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
+    '''Plugin for loading native Maya binary or ASCII files'''
+
     plugin_name = 'maya_native_loader_importer'
 
     load_modes = load_const.LOAD_MODES
@@ -26,6 +28,7 @@ class MayaNativeLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
         return maya_options
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load an asset in Maya based on *options* and pointed out by collected path in *data*'''
         cmds.loadPlugin('fbxmaya.so', qt=1)
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -9,10 +9,12 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeNodePublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+    '''Nuke nuke collector plugin'''
+
     plugin_name = 'nuke_node_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all selecated nodes in nuke'''
+        '''Fetch all selected nodes in nuke, match against class name if supplied in *options*'''
         selected_nodes = nuke.selectedNodes()
         if len(selected_nodes) == 0:
             selected_nodes = nuke.allNodes()

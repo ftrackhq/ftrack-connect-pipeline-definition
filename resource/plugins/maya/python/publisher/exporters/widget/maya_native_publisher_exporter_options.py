@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from functools import partial
 
@@ -13,6 +13,8 @@ import ftrack_api
 
 
 class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
+    '''Maya native binary or ASCII publisher options user input plugin widget'''
+
     def __init__(
         self,
         parent=None,

@@ -1,14 +1,17 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
 class CommontTestLoaderPreFinalizerPlugin(plugin.LoaderPreFinalizerPlugin):
+    '''Loader pre finalizer test/template plugin'''
+
     plugin_name = 'common_test_loader_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Extract user data and prints them'''
         user_data = None
         for step in data:
             if step['type'] != 'component':

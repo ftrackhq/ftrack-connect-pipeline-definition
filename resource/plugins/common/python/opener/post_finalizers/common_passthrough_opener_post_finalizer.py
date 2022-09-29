@@ -1,5 +1,5 @@
-# :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+## :coding: utf-8
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
@@ -8,6 +8,8 @@ import ftrack_api
 class CommonPassthroughOpenerPostFinalizerPlugin(
     plugin.OpenerPostFinalizerPlugin
 ):
+    '''Empty/passthrough opener post finalizer plugin'''
+
     plugin_name = 'common_passthrough_opener_post_finalizer'
 
     def run(self, context_data=None, data=None, options=None):

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
@@ -7,6 +7,7 @@ import ftrack_api
 
 class CommonTestOpenerCollectorPlugin(plugin.LoaderCollectorPlugin):
     plugin_name = 'common_test_opener_collector'
+    '''Opener collector test/template plugin'''
 
     def run(self, context_data=None, data=None, options=None):
         return []

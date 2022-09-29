@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 import os
 import traceback
 import clique
@@ -13,9 +13,13 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeSequenceLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
+    '''Nuke image sequence loader plugin'''
+
     plugin_name = 'nuke_sequence_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load collected image sequence(s) supplied with *data* into Nuke'''
+
         results = {}
 
         paths_to_import = []
