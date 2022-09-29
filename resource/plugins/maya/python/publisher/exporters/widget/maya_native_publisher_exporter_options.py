@@ -40,10 +40,9 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
             asset_type_name=asset_type_name,
         )
 
-    def build(self):
-        '''build function , mostly used to create the widgets.'''
-
-        options = {
+    def define_options(self):
+        '''Default renderable options for dynamic widget'''
+        return {
             'constructionHistory': False,
             'channels': False,
             'preserveReferences': False,
@@ -56,11 +55,18 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
                     'value': 'mayaBinary',
                     'default': True,
                 },
-                {'label': 'mayaAscii (.ma)', 'value': 'mayaAscii'},
+                {
+                    'label': 'mayaAscii (.ma)',
+                    'value': 'mayaAscii',
+                },
             ],
         }
+
+    def build(self):
+        '''build function , mostly used to create the widgets.'''
+
         # Update current options with the given ones from definitions and store
-        self.update(options)
+        self.update(self.define_options())
 
         self.option_group = group_box.GroupBox('Maya exporter Options')
         self.option_group.setToolTip(self.description)
@@ -70,7 +76,7 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
 
         self.layout().addWidget(self.option_group)
 
-        # Call the super build to automatically generate the options
+        # Call the super build to automatically generate the option widgets
         super(MayaDefaultPublisherExporterOptionsWidget, self).build()
 
     def _register_widget(self, name, widget):
