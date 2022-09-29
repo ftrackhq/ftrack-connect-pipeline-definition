@@ -4,7 +4,7 @@
 from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
@@ -12,14 +12,22 @@ from Qt import QtWidgets
 import ftrack_api
 
 
-class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
+class MayaAbcPublisherExporterOptionsWidget(DynamicWidget):
     '''Maya Alembic publisher options user input plugin widget'''
 
     auto_fetch_on_init = True
 
+    def define_options(self):
+        '''Default options for dynamic widget'''
+        return {
+            'alembicUvwrite': True,
+            'alembicWorldspace': False,
+            'alembicWritevisibility': False,
+        }
+
     @property
-    def frames_option(self):
-        '''Return current frames_option'''
+    def frames_options(self):
+        '''Return options for custom widget'''
         _frames_option = {
             'frameStart': str(self.options.get('frameStart')),
             'frameEnd': str(self.options.get('frameEnd')),
@@ -29,14 +37,9 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
 
     @property
     def bool_options(self):
-        '''Return current bool_options'''
+        '''Return boolean options for custom widget'''
         _bool_options = {
             'alembicAnimation': self.options.get('alembicAnimation', False),
-            'alembicUvwrite': self.options.get('alembicUvwrite', True),
-            'alembicWorldspace': self.options.get('alembicWorldspace', False),
-            'alembicWritevisibility': self.options.get(
-                'alembicWritevisibility', False
-            ),
         }
         return _bool_options
 
@@ -78,13 +81,18 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
 
     def build(self):
         '''Build function , mostly used to create the widgets.'''
-        super(MayaAbcPublisherExporterOptionsWidget, self).build()
+
+        # Define dynamic widgets
+        self.update(self.define_options())
 
         self.option_group = group_box.GroupBox('Alembic exporter Options')
         self.option_group.setToolTip(self.description)
 
         self.option_layout = QtWidgets.QVBoxLayout()
         self.option_group.setLayout(self.option_layout)
+
+        # Create dynamic widgets
+        super(MayaAbcPublisherExporterOptionsWidget, self).build()
 
         self.animation_layout = QtWidgets.QVBoxLayout()
         self.frames_widget = QtWidgets.QWidget()
@@ -99,13 +107,11 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
 
             self.options_cb[option] = option_check
 
-            if option == 'alembicAnimation':
-                self.animation_layout.addWidget(option_check)
-                self.animation_layout.addWidget(self.frames_widget)
-            else:
-                self.option_layout.addWidget(option_check)
+            self.animation_layout.addWidget(option_check)
+            self.animation_layout.addWidget(self.frames_widget)
+
         for option, default_value in sorted(
-            self.frames_option.items(), reverse=True
+            self.frames_options.items(), reverse=True
         ):
             frames_V_layout = QtWidgets.QVBoxLayout()
             option_label = QtWidgets.QLabel(option)
@@ -116,6 +122,10 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
             self.frames_H_layout.addLayout(frames_V_layout)
             if not self.bool_options['alembicAnimation']:
                 self.frames_widget.hide()
+
+    def get_parent_layout(self, name):
+        '''Add widgets to group box'''
+        return self.option_layout
 
     def post_build(self):
         super(MayaAbcPublisherExporterOptionsWidget, self).post_build()
@@ -132,7 +142,7 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
             widget.textChanged.connect(update_fn)
 
     def _reset_default_animation_options(self):
-        for k, v in self.frames_option.items():
+        for k, v in self.frames_options.items():
             self.options_le[k].setText(str(v))
 
     def _on_alembic_animation_changed(self, value):

@@ -79,17 +79,9 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
         # Call the super build to automatically generate the option widgets
         super(MayaDefaultPublisherExporterOptionsWidget, self).build()
 
-    def _register_widget(self, name, widget):
-        '''Register *widget* with *name* and add it to main layout.'''
-        # Overriding this method in order to attach the widget to the option_layout
-        widget_layout = QtWidgets.QHBoxLayout()
-        widget_layout.setContentsMargins(1, 2, 1, 2)
-        widget_layout.setAlignment(QtCore.Qt.AlignTop)
-        label = QtWidgets.QLabel(name)
-
-        widget_layout.addWidget(label)
-        widget_layout.addWidget(widget)
-        self.option_layout.addLayout(widget_layout)
+    def get_parent_layout(self, name):
+        '''Add widgets to group box'''
+        return self.option_layout
 
 
 class MayaDefaultPublisherExporterOptionsPluginWidget(
