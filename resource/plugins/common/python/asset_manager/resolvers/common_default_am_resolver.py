@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2022 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 import re
 import sys
 
@@ -712,8 +712,9 @@ class CommonDefaultAssetManagerResolverPlugin(
             raise
 
     def run(self, context_data=None, data=None, options=None):
+        '''Retrieve a list of versions linked to the task given with *context* based on *options*'''
+
         # Load and check supplied context
-        # return ({}, {'message': 'SIMULATED FAILURE'})
 
         context_id = data['context_id']
         context = self.session.query(

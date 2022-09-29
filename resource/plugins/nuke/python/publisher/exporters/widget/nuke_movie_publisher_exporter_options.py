@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 from functools import partial
 
 from Qt import QtWidgets
@@ -15,6 +15,8 @@ from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class NukeMoviePublisherExporterOptionsWidget(BaseOptionsWidget):
+    '''Nuke movie publisher options user input plugin widget'''
+
     def __init__(
         self,
         parent=None,

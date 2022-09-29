@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import tempfile
 
@@ -11,6 +11,7 @@ import ftrack_api
 
 
 class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya FBX exporter plugin'''
 
     plugin_name = 'maya_fbx_publisher_exporter'
 
@@ -56,6 +57,8 @@ class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         }
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export Maya FBX geometry based on collected objects in *data* and *options* supplied'''
+
         # ensure to load the fbx plugin
         cmds.loadPlugin('fbxmaya.so', qt=1)
 

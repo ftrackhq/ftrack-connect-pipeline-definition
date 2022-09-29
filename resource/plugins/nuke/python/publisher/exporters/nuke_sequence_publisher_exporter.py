@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -14,9 +14,12 @@ import shutil
 
 
 class NukeSequencePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke image sequence exporter plugin'''
+
     plugin_name = 'nuke_sequence_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export an image sequence from Nuke from collected node with *data* based on *options*'''
 
         collected_objects = []
         for collector in data:

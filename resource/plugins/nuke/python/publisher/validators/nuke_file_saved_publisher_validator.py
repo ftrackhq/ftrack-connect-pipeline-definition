@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -12,9 +12,13 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 class NukeFileSavedPublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
+    '''Nuke file saved publisher validator plugin'''
+
     plugin_name = 'nuke_file_saved_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return true if the current script is saved'''
+
         if nuke.Root().name() != 'Root' and nuke.root().modified() != True:
             return True
         else:

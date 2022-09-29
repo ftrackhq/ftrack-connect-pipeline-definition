@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from functools import partial
 
@@ -13,6 +13,8 @@ import ftrack_api
 
 
 class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
+    '''Maya Alembic publisher options user input plugin widget'''
+
     auto_fetch_on_init = True
 
     @property
@@ -75,7 +77,7 @@ class MayaAbcPublisherExporterOptionsWidget(BaseOptionsWidget):
                     self.options_le[k].setText("0")
 
     def build(self):
-        '''build function , mostly used to create the widgets.'''
+        '''Build function , mostly used to create the widgets.'''
         super(MayaAbcPublisherExporterOptionsWidget, self).build()
 
         self.option_group = group_box.GroupBox('Alembic exporter Options')

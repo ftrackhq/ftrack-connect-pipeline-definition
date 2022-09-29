@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_maya import plugin
 
@@ -10,9 +10,13 @@ import ftrack_api
 class MayaGeometryPublisherValidatorPlugin(
     plugin.MayaPublisherValidatorPlugin
 ):
+    '''Maya geometry publisher validator'''
+
     plugin_name = 'maya_geometry_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Make sure the collected objects supplied in *data* are geometries'''
+
         if not data:
             return False
 
