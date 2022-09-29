@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_qt.plugin.widgets import dynamic as dynamic_widget
 from ftrack_connect_pipeline_qt.plugin import BasePluginWidget
@@ -7,6 +7,8 @@ import ftrack_api
 
 
 class CommonDefaultSharedPluginWidget(BasePluginWidget):
+    '''Default shared/fallback dynamic user input plugin widget'''
+
     plugin_name = 'common_default_shared'
     plugin_type = '*'
     widget = dynamic_widget.DynamicWidget

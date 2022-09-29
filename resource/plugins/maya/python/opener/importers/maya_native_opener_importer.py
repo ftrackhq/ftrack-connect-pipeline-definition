@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 
@@ -11,9 +11,13 @@ import ftrack_api
 
 
 class MayaNativeOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
+    '''Maya scene opener plugin'''
+
     plugin_name = 'maya_native_opener_importer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Open the collected path supplied in *data*'''
+
         load_mode = load_const.OPEN_MODE
         load_mode_fn = self.load_modes.get(
             load_mode, list(self.load_modes.keys())[0]

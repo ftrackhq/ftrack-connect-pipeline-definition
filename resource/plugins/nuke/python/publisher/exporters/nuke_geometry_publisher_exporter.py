@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -13,9 +13,12 @@ import nuke
 
 
 class NukeGeometryPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke geometry exporter plugin'''
+
     plugin_name = 'nuke_geometry_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export collected Nuke geometry or nodes to a file based collected object in *data* and *options*'''
 
         file_type = options['file_type']
 

@@ -8,10 +8,11 @@ import ftrack_api
 class CommonPassthroughPublisherCollectorPlugin(
     plugin.PublisherCollectorPlugin
 ):
+    '''Empty publisher collector plugin'''
+
     plugin_name = 'common_passthrough_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Empty collector'''
         return []
 
 

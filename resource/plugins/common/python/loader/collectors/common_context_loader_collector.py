@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import os
 from ftrack_connect_pipeline import plugin
@@ -8,9 +8,13 @@ import ftrack_api
 
 
 class CommonContextLoaderCollectorPlugin(plugin.LoaderCollectorPlugin):
+    '''Plugin that collects loader compatible component paths'''
+
     plugin_name = 'common_context_loader_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Retrieve a list of component paths based on version id given in *context_data* matching file_type given in *options*'''
+
         version_id = context_data.get('version_id', [])
 
         asset_version_entity = self.session.query(

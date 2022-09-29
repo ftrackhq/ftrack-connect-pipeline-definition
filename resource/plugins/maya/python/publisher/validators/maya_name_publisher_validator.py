@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_maya import plugin
 
@@ -8,9 +8,12 @@ import ftrack_api
 
 
 class MayaNamePublisherValidatorPlugin(plugin.MayaPublisherValidatorPlugin):
+    '''Maya name publisher validator plugin'''
+
     plugin_name = 'maya_name_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return True if all collected objects supplied in *data* starts with "ftrack_" prefix'''
 
         collected_objects = []
         for collector in data:

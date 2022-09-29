@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import shutil
 import tempfile
@@ -8,9 +8,12 @@ import ftrack_api
 
 
 class CommonFilePublisherExporterPlugin(plugin.PublisherExporterPlugin):
+    '''Standalone publisher file exporter plugin'''
+
     plugin_name = 'common_file_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Copies the collected paths supplied by *data* to temp for publish'''
         output = self.output
 
         collected_objects = []

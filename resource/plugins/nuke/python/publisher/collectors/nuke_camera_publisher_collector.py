@@ -9,6 +9,8 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeCameraPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+    '''Nuke camera collector plugin'''
+
     plugin_name = 'nuke_camera_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):

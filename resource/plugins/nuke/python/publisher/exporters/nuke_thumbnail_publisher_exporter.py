@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -11,10 +11,13 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeThumbnailPublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke thumbnail exporter plugin'''
+
     plugin_name = 'nuke_thumbnail_publisher_exporter'
 
     def render_thumbnail(self, context_data=None, data=None, options=None):
-        '''Render a thumbnail from the first collected node.'''
+        '''Export a thumbnail from Nuke from collected node with *data* based on *options*'''
+
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

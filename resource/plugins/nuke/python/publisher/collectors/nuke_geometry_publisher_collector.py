@@ -11,6 +11,8 @@ from ftrack_connect_pipeline_nuke import plugin
 class NukeGeometryPublisherCollectorPlugin(
     plugin.NukePublisherCollectorPlugin
 ):
+    '''Nuke geometry collector plugin'''
+
     plugin_name = 'nuke_geometry_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):

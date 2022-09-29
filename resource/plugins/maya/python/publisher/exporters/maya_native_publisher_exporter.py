@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import tempfile
 import os
@@ -12,6 +12,8 @@ import ftrack_api
 
 
 class MayaNativePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya native binary or ASCII exporter plugin'''
+
     plugin_name = 'maya_native_publisher_exporter'
 
     extension = None
@@ -37,6 +39,7 @@ class MayaNativePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         return main_options
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export Maya geometry based on collected objects in *data* and *options* supplied'''
 
         self.file_type = options.get('type') or 'mayaBinary'
         self.extension = '.mb' if self.file_type == 'mayaBinary' else '.ma'

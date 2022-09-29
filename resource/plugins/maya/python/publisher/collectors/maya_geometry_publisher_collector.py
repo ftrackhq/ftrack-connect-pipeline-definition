@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import maya.cmds as cmds
 
@@ -10,6 +10,8 @@ import ftrack_api
 class MayaGeometryPublisherCollectorPlugin(
     plugin.MayaPublisherCollectorPlugin
 ):
+    '''Maya geometry publisher collector plugin'''
+
     plugin_name = 'maya_geometry_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):

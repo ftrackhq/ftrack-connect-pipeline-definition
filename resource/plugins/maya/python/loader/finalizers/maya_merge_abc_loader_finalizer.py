@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import re
 
@@ -10,9 +10,12 @@ import ftrack_api
 
 
 class MayaMergeAbcLoaderFinalizerPlugin(plugin.MayaLoaderFinalizerPlugin):
+    '''Maya alembic loader finalizer plugin'''
+
     plugin_name = 'maya_merge_abc_loader_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Merge Alembic nodes, identified by *context_data*'''
         result = {}
         asset_name = context_data.get('asset_name', '')
         ftrack_node_name = '{}_ftrackdata'.format(asset_name)
