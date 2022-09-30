@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-from ftrack_connect_pipeline_qt.plugin.widgets import dynamic as dynamic_widget
+from ftrack_connect_pipeline_qt.plugin.widget import dynamic as dynamic_widget
 from ftrack_connect_pipeline_qt.plugin import BasePluginWidget
 import ftrack_api
 
