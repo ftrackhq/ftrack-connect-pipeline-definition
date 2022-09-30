@@ -4,7 +4,7 @@
 from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
@@ -79,36 +79,34 @@ class MayaAbcPublisherExporterOptionsWidget(DynamicWidget):
                 else:
                     self.options_le[k].setText("0")
 
+    def get_options_group_name(self):
+        '''Override'''
+        return 'Alembic exporter Options'
+
     def build(self):
         '''Build function , mostly used to create the widgets.'''
 
         # Define dynamic widgets
-        self.update(self.define_options())
-
-        self.option_group = group_box.GroupBox('Alembic exporter Options')
-        self.option_group.setToolTip(self.description)
-
-        self.option_layout = QtWidgets.QVBoxLayout()
-        self.option_group.setLayout(self.option_layout)
+        self.update(self.define_options(), ignore=['alembicAnimation'])
 
         # Create dynamic widgets
         super(MayaAbcPublisherExporterOptionsWidget, self).build()
 
+        # Create animation input
         self.animation_layout = QtWidgets.QVBoxLayout()
-        self.frames_widget = QtWidgets.QWidget()
-        self.frames_H_layout = QtWidgets.QHBoxLayout()
-        self.frames_widget.setLayout(self.frames_H_layout)
-        self.option_layout.addLayout(self.animation_layout)
 
-        self.layout().addWidget(self.option_group)
         for option, default_value in sorted(self.bool_options.items()):
             option_check = QtWidgets.QCheckBox(option)
             option_check.setChecked(default_value)
 
             self.options_cb[option] = option_check
 
-            self.animation_layout.addWidget(option_check)
-            self.animation_layout.addWidget(self.frames_widget)
+            if option == 'alembicAnimation':
+                self.animation_layout.addWidget(option_check)
+
+        self.frames_widget = QtWidgets.QWidget()
+        self.frames_H_layout = QtWidgets.QHBoxLayout()
+        self.frames_widget.setLayout(self.frames_H_layout)
 
         for option, default_value in sorted(
             self.frames_options.items(), reverse=True
@@ -120,15 +118,14 @@ class MayaAbcPublisherExporterOptionsWidget(DynamicWidget):
             frames_V_layout.addWidget(option_label)
             frames_V_layout.addWidget(option_line_edit)
             self.frames_H_layout.addLayout(frames_V_layout)
-            if not self.bool_options['alembicAnimation']:
-                self.frames_widget.hide()
 
-    def get_parent_layout(self, name):
-        '''Add widgets to group box'''
-        return self.option_layout
+        self.animation_layout.addWidget(self.frames_widget)
+        self.option_layout.addLayout(self.animation_layout)
 
     def post_build(self):
         super(MayaAbcPublisherExporterOptionsWidget, self).post_build()
+
+        self.frames_widget.setVisible(self.bool_options['alembicAnimation'])
 
         for option, widget in self.options_cb.items():
             if option == 'alembicAnimation':
@@ -148,13 +145,11 @@ class MayaAbcPublisherExporterOptionsWidget(DynamicWidget):
     def _on_alembic_animation_changed(self, value):
         '''Updates the options dictionary with provided *path* when
         textChanged of line_edit event is triggered'''
+        self.frames_widget.setVisible(value)
         if value:
-            self.frames_widget.show()
             self._reset_default_animation_options()
             for option, widget in self.options_le.items():
                 self.set_option_result(widget.text(), key=option)
-        else:
-            self.frames_widget.hide()
         self.set_option_result(value, key='alembicAnimation')
 
 

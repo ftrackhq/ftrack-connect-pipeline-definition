@@ -122,10 +122,7 @@
             {
               "name": "maya_abc_publisher_exporter",
               "plugin": "maya_abc_publisher_exporter",
-              "widget": "maya_abc_publisher_exporter",
-              "options": {
-                "alembicAnimation": true
-              }
+              "widget": "maya_abc_publisher_exporter"
             }
           ]
         }

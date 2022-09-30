@@ -4,8 +4,7 @@
 from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
-from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
+from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 
 from Qt import QtWidgets
 
@@ -26,8 +25,6 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
         context_id=None,
         asset_type_name=None,
     ):
-
-        self.options_cb = {}
 
         super(MayaFbxPublisherExporterOptionsWidget, self).__init__(
             parent=parent,
@@ -81,24 +78,16 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
             'FBXExportUseSceneName': True,
         }
 
+    def get_options_group_name(self):
+        '''Override'''
+        return 'FBX exporter Options'
+
     def build(self):
         '''build function , mostly used to create the widgets.'''
 
         self.update(self.define_options())
 
-        self.option_group = group_box.GroupBox('FBX exporter Options')
-        self.option_group.setToolTip(self.description)
-
-        self.option_layout = QtWidgets.QVBoxLayout()
-        self.option_group.setLayout(self.option_layout)
-
-        self.layout().addWidget(self.option_group)
-
         super(MayaFbxPublisherExporterOptionsWidget, self).build()
-
-    def get_parent_layout(self, name):
-        '''Add widgets to group box'''
-        return self.option_layout
 
 
 class MayaFbxPublisherExporterOptionsPluginWidget(

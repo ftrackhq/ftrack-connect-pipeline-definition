@@ -4,7 +4,7 @@
 from functools import partial
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets, QtCore
@@ -62,26 +62,18 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
             ],
         }
 
+    def get_options_group_name(self):
+        '''Override'''
+        return 'Maya exporter Options'
+
     def build(self):
         '''build function , mostly used to create the widgets.'''
 
         # Update current options with the given ones from definitions and store
         self.update(self.define_options())
 
-        self.option_group = group_box.GroupBox('Maya exporter Options')
-        self.option_group.setToolTip(self.description)
-
-        self.option_layout = QtWidgets.QVBoxLayout()
-        self.option_group.setLayout(self.option_layout)
-
-        self.layout().addWidget(self.option_group)
-
         # Call the super build to automatically generate the option widgets
         super(MayaDefaultPublisherExporterOptionsWidget, self).build()
-
-    def get_parent_layout(self, name):
-        '''Add widgets to group box'''
-        return self.option_layout
 
 
 class MayaDefaultPublisherExporterOptionsPluginWidget(

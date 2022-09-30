@@ -86,7 +86,10 @@
             {
               "name": "output_maya",
               "plugin": "maya_native_publisher_exporter",
-              "widget": "maya_native_publisher_exporter"
+              "widget": "maya_native_publisher_exporter",
+              "options": {
+                "alembicAnimation": true
+              }
             }
           ]
         }
