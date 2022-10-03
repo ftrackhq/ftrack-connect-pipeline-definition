@@ -9,6 +9,12 @@ Release Notes
 
 .. release:: upcoming
 
+    .. change:: new
+        :tags: houdini
+
+        Added basic Houdini integration.
+
+
     .. change:: fix
         :tags: maya
 
