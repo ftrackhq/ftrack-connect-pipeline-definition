@@ -8,7 +8,7 @@ import ftrack_api
 
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.plugin.widget import BaseOptionsWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets

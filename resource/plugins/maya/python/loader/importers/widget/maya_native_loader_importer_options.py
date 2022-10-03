@@ -2,7 +2,7 @@
 # :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
+from ftrack_connect_pipeline_qt.plugin.widget.load_widget import (
     LoadBaseWidget,
 )
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
