@@ -7,7 +7,6 @@ from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 
 
-
 class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
     '''Maya FBX publisher options user input plugin widget'''
 

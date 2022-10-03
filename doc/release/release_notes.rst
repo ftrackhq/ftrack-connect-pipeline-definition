@@ -14,6 +14,17 @@ Release Notes
 
         Turntable plugin, set as default reviewable plugin for Maya geometry publisher.
 
+    .. change:: fix
+        :tags: maya
+
+        Fixed Maya alembic camera export and bad loader plugin reference.
+
+
+    .. change:: fix
+        :tags: maya
+
+        Only load FBX plugin if about to load fbx files.
+
 
     .. change:: change
         :tags: maya
