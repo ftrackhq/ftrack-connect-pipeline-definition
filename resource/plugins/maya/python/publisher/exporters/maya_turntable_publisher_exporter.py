@@ -6,10 +6,11 @@ import glob
 import platform
 import sys
 
-import maya.cmds as cmds
+import ftrack_api
 
 from ftrack_connect_pipeline_maya import plugin
-import ftrack_api
+
+import maya.cmds as cmds
 
 
 class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
@@ -51,6 +52,8 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         return result
 
     def setup_turntable(self, collected_objects, sframe, eframe):
+        '''Prepare the Maya scene to create a turntable of the *collected_objects*
+        centered, considering the bounding boxes and the configured up axis.'''
         # Find bounding box for all objects
         bb_collected_objects = [
             sys.maxsize,
@@ -86,19 +89,23 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             position=[x_loc, y_loc, z_loc],
             name="object_locator",
         )
+
+        up_axis = cmds.upAxis(q=True, axis=True)
+        rotate_attribute = 'rotate{}'.format(up_axis.upper())
+
         cmds.xform(object_locator, centerPivots=True)
         cmds.setKeyframe(
-            object_locator, attribute="rotateY", value=0, time=sframe
+            object_locator, attribute=rotate_attribute, value=0, time=sframe
         )
         cmds.setKeyframe(
             object_locator,
-            attribute="rotateY",
+            attribute=rotate_attribute,
             value=360,
             time=int(eframe) + 1,
         )
         cmds.keyTangent(
             object_locator,
-            attribute="rotateY",
+            attribute=rotate_attribute,
             index=(0, 1),
             inTangentType="linear",
             outTangentType="linear",
@@ -117,6 +124,8 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         cmds.orientConstraint(object_locator, group)
 
     def run_reviewable(self, camera_name, sframe, eframe, res_w, res_h):
+        '''Run a playblast through camera identified by *camera_name*, starting at frame
+        *sframe* and ending at *efram* at resolution *res_w* x *res_h*'''
         current_panel = cmds.getPanel(wf=True)
         panel_type = cmds.getPanel(to=current_panel)  # scriptedPanel
         if panel_type != 'modelPanel':
@@ -136,7 +145,6 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         cmds.lookThru(camera_name)
 
-        # prev_selection = cmds.ls(sl=True)
         cmds.select(cl=True)
 
         filename = tempfile.NamedTemporaryFile().name
@@ -162,9 +170,6 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             playblast_data['compression'] = 'raw'
 
         cmds.playblast(**playblast_data)
-
-        # if len(prev_selection):
-        #    cmds.select(prev_selection)
 
         cmds.lookThru(previous_camera)
 
