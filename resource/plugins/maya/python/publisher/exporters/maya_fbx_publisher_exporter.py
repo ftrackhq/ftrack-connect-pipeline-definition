@@ -28,9 +28,7 @@ class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'FBXExportSmoothMesh': bool(
                 options.get('FBXExportSmoothMesh', False)
             ),
-            'FBXExportInAscii': bool(
-                options.get('FBXExportScaleFactor', False)
-            ),
+            'FBXExportInAscii': bool(options.get('FBXExportInAscii', False)),
             'FBXExportAnimationOnly': bool(
                 options.get('FBXExportAnimationOnly', False)
             ),
@@ -53,6 +51,20 @@ class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             ),
             'FBXExportEmbeddedTextures': bool(
                 options.get('FBXExportEmbeddedTextures', False)
+            ),
+            'FBXExportQuaternion': options.get(
+                'FBXExportQuaternion', 'quaternion'
+            ),
+            'FBXExportShapes': bool(options.get('FBXExportShapes', True)),
+            'FBXExportSkins': bool(options.get('FBXExportSkins', True)),
+            'FBXExportSkeletonDefinitions': bool(
+                options.get('FBXExportSkeletonDefinitions', True)
+            ),
+            'FBXExportInputConnections': bool(
+                options.get('FBXExportInputConnections', False)
+            ),
+            'FBXExportUseSceneName': bool(
+                options.get('FBXExportUseSceneName', True)
             ),
         }
 

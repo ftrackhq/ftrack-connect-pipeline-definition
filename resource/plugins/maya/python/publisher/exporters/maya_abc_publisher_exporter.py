@@ -75,6 +75,11 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         alembicJobArgs = []
 
+        if context_data['asset_type_name'] == 'cam':
+            alembicJobArgs.append('-dataFormat ogawa')
+        else:
+            alembicJobArgs.append('-sl')
+
         if options.get('alembicUvwrite'):
             alembicJobArgs.append('-uvWrite')
 
@@ -94,7 +99,10 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             )
 
         alembicJobArgs = ' '.join(alembicJobArgs)
-        alembicJobArgs += ' ' + objCommand + '-sl -file ' + new_file_path
+        alembicJobArgs += ' ' + objCommand + '-file ' + new_file_path
+        self.logger.debug(
+            'Exporting alembic cache with arguments: {}'.format(alembicJobArgs)
+        )
         cmds.AbcExport(j=alembicJobArgs)
 
         if selectednodes:

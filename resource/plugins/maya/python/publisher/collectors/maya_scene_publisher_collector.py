@@ -15,8 +15,9 @@ class MayaScenePublisherCollectorPlugin(plugin.MayaPublisherCollectorPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Collect Maya scene name, save to temp if unsaved'''
-
-        export_option = options.get("export", 'scene')
+        export_option = options.get("export")
+        if export_option and isinstance(export_option, list):
+            export_option = export_option[0]
         if export_option == 'scene':
             scene_name = cmds.file(q=True, sceneName=True)
             if len(scene_name or '') == 0:

@@ -159,7 +159,7 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "maya_abc_loader_importer"
+              "plugin": "maya_native_loader_importer"
             }
           ]
         },

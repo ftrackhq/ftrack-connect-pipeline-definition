@@ -1,15 +1,10 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-from functools import partial
+import ftrack_api
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
-from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
-
-from Qt import QtWidgets
-
-import ftrack_api
+from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 
 
 class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
@@ -27,8 +22,6 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
         asset_type_name=None,
     ):
 
-        self.options_cb = {}
-
         super(MayaFbxPublisherExporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
@@ -40,46 +33,57 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
             asset_type_name=asset_type_name,
         )
 
+    def define_options(self):
+        '''Default renderable options for dynamic widget'''
+        return {
+            'FBXExportScaleFactor': 1,
+            'FBXExportUpAxis': [
+                {'value': 'x'},
+                {'value': 'y', 'default': True},
+                {'value': 'z'},
+            ],
+            'FBXExportFileVersion': [
+                {'label': 'FBX 2020', 'value': 'FBX202000', 'default': True},
+                {'label': 'FBX 2019', 'value': 'FBX201900'},
+                {'label': 'FBX 2018', 'value': 'FBX201800'},
+                {'label': 'FBX 2016', 'value': 'FBX201600'},
+                {'label': 'FBX 2014', 'value': 'FBX201400'},
+                {'label': 'FBX 2013', 'value': 'FBX201300'},
+                {'label': 'FBX 2012', 'value': 'FBX201200'},
+                {'label': 'FBX 2011', 'value': 'FBX201100'},
+                {'label': 'FBX 2010', 'value': 'FBX201000'},
+                {'label': 'FBX 2009', 'value': 'FBX200900'},
+                {'label': 'FBX 2006', 'value': 'FBX200611'},
+            ],
+            'FBXExportSmoothMesh': False,
+            'FBXExportInAscii': False,
+            'FBXExportAnimationOnly': False,
+            'FBXExportInstances': False,
+            'FBXExportApplyConstantKeyReducer': False,
+            'FBXExportBakeComplexAnimation': False,
+            'FBXExportBakeResampleAnimation': False,
+            'FBXExportCameras': False,
+            'FBXExportLights': True,
+            'FBXExportConstraints': False,
+            'FBXExportEmbeddedTextures': False,
+            'FBXExportQuaternion': 'quaternion',
+            'FBXExportShapes': True,
+            'FBXExportSkins': True,
+            'FBXExportSkeletonDefinitions': True,
+            'FBXExportInputConnections': False,
+            'FBXExportUseSceneName': True,
+        }
+
+    def get_options_group_name(self):
+        '''Override'''
+        return 'FBX exporter Options'
+
     def build(self):
         '''build function , mostly used to create the widgets.'''
+
+        self.update(self.define_options())
+
         super(MayaFbxPublisherExporterOptionsWidget, self).build()
-
-        bool_options = [
-            'FBXExportScaleFactor',
-            'FBXExportUpAxis',
-            'FBXExportFileVersion',
-            'FBXExportSmoothMesh',
-            'FBXExportInAscii',
-            'FBXExportAnimationOnly',
-            'FBXExportInstances',
-            'FBXExportApplyConstantKeyReducer',
-            'FBXExportBakeComplexAnimation',
-            'FBXExportBakeResampleAnimation',
-            'FBXExportCameras',
-            'FBXExportLights',
-            'FBXExportConstraints',
-            'FBXExportEmbeddedTextures',
-        ]
-
-        self.option_group = group_box.GroupBox('FBX exporter Options')
-        self.option_group.setToolTip(self.description)
-
-        self.option_layout = QtWidgets.QVBoxLayout()
-        self.option_group.setLayout(self.option_layout)
-
-        self.layout().addWidget(self.option_group)
-        for option in bool_options:
-            option_check = QtWidgets.QCheckBox(option)
-
-            self.options_cb[option] = option_check
-            self.option_layout.addWidget(option_check)
-
-    def post_build(self):
-        super(MayaFbxPublisherExporterOptionsWidget, self).post_build()
-
-        for option, widget in self.options_cb.items():
-            update_fn = partial(self.set_option_result, key=option)
-            widget.stateChanged.connect(update_fn)
 
 
 class MayaFbxPublisherExporterOptionsPluginWidget(
