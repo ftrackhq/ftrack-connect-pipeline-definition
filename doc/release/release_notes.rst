@@ -9,6 +9,18 @@ Release Notes
 
 .. release:: upcoming
 
+    .. change:: fix
+        :tags: maya
+
+        Fixed Maya alembic camera export and bad loader plugin reference.
+
+
+    .. change:: fix
+        :tags: maya
+
+        Only load FBX plugin if about to load fbx files.
+
+
     .. change:: change
         :tags: maya
 
