@@ -1,18 +1,13 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-from functools import partial
+import ftrack_api
 
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
-from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
-
-from Qt import QtWidgets, QtCore
-
-import ftrack_api
 
 
-class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
+class MayaNativePublisherExporterOptionsWidget(DynamicWidget):
     '''Maya native binary or ASCII publisher options user input plugin widget'''
 
     def __init__(
@@ -29,7 +24,7 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
 
         self.options_cb = {}
 
-        super(MayaDefaultPublisherExporterOptionsWidget, self).__init__(
+        super(MayaNativePublisherExporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -73,19 +68,19 @@ class MayaDefaultPublisherExporterOptionsWidget(DynamicWidget):
         self.update(self.define_options())
 
         # Call the super build to automatically generate the option widgets
-        super(MayaDefaultPublisherExporterOptionsWidget, self).build()
+        super(MayaNativePublisherExporterOptionsWidget, self).build()
 
 
-class MayaDefaultPublisherExporterOptionsPluginWidget(
+class MayaNativePublisherExporterOptionsPluginWidget(
     plugin.MayaPublisherExporterPluginWidget
 ):
     plugin_name = 'maya_native_publisher_exporter'
-    widget = MayaDefaultPublisherExporterOptionsWidget
+    widget = MayaNativePublisherExporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MayaDefaultPublisherExporterOptionsPluginWidget(api_object)
+    plugin = MayaNativePublisherExporterOptionsPluginWidget(api_object)
     plugin.register()
