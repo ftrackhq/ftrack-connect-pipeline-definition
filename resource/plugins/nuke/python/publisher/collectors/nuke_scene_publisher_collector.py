@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -10,9 +10,12 @@ from ftrack_connect_pipeline_nuke.utils import custom_commands as nuke_utils
 
 
 class NukeScriptPublisherCollectorPlugin(plugin.NukePublisherCollectorPlugin):
+    '''Nuke scene/script nodes publisher collector plugin'''
+
     plugin_name = 'nuke_scene_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Collect Nuke script name, save to temp if unsaved'''
         scene_name = nuke.root().name()
         if scene_name == 'Root':
             # scene is not saved, save it first.
