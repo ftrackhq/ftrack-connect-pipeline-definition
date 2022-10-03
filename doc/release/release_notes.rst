@@ -9,20 +9,41 @@ Release Notes
 
 .. release:: upcoming
 
+    .. change:: change
+        :tags: maya
+
+        Implemented use of dynamic widget group box.
+
+
+    .. change:: change
+        :tags: maya
+
+        Changed exporter options widgets to properly use dynamic widget combobox functionality.
+
+
+    .. change:: change
+        :tags: options
+
+        Aligned with QT plugin/widget refactorization.
+
+
     .. change:: fix
         :tags: nuke
 
         Changed wrong usage of nuke publisher finalizer, removed unused finalizers.
+
 
     .. change:: new
         :tags: nuke
 
         Rename default plugins to native or generic, remove test code from finalizers, relabel finalizers.
 
+
     .. change:: new
         :tags: nuke
 
         Specialise camera and geometry collectors in nuke, add validators
+
 
     .. change:: new
         :tags: nuke
