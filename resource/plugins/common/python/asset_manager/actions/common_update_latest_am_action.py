@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 from ftrack_connect_pipeline import plugin
@@ -13,6 +13,7 @@ class CommonUpdateLatestAssetManagerActionPlugin(
     plugin_name = 'common_update_latest_am_action'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Retrieve the latest version based on asset info passed with *data*'''
         asset_info = FtrackAssetInfo(data)
 
         query = (

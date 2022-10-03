@@ -1,8 +1,8 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
+from ftrack_connect_pipeline_qt.plugin.widget.load_widget import (
     LoadBaseWidget,
 )
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
@@ -13,6 +13,8 @@ import ftrack_api
 
 
 class MayaNativeLoaderImporterOptionsWidget(LoadBaseWidget):
+    '''User input of maya native loader importer plugin widget'''
+
     load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(

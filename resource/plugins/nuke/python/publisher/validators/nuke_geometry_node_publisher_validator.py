@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-20202 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -13,9 +13,13 @@ import nuke
 class NukeGeometryNodePublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
+    '''Nuke geometry publisher validator plugin'''
+
     plugin_name = 'nuke_geometry_node_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return true if all collected nodes supplied in *data* are geometry nodes'''
+
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

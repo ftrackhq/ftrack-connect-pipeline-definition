@@ -1,14 +1,18 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
 class CommonNonEmptyPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
+    '''Publisher non empty validator plugin'''
+
     plugin_name = 'common_non_empty_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Validate that there are collected objects in *data* and they have a value'''
+
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

@@ -8,6 +8,8 @@ import ftrack_api
 class CommonPassthroughOpenerPreFinalizerPlugin(
     plugin.OpenerPreFinalizerPlugin
 ):
+    '''Empty/passthrough opener pre finalizer plugin'''
+
     plugin_name = 'common_passthrough_opener_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):

@@ -6,13 +6,15 @@ import ftrack_api
 from functools import partial
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
-from ftrack_connect_pipeline_qt.plugin.widgets.base_collector_widget import (
+from ftrack_connect_pipeline_qt.plugin.widget import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.plugin.widget.base_collector_widget import (
     BaseCollectorWidget,
 )
 
 
 class NukeNodePublisherCollectorOptionsWidget(BaseCollectorWidget):
+    '''Nuke multiple node user selection plugin widget'''
+
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 

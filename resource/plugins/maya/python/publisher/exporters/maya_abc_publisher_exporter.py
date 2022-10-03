@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import tempfile
 
@@ -10,6 +10,7 @@ import ftrack_api
 
 
 class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya Alembic exporter plugin'''
 
     plugin_name = 'maya_abc_publisher_exporter'
 
@@ -42,6 +43,8 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
         }
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export Maya alembic geometry based on collected objects in *data* and *options* supplied'''
+
         # ensure to load the alembic plugin
         cmds.loadPlugin('AbcExport.so', qt=1)
 
@@ -72,6 +75,11 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
 
         alembicJobArgs = []
 
+        if context_data['asset_type_name'] == 'cam':
+            alembicJobArgs.append('-dataFormat ogawa')
+        else:
+            alembicJobArgs.append('-sl')
+
         if options.get('alembicUvwrite'):
             alembicJobArgs.append('-uvWrite')
 
@@ -91,7 +99,10 @@ class MayaAbcPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             )
 
         alembicJobArgs = ' '.join(alembicJobArgs)
-        alembicJobArgs += ' ' + objCommand + '-sl -file ' + new_file_path
+        alembicJobArgs += ' ' + objCommand + '-file ' + new_file_path
+        self.logger.debug(
+            'Exporting alembic cache with arguments: {}'.format(alembicJobArgs)
+        )
         cmds.AbcExport(j=alembicJobArgs)
 
         if selectednodes:

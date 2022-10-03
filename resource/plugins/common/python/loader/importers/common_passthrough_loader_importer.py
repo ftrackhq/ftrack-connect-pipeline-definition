@@ -1,11 +1,13 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
 class CommonPassthroughLoaderImporterPlugin(plugin.LoaderImporterPlugin):
+    '''Empty/passthrough loader importer plugin'''
+
     plugin_name = 'common_passthrough_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):

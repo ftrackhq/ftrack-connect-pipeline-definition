@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -8,6 +8,8 @@ from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
 
 
 class NukeNativeLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
+    '''Nuke native script loader plugin'''
+
     plugin_name = 'nuke_native_loader_importer'
 
     load_modes = load_const.LOAD_MODES
@@ -19,6 +21,8 @@ class NukeNativeLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
         return nuke_options
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load collected Nuke script(s) supplied with *data*'''
+
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
         load_mode_fn = self.load_modes.get(

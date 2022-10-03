@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -9,9 +9,13 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeGeometryLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
+    '''Nuke geometry loader plugin'''
+
     plugin_name = 'nuke_geometry_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load collected geometry(s) supplied with *data* into Nuke'''
+
         results = {}
 
         paths_to_import = []

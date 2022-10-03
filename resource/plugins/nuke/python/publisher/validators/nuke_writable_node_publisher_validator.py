@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 import os
@@ -13,9 +13,12 @@ import nuke
 class NukeWritableNodePublisherValidatorPlugin(
     plugin.NukePublisherValidatorPlugin
 ):
+    '''Nuke writeable type publisher validator'''
+
     plugin_name = 'nuke_writable_node_publisher_validator'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Return true if the collected Nuke node supplied with *data* can have a write node attached to it'''
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])

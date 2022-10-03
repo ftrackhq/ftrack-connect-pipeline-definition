@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import tempfile
 
@@ -11,6 +11,7 @@ import ftrack_api
 
 
 class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
+    '''Maya FBX exporter plugin'''
 
     plugin_name = 'maya_fbx_publisher_exporter'
 
@@ -27,9 +28,7 @@ class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'FBXExportSmoothMesh': bool(
                 options.get('FBXExportSmoothMesh', False)
             ),
-            'FBXExportInAscii': bool(
-                options.get('FBXExportScaleFactor', False)
-            ),
+            'FBXExportInAscii': bool(options.get('FBXExportInAscii', False)),
             'FBXExportAnimationOnly': bool(
                 options.get('FBXExportAnimationOnly', False)
             ),
@@ -53,9 +52,25 @@ class MayaFbxPublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             'FBXExportEmbeddedTextures': bool(
                 options.get('FBXExportEmbeddedTextures', False)
             ),
+            'FBXExportQuaternion': options.get(
+                'FBXExportQuaternion', 'quaternion'
+            ),
+            'FBXExportShapes': bool(options.get('FBXExportShapes', True)),
+            'FBXExportSkins': bool(options.get('FBXExportSkins', True)),
+            'FBXExportSkeletonDefinitions': bool(
+                options.get('FBXExportSkeletonDefinitions', True)
+            ),
+            'FBXExportInputConnections': bool(
+                options.get('FBXExportInputConnections', False)
+            ),
+            'FBXExportUseSceneName': bool(
+                options.get('FBXExportUseSceneName', True)
+            ),
         }
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export Maya FBX geometry based on collected objects in *data* and *options* supplied'''
+
         # ensure to load the fbx plugin
         cmds.loadPlugin('fbxmaya.so', qt=1)
 

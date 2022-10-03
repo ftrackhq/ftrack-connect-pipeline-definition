@@ -1,8 +1,8 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from ftrack_connect_pipeline_maya import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.base_collector_widget import (
+from ftrack_connect_pipeline_qt.plugin.widget.base_collector_widget import (
     BaseCollectorWidget,
 )
 
@@ -10,6 +10,8 @@ import ftrack_api
 
 
 class MayaGeometryPublisherCollectorOptionsWidget(BaseCollectorWidget):
+    '''Maya geometry user selection template plugin widget'''
+
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 

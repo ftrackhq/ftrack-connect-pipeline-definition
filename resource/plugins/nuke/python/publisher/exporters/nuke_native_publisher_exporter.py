@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import ftrack_api
 
@@ -12,9 +12,12 @@ from ftrack_connect_pipeline_nuke import plugin
 
 
 class NukeNativePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
+    '''Nuke native script exporter plugin'''
+
     plugin_name = 'nuke_native_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Export collected Nuke script or nodes to a file based collected object in *data* and *options*'''
 
         new_file_path = tempfile.NamedTemporaryFile(
             delete=False, suffix='.nk'

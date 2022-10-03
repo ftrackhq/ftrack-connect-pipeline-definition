@@ -1,18 +1,20 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 from Qt import QtWidgets
 
 import ftrack_api
 
 from ftrack_connect_pipeline_qt import plugin as pluginWidget
-from ftrack_connect_pipeline_qt.plugin.widgets.open_widget import (
+from ftrack_connect_pipeline_qt.plugin.widget.open_widget import (
     OpenBaseWidget,
 )
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 
 class CommonTestOpenerImporterOptionsWidget(OpenBaseWidget):
+    '''Opener importer plugin options user input test/template plugin widget'''
+
     load_modes = ['Open']
 
     def __init__(

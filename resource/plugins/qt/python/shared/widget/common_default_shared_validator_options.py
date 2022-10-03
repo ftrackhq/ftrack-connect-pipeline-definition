@@ -1,13 +1,13 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2019 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
-from ftrack_connect_pipeline_qt.plugin.widgets import dynamic as dynamic_widget
+from ftrack_connect_pipeline_qt.plugin.widget import dynamic as dynamic_widget
 from ftrack_connect_pipeline_qt import plugin
 import ftrack_api
 
 
 class CommonDefaultSharedValidatorOptionsWidget(dynamic_widget.DynamicWidget):
-    '''Main class to represent a context widget on a publish process'''
+    '''Shared/fallback dynamic validator options user input plugin widget'''
 
     enable_run_plugin = False
 

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 from functools import partial
 
 import nuke
@@ -8,13 +8,15 @@ import ftrack_api
 
 
 from ftrack_connect_pipeline_nuke import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets import BaseOptionsWidget
+from ftrack_connect_pipeline_qt.plugin.widget import BaseOptionsWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 
 from Qt import QtWidgets
 
 
 class NukeSequencePublisherExporterOptionsWidget(BaseOptionsWidget):
+    '''Nuke image sequence publisher options user input plugin widget'''
+
     def __init__(
         self,
         parent=None,

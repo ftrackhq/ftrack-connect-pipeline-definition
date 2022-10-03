@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2020 ftrack
+# :copyright: Copyright (c) 2014-2022 ftrack
 
 import maya.cmds as cmds
 
@@ -8,9 +8,13 @@ import ftrack_api
 
 
 class MayaAbcLoaderImporterPlugin(plugin.MayaLoaderImporterPlugin):
+    '''Maya Alembic importer plugin'''
+
     plugin_name = 'maya_abc_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
+        '''Load alembic files pointed out by collected paths supplied in *data*'''
+
         # ensure to load the alembic plugin
         cmds.loadPlugin('AbcImport.so', qt=1)
 
