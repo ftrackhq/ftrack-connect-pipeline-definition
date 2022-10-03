@@ -9,6 +9,12 @@ Release Notes
 
 .. release:: upcoming
 
+    .. change:: new
+        :tags: maya
+
+        Turntable plugin, set as default reviewable plugin for Maya geometry publisher.
+
+
     .. change:: change
         :tags: maya
 
