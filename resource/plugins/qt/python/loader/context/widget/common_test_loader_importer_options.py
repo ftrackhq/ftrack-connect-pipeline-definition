@@ -6,7 +6,7 @@ from Qt import QtWidgets
 import ftrack_api
 
 from ftrack_connect_pipeline_qt import plugin as pluginWidget
-from ftrack_connect_pipeline_qt.plugin.widgets.load_widget import (
+from ftrack_connect_pipeline_qt.plugin.widget.load_widget import (
     LoadBaseWidget,
 )
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
