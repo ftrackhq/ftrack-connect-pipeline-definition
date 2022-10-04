@@ -14,6 +14,10 @@ Release Notes
 
         Added basic Houdini integration.
 
+        :tags: maya
+
+        Turntable plugin, set as default reviewable plugin for Maya geometry publisher.
+
 
     .. change:: fix
         :tags: maya
