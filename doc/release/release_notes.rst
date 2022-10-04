@@ -32,19 +32,19 @@ Release Notes
 
 
     .. change:: change
-        :tags: maya
+        :tags: option_plugins
 
         Implemented use of dynamic widget group box.
 
 
     .. change:: change
-        :tags: maya
+        :tags: option_plugins
 
         Changed exporter options widgets to properly use dynamic widget combobox functionality.
 
 
     .. change:: change
-        :tags: options
+        :tags: option_plugins
 
         Aligned with QT plugin/widget refactorization.
 
@@ -56,7 +56,7 @@ Release Notes
 
 
     .. change:: new
-        :tags: nuke
+        :tags: plugins
 
         Rename default plugins to native or generic, remove test code from finalizers, relabel finalizers.
 
@@ -64,19 +64,19 @@ Release Notes
     .. change:: new
         :tags: nuke
 
-        Specialise camera and geometry collectors in nuke, add validators
+        Specialised camera and geometry collectors in nuke, add validators.
+
+
+    .. change:: new
+        :tags: maya
+
+        Maya model exporter crashes.
 
 
     .. change:: new
         :tags: nuke
 
-        Maya model exporter crashes
-
-
-    .. change:: new
-        :tags: nuke
-
-        Added node existance check to collector
+        Added node existence check to collector.
 
 
     .. change:: new
