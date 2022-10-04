@@ -12,7 +12,8 @@ Release Notes
     .. change:: new
         :tags: houdini
 
-        Added basic Houdini integration.
+        Added alembic formats to exporter, to fix Maya compatibility bug.
+
 
         :tags: maya
 
