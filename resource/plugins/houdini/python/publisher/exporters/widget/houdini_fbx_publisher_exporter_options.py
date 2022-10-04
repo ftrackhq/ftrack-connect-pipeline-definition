@@ -4,7 +4,7 @@
 from functools import partial
 
 from ftrack_connect_pipeline_houdini import plugin
-from ftrack_connect_pipeline_qt.plugin.widgets.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 
 from Qt import QtWidgets
 

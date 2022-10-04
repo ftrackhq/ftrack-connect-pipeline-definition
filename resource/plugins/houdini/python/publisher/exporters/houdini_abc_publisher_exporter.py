@@ -59,51 +59,64 @@ class HoudiniAbcPublisherExporterPlugin(plugin.HoudiniPublisherExporterPlugin):
 
         options = self.extract_options(options)
 
-        self.logger.debug(
-            'Calling exporters options: data {}. options {}'.format(
-                data, options
-            )
-        )
-
-        root_obj = hou.node('/obj')
+        houdini_root_object = hou.node('/obj')
 
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-        object_paths = ' '.join(collected_objects)
-        objects = [hou.node(obj_path) for obj_path in collected_objects]
-
         if context_data['asset_type_name'] == 'cam':
+            obj_path = collected_objects[0]
             bcam = self.bake_camera_animation(
-                objects[0],
+                hou.node(obj_path),
                 [options['ABCFrameRangeStart'], options['ABCFrameRangeEnd']],
             )
-            objects = [bcam.path()]
+            objects = [bcam]
+            object_paths = bcam.path()
+        else:
+            objects = [hou.node(obj_path) for obj_path in collected_objects]
+            object_paths = ' '.join(collected_objects)
 
         # Create Rop Net
-        rop_net = root_obj.createNode('ropnet')
+        rop_net = None
+        try:
+            rop_net = houdini_root_object.createNode('ropnet')
+            abc_ropnet = rop_net.createNode('alembic')
 
-        abc_ropnet = rop_net.createNode('alembic')
+            if options.get('ABCAnimation'):
+                # Check Alembic for animation option
+                abc_ropnet.parm('trange').set(1)
+                for i, x in enumerate(
+                    [
+                        'ABCFrameRangeStart',
+                        'ABCFrameRangeEnd',
+                        'ABCFrameRangeBy',
+                    ]
+                ):
+                    abc_ropnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
+                    abc_ropnet.parm('f%d' % (i + 1)).set(options[x])
+            else:
+                abc_ropnet.parm('trange').set(0)
 
-        if options.get('ABCAnimation'):
-            # Check Alembic for animation option
-            abc_ropnet.parm('trange').set(1)
-            for i, x in enumerate(
-                ['ABCFrameRangeStart', 'ABCFrameRangeEnd', 'ABCFrameRangeBy']
-            ):
-                abc_ropnet.parm('f%d' % (i + 1)).deleteAllKeyframes()
-                abc_ropnet.parm('f%d' % (i + 1)).set(options[x])
-        else:
-            abc_ropnet.parm('trange').set(0)
+            abc_ropnet.parm('filename').set(new_file_path)
 
-        abc_ropnet.parm('filename').set(new_file_path)
+            root_object = objects[0]
+            abc_ropnet.parm('root').set(root_object.parent().path())
+            abc_ropnet.parm('objects').set(object_paths)
+            if options.get('ABCFormat') == 'HDF5':
+                abc_ropnet.parm('format').set('hdf5')
+            elif options.get('ABCFormat') == 'Ogawa':
+                abc_ropnet.parm('format').set('ogawa')
 
-        root_object = hou.node(objects[0])
-        abc_ropnet.parm('root').set(root_object.parent().path())
-        abc_ropnet.parm('objects').set(object_paths)
-        abc_ropnet.parm('format').set('hdf5')
-        abc_ropnet.render()
-        rop_net.destroy()
+            self.logger.debug(
+                'Running Alembic export of "{}" to: {}'.format(
+                    object_paths, new_file_path
+                )
+            )
+
+            abc_ropnet.render()
+        finally:
+            if rop_net:
+                rop_net.destroy()
 
         return [new_file_path]
 

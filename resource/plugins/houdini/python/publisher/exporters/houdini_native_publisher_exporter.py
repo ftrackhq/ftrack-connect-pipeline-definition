@@ -36,7 +36,9 @@ class HoudiniNativePublisherExporterPlugin(
 
         if is_scene_publish:
             # Export entire scene
-            hou.hipFile.save(new_file_path)
+            scene_name_orig = hou.hipFile.path()
+            hou.hipFile.save(new_file_path, save_to_recent_files=False)
+            hou.hipFile.setName(scene_name_orig)
         else:
             # Export selected
             hou.copyNodesToClipboard(

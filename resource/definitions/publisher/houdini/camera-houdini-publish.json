@@ -119,7 +119,8 @@
               "name": "Alembic exporter options:",
               "plugin": "houdini_abc_publisher_exporter",
               "options": {
-                "ABCAnimation": true
+                "ABCAnimation": true,
+                "ABCFormat": ["Default","HDF5","Ogawa"]
               }
             }
           ]
