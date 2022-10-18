@@ -9,6 +9,12 @@ Release Notes
 
 .. release:: upcoming
 
+    .. change:: fix
+        :tags: maya
+
+        Hide turntable locator during playblast
+
+
     .. change:: new
         :tags: maya
 

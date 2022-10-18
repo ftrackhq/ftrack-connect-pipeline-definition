@@ -90,6 +90,8 @@ class MayaTurntablePublisherExporterPlugin(plugin.MayaPublisherExporterPlugin):
             name="object_locator",
         )
 
+        cmds.setAttr(object_locator[0] + ".visibility", False)
+
         up_axis = cmds.upAxis(q=True, axis=True)
         rotate_attribute = 'rotate{}'.format(up_axis.upper())
 
