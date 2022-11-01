@@ -1,0 +1,280 @@
+{
+  "type": "publisher",
+  "name": "Geometry Publisher",
+  "asset_type": "geo",
+  "host_type": "max",
+  "ui_type": "qt",
+  "task_type": "modeling",
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "common_passthrough_publisher_context",
+              "widget": "common_passthrough_publisher_context"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "name": "snapshot",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "collect_scene_selection",
+              "plugin": "max_scene_publisher_collector",
+              "options": {
+                "export": ["scene"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate scene",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "max",
+              "plugin": "max_native_publisher_exporter",
+              "widget": "max_native_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "model",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "max_geometry_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "max",
+              "plugin": "max_native_publisher_exporter",
+              "widget": "max_native_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "max_geometry_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "max_geometry_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "max_abc_publisher_exporter",
+              "plugin": "max_abc_publisher_exporter",
+              "widget": "max_abc_publisher_exporter",
+              "options": {
+                "alembicAnimation": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "max_geometry_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "max_geometry_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "max_fbx_publisher_exporter",
+              "plugin": "max_fbx_publisher_exporter",
+              "widget": "max_fbx_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "thumbnail",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select camera to playblast",
+              "plugin": "max_camera_publisher_collector",
+              "options": {
+                "camera_name": "persp"
+              },
+              "widget": "max_camera_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "write thumbnail",
+              "plugin": "max_thumbnail_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reviewable",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "select camera to playblast",
+              "plugin": "max_camera_publisher_collector",
+              "options": {
+                "camera_name": "persp"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "write reviewable",
+              "plugin": "max_reviewable_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "Pre publish to ftrack server",
+              "visible": false,
+              "plugin": "common_passthrough_publisher_pre_finalizer"
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "visible": false,
+          "plugins":[
+            {
+              "name": "Publish to ftrack server",
+              "plugin": "common_passthrough_publisher_pre_finalizer"
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "visible": false,
+          "plugins":[
+            {
+              "name": "Post process publish",
+              "plugin": "common_passthrough_publisher_post_finalizer"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
