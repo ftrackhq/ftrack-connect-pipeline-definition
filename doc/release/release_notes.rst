@@ -9,6 +9,19 @@ Release Notes
 
 .. release:: upcoming
 
+
+    .. change:: fixed
+        :tags: maya
+
+        Removed invalid FBX x Up axis value.
+
+
+    .. change:: fix
+        :tags: maya
+
+        Hide turntable locator during playblast.
+
+
     .. change:: new
         :tags: maya
 
