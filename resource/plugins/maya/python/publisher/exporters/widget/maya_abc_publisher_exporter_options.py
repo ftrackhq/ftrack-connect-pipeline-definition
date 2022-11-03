@@ -82,7 +82,7 @@ class MayaAbcPublisherExporterOptionsWidget(DynamicWidget):
         return 'Alembic exporter Options'
 
     def build(self):
-        '''Build function , mostly used to create the widgets.'''
+        '''Build function, mostly used to create the widgets.'''
 
         # Define dynamic widgets
         self.update(self.define_options(), ignore=['alembicAnimation'])
