@@ -30,7 +30,7 @@
           "plugins":[
             {
               "name": "Pick objects with suffix",
-              "plugin": "collector_test"
+              "plugin": "common_test_opener_collector"
             },
             {
               "name": "Collect components from context",
