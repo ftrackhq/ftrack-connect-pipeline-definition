@@ -38,7 +38,6 @@ class MayaFbxPublisherExporterOptionsWidget(DynamicWidget):
         return {
             'FBXExportScaleFactor': 1,
             'FBXExportUpAxis': [
-                {'value': 'x'},
                 {'value': 'y', 'default': True},
                 {'value': 'z'},
             ],
