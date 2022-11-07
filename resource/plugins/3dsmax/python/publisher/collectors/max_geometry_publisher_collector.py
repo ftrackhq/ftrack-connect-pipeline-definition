@@ -3,20 +3,18 @@
 
 # import maya.cmds as cmds
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 import ftrack_api
 
 
-class MaxGeometryPublisherCollectorPlugin(
-    plugin.MaxPublisherCollectorPlugin
-):
+class MaxGeometryPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
     plugin_name = 'max_geometry_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
         # cmds.select(cl=True)
-        for item in selected_items:
+        # for item in selected_items:
         #    cmds.select(item, add=True)
         return selected_items
 
@@ -27,8 +25,8 @@ class MaxGeometryPublisherCollectorPlugin(
 
         # selected_objects = cmds.ls(sl=True, l=True)
 
-        if not selected_objects:
-            # collected_objects = cmds.ls(geometry=True, l=True)
+        # if not selected_objects:
+        # collected_objects = cmds.ls(geometry=True, l=True)
 
         return collected_objects
 
@@ -37,14 +35,14 @@ class MaxGeometryPublisherCollectorPlugin(
         check_type = "geometryShape"
         # selected_objects = cmds.ls(sl=True, l=True)
         collected_objects = []
-        for obj in selected_objects:
-            # if not cmds.objectType(obj, isAType=check_type):
-            #    relatives = cmds.listRelatives(obj, ad=True, pa=True)
-            #    for relative in relatives:
-            #        if cmds.objectType(relative, isAType=check_type):
-            #            collected_objects.append(relative)
-            # else:
-            #    collected_objects.append(obj)
+        # for obj in selected_objects:
+        # if not cmds.objectType(obj, isAType=check_type):
+        #    relatives = cmds.listRelatives(obj, ad=True, pa=True)
+        #    for relative in relatives:
+        #        if cmds.objectType(relative, isAType=check_type):
+        #            collected_objects.append(relative)
+        # else:
+        #    collected_objects.append(obj)
         return collected_objects
 
     def run(self, context_data=None, data=None, options=None):

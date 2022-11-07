@@ -2,7 +2,7 @@
   "type": "publisher",
   "name": "Geometry Publisher",
   "asset_type": "geo",
-  "host_type": "max",
+  "host_type": "3dsmax",
   "ui_type": "qt",
   "task_type": "modeling",
   "contexts": [

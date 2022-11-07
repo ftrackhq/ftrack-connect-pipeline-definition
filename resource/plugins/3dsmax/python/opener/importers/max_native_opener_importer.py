@@ -5,8 +5,8 @@ import os
 
 # import maya.cmds as cmds
 
-from ftrack_connect_pipeline_max import plugin
-from ftrack_connect_pipeline_max.constants.asset import modes as load_const
+from ftrack_connect_pipeline_3dsmax import plugin
+from ftrack_connect_pipeline_3dsmax.constants.asset import modes as load_const
 import ftrack_api
 
 

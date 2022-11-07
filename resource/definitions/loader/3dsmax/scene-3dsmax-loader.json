@@ -2,7 +2,7 @@
   "type": "loader",
   "name": "Scene Loader",
   "asset_type": "scene",
-  "host_type": "max",
+  "host_type": "3dsmax",
   "ui_type": "qt",
   "contexts": [
     {

@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 
 # import maya.cmds as cmds
 import ftrack_api

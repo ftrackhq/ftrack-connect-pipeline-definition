@@ -5,7 +5,7 @@
 
 import ftrack_api
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 
 
 class MaxSelectionPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):

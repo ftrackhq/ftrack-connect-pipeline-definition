@@ -2,7 +2,7 @@
   "type": "loader",
   "name": "Camera Loader",
   "asset_type": "cam",
-  "host_type": "max",
+  "host_type": "3dsmax",
   "ui_type": "qt",
   "contexts": [
     {

@@ -1,9 +1,9 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-# import maya.cmds as cmds
+from pymxs import runtime as rt
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 import ftrack_api
 
 
@@ -11,15 +11,23 @@ class MaxViewportPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
     plugin_name = 'max_viewport_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all cameras from the scene'''
-        # collected_objects = cmds.listViewports(p=True)
-        return collected_objects
+        '''Fetch all viewports in Max'''
+        viewports = []
+        for idx in range(1, (rt.viewport.numViewEx() + 1)):
+            view_type = rt.viewport.getType(index=idx)
+            entry = (str(view_type), idx)
+            if str(view_type) == 'view_persp_user':  # USER_PERSP
+                viewports.insert(0, entry)
+            else:
+                viewports.append(entry)
+        return viewports
 
     def run(self, context_data=None, data=None, options=None):
-        '''Return the long name of the camera from the plugin *options*'''
-        camera_name = options.get('camera_name', 'persp')
-        # cameras = cmds.ls(camera_name, l=True)
-        return cameras
+        '''Return the viewport index from given *options*'''
+        viewport_index = options.get('viewport_index', -1)
+        if viewport_index != -1:
+            return [viewport_index]
+        return []
 
 
 def register(api_object, **kw):

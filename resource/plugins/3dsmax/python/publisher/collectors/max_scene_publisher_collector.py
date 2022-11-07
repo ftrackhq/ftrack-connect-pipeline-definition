@@ -24,7 +24,9 @@ class MaxScenePublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
                 # Scene is not saved, save it first.
                 self.logger.warning('Max scene not saved, saving locally')
                 unused_save_path, message = max_utils.save_file(
-                    None, context_id=context_data['context_id'], session=self.session
+                    None,
+                    context_id=context_data['context_id'],
+                    session=self.session,
                 )
                 if not message is None:
                     self.logger.info(message)

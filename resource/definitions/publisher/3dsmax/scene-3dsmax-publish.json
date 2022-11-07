@@ -2,7 +2,7 @@
   "type": "publisher",
   "name": "Scene Publisher",
   "asset_type": "scene",
-  "host_type": "max",
+  "host_type": "3dsmax",
   "ui_type": "qt",
   "contexts": [
     {
@@ -98,11 +98,9 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "select camera to playblast",
-              "plugin": "max_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              }
+              "name": "select viewport to playblast",
+              "plugin": "max_viewport_publisher_collector",
+              "widget": "max_viewport_publisher_collector"
             }
           ]
         },
@@ -120,7 +118,7 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "max_reviewable_publisher_exporter"
+              "plugin": "max_thumbnail_publisher_exporter"
             }
           ]
         }

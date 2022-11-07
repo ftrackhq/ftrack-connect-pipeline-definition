@@ -3,7 +3,7 @@
 
 from functools import partial
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
 

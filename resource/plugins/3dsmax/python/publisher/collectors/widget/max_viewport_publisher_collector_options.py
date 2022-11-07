@@ -1,9 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-
 from functools import partial
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 from ftrack_connect_pipeline_qt.plugin.widget import BaseOptionsWidget
 
 from Qt import QtWidgets
@@ -29,7 +28,7 @@ class MaxViewportPublisherCollectorOptionsWidget(BaseOptionsWidget):
         asset_type_name=None,
     ):
 
-        self.max_viewports = []
+        self.viewports = []
         super(MaxViewportPublisherCollectorOptionsWidget, self).__init__(
             parent=parent,
             session=session,
@@ -44,45 +43,48 @@ class MaxViewportPublisherCollectorOptionsWidget(BaseOptionsWidget):
     def on_fetch_callback(self, result):
         '''This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
-        self.max_viewports = result
-        if self.max_viewports:
-            self.viewports.setDisabled(False)
+        self.logger('@@@ on_fetch_callback({})'.format(result))
+        self.viewports = result
+        if self.viewports:
+            self.viewports_cb.setDisabled(False)
         else:
-            self.viewports.setDisabled(True)
-        self.viewports.clear()
-        self.viewports.addItems(result)
+            self.viewports_cb.setDisabled(True)
+        self.viewports_cb.clear()
+        for item in self.viewports:
+            self.viewports_cb.addItem(item[0], item[1])
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
+        self.logger('@@@ build()'.format())
         super(MaxViewportPublisherCollectorOptionsWidget, self).build()
-        self.viewports = QtWidgets.QComboBox()
-        self.viewports.setToolTip(self.description)
-        self.layout().addWidget(self.viewports)
+        self.viewports_cb = QtWidgets.QComboBox()
+        self.viewports_cb.setToolTip(self.description)
+        self.layout().addWidget(self.viewports_cb)
 
         if self.options.get('viewport_name'):
-            self.max_viewports.append(self.options.get('viewport_name'))
+            self.viewports.append(self.options.get('viewport_name'))
 
-        if not self.max_viewports:
-            self.viewports.setDisabled(True)
-            self.viewports.addItem('No suitable viewports found.')
+        if not self.viewports:
+            self.viewports_cb.setDisabled(True)
+            self.viewports_cb.addItem('No suitable viewports found.')
         else:
-            self.viewports.addItems(self.max_viewports)
+            self.viewports_cb.addItems(self.viewports)
 
     def post_build(self):
         super(MaxViewportPublisherCollectorOptionsWidget, self).post_build()
         update_fn = partial(self.set_option_result, key='viewport_name')
 
-        self.viewports.currentTextChanged.connect(update_fn)
-        if self.max_viewports:
+        self.viewports_cb.currentTextChanged.connect(update_fn)
+        if self.viewports:
             self.set_option_result(
-                self.viewports.currentText(), key='viewport_name'
+                self.viewports_cb.currentText(), key='viewport_name'
             )
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
         message = ''
         status = False
-        num_objects = 1 if self.viewports.isEnabled() else 0
+        num_objects = 1 if self.viewports_cb.isEnabled() else 0
         if num_objects > 0:
             message = '{} viewport{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''

@@ -7,7 +7,7 @@ import re
 
 # import maya.cmds as cmds
 
-from ftrack_connect_pipeline_max import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 
 
 class MaxRegexPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
@@ -15,20 +15,8 @@ class MaxRegexPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Select and collect nodes matching regular expression from *options*'''
-        expr = options['expression']
-        # dag_objs = cmds.ls(ap=True, assemblies=True, dag=True)
-        matched_objs = []
-        for obj in dag_objs:
-            matched_obj = re.findall(expr, obj)
-            matched_objs += matched_obj
-        if matched_objs:
-            # cmds.select(matched_objs, r=True)
-        else:
-            self.logger.error(
-                'No objects matched the expression {}'.format(expr)
-            )
-            return []
-        # selection = cmds.ls(sl=True)
+
+        selection = []
         return selection
 
 

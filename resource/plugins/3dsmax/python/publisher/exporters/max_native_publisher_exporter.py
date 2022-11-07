@@ -7,7 +7,6 @@ from pymxs import runtime as rt
 
 import ftrack_api
 
-from ftrack_connect_pipeline_3dsmax.utils import custom_commands as max_utils
 from ftrack_connect_pipeline_3dsmax import plugin
 
 
@@ -22,6 +21,10 @@ class MaxNativePublisherExporterPlugin(plugin.MaxPublisherExporterPlugin):
 
         self.extension = '.max'
 
+        new_file_path = tempfile.NamedTemporaryFile(
+            delete=False, suffix=self.extension
+        ).name
+
         collected_objects = []
         is_scene_publish = False
         for collector in data:
@@ -34,19 +37,13 @@ class MaxNativePublisherExporterPlugin(plugin.MaxPublisherExporterPlugin):
             scene_name = "{}{}".format(rt.maxFilePath, rt.maxFileName)
 
             # Save entire scene to temp
-            new_file_path, message = max_utils.save_file(None, context_id=context_data['context_id'], session=self.session)
-
-            if not message is None:
-                return (False, {'message': message})
+            rt.savemaxFile(new_file_path, useNewFile=False)
 
             if scene_name != '':
-                max_utils.save_file(scene_name)  # Save back to original location
+                # Save back to original location
+                rt.savemaxFile(new_file_path, useNewFile=False)
 
         else:
-            new_file_path = tempfile.NamedTemporaryFile(
-                delete=False, suffix=self.extension
-            ).name
-
             # Export a subset of the scene
             with mxstoken():
                 rt.clearSelection()
