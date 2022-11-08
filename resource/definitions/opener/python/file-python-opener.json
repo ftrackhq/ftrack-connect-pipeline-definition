@@ -43,8 +43,7 @@
           "plugins":[
             {
               "name": "importer",
-              "plugin": "common_passthrough_loader_importer",
-              "widget": "common_default_loader_importer",
+              "plugin": "common_passthrough_opener_importer",
               "options": {
                 "load_mode": "import"
               }
@@ -84,8 +83,7 @@
           "plugins":[
             {
               "name": "importer",
-              "plugin": "common_passthrough_loader_importer",
-              "widget": "common_default_loader_importer",
+              "plugin": "common_passthrough_opener_importer",
               "options": {
                 "load_mode": "import"
               }

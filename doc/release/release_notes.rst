@@ -15,6 +15,17 @@ Release Notes
         Houdini integration.
 
 
+    .. change:: changed
+        :tags: definitions
+
+        Allow registry definitions of multiple host_types.
+
+    .. change:: fixed
+        :tags: plugins
+
+        Fix plugin names in python definitions.
+
+
     .. change:: fixed
         :tags: maya
 
