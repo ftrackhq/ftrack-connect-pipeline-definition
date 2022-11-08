@@ -12,6 +12,12 @@ Release Notes
     .. change:: new
         :tags: houdini
 
+        Make merge default load mode for Houdini loaders.
+
+
+    .. change:: new
+        :tags: houdini
+
         Houdini integration.
 
 
@@ -19,6 +25,7 @@ Release Notes
         :tags: definitions
 
         Allow registry definitions of multiple host_types.
+
 
     .. change:: fixed
         :tags: plugins

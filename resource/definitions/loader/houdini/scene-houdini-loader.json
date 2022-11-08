@@ -42,7 +42,7 @@
               "name": "Import paths to Houdini",
               "plugin": "houdini_native_loader_importer",
               "options": {
-                "load_mode": "import",
+                "load_mode": "merge",
                 "load_options": {
                   "MergeOverwriteOnConflict": true
                 }
