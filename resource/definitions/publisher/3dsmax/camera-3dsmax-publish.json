@@ -14,7 +14,7 @@
             {
               "name": "context selector",
               "plugin": "common_passthrough_publisher_context",
-              "widget": "common_passthrough_publisher_context"
+              "widget": "common_default_publisher_context"
             }
           ]
         }
@@ -125,42 +125,6 @@
               "options": {
                 "alembicAnimation": true
               }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "game",
-      "optional": true,
-      "enabled": false,
-      "selected": false,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "camera",
-              "plugin": "max_camera_publisher_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "max_camera_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "max_fbx_publisher_exporter",
-              "plugin": "max_fbx_publisher_exporter",
-              "widget": "max_fbx_publisher_exporter"
             }
           ]
         }

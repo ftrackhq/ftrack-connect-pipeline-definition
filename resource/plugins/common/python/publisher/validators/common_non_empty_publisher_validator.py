@@ -17,7 +17,10 @@ class CommonNonEmptyPublisherValidatorPlugin(plugin.PublisherValidatorPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
         output = len(collected_objects) > 0 and all(
-            bool(datum is not None and len(datum) > 0)
+            bool(
+                datum is not None
+                and (len(datum) > 0 if hasattr(datum, '__len__') else True)
+            )
             for datum in collected_objects
         )
         if output is True and 'amount' in options:

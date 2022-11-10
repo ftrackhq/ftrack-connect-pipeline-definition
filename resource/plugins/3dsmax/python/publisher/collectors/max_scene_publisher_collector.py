@@ -23,20 +23,18 @@ class MaxScenePublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
             if len(scene_name or '') == 0:
                 # Scene is not saved, save it first.
                 self.logger.warning('Max scene not saved, saving locally')
-                unused_save_path, message = max_utils.save_file(
+                scene_name, message = max_utils.save_file(
                     None,
                     context_id=context_data['context_id'],
                     session=self.session,
                 )
                 if not message is None:
                     self.logger.info(message)
-                scene_name = "{}{}".format(rt.maxFilePath, rt.maxFileName)
             if len(scene_name or '') == 0:
-                self.logger.error(
-                    "Error exporting the scene: Please save the scene with a "
+                return False, {
+                    'message': "Error exporting the scene: Please save the scene with a "
                     "name before publish"
-                )
-                return []
+                }
             export_object = [scene_name]
         else:
             export_object = [node.getmxsprop('name') for node in rt.selection]

@@ -16,6 +16,34 @@ class MaxViewportPublisherCollectorOptionsWidget(BaseOptionsWidget):
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
+    @property
+    def viewports(self):
+        return self._viewports
+
+    @viewports.setter
+    def viewports(self, viewports):
+        self._viewports = viewports
+        self.viewports_cb.clear()
+        if not self.viewports:
+            self.viewports_cb.setDisabled(True)
+            self.viewports_cb.addItem('No suitable viewports found.')
+        else:
+            selected_index = 0
+            for index, item in enumerate(self.viewports):
+                self.viewports_cb.addItem(item[0], item[1])
+                if (
+                    self._viewport_name
+                    and item[0].lower() == self._viewport_name.lower()
+                ):
+                    selected_index = index
+                if self._viewport_index and item[1] == self._viewport_index:
+                    selected_index = index
+            if selected_index > -1:
+                self.viewports_cb.setCurrentIndex(selected_index)
+            self.set_option_result(
+                self.viewports_cb.currentData(), key='viewport_index'
+            )
+
     def __init__(
         self,
         parent=None,
@@ -28,7 +56,9 @@ class MaxViewportPublisherCollectorOptionsWidget(BaseOptionsWidget):
         asset_type_name=None,
     ):
 
-        self.viewports = []
+        self._viewports = []
+        self._viewport_name = options.get('viewport_name')
+        self._viewport_index = options.get('viewport_index')
         super(MaxViewportPublisherCollectorOptionsWidget, self).__init__(
             parent=parent,
             session=session,
@@ -40,45 +70,32 @@ class MaxViewportPublisherCollectorOptionsWidget(BaseOptionsWidget):
             asset_type_name=asset_type_name,
         )
 
-    def on_fetch_callback(self, result):
-        '''This function is called by the _set_internal_run_result function of
-        the BaseOptionsWidget'''
-        self.logger('@@@ on_fetch_callback({})'.format(result))
-        self.viewports = result
-        if self.viewports:
-            self.viewports_cb.setDisabled(False)
-        else:
-            self.viewports_cb.setDisabled(True)
-        self.viewports_cb.clear()
-        for item in self.viewports:
-            self.viewports_cb.addItem(item[0], item[1])
-
     def build(self):
         '''build function , mostly used to create the widgets.'''
-        self.logger('@@@ build()'.format())
         super(MaxViewportPublisherCollectorOptionsWidget, self).build()
         self.viewports_cb = QtWidgets.QComboBox()
         self.viewports_cb.setToolTip(self.description)
         self.layout().addWidget(self.viewports_cb)
 
-        if self.options.get('viewport_name'):
-            self.viewports.append(self.options.get('viewport_name'))
-
-        if not self.viewports:
-            self.viewports_cb.setDisabled(True)
-            self.viewports_cb.addItem('No suitable viewports found.')
-        else:
-            self.viewports_cb.addItems(self.viewports)
+    def _on_viewport_selected(self, unused_text):
+        self.set_option_result(
+            self.viewports_cb.currentData(), key='viewport_index'
+        )
 
     def post_build(self):
         super(MaxViewportPublisherCollectorOptionsWidget, self).post_build()
-        update_fn = partial(self.set_option_result, key='viewport_name')
-
-        self.viewports_cb.currentTextChanged.connect(update_fn)
+        self.viewports_cb.currentTextChanged.connect(
+            self._on_viewport_selected
+        )
         if self.viewports:
             self.set_option_result(
                 self.viewports_cb.currentText(), key='viewport_name'
             )
+
+    def on_fetch_callback(self, result):
+        '''This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.viewports = result
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''

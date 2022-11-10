@@ -1,10 +1,11 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-# import maya.cmds as cmds
+from pymxs import runtime as rt
+
+import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
-import ftrack_api
 
 
 class MaxGeometryPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
@@ -13,36 +14,30 @@ class MaxGeometryPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
     def select(self, context_data=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
-        # cmds.select(cl=True)
-        # for item in selected_items:
-        #    cmds.select(item, add=True)
-        return selected_items
+        nodes_to_select = []
+        for item in selected_items:
+            nodes_to_select.append(rt.getNodeByName(item))
+        rt.select(nodes_to_select)
+        return rt.selection
 
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selected geometries in the scene, if non selected return all'''
-        check_type = "geometryShape"
         collected_objects = []
-
-        # selected_objects = cmds.ls(sl=True, l=True)
-
-        # if not selected_objects:
-        # collected_objects = cmds.ls(geometry=True, l=True)
+        all_objects = rt.objects
+        for obj in all_objects:
+            if rt.superClassOf(obj) == rt.GeometryClass:
+                collected_objects.append(obj.name)
 
         return collected_objects
 
     def add(self, context_data=None, data=None, options=None):
         '''Return the selected geometries'''
-        check_type = "geometryShape"
-        # selected_objects = cmds.ls(sl=True, l=True)
+        selected_objects = rt.selection
+        check_type = rt.GeometryClass
         collected_objects = []
-        # for obj in selected_objects:
-        # if not cmds.objectType(obj, isAType=check_type):
-        #    relatives = cmds.listRelatives(obj, ad=True, pa=True)
-        #    for relative in relatives:
-        #        if cmds.objectType(relative, isAType=check_type):
-        #            collected_objects.append(relative)
-        # else:
-        #    collected_objects.append(obj)
+        for obj in selected_objects:
+            if rt.superClassOf(obj) == check_type:
+                collected_objects.append(obj.name)
         return collected_objects
 
     def run(self, context_data=None, data=None, options=None):
