@@ -8,7 +8,7 @@ import ftrack_api
 class CollectorOpenerTest(plugin.OpenerCollectorPlugin):
     '''An empty test opener collector'''
 
-    plugin_name = 'collector_test'
+    plugin_name = 'common_test_opener_collector'
 
     def run(self, context_data=None, data=None, options=None):
         return []

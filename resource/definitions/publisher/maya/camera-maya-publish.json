@@ -29,7 +29,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect_scene_selection",
+              "name": "collect scene",
               "plugin": "maya_scene_publisher_collector",
               "options": {
                 "export": ["scene"]
@@ -86,10 +86,7 @@
             {
               "name": "output_maya",
               "plugin": "maya_native_publisher_exporter",
-              "widget": "maya_native_publisher_exporter",
-              "options": {
-                "alembicAnimation": true
-              }
+              "widget": "maya_native_publisher_exporter"
             }
           ]
         }

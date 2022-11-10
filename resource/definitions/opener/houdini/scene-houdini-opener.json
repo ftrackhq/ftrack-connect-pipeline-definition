@@ -1,8 +1,9 @@
 {
   "type": "opener",
-  "name": "File Opener",
+  "name": "Scene Opener",
   "asset_type": "scene",
-  "host_type": "python",
+  "host_type": "houdini",
+  "ui_type": "qt",
   "contexts": [
     {
       "name": "main",
@@ -22,16 +23,12 @@
   ],
   "components": [
     {
-      "name": "main",
-      "file_formats": [".zip"],
+      "name": "snapshot",
+      "file_formats": [".hip", ".hipnc"],
       "stages": [
         {
           "name": "collector",
           "plugins":[
-            {
-              "name": "Pick objects with suffix",
-              "plugin": "common_test_opener_collector"
-            },
             {
               "name": "Collect components from context",
               "plugin": "common_context_opener_collector"
@@ -42,10 +39,9 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "importer",
-              "plugin": "common_passthrough_opener_importer",
+              "name": "Open Houdini Scene",
+              "plugin": "houdini_native_opener_importer",
               "options": {
-                "load_mode": "import"
               }
             }
           ]
@@ -54,48 +50,7 @@
           "name": "post_importer",
           "plugins":[
             {
-              "name": "post import plugin",
-              "plugin": "common_passthrough_opener_post_importer"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "animation",
-      "file_formats": [".ma",".mb"],
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Pick objects with suffix",
-              "plugin": "common_test_opener_collector"
-            },
-            {
-              "name": "Collect components from context",
-              "plugin": "common_context_opener_collector"
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "importer",
-              "plugin": "common_passthrough_opener_importer",
-              "options": {
-                "load_mode": "import"
-              }
-            }
-          ]
-        },
-        {
-          "name": "post_importer",
-          "visible": false,
-          "plugins":[
-            {
-              "name": "post import plugin",
+              "name": "houdini",
               "plugin": "common_passthrough_opener_post_importer"
             }
           ]
@@ -106,10 +61,10 @@
   "finalizers": [
     {
       "name": "main",
-      "visible": false,
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "Pre finalizer",
@@ -121,20 +76,21 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Finalizer",
-              "plugin": "common_passthrough_opener_finalizer"
+              "name": "Rename scene",
+              "description" : "Upon open, rename Houdini scene to local temp directory",
+              "plugin": "houdini_native_opener_finalizer"
             }
           ]
         },
         {
           "name": "post_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "Post finalizer",
               "plugin": "common_passthrough_opener_post_finalizer"
             }
-          ],
-          "visible": false
+          ]
         }
       ]
     }

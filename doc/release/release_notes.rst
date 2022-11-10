@@ -7,7 +7,31 @@
 Release Notes
 *************
 
-.. release:: upcoming
+.. release:: 1.1.0
+    :date: 2022-11-08
+
+    .. change:: new
+        :tags: houdini
+
+        Make merge default load mode for Houdini loaders.
+
+
+    .. change:: new
+        :tags: houdini
+
+        Houdini integration.
+
+
+    .. change:: changed
+        :tags: definitions
+
+        Allow registry definitions of multiple host_types.
+
+
+    .. change:: fixed
+        :tags: plugins
+
+        Fix plugin names in python definitions.
 
 
     .. change:: fixed
@@ -23,9 +47,15 @@ Release Notes
 
 
     .. change:: new
+        :tags: houdini
+
+        Added alembic formats to exporter, to fix Maya compatibility bug.
+
+
         :tags: maya
 
         Turntable plugin, set as default reviewable plugin for Maya geometry publisher.
+
 
     .. change:: fix
         :tags: maya
@@ -40,19 +70,19 @@ Release Notes
 
 
     .. change:: change
-        :tags: maya
+        :tags: option_plugins
 
         Implemented use of dynamic widget group box.
 
 
     .. change:: change
-        :tags: maya
+        :tags: option_plugins
 
         Changed exporter options widgets to properly use dynamic widget combobox functionality.
 
 
     .. change:: change
-        :tags: options
+        :tags: option_plugins
 
         Aligned with QT plugin/widget refactorization.
 
@@ -64,7 +94,7 @@ Release Notes
 
 
     .. change:: new
-        :tags: nuke
+        :tags: plugins
 
         Rename default plugins to native or generic, remove test code from finalizers, relabel finalizers.
 
@@ -72,19 +102,19 @@ Release Notes
     .. change:: new
         :tags: nuke
 
-        Specialise camera and geometry collectors in nuke, add validators
+        Specialised camera and geometry collectors in nuke, add validators.
+
+
+    .. change:: new
+        :tags: maya
+
+        Maya model exporter crashes.
 
 
     .. change:: new
         :tags: nuke
 
-        Maya model exporter crashes
-
-
-    .. change:: new
-        :tags: nuke
-
-        Added node existance check to collector
+        Added node existence check to collector.
 
 
     .. change:: new
