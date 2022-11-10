@@ -1,8 +1,9 @@
 {
   "type": "loader",
-  "name": "File Loader",
-  "asset_type": "scene",
-  "host_type": "python",
+  "name": "Geometry Loader",
+  "asset_type": "geo",
+  "host_type": "houdini",
+  "ui_type": "qt",
   "contexts": [
     {
       "name": "main",
@@ -22,16 +23,12 @@
   ],
   "components": [
     {
-      "name": "main",
-      "file_formats": [".zip"],
+      "name": "snapshot",
+      "file_formats": [".hip",".hipnc"],
       "stages": [
         {
           "name": "collector",
           "plugins":[
-            {
-              "name": "Pick objects with suffix",
-              "plugin": "common_test_opener_collector"
-            },
             {
               "name": "Collect components from context",
               "plugin": "common_context_loader_collector"
@@ -42,11 +39,13 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "importer",
-              "plugin": "common_passthrough_loader_importer",
-              "widget": "common_default_loader_importer",
+              "name": "Import paths to Houdini",
+              "plugin": "houdini_native_loader_importer",
               "options": {
-                "load_mode": "import"
+                "load_mode": "merge",
+                "load_options": {
+                  "MergeOverwriteOnConflict": true
+                }
               }
             }
           ]
@@ -55,7 +54,7 @@
           "name": "post_importer",
           "plugins":[
             {
-              "name": "post import plugin",
+              "name": "houdini",
               "plugin": "common_passthrough_loader_post_importer"
             }
           ]
@@ -63,16 +62,12 @@
       ]
     },
     {
-      "name": "animation",
-      "file_formats": [".ma",".mb"],
+      "name": "model",
+      "file_formats": [".hip",".hipnc"],
       "stages": [
         {
           "name": "collector",
           "plugins":[
-            {
-              "name": "Pick objects with suffix",
-              "plugin": "common_test_opener_collector"
-            },
             {
               "name": "Collect components from context",
               "plugin": "common_context_loader_collector"
@@ -83,21 +78,92 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "importer",
-              "plugin": "common_passthrough_loader_importer",
-              "widget": "common_default_loader_importer",
+              "name": "Import paths to Houdini",
+              "plugin": "houdini_native_loader_importer",
               "options": {
-                "load_mode": "import"
+                "load_mode": "merge",
+                "load_options": {
+                  "MergeOverwriteOnConflict": true
+                }
               }
             }
           ]
         },
         {
           "name": "post_importer",
-          "visible": false,
           "plugins":[
             {
-              "name": "post import plugin",
+              "name": "houdini",
+              "plugin": "common_passthrough_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "file_formats": [".abc"],
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import Alembic paths to Houdini",
+              "plugin": "houdini_abc_loader_importer"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "houdini",
+              "plugin": "common_passthrough_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "file_formats": [".fbx"],
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import FBX paths to Houdini",
+              "plugin": "houdini_fbx_loader_importer"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "houdini",
               "plugin": "common_passthrough_loader_post_importer"
             }
           ]
@@ -108,7 +174,6 @@
   "finalizers": [
     {
       "name": "main",
-      "visible": false,
       "stages": [
         {
           "name": "pre_finalizer",

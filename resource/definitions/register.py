@@ -12,11 +12,11 @@ logger = logging.getLogger('ftrack_connect_pipeline_definition.register')
 
 
 def register_definitions(session, event):
-    host_type = event['data']['pipeline']['host_type']
+    host_types = event['data']['pipeline']['host_types']
     current_dir = os.path.dirname(__file__)
     # collect definitions
     data = ftrack_connect_pipeline.definition.collect_and_validate(
-        session, current_dir, host_type
+        session, current_dir, host_types
     )
     return data
 

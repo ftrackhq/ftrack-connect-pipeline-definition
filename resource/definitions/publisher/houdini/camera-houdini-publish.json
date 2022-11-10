@@ -1,8 +1,8 @@
 {
   "type": "publisher",
-  "name": "Scene Publisher",
-  "asset_type": "scene",
-  "host_type": "maya",
+  "name": "Camera Publisher",
+  "asset_type": "cam",
+  "host_type": "houdini",
   "ui_type": "qt",
   "contexts": [
     {
@@ -29,8 +29,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect scene",
-              "plugin": "maya_scene_publisher_collector",
+              "name": "collect_scene_selection",
+              "plugin": "houdini_scene_publisher_collector",
               "options": {
                 "export": ["scene"]
               }
@@ -41,7 +41,7 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "validate scene",
+              "name": "validate selection",
               "plugin": "common_non_empty_publisher_validator"
             }
           ]
@@ -50,9 +50,112 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "maya",
-              "plugin": "maya_native_publisher_exporter",
-              "widget": "maya_native_publisher_exporter"
+              "name": "houdini",
+              "plugin": "houdini_native_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "camera",
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Camera collector",
+              "plugin": "houdini_camera_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "houdini_camera_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "exporter_houdini",
+              "plugin": "houdini_native_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Camera Collector",
+              "plugin": "houdini_camera_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "houdini_camera_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Alembic exporter options:",
+              "plugin": "houdini_abc_publisher_exporter",
+              "options": {
+                "ABCAnimation": true,
+                "ABCFormat": ["Default","HDF5","Ogawa"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Camera Collector",
+              "plugin": "houdini_camera_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "houdini_camera_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "FBX exporter options:",
+              "plugin": "houdini_fbx_publisher_exporter"
             }
           ]
         }
@@ -65,12 +168,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "select camera to playblast",
-              "plugin": "maya_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              },
-              "widget": "maya_camera_publisher_collector"
+              "name": "empty collector",
+              "plugin": "common_test_publisher_collector"
             }
           ]
         },
@@ -79,7 +178,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "common_non_empty_publisher_validator"
+              "plugin": "common_test_publisher_validator"
             }
           ]
         },
@@ -88,42 +187,7 @@
           "plugins":[
             {
               "name": "write thumbnail",
-              "plugin": "maya_thumbnail_publisher_exporter"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "reviewable",
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "select camera to playblast",
-              "plugin": "maya_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              }
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "common_non_empty_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "write reviewable",
-              "plugin": "maya_reviewable_publisher_exporter"
+              "plugin": "houdini_thumbnail_publisher_exporter"
             }
           ]
         }
