@@ -16,8 +16,11 @@ class MaxNativeOpenerFinalizerPlugin(plugin.MaxOpenerFinalizerPlugin):
         result = {}
 
         self.logger.debug('Rename Max scene on open')
-        save_path, message = max_utils.save(
-            context_data['context_id'], self.session, save=False
+        save_path, message = max_utils.save_file(
+            None,
+            context_id=context_data['context_id'],
+            session=self.session,
+            save=False,
         )
         if save_path:
             result['save_path'] = save_path
