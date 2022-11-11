@@ -42,12 +42,7 @@
               "name": "Import paths to Max",
               "plugin": "max_native_loader_importer",
               "options": {
-                "load_mode": "import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
+                "load_mode": "import"
               }
             }
           ]
