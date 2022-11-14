@@ -51,8 +51,7 @@
           "plugins":[
             {
               "name": "max",
-              "plugin": "max_native_publisher_exporter",
-              "widget": "max_native_publisher_exporter"
+              "plugin": "max_native_publisher_exporter"
             }
           ]
         }
