@@ -1,6 +1,5 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-
 from functools import partial
 
 from ftrack_connect_pipeline_3dsmax import plugin
@@ -17,6 +16,34 @@ class MaxCameraPublisherCollectorOptionsWidget(BaseOptionsWidget):
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
+    _cameras = []
+
+    @property
+    def cameras(self):
+        return self._cameras
+
+    @cameras.setter
+    def cameras(self, cameras):
+        self._cameras = cameras
+        self.cameras_cb.clear()
+        if not self.cameras:
+            self.cameras_cb.setDisabled(True)
+            self.cameras_cb.addItem('No suitable cameras found.')
+        else:
+            selected_index = 0
+            for index, item in enumerate(self.cameras):
+                self.cameras_cb.addItem(item)
+                if (
+                    self._camera_name
+                    and item.lower() == self._camera_name.lower()
+                ):
+                    selected_index = index
+            if selected_index > -1:
+                self.cameras_cb.setCurrentIndex(selected_index)
+            self.set_option_result(
+                self.cameras_cb.currentText(), key='camera_name'
+            )
+
     def __init__(
         self,
         parent=None,
@@ -29,7 +56,8 @@ class MaxCameraPublisherCollectorOptionsWidget(BaseOptionsWidget):
         asset_type_name=None,
     ):
 
-        self.max_cameras = []
+        self._cameras = []
+        self._camera_name = options.get('camera_name')
         super(MaxCameraPublisherCollectorOptionsWidget, self).__init__(
             parent=parent,
             session=session,
@@ -41,48 +69,37 @@ class MaxCameraPublisherCollectorOptionsWidget(BaseOptionsWidget):
             asset_type_name=asset_type_name,
         )
 
-    def on_fetch_callback(self, result):
-        '''This function is called by the _set_internal_run_result function of
-        the BaseOptionsWidget'''
-        self.max_cameras = result
-        if self.max_cameras:
-            self.cameras.setDisabled(False)
-        else:
-            self.cameras.setDisabled(True)
-        self.cameras.clear()
-        self.cameras.addItems(result)
-
     def build(self):
         '''build function , mostly used to create the widgets.'''
         super(MaxCameraPublisherCollectorOptionsWidget, self).build()
-        self.cameras = QtWidgets.QComboBox()
-        self.cameras.setToolTip(self.description)
-        self.layout().addWidget(self.cameras)
+        self.cameras_cb = QtWidgets.QComboBox()
+        self.cameras_cb.setToolTip(self.description)
+        self.layout().addWidget(self.cameras_cb)
 
-        if self.options.get('camera_name'):
-            self.max_cameras.append(self.options.get('camera_name'))
-
-        if not self.max_cameras:
-            self.cameras.setDisabled(True)
-            self.cameras.addItem('No suitable cameras found.')
-        else:
-            self.cameras.addItems(self.max_cameras)
+    def _on_camera_selected(self, unused_text):
+        self.set_option_result(
+            self.cameras_cb.currentText(), key='camera_name'
+        )
 
     def post_build(self):
         super(MaxCameraPublisherCollectorOptionsWidget, self).post_build()
         update_fn = partial(self.set_option_result, key='camera_name')
-
-        self.cameras.currentTextChanged.connect(update_fn)
-        if self.max_cameras:
+        self.cameras_cb.editTextChanged.connect(update_fn)
+        if self.cameras:
             self.set_option_result(
-                self.cameras.currentText(), key='camera_name'
+                self.cameras_cb.currentText(), key='camera_name'
             )
+
+    def on_fetch_callback(self, result):
+        '''This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.cameras = result
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
         message = ''
         status = False
-        num_objects = 1 if self.cameras.isEnabled() else 0
+        num_objects = 1 if self.cameras_cb.isEnabled() else 0
         if num_objects > 0:
             message = '{} camera{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''

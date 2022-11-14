@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-# import maya.cmds as cmds
+from pymxs import runtime as rt
 
 import ftrack_api
 
@@ -13,7 +13,7 @@ class MaxSelectionPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Collect selected Max scene objects'''
-        # selection = cmds.ls(sl=True)
+        selection = [node.getmxsprop('name') for node in rt.selection]
         return selection
 
 

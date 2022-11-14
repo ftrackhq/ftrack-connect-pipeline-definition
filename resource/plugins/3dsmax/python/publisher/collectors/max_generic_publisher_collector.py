@@ -1,10 +1,11 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-# import maya.cmds as cmds
+from pymxs import runtime as rt
+
+import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
-import ftrack_api
 
 
 class MaxGenericPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
@@ -13,19 +14,23 @@ class MaxGenericPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
     def select(self, context_data=None, data=None, options=None):
         '''Select all the items of the plugin *options*'''
         selected_items = options.get('selected_items', [])
-        # cmds.select(cl=True)
-        # for item in selected_items:
-        #    cmds.select(item, add=True)
+        rt.clearSelection()
+        nodes = []
+        for node_name in selected_items:
+            node = rt.getNodeByName(node_name)
+            if node:
+                nodes.append(node)
+        rt.select(nodes)
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selected items'''
-        # collected_objects = cmds.ls(sl=True, l=True)
+        collected_objects = rt.GetCurrentSelection()
         return collected_objects
 
     def add(self, context_data=None, data=None, options=None):
         '''Return the selected items of the scene'''
-        # selected_objects = cmds.ls(sl=True, l=True)
+        selected_objects = rt.GetCurrentSelection()
         return selected_objects
 
     def run(self, context_data=None, data=None, options=None):

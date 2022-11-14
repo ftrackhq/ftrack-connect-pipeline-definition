@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
-# import maya.cmds as cmds
+from pymxs import runtime as rt
 
 from ftrack_connect_pipeline_3dsmax import plugin
 import ftrack_api
@@ -12,14 +12,19 @@ class MaxCameraPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
 
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all cameras from the scene'''
-        # collected_objects = cmds.listCameras(p=True)
-        return collected_objects
+        cameras = []
+        for obj in rt.rootScene.world.children:
+            if rt.SuperClassOf(obj) == rt.camera:
+                cameras.append(obj.name)
+        return cameras
 
     def run(self, context_data=None, data=None, options=None):
         '''Return the long name of the camera from the plugin *options*'''
         camera_name = options.get('camera_name', 'persp')
-        # cameras = cmds.ls(camera_name, l=True)
-        return cameras
+        camera = rt.getNodeByName(camera_name)
+        if camera:
+            return [camera.name]
+        return []
 
 
 def register(api_object, **kw):

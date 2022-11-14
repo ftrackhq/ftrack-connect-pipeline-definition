@@ -9,8 +9,8 @@ import ftrack_api
 from ftrack_connect_pipeline_3dsmax import plugin
 
 
-class MaxAlembicPublisherExporterPlugin(plugin.MaxPublisherExporterPlugin):
-    plugin_name = 'max_abc_publisher_exporter'
+class MaxFBXPublisherExporterPlugin(plugin.MaxPublisherExporterPlugin):
+    plugin_name = 'max_fbx_publisher_exporter'
 
     extension = None
     file_type = None
@@ -19,11 +19,11 @@ class MaxAlembicPublisherExporterPlugin(plugin.MaxPublisherExporterPlugin):
         '''Export Max objects to a temp file for publish'''
 
         new_file_path = tempfile.NamedTemporaryFile(
-            delete=False, suffix='.abc'
+            delete=False, suffix='.fbx'
         ).name
 
         self.logger.debug('Calling extractor options: data {}'.format(data))
-        self.logger.debug('Writing Alembic file to {}'.format(new_file_path))
+        self.logger.debug('Writing FBX file to {}'.format(new_file_path))
 
         saved_selection = rt.GetCurrentSelection()
 
@@ -45,7 +45,7 @@ class MaxAlembicPublisherExporterPlugin(plugin.MaxPublisherExporterPlugin):
                 new_file_path,
                 rt.Name("noPrompt"),
                 selectedOnly=True,
-                using=rt.AlembicExport,
+                using=rt.FBXEXP,
             )
         finally:
             rt.select(saved_selection)
@@ -57,5 +57,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    output_plugin = MaxAlembicPublisherExporterPlugin(api_object)
+    output_plugin = MaxFBXPublisherExporterPlugin(api_object)
     output_plugin.register()
