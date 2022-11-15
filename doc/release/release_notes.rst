@@ -7,7 +7,14 @@
 Release Notes
 *************
 
-.. release:: upcoming
+.. release:: 1.1.0
+    :date: 2022-11-08
+
+    .. change:: new
+        :tags: houdini
+
+        Make merge default load mode for Houdini loaders.
+
 
     .. change:: new
         :tags: houdini
@@ -25,6 +32,7 @@ Release Notes
         :tags: plugins
 
         Fix plugin names in python definitions.
+
 
     .. change:: fixed
         :tags: maya
