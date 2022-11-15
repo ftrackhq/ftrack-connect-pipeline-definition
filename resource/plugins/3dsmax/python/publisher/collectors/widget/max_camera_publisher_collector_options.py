@@ -84,7 +84,7 @@ class MaxCameraPublisherCollectorOptionsWidget(BaseOptionsWidget):
     def post_build(self):
         super(MaxCameraPublisherCollectorOptionsWidget, self).post_build()
         update_fn = partial(self.set_option_result, key='camera_name')
-        self.cameras_cb.editTextChanged.connect(update_fn)
+        self.cameras_cb.currentTextChanged.connect(update_fn)
         if self.cameras:
             self.set_option_result(
                 self.cameras_cb.currentText(), key='camera_name'

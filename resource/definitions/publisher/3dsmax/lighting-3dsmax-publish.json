@@ -1,7 +1,8 @@
 {
   "type": "publisher",
-  "name": "Camera Publisher",
-  "asset_type": "cam",
+  "name": "Lighting Publisher",
+  "asset_type": "lgt",
+  "task_type": "lighting",
   "host_type": "3dsmax",
   "ui_type": "qt",
   "contexts": [
@@ -30,7 +31,7 @@
           "plugins":[
             {
               "name": "collect_scene_selection",
-              "plugin": "max_scene_publisher_collector",
+              "plugin": "maya_scene_publisher_collector",
               "options": {
                 "export": ["scene"]
               }
@@ -51,15 +52,14 @@
           "plugins":[
             {
               "name": "max",
-              "plugin": "max_native_publisher_exporter",
-              "widget": "max_native_publisher_exporter"
+              "plugin": "max_generic_publisher_collector"
             }
           ]
         }
       ]
     },
     {
-      "name": "camera",
+      "name": "lighting",
       "optional": true,
       "stages": [
         {
@@ -67,7 +67,7 @@
           "plugins":[
             {
               "name": "camera",
-              "plugin": "max_camera_publisher_collector"
+              "plugin": "max_generic_publisher_collector"
             }
           ]
         },
@@ -76,7 +76,7 @@
           "plugins":[
             {
               "name": "validate selection",
-              "plugin": "max_camera_publisher_validator"
+              "plugin": "common_non_empty_publisher_validator"
             }
           ]
         },
@@ -84,75 +84,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "output_max",
+              "name": "max",
               "plugin": "max_native_publisher_exporter"
-            }
-          ]
-        }
-      ]
-    },
-     {
-      "name": "cache",
-      "optional": true,
-      "selected": false,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "camera",
-              "plugin": "max_camera_publisher_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "max_camera_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "max_abc_publisher_exporter",
-              "plugin": "max_abc_publisher_exporter"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "game",
-      "optional": true,
-      "selected": false,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Geometry Collector",
-              "plugin": "max_camera_publisher_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "max_camera_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "max_fbx_publisher_exporter"
             }
           ]
         }

@@ -161,18 +161,14 @@
     },
     {
       "name": "thumbnail",
-      "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "select camera to playblast",
-              "plugin": "max_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              },
-              "widget": "max_camera_publisher_collector"
+              "name": "select viewport",
+              "plugin": "max_viewport_publisher_collector",
+              "widget": "max_viewport_publisher_collector"
             }
           ]
         },
@@ -198,17 +194,14 @@
     },
     {
       "name": "reviewable",
-      "optional": true,
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
-              "name": "select camera to playblast",
-              "plugin": "max_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              }
+              "name": "select viewport to playblast",
+              "plugin": "max_viewport_publisher_collector",
+              "widget": "max_viewport_publisher_collector"
             }
           ]
         },
@@ -226,7 +219,7 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "max_reviewable_publisher_exporter"
+              "plugin": "max_thumbnail_publisher_exporter"
             }
           ]
         }
@@ -239,10 +232,10 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "Pre publish to ftrack server",
-              "visible": false,
               "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
