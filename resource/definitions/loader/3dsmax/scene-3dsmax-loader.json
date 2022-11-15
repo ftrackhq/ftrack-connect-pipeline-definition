@@ -14,7 +14,7 @@
             {
               "name": "context selector",
               "plugin": "common_passthrough_loader_context",
-              "widget": "common_passthrough_loader_context"
+              "widget": "common_default_loader_context"
             }
           ]
         }
@@ -24,7 +24,7 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".mb", ".ma"],
+      "file_formats": [".max"],
       "stages": [
         {
           "name": "collector",
@@ -42,13 +42,7 @@
               "name": "Import paths to Max",
               "plugin": "max_native_loader_importer",
               "options": {
-                "load_mode": "import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
-              }
+                "load_mode": "import"
             }
           ]
         },
