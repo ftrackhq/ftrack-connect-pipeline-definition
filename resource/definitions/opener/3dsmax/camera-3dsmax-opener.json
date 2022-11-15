@@ -40,9 +40,7 @@
           "plugins":[
             {
               "name": "Open Max Scene",
-              "plugin": "max_native_opener_importer",
-              "options": {
-              }
+              "plugin": "max_native_opener_importer"
             }
           ]
         },
@@ -59,7 +57,7 @@
     },
     {
       "name": "camera",
-      "file_formats": [".mb", ".ma"],
+      "file_formats": [".max"],
       "stages": [
         {
           "name": "collector",
@@ -75,9 +73,7 @@
           "plugins":[
             {
               "name": "Open Max Scene",
-              "plugin": "max_native_opener_importer",
-              "options": {
-              }
+              "plugin": "max_native_opener_importer"
             }
           ]
         },
@@ -111,8 +107,8 @@
           "name": "finalizer",
           "plugins":[
             {
-              "name": "Rename scene",
-              "description" : "Upon open, rename Max scene to local temp directory",
+              "name": "Save scene to temp",
+              "description" : "Upon open, save Max scene to local temp directory",
               "plugin": "max_native_opener_finalizer"
             }
           ]
