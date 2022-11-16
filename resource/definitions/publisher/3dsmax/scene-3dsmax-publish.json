@@ -50,7 +50,7 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max",
+              "name": "write max",
               "plugin": "max_native_publisher_exporter"
             }
           ]

@@ -50,9 +50,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max",
-              "plugin": "max_native_publisher_exporter",
-              "widget": "max_native_publisher_exporter"
+              "name": "write max",
+              "plugin": "max_native_publisher_exporter"
             }
           ]
         }
@@ -84,7 +83,7 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "output_max",
+              "name": "write max",
               "plugin": "max_native_publisher_exporter"
             }
           ]
@@ -118,7 +117,7 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max_abc_publisher_exporter",
+              "name": "write alembic",
               "plugin": "max_abc_publisher_exporter"
             }
           ]
@@ -152,7 +151,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max_fbx_publisher_exporter"
+              "name": "write fbx",
+              "plugin": "max_fbx_publisher_exporter"
             }
           ]
         }

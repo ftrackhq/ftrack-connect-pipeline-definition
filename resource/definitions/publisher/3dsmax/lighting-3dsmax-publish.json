@@ -31,7 +31,7 @@
           "plugins":[
             {
               "name": "collect_scene_selection",
-              "plugin": "maya_scene_publisher_collector",
+              "plugin": "max_scene_publisher_collector",
               "options": {
                 "export": ["scene"]
               }
@@ -51,8 +51,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max",
-              "plugin": "max_generic_publisher_collector"
+              "name": "write max",
+              "plugin": "max_native_publisher_exporter"
             }
           ]
         }
@@ -84,7 +84,7 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max",
+              "name": "write max",
               "plugin": "max_native_publisher_exporter"
             }
           ]
@@ -178,7 +178,7 @@
           "plugins":[
             {
               "name": "Publish to ftrack server",
-              "plugin": "common_passthrough_publisher_pre_finalizer"
+              "plugin": "common_passthrough_publisher_finalizer"
             }
           ]
         },
