@@ -3,14 +3,11 @@
 
 import ftrack_api
 
-from ftrack_connect_pipeline_maya import plugin
+from ftrack_connect_pipeline_3dsmax import plugin
 from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
-from ftrack_connect_pipeline_3dsmax.utils import (
-    max_alembic_commands as abc_utils,
-)
 
 
-class MaxAbcLoaderExporterOptionsWidget(DynamicWidget):
+class MaxAbcLoaderImporterOptionsWidget(DynamicWidget):
     '''Max FBX publisher options user input plugin widget'''
 
     def __init__(
@@ -25,7 +22,7 @@ class MaxAbcLoaderExporterOptionsWidget(DynamicWidget):
         asset_type_name=None,
     ):
 
-        super(MaxAbcLoaderExporterOptionsWidget, self).__init__(
+        super(MaxAbcLoaderImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -38,7 +35,22 @@ class MaxAbcLoaderExporterOptionsWidget(DynamicWidget):
 
     def define_options(self):
         '''Default renderable options for dynamic widget'''
-        return abc_utils.abc_default_import_options
+        return {
+            "ABCCoordinateSystem": 3,
+            "ABCImportToRoot": False,
+            "ABCFitTimeRange": True,
+            "ABCSetStartTime": False,
+            "ABCUVs": True,
+            "ABCNormals": True,
+            "ABCVertexColors": True,
+            "ABCExtraChannels": True,
+            "ABCVelocity": True,
+            "ABCMaterialIDs": True,
+            "ABCVisibility": True,
+            "ABCCustomAttributes": True,
+            "ABCShapeSuffix": True,
+            "ABCObjectAttributes": True,
+        }
 
     def get_options_group_name(self):
         '''Override'''
@@ -49,19 +61,19 @@ class MaxAbcLoaderExporterOptionsWidget(DynamicWidget):
 
         self.update(self.define_options())
 
-        super(MaxAbcLoaderExporterOptionsWidget, self).build()
+        super(MaxAbcLoaderImporterOptionsWidget, self).build()
 
 
-class MaxAbcLoaderExporterOptionsPluginWidget(
-    plugin.MaxLoaderExporterPluginWidget
+class MaxAbcLoaderImporterOptionsPluginWidget(
+    plugin.MaxLoaderImporterPluginWidget
 ):
-    plugin_name = 'maya_abc_loader_importer'
-    widget = MaxAbcLoaderExporterOptionsWidget
+    plugin_name = 'max_abc_loader_importer'
+    widget = MaxAbcLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MaxAbcLoaderExporterOptionsPluginWidget(api_object)
+    plugin = MaxAbcLoaderImporterOptionsPluginWidget(api_object)
     plugin.register()
