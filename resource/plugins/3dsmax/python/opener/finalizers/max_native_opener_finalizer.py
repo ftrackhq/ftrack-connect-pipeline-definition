@@ -13,21 +13,21 @@ class MaxNativeOpenerFinalizerPlugin(plugin.MaxOpenerFinalizerPlugin):
     def run(self, context_data=None, data=None, options=None):
         '''Save opened Max scene in temp to avoid being overwritten'''
 
-        result = {}
+        result = False
 
-        self.logger.debug('Rename Max scene on open')
+        self.logger.debug('Save Max scene to temp on open')
         save_path, message = max_utils.save_file(
             None,
             context_id=context_data['context_id'],
             session=self.session,
-            save=False,
+            save=True,
         )
         if save_path:
             result['save_path'] = save_path
         else:
             result = False
 
-        return (result, {'message': message})
+        return result, {'message': message}
 
 
 def register(api_object, **kw):
