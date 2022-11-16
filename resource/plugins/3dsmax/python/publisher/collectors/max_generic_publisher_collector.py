@@ -15,23 +15,26 @@ class MaxGenericPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
         '''Select all the items of the plugin *options*'''
         selected_items = options.get('selected_items', [])
         rt.clearSelection()
-        nodes = []
-        for node_name in selected_items:
-            node = rt.getNodeByName(node_name)
-            if node:
-                nodes.append(node)
-        rt.select(nodes)
-        return selected_items
+        nodes_to_select = []
+        for item in selected_items:
+            if item:
+                nodes_to_select.append(rt.getNodeByName(item))
+        rt.select(nodes_to_select)
+        return rt.selection
 
     def fetch(self, context_data=None, data=None, options=None):
         '''Fetch all selected items'''
-        collected_objects = rt.GetCurrentSelection()
+        collected_objects = []
+        for obj in rt.GetCurrentSelection():
+            collected_objects.append(obj.name)
         return collected_objects
 
     def add(self, context_data=None, data=None, options=None):
         '''Return the selected items of the scene'''
-        selected_objects = rt.GetCurrentSelection()
-        return selected_objects
+        collected_objects = []
+        for obj in rt.GetCurrentSelection():
+            collected_objects.append(obj.name)
+        return collected_objects
 
     def run(self, context_data=None, data=None, options=None):
         '''Return all the collected objects in the widget from the
