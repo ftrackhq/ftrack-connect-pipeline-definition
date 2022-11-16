@@ -42,7 +42,7 @@
               "name": "Import paths to Max",
               "plugin": "max_native_loader_importer",
               "options": {
-                "load_mode": "Import"
+                "load_mode": "import"
               }
             }
           ]
@@ -78,7 +78,7 @@
               "name": "Import paths to Max",
               "plugin": "max_native_loader_importer",
               "options": {
-                "load_mode": "Import"
+                "load_mode": "import"
               }
             }
           ]
