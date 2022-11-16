@@ -1,10 +1,5 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-
-import os
-
-# import maya.cmds as cmds
-
 from ftrack_connect_pipeline_3dsmax import plugin
 from ftrack_connect_pipeline_3dsmax.constants.asset import modes as load_const
 import ftrack_api
