@@ -119,7 +119,43 @@
           "plugins":[
             {
               "name": "Import paths to Max",
-              "plugin": "max_abc_loader_importer"
+              "plugin": "max_abc_loader_importer",
+              "widget": "max_abc_loader_importer"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "max",
+              "plugin": "common_passthrough_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "file_formats": [".fbx"],
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import paths to Max",
+              "plugin": "max_fbx_loader_importer"
             }
           ]
         },

@@ -1,17 +1,17 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2020 ftrack
-
-import os
-
-# import maya.cmds as cmds
+import ftrack_api
 
 from ftrack_connect_pipeline_3dsmax import plugin
 from ftrack_connect_pipeline_3dsmax.constants.asset import modes as load_const
-import ftrack_api
+
+from ftrack_connect_pipeline_3dsmax.utils import (
+    max_alembic_commands as abc_utils,
+)
 
 
-class MaxNativeLoaderImporterPlugin(plugin.MaxLoaderImporterPlugin):
-    plugin_name = 'max_native_loader_importer'
+class MaxAbcLoaderImporterPlugin(plugin.MaxLoaderImporterPlugin):
+    plugin_name = 'max_abc_loader_importer'
 
     load_modes = load_const.LOAD_MODES
 
@@ -26,7 +26,7 @@ class MaxNativeLoaderImporterPlugin(plugin.MaxLoaderImporterPlugin):
         return max_options
 
     def run(self, context_data=None, data=None, options=None):
-        '''Import collected objects provided with *data* into Max based on *options*'''
+        '''Import collected Alembic objects provided with *data* into Max based on *options*'''
         load_mode = options.get('load_mode', list(self.load_modes.keys())[0])
         load_options = options.get('load_options', {})
         load_mode_fn = self.load_modes.get(
@@ -44,15 +44,12 @@ class MaxNativeLoaderImporterPlugin(plugin.MaxLoaderImporterPlugin):
             paths_to_import.extend(collector['result'])
 
         for component_path in paths_to_import:
-            self.logger.debug('Loading path {}'.format(component_path))
-            if max_options.get('ns') == 'file_name':
-                max_options['ns'] = os.path.basename(component_path).split(
-                    "."
-                )[0]
-            elif max_options.get('ns') == 'component':
-                max_options['ns'] = data[0].get('name')
+            self.logger.debug('Loading alembic path {}'.format(component_path))
 
-            load_result = load_mode_fn(component_path, max_options)
+            try:
+                load_result = abc_utils.import_abc(component_path, max_options)
+            except RuntimeError as e:
+                return False, {'message': self.logger.error(str(e))}
 
             results[component_path] = load_result
 
@@ -63,5 +60,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = MaxNativeLoaderImporterPlugin(api_object)
+    plugin = MaxAbcLoaderImporterPlugin(api_object)
     plugin.register()
