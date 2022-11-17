@@ -58,7 +58,11 @@ class MaxNativeLoaderImporterPlugin(plugin.MaxLoaderImporterPlugin):
 
             load_result = load_mode_fn(component_path, max_options)
 
-            results[component_path] = load_result
+            results[component_path] = (
+                load_result
+                if isinstance(load_result, bool)
+                else bool(load_result is not None)
+            )
 
         return results
 

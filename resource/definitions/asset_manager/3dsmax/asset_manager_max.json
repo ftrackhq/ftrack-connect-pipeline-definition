@@ -16,7 +16,7 @@
         "resolve_dependencies":[
             {
                 "name": "Resolve Max context asset dependencies",
-                "plugin": "common_passthrough_am_resolver",
+                "plugin": "common_default_am_resolver",
                 "options": {
                     "task_types":{
                         "rendering":{
