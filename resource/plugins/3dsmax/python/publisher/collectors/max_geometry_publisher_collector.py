@@ -14,9 +14,11 @@ class MaxGeometryPublisherCollectorPlugin(plugin.MaxPublisherCollectorPlugin):
     def select(self, context_data=None, data=None, options=None):
         '''Select all the items in the given plugin *options*'''
         selected_items = options.get('selected_items', [])
+        rt.clearSelection()
         nodes_to_select = []
         for item in selected_items:
-            nodes_to_select.append(rt.getNodeByName(item))
+            if item:
+                nodes_to_select.append(rt.getNodeByName(item))
         rt.select(nodes_to_select)
         return rt.selection
 

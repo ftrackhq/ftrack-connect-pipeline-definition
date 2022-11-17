@@ -1,6 +1,5 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-from functools import partial
 
 from ftrack_connect_pipeline_3dsmax import plugin
 from ftrack_connect_pipeline_qt.plugin.widget import BaseOptionsWidget
@@ -15,6 +14,8 @@ class MaxViewportPublisherCollectorOptionsWidget(BaseOptionsWidget):
 
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
+
+    _viewports = []
 
     @property
     def viewports(self):

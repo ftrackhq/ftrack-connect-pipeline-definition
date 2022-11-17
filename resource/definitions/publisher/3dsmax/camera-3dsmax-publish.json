@@ -50,9 +50,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max",
-              "plugin": "max_native_publisher_exporter",
-              "widget": "max_native_publisher_exporter"
+              "name": "write max",
+              "plugin": "max_native_publisher_exporter"
             }
           ]
         }
@@ -84,9 +83,8 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "output_max",
-              "plugin": "max_native_publisher_exporter",
-              "widget": "max_native_publisher_exporter"
+              "name": "write max",
+              "plugin": "max_native_publisher_exporter"
             }
           ]
         }
@@ -119,12 +117,43 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "max_abc_publisher_exporter",
-              "plugin": "max_abc_publisher_exporter",
-              "widget": "max_abc_publisher_exporter",
-              "options": {
-                "alembicAnimation": true
-              }
+              "name": "write alembic",
+              "plugin": "max_abc_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Geometry Collector",
+              "plugin": "max_camera_publisher_collector"
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "max_camera_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "write fbx",
+              "plugin": "max_fbx_publisher_exporter",
+              "widget": "max_fbx_publisher_exporter"
             }
           ]
         }
@@ -137,12 +166,9 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "select camera to playblast",
-              "plugin": "max_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              },
-              "widget": "max_camera_publisher_collector"
+              "name": "select viewport",
+              "plugin": "max_viewport_publisher_collector",
+              "widget": "max_viewport_publisher_collector"
             }
           ]
         },
@@ -173,11 +199,9 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "select camera to playblast",
-              "plugin": "max_camera_publisher_collector",
-              "options": {
-                "camera_name": "persp"
-              }
+              "name": "select viewport to playblast",
+              "plugin": "max_viewport_publisher_collector",
+              "widget": "max_viewport_publisher_collector"
             }
           ]
         },
@@ -195,7 +219,7 @@
           "plugins":[
             {
               "name": "write reviewable",
-              "plugin": "max_reviewable_publisher_exporter"
+              "plugin": "max_thumbnail_publisher_exporter"
             }
           ]
         }
@@ -208,10 +232,10 @@
       "stages": [
         {
           "name": "pre_finalizer",
+          "visible": false,
           "plugins":[
             {
               "name": "Pre publish to ftrack server",
-              "visible": false,
               "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
