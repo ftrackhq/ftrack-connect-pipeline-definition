@@ -42,12 +42,7 @@
               "name": "Import paths to Max",
               "plugin": "max_native_loader_importer",
               "options": {
-                "load_mode": "import",
-                "load_options": {
-                  "preserve_references": true,
-                  "add_namespace": true,
-                  "namespace_option": "file_name"
-                }
+                "load_mode": "import"
               }
             }
           ]
@@ -83,7 +78,7 @@
               "name": "Import paths to Max",
               "plugin": "max_native_loader_importer",
               "options": {
-                "load_mode": "reference"
+                "load_mode": "import"
               }
             }
           ]
@@ -118,8 +113,9 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Import paths to Max",
-              "plugin": "max_abc_loader_importer"
+              "name": "Import Alembic paths to Max",
+              "plugin": "max_abc_loader_importer",
+              "widget": "max_abc_loader_importer"
             }
           ]
         },
@@ -127,7 +123,43 @@
           "name": "post_importer",
           "plugins":[
             {
-              "name": "max",
+              "name": "Post import",
+              "plugin": "common_passthrough_loader_post_importer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "game",
+      "file_formats": [".fbx"],
+      "optional": true,
+      "selected": false,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Collect components from context",
+              "plugin": "common_context_loader_collector"
+            }
+          ]
+        },
+        {
+          "name": "importer",
+          "plugins":[
+            {
+              "name": "Import FBX paths to Max",
+              "plugin": "max_fbx_loader_importer",
+              "widget": "max_fbx_loader_importer"
+            }
+          ]
+        },
+        {
+          "name": "post_importer",
+          "plugins":[
+            {
+              "name": "Post import",
               "plugin": "common_passthrough_loader_post_importer"
             }
           ]

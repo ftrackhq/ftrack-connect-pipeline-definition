@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Camera Loader",
-  "asset_type": "cam",
+  "name": "Lighting Loader",
+  "asset_type": "lgt",
   "host_type": "3dsmax",
   "ui_type": "qt",
   "contexts": [
@@ -59,7 +59,7 @@
       ]
     },
     {
-      "name": "camera",
+      "name": "model",
       "file_formats": [".max"],
       "stages": [
         {
@@ -130,7 +130,7 @@
         }
       ]
     },
-     {
+    {
       "name": "game",
       "file_formats": [".fbx"],
       "optional": true,
@@ -150,7 +150,8 @@
           "plugins":[
             {
               "name": "Import FBX paths to Max",
-              "plugin": "max_fbx_loader_importer"
+              "plugin": "max_fbx_loader_importer",
+              "widget": "max_fbx_loader_importer"
             }
           ]
         },

@@ -1,9 +1,10 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 
+from pymxs import runtime as rt
+
 from ftrack_connect_pipeline_3dsmax import plugin
 
-# import maya.cmds as cmds
 import ftrack_api
 
 
@@ -12,6 +13,7 @@ class MaxGeometryPublisherValidatorPlugin(plugin.MaxPublisherValidatorPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Return true if all the collected Max node supplied with *data* are geometry'''
+
         if not data:
             return False
 
@@ -21,20 +23,21 @@ class MaxGeometryPublisherValidatorPlugin(plugin.MaxPublisherValidatorPlugin):
         if len(collected_objects) == 0:
             msg = 'No geometries selected!'
             self.logger.error(msg)
-            return (False, {'message': msg})
+            return False, {'message': msg}
         for obj in collected_objects:
-            # if not cmds.objectType(obj, isAType='geometryShape'):
-            return (
-                False,
-                {
-                    'message': "the object: {} is not a geometry shape type".format(
-                        obj
-                    ),
-                    'data': None,
-                },
-            )
+            node = rt.getNodeByName(obj)
+            if not rt.superClassOf(node) == rt.GeometryClass:
+                return (
+                    False,
+                    {
+                        'message': "the object: {} is not a geometry node type".format(
+                            obj
+                        ),
+                        'data': None,
+                    },
+                )
         user_data = {'message': 'geometry exported correctly', 'data': None}
-        return (True, user_data)
+        return True, user_data
 
 
 def register(api_object, **kw):
