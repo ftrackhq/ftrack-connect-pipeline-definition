@@ -8,6 +8,7 @@ Release Notes
 *************
 
 .. release:: upcoming
+
     .. change:: new
 
     3ds Max integration.
