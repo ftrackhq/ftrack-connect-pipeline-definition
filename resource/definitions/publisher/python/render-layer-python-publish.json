@@ -1,0 +1,291 @@
+{
+  "type": "publisher",
+  "name": "Render Layer Publisher",
+  "asset_type": "img",
+  "host_type": "python",
+  "ui_type": "qt",
+  "contexts": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "context",
+          "plugins":[
+            {
+              "name": "context selector",
+              "plugin": "common_default_publisher_context",
+              "widget": "common_default_publisher_context"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "components": [
+    {
+      "name": "beauty",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Image Sequence Collector",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
+              "options":
+              {
+                "path": "Path to the files"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Sequence exporter",
+              "plugin": "common_passthrough_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shadow",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Image Sequence Collector",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
+              "options":
+              {
+                "path": "Path to the files"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Sequence exporter",
+              "plugin": "common_passthrough_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "specular",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Image Sequence Collector",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
+              "options":
+              {
+                "path": "Path to the files"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Sequence exporter",
+              "plugin": "common_passthrough_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "normal",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Image Sequence Collector",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
+              "options":
+              {
+                "path": "Path to the files"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Sequence exporter",
+              "plugin": "common_passthrough_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "occlusion",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Image Sequence Collector",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
+              "options":
+              {
+                "path": "Path to the files"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Sequence exporter",
+              "plugin": "common_passthrough_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "emmisive",
+      "optional": true,
+      "stages": [
+        {
+          "name": "collector",
+          "plugins":[
+            {
+              "name": "Image Sequence Collector",
+              "plugin": "common_default_publisher_collector",
+              "widget": "common_default_publisher_collector",
+              "options":
+              {
+                "path": "Path to the files"
+              }
+            }
+          ]
+        },
+        {
+          "name": "validator",
+          "plugins":[
+            {
+              "name": "validate selection",
+              "plugin": "common_non_empty_publisher_validator"
+            }
+          ]
+        },
+        {
+          "name": "exporter",
+          "plugins":[
+            {
+              "name": "Sequence exporter",
+              "plugin": "common_passthrough_publisher_exporter"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "finalizers": [
+    {
+      "name": "main",
+      "stages": [
+        {
+          "name": "pre_finalizer",
+          "plugins":[
+            {
+              "name": "pre to ftrack server",
+              "plugin": "common_default_publisher_pre_finalizer",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "finalizer",
+          "plugins":[
+            {
+              "name": "to ftrack server",
+              "plugin": "common_default_publisher_finalizer",
+              "visible": false
+            }
+          ]
+        },
+        {
+          "name": "post_finalizer",
+          "plugins":[
+            {
+              "name": "post to ftrack server",
+              "plugin": "common_default_publisher_post_finalizer",
+              "visible": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
