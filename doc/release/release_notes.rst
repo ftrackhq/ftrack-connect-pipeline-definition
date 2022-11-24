@@ -11,7 +11,7 @@ Release Notes
 
     .. change:: new
 
-    3ds Max integration.
+        Add 3dsmax definition and plugins.
 
 
 .. release:: 1.1.0

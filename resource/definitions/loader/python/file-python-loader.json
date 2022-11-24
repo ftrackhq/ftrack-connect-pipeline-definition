@@ -33,7 +33,7 @@
               "plugin": "common_test_opener_collector"
             },
             {
-              "name": "Collect components from context",
+              "name": "Collect component paths from context",
               "plugin": "common_context_loader_collector"
             }
           ]
@@ -74,7 +74,7 @@
               "plugin": "common_test_opener_collector"
             },
             {
-              "name": "Collect components from context",
+              "name": "Collect component paths from context",
               "plugin": "common_context_loader_collector"
             }
           ]
