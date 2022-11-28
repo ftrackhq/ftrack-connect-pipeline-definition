@@ -14,6 +14,7 @@ import ftrack_api
 
 class UnrealNativeLoaderImporterOptionsWidget(LoadBaseWidget):
     '''Unreal loader plugin widget'''
+
     load_modes = list(load_const.LOAD_MODES.keys())
 
     def __init__(

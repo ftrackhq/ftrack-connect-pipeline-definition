@@ -1,14 +1,15 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
+import os
 
-import tempfile
-import glob
-import platform
+import unreal
 
-# import maya.cmds as cmds
+import ftrack_api
 
 from ftrack_connect_pipeline_unreal import plugin
-import ftrack_api
+from ftrack_connect_pipeline_unreal.utils import (
+    custom_commands as unreal_utils,
+)
 
 
 class UnrealReviewablePublisherExporterPlugin(
@@ -16,78 +17,50 @@ class UnrealReviewablePublisherExporterPlugin(
 ):
     plugin_name = 'unreal_reviewable_publisher_exporter'
 
+    _standard_structure = ftrack_api.structure.standard.StandardStructure()
+
     def run(self, context_data=None, data=None, options=None):
         '''Export a Unreal reviewable to a temp file for publish'''
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-        camera_name = options.get('camera_name', 'persp')
-        if collected_objects:
-            camera_name = collected_objects[0]
 
-        # current_panel = cmds.getPanel(wf=True)
-        # panel_type = cmds.getPanel(to=current_panel)  # scriptedPanel
-        if panel_type != 'modelPanel':
-            # visible_panels = cmds.getPanel(vis=True)
-            for _panel in visible_panels:
-                # if cmds.getPanel(to=_panel) == 'modelPanel':
-                    current_panel = _panel
+        master_sequence = None
+
+        all_sequences = unreal_utils.get_all_sequences(as_names=False)
+        for seq_name in collected_objects:
+            for seq in all_sequences:
+                if seq.get_name() == seq_name or seq_name.startswith(
+                    '{}_'.format(seq.get_name())
+                ):
+                    master_sequence = seq
                     break
-                else:
-                    current_panel = None
+            if master_sequence:
+                break
 
-        previous_camera = 'persp'
-        if current_panel:
-            # previous_camera = cmds.modelPanel(
-            #    current_panel, q=True, camera=True
-            # )
+        destination_path = os.path.join(
+            unreal.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
+        )
+        unreal_map = unreal.EditorLevelLibrary.get_editor_world()
+        unreal_map_path = unreal_map.get_path_name()
+        unreal_asset_path = master_sequence.get_path_name()
 
-        # cmds.lookThru(camera_name)
-
-        # res_w = int(cmds.getAttr('defaultResolution.width'))
-        # res_h = int(cmds.getAttr('defaultResolution.height'))
-
-        # start_frame = cmds.playbackOptions(q=True, min=True)
-        # end_frame = cmds.playbackOptions(q=True, max=True)
-
-        # prev_selection = cmds.ls(sl=True)
-        # cmds.select(cl=True)
-
-        filename = tempfile.NamedTemporaryFile().name
-
-        playblast_data = dict(
-            format='movie',
-            sequenceTime=0,
-            clearCache=1,
-            viewer=0,
-            offScreen=True,
-            showOrnaments=0,
-            frame=range(int(start_frame), int(end_frame + 1)),
-            filename=filename,
-            fp=4,
-            percent=100,
-            quality=70,
-            w=res_w,
-            h=res_h,
+        asset_name = self._standard_structure.sanitise_for_filesystem(
+            context_data['asset_name']
         )
 
-        if 'linux' in platform.platform().lower():
-            playblast_data['format'] = 'qt'
-            playblast_data['compression'] = 'raw'
+        movie_name = '{}_reviewable'.format(asset_name)
+        rendered, path = unreal_utils.render(
+            unreal_asset_path,
+            unreal_map_path,
+            movie_name,
+            destination_path,
+            master_sequence.get_display_rate().numerator,
+            unreal_utils.compile_capture_args(options),
+            self.logger,
+        )
 
-        # cmds.playblast(**playblast_data)
-
-        if len(prev_selection):
-            # cmds.select(prev_selection)
-
-        # cmds.lookThru(previous_camera)
-
-        temp_files = glob.glob(filename + '.*')
-        # TODO:
-        # find a better way to find the extension of the playblast file.
-        full_path = temp_files[0]
-
-        return [full_path]
+        return [path]
 
 
 def register(api_object, **kw):

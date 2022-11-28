@@ -12,15 +12,15 @@ from ftrack_connect_pipeline_unreal.utils import (
 from ftrack_connect_pipeline_unreal import plugin
 
 
-class UnrealThumbnailPublisherExporterPlugin(
+class UnrealSequencePublisherExporterPlugin(
     plugin.UnrealPublisherExporterPlugin
 ):
-    plugin_name = 'unreal_thumbnail_publisher_exporter'
+    plugin_name = 'unreal_sequence_publisher_exporter'
 
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
 
     def run(self, context_data=None, data=None, options=None):
-        '''Render and export a single jpeg image from the selected sequence given in *data*'''
+        '''Render and export a image file sequence from the selected sequence given in *data*'''
 
         '''Render an image sequence'''
         collected_objects = []
@@ -51,23 +51,27 @@ class UnrealThumbnailPublisherExporterPlugin(
             context_data['asset_name']
         )
 
-        thumbnail_name = '{}_thumb'.format(asset_name)
-        rendered, new_file_path = unreal_utils.render(
+        # Publish Component: image_sequence
+
+        rendered, path = unreal_utils.render(
             unreal_asset_path,
             unreal_map_path,
-            thumbnail_name,
+            asset_name,
             destination_path,
             master_sequence.get_display_rate().numerator,
             unreal_utils.compile_capture_args(options),
             self.logger,
-            image_format='jpg',
-            frame=int(
-                (
-                    master_sequence.get_playback_end()
-                    + master_sequence.get_playback_start()
-                )
-                / 2
-            ),
+            image_format=options.get('file_format', 'exr'),
+        )
+
+        # try to get start and end frames from sequence this allow local
+        # control for test publish(subset of sequence)
+        frameStart = master_sequence.get_playback_start()
+        frameEnd = master_sequence.get_playback_end() - 1
+        base_file_path = path[:-12] if path.endswith('.{frame}.exr') else path
+
+        new_file_path = '{0}.%04d.{1} [{2}-{3}]'.format(
+            base_file_path, 'exr', frameStart, frameEnd
         )
 
         return [new_file_path]
@@ -77,5 +81,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    output_plugin = UnrealThumbnailPublisherExporterPlugin(api_object)
+    output_plugin = UnrealSequencePublisherExporterPlugin(api_object)
     output_plugin.register()
