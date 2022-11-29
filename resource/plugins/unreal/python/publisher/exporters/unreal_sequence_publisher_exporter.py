@@ -79,7 +79,7 @@ class UnrealSequencePublisherExporterPlugin(
             'v{}'.format(next_version),
         )
         self.logger.info(
-            'Rendering sequenceto next expected version folder: {}'.format(
+            'Rendering sequence to next expected version folder: {}'.format(
                 destination_path
             )
         )
