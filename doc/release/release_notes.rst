@@ -9,10 +9,14 @@ Release Notes
 
 .. release:: upcoming
 
+    .. change:: fix
+        :tags: maya
+
+        Fixed Maya exception on FBX Camera import.
+
     .. change:: new
 
         Add 3dsmax definition and plugins.
-
 
 .. release:: 1.1.0
     :date: 2022-11-08
@@ -22,131 +26,109 @@ Release Notes
 
         Make merge default load mode for Houdini loaders.
 
-
     .. change:: new
         :tags: houdini
 
         Houdini integration.
-
 
     .. change:: changed
         :tags: definitions
 
         Allow registry definitions of multiple host_types.
 
-
     .. change:: fixed
         :tags: plugins
 
         Fix plugin names in python definitions.
-
 
     .. change:: fixed
         :tags: maya
 
         Removed invalid FBX x Up axis value.
 
-
     .. change:: fix
         :tags: maya
 
         Hide turntable locator during playblast.
-
 
     .. change:: new
         :tags: houdini
 
         Added alembic formats to exporter, to fix Maya compatibility bug.
 
-
         :tags: maya
 
         Turntable plugin, set as default reviewable plugin for Maya geometry publisher.
-
 
     .. change:: fix
         :tags: maya
 
         Fixed Maya alembic camera export and bad loader plugin reference.
 
-
     .. change:: fix
         :tags: maya
 
         Only load FBX plugin if about to load fbx files.
-
 
     .. change:: change
         :tags: option_plugins
 
         Implemented use of dynamic widget group box.
 
-
     .. change:: change
         :tags: option_plugins
 
         Changed exporter options widgets to properly use dynamic widget combobox functionality.
-
 
     .. change:: change
         :tags: option_plugins
 
         Aligned with QT plugin/widget refactorization.
 
-
     .. change:: fix
         :tags: nuke
 
         Changed wrong usage of nuke publisher finalizer, removed unused finalizers.
-
 
     .. change:: new
         :tags: plugins
 
         Rename default plugins to native or generic, remove test code from finalizers, relabel finalizers.
 
-
     .. change:: new
         :tags: nuke
 
         Specialised camera and geometry collectors in nuke, add validators.
-
 
     .. change:: new
         :tags: maya
 
         Maya model exporter crashes.
 
-
     .. change:: new
         :tags: nuke
 
         Added node existence check to collector.
-
 
     .. change:: new
         :tags: nuke
 
         Fix Movie publisher validator
 
-
     .. change:: new
         :tags: nuke
 
         Renamed option supported_file_formats
-
 
     .. change:: new
         :tags: nuke
 
         Code style fix
 
-
     .. change:: new
         :tags: nuke
 
         Set mp4v as default movie codec; Added reviewable format and codec to options
-
 
     .. change:: new
         :tags: nuke
@@ -159,18 +141,15 @@ Release Notes
 
         Aligned movie loader name with publisher
 
-
     .. change:: new
         :tags: nuke
 
         Updated reported selection label
 
-
     .. change:: new
         :tags: nuke
 
         Renamed Nuke nuke_default_publisher_collector to nuke_node_publisher_collector plugin and definition names
-
 
     .. change:: new
         :tags: nuke

@@ -159,7 +159,15 @@
           "plugins":[
             {
               "name": "Import paths to Maya",
-              "plugin": "maya_native_loader_importer"
+              "plugin": "maya_native_loader_importer",
+              "options": {
+                "load_mode": "import",
+                "load_options": {
+                  "preserve_references": true,
+                  "add_namespace": true,
+                  "namespace_option": "file_name"
+                }
+              }
             }
           ]
         },
