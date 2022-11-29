@@ -10,7 +10,7 @@ Release Notes
 .. release:: upcoming
 
     .. change:: fix
-        :tags: houdini
+        :tags: maya
 
         Fixed Maya exception on FBX Camera import.
 
