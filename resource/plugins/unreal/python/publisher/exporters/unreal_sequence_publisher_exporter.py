@@ -27,12 +27,19 @@ class UnrealSequencePublisherExporterPlugin(
         for collector in data:
             collected_objects.extend(collector['result'])
 
+        if len(collected_objects) != 1:
+            return False, {
+                'message': 'Need one collected sequence to publish from!'
+            }
+
         master_sequence = None
 
+        seq_name = None
         all_sequences = unreal_utils.get_all_sequences(as_names=False)
-        for seq_name in collected_objects:
+        for _seq_name in collected_objects:
+            seq_name = _seq_name
             for seq in all_sequences:
-                if seq.get_name() == seq_name or seq_name.startswith(
+                if seq.get_name() == _seq_name or _seq_name.startswith(
                     '{}_'.format(seq.get_name())
                 ):
                     master_sequence = seq
@@ -40,9 +47,43 @@ class UnrealSequencePublisherExporterPlugin(
             if master_sequence:
                 break
 
+        if master_sequence is None:
+            return False, {
+                'message': 'Sequence {} not found, please refresh publisher!'.format(
+                    seq_name
+                )
+            }
+
+        # Determine next expected version on context
+        next_version = 1
+        task = self.session.query(
+            'Task where id={}'.format(context_data['context_id'])
+        ).one()
+        asset = self.session.query(
+            'Asset where parent.id={} and name={}'.format(
+                task['parent']['id'], context_data['asset_name']
+            )
+        ).first()
+        if asset:
+            latest_version = self.session.query(
+                'AssetVersion where asset.id={} and is_latest_version is "True"'.format(
+                    asset['id']
+                )
+            ).first()
+            if latest_version:
+                next_version = latest_version['version'] + 1
         destination_path = os.path.join(
-            unreal.SystemLibrary.get_project_saved_directory(), 'VideoCaptures'
+            unreal.SystemLibrary.get_project_saved_directory(),
+            'VideoCaptures',
+            seq_name,
+            'v{}'.format(next_version),
         )
+        self.logger.info(
+            'Rendering sequenceto next expected version folder: {}'.format(
+                destination_path
+            )
+        )
+
         unreal_map = unreal.EditorLevelLibrary.get_editor_world()
         unreal_map_path = unreal_map.get_path_name()
         unreal_asset_path = master_sequence.get_path_name()
@@ -53,7 +94,7 @@ class UnrealSequencePublisherExporterPlugin(
 
         # Publish Component: image_sequence
 
-        rendered, path = unreal_utils.render(
+        result = unreal_utils.render(
             unreal_asset_path,
             unreal_map_path,
             asset_name,
@@ -63,6 +104,11 @@ class UnrealSequencePublisherExporterPlugin(
             self.logger,
             image_format=options.get('file_format', 'exr'),
         )
+
+        if isinstance(result, tuple):
+            return result
+
+        path = result
 
         # try to get start and end frames from sequence this allow local
         # control for test publish(subset of sequence)

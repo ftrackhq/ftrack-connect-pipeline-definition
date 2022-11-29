@@ -58,42 +58,6 @@
       ]
     },
     {
-      "name": "thumbnail",
-      "optional": true,
-      "selected": false,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "select sequence to render",
-              "plugin": "unreal_sequence_publisher_collector",
-              "widget": "unreal_sequence_publisher_collector"
-            }
-          ]
-        },
-        {
-          "name": "validator",
-          "plugins":[
-            {
-              "name": "validate selection",
-              "plugin": "common_non_empty_publisher_validator"
-            }
-          ]
-        },
-        {
-          "name": "exporter",
-          "plugins":[
-            {
-              "name": "write thumbnail",
-              "plugin": "unreal_thumbnail_publisher_exporter",
-              "widget": "unreal_sequence_publisher_exporter"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "reviewable",
       "optional": true,
       "stages": [
