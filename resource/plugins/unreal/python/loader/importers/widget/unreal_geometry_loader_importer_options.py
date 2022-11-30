@@ -9,8 +9,8 @@ from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
 
 
-class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
-    '''Unreal rig loader plugin widget user input plugin widget.'''
+class UnrealGeometryLoaderImporterOptionsWidget(DynamicWidget):
+    '''Unreal geometry loader plugin widget user input plugin widget.'''
 
     load_modes = list(load_const.LOAD_MODES.keys())
 
@@ -25,7 +25,7 @@ class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(UnrealRigLoaderImporterOptionsWidget, self).__init__(
+        super(UnrealGeometryLoaderImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -41,8 +41,9 @@ class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
         result = {
             'UpdateExistingAsset': True,
             'Skeleton': [],
-            'CreatePhysicsAsset': True,
-            'ImportMaterial': True,
+            'UseCustomRange': False,
+            'AnimRangeMin': 1,
+            'AnimRangeMax': 1,
         }
         # Load existing skeletons
         assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
@@ -53,26 +54,26 @@ class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
 
     def get_options_group_name(self):
         '''Override'''
-        return 'Rig loader Options'
+        return 'Geometry loader Options'
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
 
         self.update(self.define_options())
 
-        super(UnrealRigLoaderImporterOptionsWidget, self).build()
+        super(UnrealGeometryLoaderImporterOptionsWidget, self).build()
 
 
-class UnrealRigLoaderImporterOptionsPluginWidget(
+class UnrealGeometryLoaderImporterOptionsPluginWidget(
     plugin.UnrealLoaderImporterPluginWidget
 ):
-    plugin_name = 'unreal_rig_loader_importer'
-    widget = UnrealRigLoaderImporterOptionsWidget
+    plugin_name = 'unreal_geometry_loader_importer'
+    widget = UnrealGeometryLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealRigLoaderImporterOptionsPluginWidget(api_object)
+    plugin = UnrealGeometryLoaderImporterOptionsPluginWidget(api_object)
     plugin.register()
