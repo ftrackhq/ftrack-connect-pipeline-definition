@@ -12,7 +12,7 @@ from Qt import QtWidgets, QtCore
 import ftrack_api
 
 
-class UnrealNativePublisherExporterOptionsWidget(DynamicWidget):
+class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
     def __init__(
         self,
         parent=None,
@@ -24,10 +24,7 @@ class UnrealNativePublisherExporterOptionsWidget(DynamicWidget):
         context_id=None,
         asset_type_name=None,
     ):
-
-        self.options_cb = {}
-
-        super(UnrealNativePublisherExporterOptionsWidget, self).__init__(
+        super(UnrealSequencePublisherExporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -41,23 +38,27 @@ class UnrealNativePublisherExporterOptionsWidget(DynamicWidget):
     def define_options(self):
         '''Default renderable options for dynamic widget'''
         return {
-            'constructionHistory': False,
-            'channels': False,
-            'preserveReferences': False,
-            'shader': False,
-            'constraints': False,
-            'expressions': False,
-            'type': [
+            'file_format': [
                 {
-                    'label': 'mayaBinary (.mb)',
-                    'value': 'mayaBinary',
+                    'value': 'exr',
                     'default': True,
                 },
-                {
-                    'label': 'mayaAscii (.ma)',
-                    'value': 'mayaAscii',
-                },
+                {'value': 'jpg'},
+                {'value': 'bmp'},
+                {'value': 'png'},
             ],
+            'resolution': [
+                {'value': '320x240(4:3)'},
+                {'value': '640x480(4:3)'},
+                {'value': '640x360(16:9)'},
+                {
+                    'value': '1280x720(16:9)',
+                    'default': True,
+                },
+                {'value': '1920x1080(16:9)'},
+                {'value': '3840x2160(16:9)'},
+            ],
+            'movie_quality': 75,
         }
 
     def get_options_group_name(self):
@@ -71,19 +72,19 @@ class UnrealNativePublisherExporterOptionsWidget(DynamicWidget):
         self.update(self.define_options())
 
         # Call the super build to automatically generate the options
-        super(UnrealNativePublisherExporterOptionsWidget, self).build()
+        super(UnrealSequencePublisherExporterOptionsWidget, self).build()
 
 
-class UnrealNativePublisherExporterOptionsPluginWidget(
+class UnrealSequencePublisherExporterOptionsPluginWidget(
     plugin.UnrealPublisherExporterPluginWidget
 ):
-    plugin_name = 'unreal_native_publisher_exporter'
-    widget = UnrealNativePublisherExporterOptionsWidget
+    plugin_name = 'unreal_sequence_publisher_exporter'
+    widget = UnrealSequencePublisherExporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealNativePublisherExporterOptionsPluginWidget(api_object)
+    plugin = UnrealSequencePublisherExporterOptionsPluginWidget(api_object)
     plugin.register()
