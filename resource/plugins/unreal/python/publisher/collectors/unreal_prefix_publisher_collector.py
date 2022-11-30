@@ -7,7 +7,9 @@ from ftrack_connect_pipeline_unreal import plugin
 import ftrack_api
 
 
-class UnrealPrefixPublisherCollectorPlugin(plugin.UnrealPublisherCollectorPlugin):
+class UnrealPrefixPublisherCollectorPlugin(
+    plugin.UnrealPublisherCollectorPlugin
+):
     plugin_name = 'unreal_prefix_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):

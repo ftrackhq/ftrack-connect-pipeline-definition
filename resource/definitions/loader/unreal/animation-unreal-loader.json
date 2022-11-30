@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Geometry Loader",
-  "asset_type": "geo",
+  "name": "Animation Loader",
+  "asset_type": "anim",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": [
@@ -42,7 +42,7 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_abc_geometry_loader_importer"
+              "plugin": "unreal_abc_animation_loader_importer"
             }
           ]
         },
@@ -77,7 +77,7 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_fbx_geometry_loader_importer"
+              "plugin": "unreal_fbx_animation_loader_importer"
             }
           ]
         },

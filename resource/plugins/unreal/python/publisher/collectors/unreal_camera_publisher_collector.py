@@ -7,7 +7,9 @@ from ftrack_connect_pipeline_unreal import plugin
 import ftrack_api
 
 
-class UnrealCameraPublisherCollectorPlugin(plugin.UnrealPublisherCollectorPlugin):
+class UnrealCameraPublisherCollectorPlugin(
+    plugin.UnrealPublisherCollectorPlugin
+):
     plugin_name = 'unreal_camera_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):

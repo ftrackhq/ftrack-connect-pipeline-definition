@@ -26,15 +26,15 @@ class UnrealGeometryPublisherValidatorPlugin(
             return (False, {'message': msg})
         for obj in collected_objects:
             # if not cmds.objectType(obj, isAType='geometryShape'):
-                return (
-                    False,
-                    {
-                        'message': "the object: {} is not a geometry shape type".format(
-                            obj
-                        ),
-                        'data': None,
-                    },
-                )
+            return (
+                False,
+                {
+                    'message': "the object: {} is not a geometry shape type".format(
+                        obj
+                    ),
+                    'data': None,
+                },
+            )
         user_data = {'message': 'geometry exported correctly', 'data': None}
         return (True, user_data)
 

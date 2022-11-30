@@ -10,7 +10,7 @@ import ftrack_api
 
 
 class UnrealGenericPublisherCollectorOptionsWidget(BaseCollectorWidget):
-    ''' Unreal collector widget plugin'''
+    '''Unreal collector widget plugin'''
 
     # Run fetch function on widget initialization
     auto_fetch_on_init = True

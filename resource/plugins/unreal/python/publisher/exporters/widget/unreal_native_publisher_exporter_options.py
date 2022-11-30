@@ -60,7 +60,6 @@ class UnrealNativePublisherExporterOptionsWidget(DynamicWidget):
             ],
         }
 
-
     def get_options_group_name(self):
         '''Override'''
         return 'Unreal exporter Options'

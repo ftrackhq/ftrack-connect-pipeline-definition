@@ -10,7 +10,7 @@ import ftrack_api
 
 
 class UnrealGeometryPublisherCollectorOptionsWidget(BaseCollectorWidget):
-    ''' Unreal geometry collector widget plugin'''
+    '''Unreal geometry collector widget plugin'''
 
     # Run fetch function on widget initialization
     auto_fetch_on_init = True

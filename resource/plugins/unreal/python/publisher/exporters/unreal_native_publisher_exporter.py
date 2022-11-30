@@ -6,12 +6,16 @@ import os
 
 # import maya.cmds as cmds
 
-from ftrack_connect_pipeline_unreal.utils import custom_commands as unreal_utils
+from ftrack_connect_pipeline_unreal.utils import (
+    custom_commands as unreal_utils,
+)
 from ftrack_connect_pipeline_unreal import plugin
 import ftrack_api
 
 
-class UnrealNativePublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
+class UnrealNativePublisherExporterPlugin(
+    plugin.UnrealPublisherExporterPlugin
+):
     plugin_name = 'unreal_native_publisher_exporter'
 
     extension = None
@@ -29,7 +33,7 @@ class UnrealNativePublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
             'exportSelected': True,
             'exportAll': False,
             'force': True,
-            'type': 'unrealBinary'
+            'type': 'unrealBinary',
         }
         main_options.update(options)
         return main_options

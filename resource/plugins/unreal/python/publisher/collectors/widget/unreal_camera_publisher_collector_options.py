@@ -12,7 +12,8 @@ import ftrack_api
 
 
 class UnrealCameraPublisherCollectorOptionsWidget(BaseOptionsWidget):
-    ''' Unreal camera collector widget plugin'''
+    '''Unreal camera collector widget plugin'''
+
     # Run fetch function on widget initialization
     auto_fetch_on_init = True
 
