@@ -14,6 +14,10 @@ Release Notes
 
         Fixed Maya exception on FBX Camera import.
 
+    .. change:: new
+
+        Add 3dsmax definition and plugins.
+
 .. release:: 1.1.0
     :date: 2022-11-08
 

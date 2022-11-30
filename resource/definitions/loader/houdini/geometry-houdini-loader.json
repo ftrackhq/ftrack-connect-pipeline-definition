@@ -30,7 +30,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Collect components from context",
+              "name": "Collect component paths from context",
               "plugin": "common_context_loader_collector"
             }
           ]
@@ -69,7 +69,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Collect components from context",
+              "name": "Collect component paths from context",
               "plugin": "common_context_loader_collector"
             }
           ]
@@ -110,7 +110,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Collect components from context",
+              "name": "Collect component paths from context",
               "plugin": "common_context_loader_collector"
             }
           ]
@@ -145,7 +145,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "Collect components from context",
+              "name": "Collect component paths from context",
               "plugin": "common_context_loader_collector"
             }
           ]
