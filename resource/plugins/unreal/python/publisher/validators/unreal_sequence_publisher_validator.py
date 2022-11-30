@@ -3,8 +3,6 @@
 
 from ftrack_connect_pipeline_unreal import plugin
 
-# import maya.cmds as cmds
-
 import ftrack_api
 
 

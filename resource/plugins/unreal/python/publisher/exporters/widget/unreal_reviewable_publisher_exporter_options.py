@@ -12,8 +12,8 @@ from Qt import QtWidgets, QtCore
 import ftrack_api
 
 
-class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
-    '''Unreal sequence publisher user input plugin widget'''
+class UnrealReviewablePublisherExporterOptionsWidget(DynamicWidget):
+    '''Unreal reviewable publisher user input plugin widget'''
 
     def __init__(
         self,
@@ -26,7 +26,7 @@ class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(UnrealSequencePublisherExporterOptionsWidget, self).__init__(
+        super(UnrealReviewablePublisherExporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -40,15 +40,6 @@ class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
     def define_options(self):
         '''Default renderable options for dynamic widget'''
         return {
-            'file_format': [
-                {
-                    'value': 'exr',
-                    'default': True,
-                },
-                {'value': 'jpg'},
-                {'value': 'bmp'},
-                {'value': 'png'},
-            ],
             'resolution': [
                 {'value': '320x240(4:3)'},
                 {'value': '640x480(4:3)'},
@@ -60,11 +51,12 @@ class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
                 {'value': '1920x1080(16:9)'},
                 {'value': '3840x2160(16:9)'},
             ],
+            'movie_quality': 75,
         }
 
     def get_options_group_name(self):
         '''Override'''
-        return 'Unreal sequence exporter Options'
+        return 'Unreal reviewable exporter Options'
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
@@ -73,19 +65,19 @@ class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
         self.update(self.define_options())
 
         # Call the super build to automatically generate the options
-        super(UnrealSequencePublisherExporterOptionsWidget, self).build()
+        super(UnrealReviewablePublisherExporterOptionsWidget, self).build()
 
 
-class UnrealSequencePublisherExporterOptionsPluginWidget(
+class UnrealReviewablePublisherExporterOptionsPluginWidget(
     plugin.UnrealPublisherExporterPluginWidget
 ):
-    plugin_name = 'unreal_sequence_publisher_exporter'
-    widget = UnrealSequencePublisherExporterOptionsWidget
+    plugin_name = 'unreal_reviewable_publisher_exporter'
+    widget = UnrealReviewablePublisherExporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealSequencePublisherExporterOptionsPluginWidget(api_object)
+    plugin = UnrealReviewablePublisherExporterOptionsPluginWidget(api_object)
     plugin.register()

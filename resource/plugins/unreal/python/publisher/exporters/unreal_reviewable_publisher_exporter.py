@@ -15,20 +15,18 @@ from ftrack_connect_pipeline_unreal.utils import (
 class UnrealReviewablePublisherExporterPlugin(
     plugin.UnrealPublisherExporterPlugin
 ):
+    '''Unreal reviewable exporter plugin'''
+
     plugin_name = 'unreal_reviewable_publisher_exporter'
 
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
 
     def run(self, context_data=None, data=None, options=None):
-        '''Export a Unreal reviewable to a temp file for publish'''
+        '''Export a Unreal reviewable from the selected sequence given
+        in *data* and options given with *options*.'''
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-
-        if len(collected_objects) != 1:
-            return False, {
-                'message': 'Need one collected sequence to publish from!'
-            }
 
         master_sequence = None
 

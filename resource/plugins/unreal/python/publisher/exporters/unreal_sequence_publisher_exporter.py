@@ -15,22 +15,19 @@ from ftrack_connect_pipeline_unreal import plugin
 class UnrealSequencePublisherExporterPlugin(
     plugin.UnrealPublisherExporterPlugin
 ):
+    '''Unreal file sequence exporter plugin'''
+
     plugin_name = 'unreal_sequence_publisher_exporter'
 
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
 
     def run(self, context_data=None, data=None, options=None):
-        '''Render and export a image file sequence from the selected sequence given in *data*'''
+        '''Render and export a image file sequence from the selected sequence given
+        in *data* and options given with *options*.'''
 
-        '''Render an image sequence'''
         collected_objects = []
         for collector in data:
             collected_objects.extend(collector['result'])
-
-        if len(collected_objects) != 1:
-            return False, {
-                'message': 'Need one collected sequence to publish from!'
-            }
 
         master_sequence = None
 
@@ -92,8 +89,7 @@ class UnrealSequencePublisherExporterPlugin(
             context_data['asset_name']
         )
 
-        # Publish Component: image_sequence
-
+        file_format = options.get('file_format', 'exr')
         result = unreal_utils.render(
             unreal_asset_path,
             unreal_map_path,
@@ -102,7 +98,7 @@ class UnrealSequencePublisherExporterPlugin(
             master_sequence.get_display_rate().numerator,
             unreal_utils.compile_capture_args(options),
             self.logger,
-            image_format=options.get('file_format', 'exr'),
+            image_format=file_format,
         )
 
         if isinstance(result, tuple):
@@ -114,10 +110,14 @@ class UnrealSequencePublisherExporterPlugin(
         # control for test publish(subset of sequence)
         frameStart = master_sequence.get_playback_start()
         frameEnd = master_sequence.get_playback_end() - 1
-        base_file_path = path[:-12] if path.endswith('.{frame}.exr') else path
+        base_file_path = (
+            path[:-12]
+            if path.endswith('.{frame}.%s' % (file_format))
+            else path
+        )
 
         new_file_path = '{0}.%04d.{1} [{2}-{3}]'.format(
-            base_file_path, 'exr', frameStart, frameEnd
+            base_file_path, file_format, frameStart, frameEnd
         )
 
         return [new_file_path]

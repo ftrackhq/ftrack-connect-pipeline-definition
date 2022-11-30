@@ -86,7 +86,7 @@
             {
               "name": "write reviewable",
               "plugin": "unreal_reviewable_publisher_exporter",
-              "widget": "unreal_sequence_publisher_exporter"
+              "widget": "unreal_reviewable_publisher_exporter"
             }
           ]
         }
