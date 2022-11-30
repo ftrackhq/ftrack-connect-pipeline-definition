@@ -14,6 +14,8 @@ from ftrack_connect_pipeline_unreal.utils import (
 class UnrealSequencePublisherCollectorPlugin(
     plugin.UnrealPublisherCollectorPlugin
 ):
+    '''Unreal sequence publisher collector plugin'''
+
     plugin_name = 'unreal_sequence_publisher_collector'
 
     def select(self, context_data=None, data=None, options=None):
@@ -22,7 +24,7 @@ class UnrealSequencePublisherCollectorPlugin(
         return selected_items
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all cameras from the scene'''
+        '''Fetch all sequences from the level/map'''
         result = []
         collected_objects = unreal_utils.get_all_sequences()
         # Mark the selected sequence
@@ -44,7 +46,7 @@ class UnrealSequencePublisherCollectorPlugin(
         return result
 
     def run(self, context_data=None, data=None, options=None):
-        '''Return the long name of the camera from the plugin *options*'''
+        '''Return the name of sequence from plugin *options*'''
         sequence_name = options.get('sequence_name')
         if not sequence_name:
             return False, {'message': 'No sequence chosen.'}
