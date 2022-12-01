@@ -83,10 +83,14 @@ class UnrealFbxGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         results = {}
 
-        results[component_path] = unreal_utils.rename_object_with_prefix(
-            loaded_mesh, 'S'
-        )
+        try:
+            results[component_path] = unreal_utils.rename_object_with_prefix(
+                loaded_mesh, 'S'
+            )
+        except:
+            import traceback
 
+            self.logger.warning(traceback.format_exc())
         return results
 
 
