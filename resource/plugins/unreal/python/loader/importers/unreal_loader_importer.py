@@ -615,20 +615,20 @@ def register(api_object, **kw):
         # Exit to avoid registering this plugin again.
         return
 
-    abc_rig_importer = UnrealAbcRigLoaderImporterPlugin(api_object)
-    abc_rig_importer.register()
-
-    fbx_rig_importer = UnrealFbxRigLoaderImporterPlugin(api_object)
-    fbx_rig_importer.register()
-
-    abc_anim_importer = UnrealAbcAnimationLoaderImporterPlugin(api_object)
-    abc_anim_importer.register()
-
-    fbx_anim_importer = UnrealFbxAnimationUnrealImportPlugin(api_object)
-    fbx_anim_importer.register()
-
-    abc_geo_importer = UnrealAbcGeometryLoaderImporterPlugin(api_object)
-    abc_geo_importer.register()
-
-    fbx_geo_importer = UnrealFbxGeometryLoaderImporterPlugin(api_object)
-    fbx_geo_importer.register()
+    # abc_rig_importer = UnrealAbcRigLoaderImporterPlugin(api_object)
+    # abc_rig_importer.register()
+    #
+    # fbx_rig_importer = UnrealFbxRigLoaderImporterPlugin(api_object)
+    # fbx_rig_importer.register()
+    #
+    # abc_anim_importer = UnrealAbcAnimationLoaderImporterPlugin(api_object)
+    # abc_anim_importer.register()
+    #
+    # fbx_anim_importer = UnrealFbxAnimationUnrealImportPlugin(api_object)
+    # fbx_anim_importer.register()
+    #
+    # abc_geo_importer = UnrealAbcGeometryLoaderImporterPlugin(api_object)
+    # abc_geo_importer.register()
+    #
+    # fbx_geo_importer = UnrealFbxGeometryLoaderImporterPlugin(api_object)
+    # fbx_geo_importer.register()
