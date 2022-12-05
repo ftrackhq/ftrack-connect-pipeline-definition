@@ -12,13 +12,13 @@ from ftrack_connect_pipeline_unreal.utils import (
 import ftrack_api
 
 
-class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
+class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
     load_modes = load_const.LOAD_MODES
 
-    plugin_name = 'unreal_abc_geometry_loader_importer'
+    plugin_name = 'unreal_abc_rig_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Load Alembic geometry file pointed out by collected *data*, with *options*.'''
+        '''Load Alembic rig file pointed out by collected *data*, with *options*.'''
 
         # Build import task
 
@@ -45,36 +45,61 @@ class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         task.destination_path = import_path.replace(' ', '_')
 
-        task = unreal.AssetImportTask()
-
-        # Alembic geo specific options
+        # Alembic rig specific options
 
         task.options = unreal.AbcImportSettings()
-        task.options.import_type = unreal.AlembicImportType.STATIC_MESH
+        task.options.import_type = unreal.AlembicImportType.SKELETAL
         task.options.material_settings.set_editor_property(
             'find_materials', options.get('ImportMaterials', False)
         )
 
-        # Geometry specific options
+        # Rig specific options
+
+        skeletons = (
+            unreal.AssetRegistryHelpers()
+            .get_asset_registry()
+            .get_assets_by_class('Skeleton')
+        )
+        skeletonName = options.get('Skeleton')
+        if skeletonName:
+
+            skeletonAD = None
+            for skeleton in skeletons:
+                if skeleton.asset_name == skeletonName:
+                    skeletonAD = skeleton
+
+            if skeletonAD is not None:
+                task.options.set_editor_property(
+                    'skeleton', skeletonAD.get_asset()
+                )
 
         task.replace_existing = options.get('ReplaceExisting', True)
         task.automated = options.get('Automated', True)
         task.save = options.get('Save', True)
 
         import_result = unreal_utils.import_file(task)
-
-        if import_result is None:
-            raise Exception('Alembic geo import failed!')
-
-        self.logger.info('Imported Alembic geo: {}'.format(import_result))
-
-        loaded_mesh = unreal.EditorAssetLibrary.load_asset(import_result)
-
-        results = {}
-
-        results[component_path] = unreal_utils.rename_node_with_prefix(
-            loaded_mesh, 'S'
+        self.logger.info('Imported Alembic rig: {}'.format(import_result))
+        loaded_skeletal_mesh = unreal.EditorAssetLibrary.load_asset(
+            import_result
         )
+
+        results = {component_path: []}
+
+        results[component_path].append(
+            unreal_utils.rename_node_with_prefix(loaded_skeletal_mesh, 'SK')
+        )
+
+        mesh_skeleton = loaded_skeletal_mesh.skeleton
+        if mesh_skeleton:
+            results[component_path].append(
+                self._rename_object_with_prefix(mesh_skeleton, 'SKEL')
+            )
+
+        mesh_physics_asset = loaded_skeletal_mesh.physics_asset
+        if mesh_physics_asset:
+            results[component_path].append(
+                self._rename_object_with_prefix(mesh_physics_asset, 'PHAT')
+            )
 
         return results
 
@@ -84,5 +109,5 @@ def register(api_object, **kw):
         # Exit to avoid registering this plugin again.
         return
 
-    abc_geo_importer = UnrealAbcGeometryLoaderImporterPlugin(api_object)
+    abc_geo_importer = UnrealAbcRigLoaderImporterPlugin(api_object)
     abc_geo_importer.register()

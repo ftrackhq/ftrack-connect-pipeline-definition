@@ -42,7 +42,8 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_abc_animation_loader_importer"
+              "plugin": "unreal_abc_rig_loader_importer",
+              "widget": "unreal_abc_rig_loader_importer"
             }
           ]
         },
@@ -77,7 +78,8 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_fbx_animation_loader_importer"
+              "plugin": "unreal_fbx_rig_loader_importer",
+              "widget": "unreal_fbx_rig_loader_importer"
             }
           ]
         },

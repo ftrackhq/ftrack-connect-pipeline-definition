@@ -9,8 +9,8 @@ from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
 from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
 
 
-class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
-    '''Unreal rig loader plugin widget user input plugin widget.'''
+class UnrealFbxRigLoaderImporterOptionsWidget(DynamicWidget):
+    '''Unreal FBX rig loader plugin widget user input plugin widget.'''
 
     load_modes = list(load_const.LOAD_MODES.keys())
 
@@ -25,7 +25,7 @@ class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(UnrealRigLoaderImporterOptionsWidget, self).__init__(
+        super(UnrealFbxRigLoaderImporterOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -39,40 +39,42 @@ class UnrealRigLoaderImporterOptionsWidget(DynamicWidget):
     def define_options(self):
         '''Default renderable options for dynamic widget'''
         result = {
-            'UpdateExistingAsset': True,
             'Skeleton': [],
             'CreatePhysicsAsset': True,
-            'ImportMaterial': True,
+            'ImportMaterials': False,
+            'AutomatedImportShouldDetectType': False,
+            'ImportMorphTargets': True,
         }
         # Load existing skeletons
         assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
         skeletons = assetRegistry.get_assets_by_class('Skeleton')
+        result['Skeleton'].append({'value': None})
         for skeleton in skeletons:
             result['Skeleton'].append({'value': str(skeleton.asset_name)})
         return result
 
     def get_options_group_name(self):
         '''Override'''
-        return 'Rig loader Options'
+        return 'Rig FBX loader Options'
 
     def build(self):
         '''build function , mostly used to create the widgets.'''
 
         self.update(self.define_options())
 
-        super(UnrealRigLoaderImporterOptionsWidget, self).build()
+        super(UnrealFbxRigLoaderImporterOptionsWidget, self).build()
 
 
-class UnrealRigLoaderImporterOptionsPluginWidget(
+class UnrealFbxRigLoaderImporterOptionsPluginWidget(
     plugin.UnrealLoaderImporterPluginWidget
 ):
-    plugin_name = 'unreal_rig_loader_importer'
-    widget = UnrealRigLoaderImporterOptionsWidget
+    plugin_name = 'unreal_fbx_rig_loader_importer'
+    widget = UnrealFbxRigLoaderImporterOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealRigLoaderImporterOptionsPluginWidget(api_object)
+    plugin = UnrealFbxRigLoaderImporterOptionsPluginWidget(api_object)
     plugin.register()

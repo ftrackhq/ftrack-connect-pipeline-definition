@@ -39,9 +39,7 @@ class UnrealFbxGeometryLoaderImporterOptionsWidget(DynamicWidget):
     def define_options(self):
         '''Default renderable options for dynamic widget'''
         return {
-            'ImportMesh': True,
-            'ImportAsSkeletal': False,
-            'ImportAnimations': False,
+            'ImportMaterials': False,
             'CreatePhysicsAsset': False,
             'OverrideFullName': True,
             'AutomatedImportShouldDetectType': False,

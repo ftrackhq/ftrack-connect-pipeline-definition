@@ -43,7 +43,7 @@
             {
               "name": "Import paths to Unreal",
               "plugin": "unreal_abc_animation_loader_importer",
-              "widget": "unreal_animation_loader_importer"
+              "widget": "unreal_abc_animation_loader_importer"
             }
           ]
         },
@@ -79,7 +79,7 @@
             {
               "name": "Import paths to Unreal",
               "plugin": "unreal_fbx_animation_loader_importer",
-              "widget": "unreal_animation_loader_importer"
+              "widget": "unreal_fbx_animation_loader_importer"
             }
           ]
         },
