@@ -24,28 +24,9 @@ class UnrealAbcAnimationLoaderImporterPlugin(
 
         # Build import task
 
-        task = unreal.AssetImportTask()
-
-        paths_to_import = []
-        for collector in data:
-            paths_to_import.extend(collector['result'])
-
-        component_path = paths_to_import[0]
-
-        task.filename = component_path
-
-        asset_version_entity = self.session.query(
-            'AssetVersion where id={}'.format(context_data['version_id'])
-        ).first()
-        import_path = (
-            '/Game/'
-            + unreal_utils.get_context_relative_path(
-                self.session, asset_version_entity['task']
-            )
-            + context_data['asset_name']
+        task, component_path = unreal_utils.prepare_load_task(
+            self.session, context_data, data
         )
-
-        task.destination_path = import_path.replace(' ', '_')
 
         # Alembic animation specific options
 
