@@ -25,7 +25,7 @@ class UnrealFbxAnimationLoaderImporterPlugin(
         # Build import task
 
         task, component_path = unreal_utils.prepare_load_task(
-            self.session, context_data, data
+            self.session, context_data, data, options
         )
 
         # Fbx animation specific options
@@ -33,7 +33,7 @@ class UnrealFbxAnimationLoaderImporterPlugin(
         task.options = unreal.FbxImportUI()
         task.options.import_mesh = False
         task.options.import_as_skeletal = False
-        task.options.import_animations = False
+        task.options.import_animations = True
         task.options.import_materials = options.get('ImportMaterials', False)
         task.options.create_physics_asset = False
         task.options.automated_import_should_detect_type = False
@@ -69,14 +69,9 @@ class UnrealFbxAnimationLoaderImporterPlugin(
 
         # Animation specific options
 
-        skeletons = (
-            unreal.AssetRegistryHelpers()
-            .get_asset_registry()
-            .get_assets_by_class('Skeleton')
-        )
         skeletonName = options.get('Skeleton')
         if skeletonName:
-
+            skeletons = unreal_utils.get_asset_by_class('Skeleton')
             skeletonAD = None
             for skeleton in skeletons:
                 if skeleton.asset_name == skeletonName:
@@ -87,19 +82,17 @@ class UnrealFbxAnimationLoaderImporterPlugin(
                     'skeleton', skeletonAD.get_asset()
                 )
 
-        task.replace_existing = options.get('ReplaceExisting', True)
-        task.automated = options.get('Automated', True)
-        task.save = options.get('Save', True)
-
         import_result = unreal_utils.import_file(task)
         self.logger.info('Imported FBX animation: {}'.format(import_result))
-        loaded_anim = unreal.EditorAssetLibrary.load_asset(import_result)
 
         results = {}
 
-        results[component_path] = unreal_utils.rename_node_with_prefix(
-            loaded_anim, 'A'
-        )
+        if options.get('RenameAnim', False):
+            results[component_path] = unreal_utils.rename_node_with_prefix(
+                import_result, options.get('RenameAnimPrefix', 'A_')
+            )
+        else:
+            results[component_path] = import_result
 
         return results
 

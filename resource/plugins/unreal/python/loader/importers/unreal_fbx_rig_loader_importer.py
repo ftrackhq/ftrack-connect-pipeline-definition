@@ -22,7 +22,7 @@ class UnrealFbxRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         # Build import task
         task, component_path = unreal_utils.prepare_load_task(
-            self.session, context_data, data
+            self.session, context_data, data, options
         )
 
         # Fbx rig specific options
@@ -53,14 +53,9 @@ class UnrealFbxRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         # Rig specific options
 
-        skeletons = (
-            unreal.AssetRegistryHelpers()
-            .get_asset_registry()
-            .get_assets_by_class('Skeleton')
-        )
         skeletonName = options.get('Skeleton')
         if skeletonName:
-
+            skeletons = unreal_utils.get_asset_by_class('Skeleton')
             skeletonAD = None
             for skeleton in skeletons:
                 if skeleton.asset_name == skeletonName:
@@ -71,19 +66,50 @@ class UnrealFbxRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
                     'skeleton', skeletonAD.get_asset()
                 )
 
-        task.replace_existing = options.get('ReplaceExisting', True)
-        task.automated = options.get('Automated', True)
-        task.save = options.get('Save', True)
-
         import_result = unreal_utils.import_file(task)
         self.logger.info('Imported FBX rig: {}'.format(import_result))
-        loaded_mesh = unreal.EditorAssetLibrary.load_asset(import_result)
-
-        results = {}
-
-        results[component_path] = unreal_utils.rename_node_with_prefix(
-            loaded_mesh, 'S'
+        loaded_skeletal_mesh = unreal.EditorAssetLibrary.load_asset(
+            import_result
         )
+
+        results = {component_path: []}
+
+        if options.get('RenameSkelMesh', False):
+            results[component_path].append(
+                unreal_utils.rename_node_with_prefix(
+                    import_result, options.get('RenameSkelMeshPrefix', 'SK_')
+                )
+            )
+        else:
+            results[component_path].append(
+                loaded_skeletal_mesh.get_path_name()
+            )
+
+        mesh_skeleton = loaded_skeletal_mesh.skeleton
+        if mesh_skeleton:
+            if options.get('RenameSkeleton', False):
+                results[component_path].append(
+                    unreal_utils.rename_node_with_prefix(
+                        mesh_skeleton.get_path_name(),
+                        options.get('RenameSkeletonPrefix', 'SKEL_'),
+                    )
+                )
+            else:
+                results[component_path].append(mesh_skeleton.get_path_name())
+
+        mesh_physics_asset = loaded_skeletal_mesh.physics_asset
+        if mesh_physics_asset:
+            if options.get('RenamePhysAsset', False):
+                results[component_path].append(
+                    unreal_utils.rename_node_with_prefix(
+                        mesh_physics_asset.get_path_name(),
+                        options.get('RenamePhysAssetPrefix', 'PHAT_'),
+                    )
+                )
+            else:
+                results[component_path].append(
+                    mesh_physics_asset.get_path_name()
+                )
 
         return results
 

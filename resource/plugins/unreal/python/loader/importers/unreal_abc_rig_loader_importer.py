@@ -23,7 +23,7 @@ class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         # Build import task
 
         task, component_path = unreal_utils.prepare_load_task(
-            self.session, context_data, data
+            self.session, context_data, data, options
         )
 
         # Alembic rig specific options
@@ -36,14 +36,9 @@ class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         # Rig specific options
 
-        skeletons = (
-            unreal.AssetRegistryHelpers()
-            .get_asset_registry()
-            .get_assets_by_class('Skeleton')
-        )
         skeletonName = options.get('Skeleton')
         if skeletonName:
-
+            skeletons = unreal_utils.get_asset_by_class('Skeleton')
             skeletonAD = None
             for skeleton in skeletons:
                 if skeleton.asset_name == skeletonName:
@@ -54,10 +49,6 @@ class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
                     'skeleton', skeletonAD.get_asset()
                 )
 
-        task.replace_existing = options.get('ReplaceExisting', True)
-        task.automated = options.get('Automated', True)
-        task.save = options.get('Save', True)
-
         import_result = unreal_utils.import_file(task)
         self.logger.info('Imported Alembic rig: {}'.format(import_result))
         loaded_skeletal_mesh = unreal.EditorAssetLibrary.load_asset(
@@ -66,21 +57,42 @@ class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         results = {component_path: []}
 
-        results[component_path].append(
-            unreal_utils.rename_node_with_prefix(loaded_skeletal_mesh, 'SK')
-        )
+        if options.get('RenameSkelMesh', False):
+            results[component_path].append(
+                unreal_utils.rename_node_with_prefix(
+                    import_result, options.get('RenameSkelMeshPrefix', 'SK_')
+                )
+            )
+        else:
+            results[component_path].append(
+                loaded_skeletal_mesh.get_path_name()
+            )
 
         mesh_skeleton = loaded_skeletal_mesh.skeleton
         if mesh_skeleton:
-            results[component_path].append(
-                self._rename_object_with_prefix(mesh_skeleton, 'SKEL')
-            )
+            if options.get('RenameSkeleton', False):
+                results[component_path].append(
+                    unreal_utils.rename_node_with_prefix(
+                        mesh_skeleton.get_path_name(),
+                        options.get('RenameSkeletonPrefix', 'SKEL_'),
+                    )
+                )
+            else:
+                results[component_path].append(mesh_skeleton.get_path_name())
 
         mesh_physics_asset = loaded_skeletal_mesh.physics_asset
         if mesh_physics_asset:
-            results[component_path].append(
-                self._rename_object_with_prefix(mesh_physics_asset, 'PHAT')
-            )
+            if options.get('RenamePhysAsset', False):
+                results[component_path].append(
+                    unreal_utils.rename_node_with_prefix(
+                        mesh_physics_asset.get_path_name(),
+                        options.get('RenamePhysAssetPrefix', 'PHAT_'),
+                    )
+                )
+            else:
+                results[component_path].append(
+                    mesh_physics_asset.get_path_name()
+                )
 
         return results
 

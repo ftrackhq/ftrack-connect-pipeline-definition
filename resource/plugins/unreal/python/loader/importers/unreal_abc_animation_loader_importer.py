@@ -44,14 +44,9 @@ class UnrealAbcAnimationLoaderImporterPlugin(
 
         # Animation specific options
 
-        skeletons = (
-            unreal.AssetRegistryHelpers()
-            .get_asset_registry()
-            .get_assets_by_class('Skeleton')
-        )
         skeletonName = options.get('Skeleton')
         if skeletonName:
-
+            skeletons = unreal_utils.get_asset_by_class('Skeleton')
             skeletonAD = None
             for skeleton in skeletons:
                 if skeleton.asset_name == skeletonName:
@@ -62,21 +57,18 @@ class UnrealAbcAnimationLoaderImporterPlugin(
                     'skeleton', skeletonAD.get_asset()
                 )
 
-        task.replace_existing = options.get('ReplaceExisting', True)
-        task.automated = options.get('Automated', True)
-        task.save = options.get('Save', True)
-
         import_result = unreal_utils.import_file(task)
         self.logger.info(
             'Imported Alembic animation: {}'.format(import_result)
         )
-        loaded_anim = unreal.EditorAssetLibrary.load_asset(import_result)
-
         results = {}
 
-        results[component_path] = unreal_utils.rename_node_with_prefix(
-            loaded_anim, 'A'
-        )
+        if options.get('RenameAnim', False):
+            results[component_path] = unreal_utils.rename_node_with_prefix(
+                import_result, options.get('RenameAnimPrefix', 'A_')
+            )
+        else:
+            results[component_path] = import_result
 
         return results
 

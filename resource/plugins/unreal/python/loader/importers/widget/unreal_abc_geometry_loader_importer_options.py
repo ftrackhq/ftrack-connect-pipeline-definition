@@ -40,6 +40,8 @@ class UnrealAbcGeometryLoaderImporterOptionsWidget(DynamicWidget):
         '''Default renderable options for dynamic widget'''
         return {
             'ImportMaterials': True,
+            'RenameMesh': False,
+            'RenameMeshPrefix': 'S_',
             'ReplaceExisting': True,
             'Automated': True,
             'Save': True,

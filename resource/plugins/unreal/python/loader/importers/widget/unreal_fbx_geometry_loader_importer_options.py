@@ -44,6 +44,8 @@ class UnrealFbxGeometryLoaderImporterOptionsWidget(DynamicWidget):
             'OverrideFullName': True,
             'AutomatedImportShouldDetectType': False,
             'CombineMeshes': True,
+            'RenameMesh': False,
+            'RenameMeshPrefix': 'S_',
             'ReplaceExisting': True,
             'Automated': True,
             'Save': True,

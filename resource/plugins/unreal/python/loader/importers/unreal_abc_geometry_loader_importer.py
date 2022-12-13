@@ -23,7 +23,7 @@ class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         # Build import task
 
         task, component_path = unreal_utils.prepare_load_task(
-            self.session, context_data, data
+            self.session, context_data, data, options
         )
 
         # Alembic geo specific options
@@ -36,10 +36,6 @@ class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         # Geometry specific options
 
-        task.replace_existing = options.get('ReplaceExisting', True)
-        task.automated = options.get('Automated', True)
-        task.save = options.get('Save', True)
-
         import_result = unreal_utils.import_file(task)
 
         if import_result is None:
@@ -47,13 +43,12 @@ class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         self.logger.info('Imported Alembic geo: {}'.format(import_result))
 
-        loaded_mesh = unreal.EditorAssetLibrary.load_asset(import_result)
-
         results = {}
 
-        results[component_path] = unreal_utils.rename_node_with_prefix(
-            loaded_mesh, 'S'
-        )
+        if options.get('RenameMesh', False):
+            results[component_path] = unreal_utils.rename_node_with_prefix(
+                import_result, options.get('RenameMeshPrefix', 'S_')
+            )
 
         return results
 
