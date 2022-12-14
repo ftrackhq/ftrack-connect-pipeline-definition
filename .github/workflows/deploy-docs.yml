@@ -19,10 +19,10 @@ jobs:
           sphinx-build doc public
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        # To build from a branch, comment the line below and change publish_branch
-        #if: ${{ github.ref == 'refs/heads/main' }}
+        # Todo: uncheck this when you are ready to only deploy from main
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
-          publish_branch: main
+          publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: public
           force_orphan: true
