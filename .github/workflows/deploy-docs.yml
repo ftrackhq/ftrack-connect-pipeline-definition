@@ -20,7 +20,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         # To build from a branch, comment the line below and change publish_branch
-        if: ${{ github.ref == 'refs/heads/main' }}
+        #if: ${{ github.ref == 'refs/heads/main' }}
         with:
           publish_branch: main
           github_token: ${{ secrets.GITHUB_TOKEN }}
