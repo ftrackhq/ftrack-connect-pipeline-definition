@@ -33,14 +33,24 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
     statusesFetched = QtCore.Signal(object)
 
     @property
-    def project_level_context_id(self):
-        return self._project_level_context_selector.context_id
+    def project_context_id(self):
+        return self._project_context_selector.context_id
 
-    @project_level_context_id.setter
-    def project_level_context_id(self, context_id):
-        self._project_level_context_selector.context_id = context_id
+    @project_context_id.setter
+    def project_context_id(self, context_id):
+        self._project_context_selector.context_id = context_id
         if context_id:
-            self.set_project_level_context(context_id)
+            self.set_asset_build_context(context_id)
+        # Passing project context id to options
+        self.set_option_result(context_id, key='project_context_id')
+
+    @property
+    def asset_build_context_id(self):
+        return self._asset_build_context_id
+
+    @asset_build_context_id.setter
+    def asset_build_context_id(self, context_id):
+        self._asset_build_context_id = context_id
 
     def __init__(
         self,
@@ -72,26 +82,29 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.name_label.setToolTip(self.description)
         self.layout().addWidget(self.name_label)
 
-        project_level_context_id = None
+        project_context_id = None
         if self.context_id:
             context = self.session.query(
                 'Context where id is "{}"'.format(self.context_id)
             ).one()
-            project_level_context_id = context.get('project_id')
+            project_context_id = context.get('project_id')
 
-        self._project_level_context_selector = ContextSelector(
+            # Pass task context id to options
+            self.set_option_result(self.context_id, key='context_id')
+
+        self._project_context_selector = ContextSelector(
             self.session,
             enble_context_change=True,
             select_task=False,
-            browse_context_id=project_level_context_id,
+            browse_context_id=project_context_id,
         )
-        self.layout().addWidget(self._project_level_context_selector)
+        self.layout().addWidget(self._project_context_selector)
 
         self.layout().addWidget(line.Line())
 
         self.layout().addWidget(QtWidgets.QLabel("Unreal asset build"))
-        self.assetbuild_info = EntityInfo()
-        self.layout().addWidget(self.assetbuild_info)
+        self.asset_build_info = EntityInfo()
+        self.layout().addWidget(self.asset_build_info)
 
         self.layout().addWidget(line.Line())
 
@@ -111,12 +124,10 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         '''Post build hook.'''
         super(UnrealProjectPublisherContextOptionsWidget, self).post_build()
         # Fetch the Unreal project context id
-        self.project_level_context_id = (
-            unreal_utils.get_project_level_context()
-        )
+        self.project_context_id = unreal_utils.get_project_context_id()
 
-        self._project_level_context_selector.entityChanged.connect(
-            self.on_context_changed
+        self._project_context_selector.entityChanged.connect(
+            self.on_project_context_changed
         )
         self.asset_selector.assetChanged.connect(self._on_asset_changed)
         self.comments_input.textChanged.connect(self._on_comment_updated)
@@ -124,14 +135,15 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             self._on_status_changed
         )
 
-    def on_context_changed(self, context):
+    def on_project_context_changed(self, context):
         '''Handle context change - store it with Unreal project'''
-        unreal_utils.set_project_level_context(context['id'])
-        self.set_project_level_context(context['id'])
+        unreal_utils.set_project_context(context['id'])
+        self.set_project_context(context['id'])
 
-    def set_project_level_context(self, project_level_context_id):
+    def set_asset_build_context(self, project_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
         asset build is created and use it as the context.'''
+        asset_path = None
         if self.options.get('selection') is True:
             # TODO: Fetch the selected asset in content browser
             pass
@@ -141,19 +153,23 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
                 unreal.EditorLevelLibrary.get_editor_world().get_path_name()
             ).split('.')[0]
 
+        # TODO: ask if to create the asset build before create it,
+        #  otherwise we can create a mess.
         # Create asset build if it doesn't exist, will throw exception if permission problem
         try:
-            asset_build = unreal_utils.ensure_project_level_asset_build(
-                project_level_context_id, asset_path, session=self.session
+            asset_build = unreal_utils.ensure_asset_build(
+                project_context_id, asset_path, session=self.session
             )
-            self.assetbuild_info.entity = asset_build
+            self.asset_build_info.entity = asset_build
 
-            # Use this as publish context from this point on
-            self._context_id = asset_build['id']
+            self.asset_build_context_id = asset_build['id']
 
-            self.set_option_result(self.context_id, key='context_id')
+            # pass asset_build_context_id to options
+            self.set_option_result(
+                asset_build['id'], key='asset_build_context_id'
+            )
             self.asset_selector.set_context(
-                self.context_id, self.asset_type_name
+                self.asset_build_context_id, self.asset_type_name
             )
             thread = BaseThread(
                 name='get_status_thread',
@@ -260,7 +276,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         '''Returns the status of the selected assetVersion'''
         context_entity = self.session.query(
             'select link, name, parent, parent.name from Context where id '
-            'is "{}"'.format(self.context_id)
+            'is "{}"'.format(self.asset_build_context_id)
         ).one()
 
         project = self.session.query(
