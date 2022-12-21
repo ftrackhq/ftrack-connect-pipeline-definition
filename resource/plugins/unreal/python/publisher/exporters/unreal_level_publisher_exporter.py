@@ -60,8 +60,6 @@ class UnrealLevelPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
             for p in level_deps
         ]
 
-        options['deps'] = dependency_paths  # List of /Game/... paths
-
         return [umap_path], {'data': dependency_paths}
 
 

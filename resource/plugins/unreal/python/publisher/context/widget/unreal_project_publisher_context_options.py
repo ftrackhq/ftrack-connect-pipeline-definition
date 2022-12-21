@@ -102,7 +102,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         self.layout().addWidget(line.Line())
 
-        self.layout().addWidget(QtWidgets.QLabel("Unreal {}asset build context".format(' level' if self.options.get('level') is True else '')))
+        self.layout().addWidget(
+            QtWidgets.QLabel(
+                "Unreal {}asset build context".format(
+                    ' level' if self.options.get('level') is True else ''
+                )
+            )
+        )
         self._asset_context_selector = ContextSelector(self.session)
         self.layout().addWidget(self._asset_context_selector)
 
