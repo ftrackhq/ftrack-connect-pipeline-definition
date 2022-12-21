@@ -26,8 +26,6 @@ class UnrealDependenciesPublisherFinalizerPlugin(
         print('@@@ DATA: {}'.format(json.dumps(data, indent=4)))
         print('@@@ OPTIONS: {}'.format(json.dumps(options, indent=4)))
 
-        message = ''
-
         return (True, {'message': message})
 
 
