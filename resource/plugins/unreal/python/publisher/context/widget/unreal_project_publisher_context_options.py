@@ -102,9 +102,15 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         self.layout().addWidget(line.Line())
 
-        self.layout().addWidget(QtWidgets.QLabel("Unreal asset build"))
-        self.asset_build_info = EntityInfo()
-        self.layout().addWidget(self.asset_build_info)
+        self.layout().addWidget(
+            QtWidgets.QLabel(
+                "Unreal {}asset build context".format(
+                    ' level' if self.options.get('level') is True else ''
+                )
+            )
+        )
+        self._asset_context_selector = ContextSelector(self.session)
+        self.layout().addWidget(self._asset_context_selector)
 
         self.layout().addWidget(line.Line())
 
@@ -129,6 +135,9 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self._project_context_selector.entityChanged.connect(
             self.on_project_context_changed
         )
+        self._asset_context_selector.changeContextClicked.connect(
+            self.on_change_asset_context_clicked
+        )
         self.asset_selector.assetChanged.connect(self._on_asset_changed)
         self.comments_input.textChanged.connect(self._on_comment_updated)
         self.status_selector.currentIndexChanged.connect(
@@ -139,6 +148,12 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         '''Handle context change - store it with Unreal project'''
         unreal_utils.set_project_context(context['id'])
         self.set_project_context(context['id'])
+
+    def on_change_asset_context_clicked(self, context):
+        dialog.ModalDialog(
+            self.parent(),
+            message='The unreal project asset context is not editable.',
+        )
 
     def set_asset_build_context(self, project_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
@@ -160,7 +175,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             asset_build = unreal_utils.ensure_asset_build(
                 project_context_id, asset_path, session=self.session
             )
-            self.asset_build_info.entity = asset_build
+            self._asset_context_selector.entity = asset_build
 
             self.asset_build_context_id = asset_build['id']
 
