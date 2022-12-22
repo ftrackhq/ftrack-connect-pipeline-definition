@@ -40,17 +40,19 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
     def project_context_id(self, context_id):
         self._project_context_selector.context_id = context_id
         if context_id:
-            self.set_asset_build_context(context_id)
+            self.set_parent_context(context_id)
         # Passing project context id to options
         self.set_option_result(context_id, key='project_context_id')
 
     @property
-    def asset_build_context_id(self):
-        return self._asset_build_context_id
+    def parent_context_id(self):
+        return self._parent_context_selector.context_id
 
-    @asset_build_context_id.setter
-    def asset_build_context_id(self, context_id):
-        self._asset_build_context_id = context_id
+    @parent_context_id.setter
+    def parent_context_id(self, context_id):
+        self._parent_context_selector.context_id = context_id
+        # Passing parent context id to options
+        self.set_option_result(context_id, key='parent_context_id')
 
     def __init__(
         self,
@@ -109,8 +111,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
                 )
             )
         )
-        self._asset_context_selector = ContextSelector(self.session)
-        self.layout().addWidget(self._asset_context_selector)
+        self._parent_context_selector = ContextSelector(self.session)
+        self.layout().addWidget(self._parent_context_selector)
 
         self.layout().addWidget(line.Line())
 
@@ -135,8 +137,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self._project_context_selector.entityChanged.connect(
             self.on_project_context_changed
         )
-        self._asset_context_selector.changeContextClicked.connect(
-            self.on_change_asset_context_clicked
+        self._parent_context_selector.changeContextClicked.connect(
+            self.on_change_parent_context_clicked
         )
         self.asset_selector.assetChanged.connect(self._on_asset_changed)
         self.comments_input.textChanged.connect(self._on_comment_updated)
@@ -146,16 +148,16 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     def on_project_context_changed(self, context):
         '''Handle context change - store it with Unreal project'''
-        unreal_utils.set_project_context(context['id'])
-        self.set_project_context(context['id'])
+        unreal_utils.set_project_context_id(context['id'])
+        self.project_context_id(context['id'])
 
-    def on_change_asset_context_clicked(self, context):
+    def on_change_parent_context_clicked(self):
         dialog.ModalDialog(
             self.parent(),
-            message='The unreal project asset context is not editable.',
+            message='The unreal project parent context is not editable.',
         )
 
-    def set_asset_build_context(self, project_context_id):
+    def set_parent_context(self, project_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
         asset build is created and use it as the context.'''
         asset_path = None
@@ -177,22 +179,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             )
             self._asset_context_selector.entity = asset_build
 
-            self.asset_build_context_id = asset_build['id']
+            #TODO: set the asset type name asset_type_name
 
-            # pass asset_build_context_id to options
-            self.set_option_result(
-                asset_build['id'], key='asset_build_context_id'
-            )
+            self.parent_context_id = asset_build['id']
+
             self.asset_selector.set_context(
-                self.asset_build_context_id, self.asset_type_name
+                self.parent_context_id, self.asset_type_name
             )
-            thread = BaseThread(
-                name='get_status_thread',
-                target=self._get_statuses,
-                callback=self.emit_statuses,
-                target_args=(),
-            )
-            thread.start()
 
         except Exception as e:
             dialog.ModalDialog(
@@ -253,6 +246,14 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         self.status_layout.addStretch()
 
+        thread = BaseThread(
+            name='get_status_thread',
+            target=self._get_statuses,
+            callback=self.emit_statuses,
+            target_args=(),
+        )
+        thread.start()
+
         return self.status_layout
 
     def _build_comments_input(self):
@@ -291,7 +292,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         '''Returns the status of the selected assetVersion'''
         context_entity = self.session.query(
             'select link, name, parent, parent.name from Context where id '
-            'is "{}"'.format(self.asset_build_context_id)
+            'is "{}"'.format(self.parent_context_id)
         ).one()
 
         project = self.session.query(
