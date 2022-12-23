@@ -22,7 +22,9 @@ class UnrealLevelPublisherCollectorPlugin(
         '''Fetch all cameras from the scene'''
 
         print("Data on the fetch call ---> {}".format(data))
-        # TODO: take the level from the previous collector plugin executed
+        # TODO: take the level from the previous collector plugin executed:
+        #  In order to do this, we have to modify the plugin execution to pass
+        #  the date of the previous plugin in pipeline.
 
         level_asset_path = (
             unreal.EditorLevelLibrary.get_editor_world().get_path_name()
@@ -51,8 +53,6 @@ class UnrealLevelPublisherCollectorPlugin(
         game_dependencies = list(
             filter(lambda x: x.startswith("/Game"), dependencies)
         )
-
-        # TODO: Filter out dependencies that are in sync with ftrack
 
         return game_dependencies
 

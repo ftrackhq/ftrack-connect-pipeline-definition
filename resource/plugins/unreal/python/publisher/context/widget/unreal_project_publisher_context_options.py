@@ -53,6 +53,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self._parent_context_selector.context_id = context_id
         # Passing parent context id to options
         self.set_option_result(context_id, key='parent_context_id')
+        self.set_option_result(context_id, key='context_id')
+
 
     def __init__(
         self,
@@ -92,7 +94,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             project_context_id = context.get('project_id')
 
             # Pass task context id to options
-            self.set_option_result(self.context_id, key='context_id')
+            self.set_option_result(self.context_id, key='task_context_id')
 
         self._project_context_selector = ContextSelector(
             self.session,
