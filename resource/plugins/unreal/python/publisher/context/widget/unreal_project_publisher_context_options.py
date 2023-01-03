@@ -45,15 +45,14 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.set_option_result(context_id, key='project_context_id')
 
     @property
-    def parent_context_id(self):
+    def asset_parent_context_id(self):
         return self._parent_context_selector.context_id
 
-    @parent_context_id.setter
-    def parent_context_id(self, context_id):
+    @asset_parent_context_id.setter
+    def asset_parent_context_id(self, context_id):
         self._parent_context_selector.context_id = context_id
         # Passing parent context id to options
-        self.set_option_result(context_id, key='parent_context_id')
-        self.set_option_result(context_id, key='context_id')
+        self.set_option_result(context_id, key='asset_parent_context_id')
 
     def __init__(
         self,
@@ -94,6 +93,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
             # Pass task context id to options
             self.set_option_result(self.context_id, key='task_context_id')
+            self.set_option_result(self.context_id, key='context_id')
 
         self._project_context_selector = ContextSelector(
             self.session,
@@ -182,10 +182,10 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
             # TODO: set the asset type name asset_type_name
 
-            self.parent_context_id = asset_build['id']
+            self.asset_parent_context_id = asset_build['id']
 
             self.asset_selector.set_context(
-                self.parent_context_id, self.asset_type_name
+                self.asset_parent_context_id, self.asset_type_name
             )
 
         except Exception as e:
@@ -293,7 +293,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         '''Returns the status of the selected assetVersion'''
         context_entity = self.session.query(
             'select link, name, parent, parent.name from Context where id '
-            'is "{}"'.format(self.parent_context_id)
+            'is "{}"'.format(self.asset_parent_context_id)
         ).one()
 
         project = self.session.query(
