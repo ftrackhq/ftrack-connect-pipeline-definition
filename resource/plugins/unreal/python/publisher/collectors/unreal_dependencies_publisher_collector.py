@@ -24,37 +24,13 @@ class UnrealLevelPublisherCollectorPlugin(
         print("Data on the fetch call ---> {}".format(data))
         # TODO: take the level from the previous collector plugin executed:
         #  In order to do this, we have to modify the plugin execution to pass
-        #  the date of the previous plugin in pipeline.
+        #  the data of the previous plugin in pipeline.
 
         level_asset_path = (
             unreal.EditorLevelLibrary.get_editor_world().get_path_name()
         )
 
-        # https://docs.unrealengine.com/4.27/en-US/PythonAPI/class/AssetRegistry.html?highlight=assetregistry#unreal.AssetRegistry.get_dependencies
-        # Setup dependency options
-        dep_options = unreal.AssetRegistryDependencyOptions(
-            include_soft_package_references=True,
-            include_hard_package_references=True,
-            include_searchable_names=False,
-            include_soft_management_references=True,
-            include_hard_management_references=True,
-        )
-        # Start asset registry
-        asset_reg = unreal.AssetRegistryHelpers.get_asset_registry()
-        # Get dependencies from the level
-        dependencies = [
-            str(dep)
-            for dep in asset_reg.get_dependencies(
-                level_asset_path.split('.')[0], dep_options
-            )
-        ]
-
-        # Filter out only dependencies that are in Game
-        game_dependencies = list(
-            filter(lambda x: x.startswith("/Game"), dependencies)
-        )
-
-        return game_dependencies
+        return unreal_utils.get_asset_dependencies(level_asset_path)
 
     def run(self, context_data=None, data=None, options=None):
         '''Return the list of collected object from *options*'''

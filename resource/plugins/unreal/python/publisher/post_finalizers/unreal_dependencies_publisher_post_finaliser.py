@@ -1,5 +1,6 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
+import os.path
 
 import ftrack_api
 
@@ -24,28 +25,42 @@ class UnrealDependenciesPublisherFinalizerPlugin(
         print('@@@ OPTIONS: {}'.format(json.dumps(options, indent=4)))
 
         # Get the dependencies and the host ID from data
-        dependencies = host_id = None
+        dependencies = host_id = asset_version_id = asset_path = None
         for comp in data:
             if comp['name'] == 'snapshot':
                 for result in comp['result']:
                     if result['name'] == 'exporter':
-                        dependencies = result['user_data']['data']
-                        host_id = result['host_id']
+                        plugin_result = result['result'][0]
+                        dependencies = plugin_result['user_data']['data']
+                        host_id = plugin_result['host_id']
+                        asset_path = plugin_result['result'][0]
                         break
-        if not dependencies:
-            True, {'message': 'Could not find any dependencies to publish!'}
+            elif comp['name'] == 'main':
+                for result in comp['result']:
+                    if result['name'] == 'finalizer':
+                        plugin_result = result['result'][0]
+                        asset_version_id = plugin_result['result'][
+                            'asset_version_id'
+                        ]
+                        break
 
-        # Build and send batch publisher event
+        if not dependencies:
+            True, {'message': 'No dependencies supplied for publish!'}
+
+        # Build and send batch publisher spawn event
         event = ftrack_api.event.base.Event(
             topic=core_constants.PIPELINE_CLIENT_LAUNCH,
             data={
                 'pipeline': {
                     'host_id': host_id,
                     'name': core_constants.BATCH_PUBLISHER,
-                    'title': 'Publishing dependencies',
-                    'run': True,
+                    'title': 'Publish dependencies - {}'.format(
+                        os.path.basename(asset_path).upper()
+                    ),
                     'source': str(self),
                     'assets': dependencies,
+                    'parent_asset_version_id': asset_version_id,
+                    'interactive': options.get('interactive', True),
                 }
             },
         )

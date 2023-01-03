@@ -6,9 +6,7 @@ from ftrack_connect_pipeline import plugin
 import ftrack_api
 
 
-class UnrealParentPublisherFinalizerPlugin(
-    plugin.PublisherFinalizerPlugin
-):
+class UnrealParentPublisherFinalizerPlugin(plugin.PublisherFinalizerPlugin):
     '''Empty/passthrough publisher finalizer plugin'''
 
     plugin_name = 'unreal_parent_publisher_finalizer'
