@@ -12,13 +12,13 @@ from ftrack_connect_pipeline_unreal.utils import (
 from ftrack_connect_pipeline_unreal import plugin
 
 
-class UnrealLevelPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
-    '''Unreal file level exporter plugin'''
+class UnrealAssetPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
+    '''Unreal file asset exporter plugin'''
 
-    plugin_name = 'unreal_level_publisher_exporter'
+    plugin_name = 'unreal_asset_publisher_exporter'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Retrieve the return the absolute level path on disk. The collected level path arrives at the form:
+        '''Retrieve the return the absolute asset path on disk. The collected asset path arrives at the form:
 
         /Game/FirstPerson/Maps/FirstPersonMap.FirstPersonMap
         '''
@@ -27,26 +27,26 @@ class UnrealLevelPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        level_asset_path = (
+        asset_asset_path = (
             collected_objects[0].replace('/Game/', '').replace('/', os.sep)
         )
-        level_deps = collected_objects[1:]
+        asset_deps = collected_objects[1:]
 
         root_content_dir = (
             unreal.SystemLibrary.get_project_content_directory().replace(
                 '/', os.sep
             )
         )
-        umap_path = unreal_utils.determine_extension(
-            os.path.join(root_content_dir, level_asset_path)
+        asset_path = unreal_utils.determine_extension(
+            os.path.join(root_content_dir, asset_asset_path)
         )
 
-        return [umap_path], {'data': level_deps}
+        return [asset_path], {'data': asset_deps}
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    output_plugin = UnrealLevelPublisherExporterPlugin(api_object)
+    output_plugin = UnrealAssetPublisherExporterPlugin(api_object)
     output_plugin.register()

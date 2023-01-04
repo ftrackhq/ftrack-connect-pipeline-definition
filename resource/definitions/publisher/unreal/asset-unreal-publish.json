@@ -1,6 +1,6 @@
 {
   "type": "publisher",
-  "name": "Level Publisher",
+  "name": "Asset Publisher",
   "asset_type": "scene",
   "host_type": "unreal",
   "ui_type": "qt",
@@ -16,7 +16,7 @@
               "plugin": "unreal_project_publisher_context",
               "widget": "unreal_project_publisher_context",
               "options": {
-                "level": true
+                "asset": true
               }
             }
           ]
@@ -32,8 +32,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect level",
-              "plugin": "unreal_level_publisher_collector"
+              "name": "collect asset",
+              "plugin": "unreal_asset_publisher_collector"
             },
             {
               "name": "collect dependencies",
@@ -46,7 +46,7 @@
           "name": "validator",
           "plugins":[
             {
-              "name": "check if a level is selected",
+              "name": "Check if an asset is selected",
               "plugin": "common_non_empty_publisher_validator",
               "options": {
               }
@@ -57,9 +57,9 @@
           "name": "exporter",
           "plugins":[
             {
-              "name": "export unreal level",
-              "plugin": "unreal_level_publisher_exporter",
-              "widget": "unreal_level_publisher_exporter"
+              "name": "export unreal asset",
+              "plugin": "unreal_asset_publisher_exporter",
+              "widget": "unreal_asset_publisher_exporter"
             }
           ]
         }

@@ -55,7 +55,6 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.set_option_result(context_id, key='asset_parent_context_id')
         self.on_asset_parent_selected()
 
-
     def __init__(
         self,
         parent=None,
@@ -208,7 +207,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             )
             self._asset_parent_context_selector.entity = asset_build
 
-            #TODO: set the asset type name asset_type_name
+            # TODO: set the asset type name asset_type_name
 
             self.asset_parent_context_id = asset_build['id']
 

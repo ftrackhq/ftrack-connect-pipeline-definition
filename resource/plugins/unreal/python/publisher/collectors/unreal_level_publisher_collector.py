@@ -14,7 +14,7 @@ from ftrack_connect_pipeline_unreal.utils import (
 class UnrealLevelPublisherCollectorPlugin(
     plugin.UnrealPublisherCollectorPlugin
 ):
-    '''Unreal level/script nodes publisher collector plugin'''
+    '''Unreal level publisher collector plugin'''
 
     plugin_name = 'unreal_level_publisher_collector'
 
