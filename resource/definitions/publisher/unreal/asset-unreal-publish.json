@@ -33,7 +33,8 @@
           "plugins":[
             {
               "name": "collect asset",
-              "plugin": "unreal_asset_publisher_collector"
+              "plugin": "unreal_asset_publisher_collector",
+              "widget": "unreal_assets_publisher_collector"
             },
             {
               "name": "collect dependencies",
@@ -95,7 +96,7 @@
           "visible": true,
           "plugins":[
             {
-              "name": "Publish level dependencies to ftrack server",
+              "name": "Publish asset dependencies to ftrack server",
               "plugin": "unreal_dependencies_publisher_post_finalizer"
             }
           ]

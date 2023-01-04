@@ -45,32 +45,37 @@ class UnrealDependenciesPublisherFinalizerPlugin(
                         break
 
         if not dependencies:
-            True, {'message': 'No dependencies supplied for publish!'}
+            return {'message': 'No dependencies supplied for publish!'}
 
-        # Build and send batch publisher spawn event
-        event = ftrack_api.event.base.Event(
-            topic=core_constants.PIPELINE_CLIENT_LAUNCH,
-            data={
-                'pipeline': {
-                    'host_id': host_id,
-                    'name': core_constants.BATCH_PUBLISHER,
-                    'title': 'Publish dependencies - {}'.format(
-                        os.path.basename(asset_path).upper()
-                    ),
-                    'source': str(self),
-                    'assets': dependencies,
-                    'parent_asset_version_id': asset_version_id,
-                    'interactive': options.get('interactive', True),
-                }
-            },
-        )
-        self._event_manager.publish(
-            event,
-        )
-
-        return True, {
-            'message': 'Launched publish of dependencies in separate client'
+        pipeline_data = {
+            'host_id': host_id,
+            'name': core_constants.BATCH_PUBLISHER,
+            'title': 'Publish dependencies - {}'.format(
+                os.path.basename(asset_path).upper()
+            ),
+            'source': str(self),
+            'assets': dependencies,
+            'parent_asset_version_id': asset_version_id,
         }
+        if not options.get('interactive') is False:
+            # Build and send batch publisher spawn event
+            event = ftrack_api.event.base.Event(
+                topic=core_constants.PIPELINE_CLIENT_LAUNCH,
+                data={'pipeline': pipeline_data},
+            )
+            self._event_manager.publish(
+                event,
+            )
+
+            return {
+                'message': 'Launched publish of dependencies with batch publisher client'
+            }
+        else:
+            # Publish of dependencies are handled by the batch publisher, store data for pickup
+            return {
+                'message': 'Stored dependency data for pickup by batch publisher',
+                'data': pipeline_data,
+            }
 
 
 def register(api_object, **kw):
