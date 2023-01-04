@@ -45,7 +45,7 @@ class UnrealDependenciesPublisherFinalizerPlugin(
                         break
 
         if not dependencies:
-            return {'message': 'No dependencies supplied for publish!'}
+            return {}, {'message': 'No dependencies supplied for publish!'}
 
         pipeline_data = {
             'host_id': host_id,
@@ -73,9 +73,8 @@ class UnrealDependenciesPublisherFinalizerPlugin(
         else:
             # Publish of dependencies are handled by the batch publisher, store data for pickup
             return {
-                'message': 'Stored dependency data for pickup by batch publisher',
-                'data': pipeline_data,
-            }
+                'message': 'Stored dependency data for pickup by batch publisher'
+            }, {'data': pipeline_data}
 
 
 def register(api_object, **kw):

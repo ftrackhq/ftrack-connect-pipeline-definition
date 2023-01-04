@@ -120,9 +120,6 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         self.layout().addLayout(self._build_asset_selector())
 
-        # Fetch the Unreal project context id
-        self.root_context_id = unreal_utils.get_root_context_id()
-
         # Connect the status signal
         self.statusesFetched.connect(self.set_statuses)
 
@@ -135,6 +132,9 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         version_and_comment.layout().addLayout(self._build_status_selector())
         version_and_comment.layout().addLayout(self._build_comments_input())
         self.layout().addWidget(version_and_comment)
+
+        # Fetch the Unreal project context id
+        self.root_context_id = unreal_utils.get_root_context_id()
 
     def post_build(self):
         '''Post build hook.'''

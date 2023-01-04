@@ -13,7 +13,7 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseCollectorWidget):
     '''Unreal assets user selection template plugin widget'''
 
     # Run fetch function on widget initialization
-    auto_fetch_on_init = True
+    auto_fetch_on_init = False
 
     def __init__(
         self,
