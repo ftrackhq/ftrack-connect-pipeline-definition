@@ -123,7 +123,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         # Fetch the Unreal project context id
         self.root_context_id = unreal_utils.get_root_context_id()
 
-        #Connect the status signal
+        # Connect the status signal
         self.statusesFetched.connect(self.set_statuses)
 
         self.layout().addWidget(line.Line())
@@ -164,8 +164,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         )
 
     def on_asset_parent_selected(self):
-        ''' 
-        Enable asset name, status and description only if the 
+        '''
+        Enable asset name, status and description only if the
         asset_parent_context_id is set
         '''
         if not self.asset_parent_context_id:
@@ -183,7 +183,6 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             self.coments_layout.setEnabled(True)
         if not self.asset_layout.isEnabled():
             self.asset_layout.setEnabled(True)
-
 
     def set_asset_parent_context(self, root_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
