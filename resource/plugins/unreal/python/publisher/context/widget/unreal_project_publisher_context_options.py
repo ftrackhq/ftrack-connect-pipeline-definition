@@ -33,26 +33,27 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
     statusesFetched = QtCore.Signal(object)
 
     @property
-    def project_context_id(self):
+    def root_context_id(self):
         return self._project_context_selector.context_id
 
-    @project_context_id.setter
-    def project_context_id(self, context_id):
+    @root_context_id.setter
+    def root_context_id(self, context_id):
         self._project_context_selector.context_id = context_id
         if context_id:
-            self.set_parent_context(context_id)
+            self.set_asset_parent_context(context_id)
         # Passing project context id to options
-        self.set_option_result(context_id, key='project_context_id')
+        self.set_option_result(context_id, key='root_context_id')
 
     @property
     def asset_parent_context_id(self):
-        return self._parent_context_selector.context_id
+        return self._asset_parent_context_selector.context_id
 
     @asset_parent_context_id.setter
     def asset_parent_context_id(self, context_id):
-        self._parent_context_selector.context_id = context_id
+        self._asset_parent_context_selector.context_id = context_id
         # Passing parent context id to options
         self.set_option_result(context_id, key='asset_parent_context_id')
+        self.on_asset_parent_selected()
 
     def __init__(
         self,
@@ -112,13 +113,19 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
                 )
             )
         )
-        self._parent_context_selector = ContextSelector(self.session)
-        self.layout().addWidget(self._parent_context_selector)
+        self._asset_parent_context_selector = ContextSelector(self.session)
+        self.layout().addWidget(self._asset_parent_context_selector)
 
         self.layout().addWidget(line.Line())
 
         self.layout().addLayout(self._build_asset_selector())
+
+        # Fetch the Unreal project context id
+        self.root_context_id = unreal_utils.get_root_context_id()
+
+        #Connect the status signal
         self.statusesFetched.connect(self.set_statuses)
+
         self.layout().addWidget(line.Line())
         version_and_comment = QtWidgets.QWidget()
         version_and_comment.setLayout(QtWidgets.QVBoxLayout())
@@ -132,14 +139,12 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
     def post_build(self):
         '''Post build hook.'''
         super(UnrealProjectPublisherContextOptionsWidget, self).post_build()
-        # Fetch the Unreal project context id
-        self.project_context_id = unreal_utils.get_project_context_id()
 
         self._project_context_selector.entityChanged.connect(
             self.on_project_context_changed
         )
-        self._parent_context_selector.changeContextClicked.connect(
-            self.on_change_parent_context_clicked
+        self._asset_parent_context_selector.changeContextClicked.connect(
+            self.on_change_asset_parent_context_clicked
         )
         self.asset_selector.assetChanged.connect(self._on_asset_changed)
         self.comments_input.textChanged.connect(self._on_comment_updated)
@@ -149,16 +154,38 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     def on_project_context_changed(self, context):
         '''Handle context change - store it with Unreal project'''
-        unreal_utils.set_project_context_id(context['id'])
-        self.project_context_id(context['id'])
+        unreal_utils.set_root_context_id(context['id'])
+        self.root_context_id = context['id']
 
-    def on_change_parent_context_clicked(self):
+    def on_change_asset_parent_context_clicked(self):
         dialog.ModalDialog(
             self.parent(),
             message='The unreal project parent context is not editable.',
         )
 
-    def set_parent_context(self, project_context_id):
+    def on_asset_parent_selected(self):
+        ''' 
+        Enable asset name, status and description only if the 
+        asset_parent_context_id is set
+        '''
+        if not self.asset_parent_context_id:
+            return
+        if not self.status_layout.isEnabled():
+            self.status_layout.setEnabled(True)
+            thread = BaseThread(
+                name='get_status_thread',
+                target=self._get_statuses,
+                callback=self.emit_statuses,
+                target_args=(),
+            )
+            thread.start()
+        if not self.coments_layout.isEnabled():
+            self.coments_layout.setEnabled(True)
+        if not self.asset_layout.isEnabled():
+            self.asset_layout.setEnabled(True)
+
+
+    def set_asset_parent_context(self, root_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
         asset build is created and use it as the context.'''
         asset_path = None
@@ -176,9 +203,9 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         # Create asset build if it doesn't exist, will throw exception if permission problem
         try:
             asset_build = unreal_utils.ensure_asset_build(
-                project_context_id, asset_path, session=self.session
+                root_context_id, asset_path, session=self.session
             )
-            self._asset_context_selector.entity = asset_build
+            self._asset_parent_context_selector.entity = asset_build
 
             # TODO: set the asset type name asset_type_name
 
@@ -229,6 +256,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         self.asset_selector = AssetSelector(self.session)
         self.asset_layout.addWidget(self.asset_selector)
+        if not self.asset_parent_context_id:
+            self.asset_layout.setEnabled(False)
         return self.asset_layout
 
     def _build_status_selector(self):
@@ -255,6 +284,9 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         )
         thread.start()
 
+        if not self.asset_parent_context_id:
+            self.status_layout.setEnabled(False)
+
         return self.status_layout
 
     def _build_comments_input(self):
@@ -274,16 +306,20 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.set_option_result(
             self.comments_input.toPlainText(), key='comment'
         )
+        if not self.asset_parent_context_id:
+            self.coments_layout.setEnabled(False)
         return self.coments_layout
 
     def emit_statuses(self, statuses):
         '''Emit signal to set statuses on the combobox'''
         # Emit signal to add the sttuses to the combobox
         # because here we could have problems with the threads
-        self.statusesFetched.emit(statuses)
+        if statuses:
+            self.statusesFetched.emit(statuses)
 
     def set_statuses(self, statuses):
         '''Set statuses on the combo box'''
+        self.status_selector.clear()
         self.status_selector.set_statuses(statuses)
         if statuses:
             self.set_option_result(statuses[0]['id'], key='status_id')
@@ -291,6 +327,9 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     def _get_statuses(self):
         '''Returns the status of the selected assetVersion'''
+        if not self.asset_parent_context_id:
+            return None
+
         context_entity = self.session.query(
             'select link, name, parent, parent.name from Context where id '
             'is "{}"'.format(self.asset_parent_context_id)
