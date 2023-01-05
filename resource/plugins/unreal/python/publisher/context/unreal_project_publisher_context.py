@@ -4,6 +4,10 @@
 from ftrack_connect_pipeline import plugin
 import ftrack_api
 
+from ftrack_connect_pipeline_unreal.utils import (
+    custom_commands as unreal_utils,
+)
+
 
 class UnrealProjectPublisherContextPlugin(plugin.PublisherContextPlugin):
     '''Unreal project publisher context plugin'''
@@ -12,6 +16,26 @@ class UnrealProjectPublisherContextPlugin(plugin.PublisherContextPlugin):
 
     def run(self, context_data=None, data=None, options=None):
         '''Find out the project context'''
+
+        asset_path = options.get('ftrack_asset_path')
+        root_context_id = options.get('root_context_id')
+        try:
+            asset_build = unreal_utils.push_ftrack_asset_path_to_server(
+                root_context_id,
+                asset_path,
+                self.session
+            )
+            self.logger.info(
+                'asset_build {} structure checks done'.format(asset_build['name'])
+            )
+        except Exception as e:
+            raise Exception(
+                'Failed to create project level asset build for asset "{}", '
+                'please check your ftrack permissions and for any existing '
+                'entities in conflict.\n\nDetails: {}'.format(
+                    asset_path, e
+                )
+            )
 
         output = self.output
         output.update(options)
