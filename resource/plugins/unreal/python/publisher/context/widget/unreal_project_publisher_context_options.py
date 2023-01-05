@@ -197,31 +197,50 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
                 unreal.EditorLevelLibrary.get_editor_world().get_path_name()
             ).split('.')[0]
 
-        # TODO: ask if to create the asset build before create it,
-        #  otherwise we can create a mess.
-        # Create asset build if it doesn't exist, will throw exception if permission problem
+        full_ftrack_asset_path = None
         try:
-            asset_build = unreal_utils.ensure_asset_build(
+            # Get the full ftrack asset path
+            full_ftrack_asset_path = unreal_utils.get_full_ftrack_asset_path(
                 root_context_id, asset_path, session=self.session
             )
-            self._asset_parent_context_selector.entity = asset_build
-
-            # TODO: set the asset type name asset_type_name
-
-            self.asset_parent_context_id = asset_build['id']
-
-            self.asset_selector.set_context(
-                self.asset_parent_context_id, self.asset_type_name
-            )
-
         except Exception as e:
             dialog.ModalDialog(
                 self.parent(),
-                message='Failed to create project level asset build for asset "{}", please check your ftrack permissions and for any existing entities in conflict.\n\nDetails: {}'.format(
+                message='Failed to get the asset_path from ftrack. '
+                        'Please make sure the root is crerated.\n\nDetails: {}'.format(
                     asset_path, e
                 ),
             )
             raise
+        asset_build = unreal_utils.get_asset_build_form_path(
+            root_context_id,
+            full_ftrack_asset_path,
+            self.session
+        )
+
+        fake_asset_build = None
+        if not asset_build:
+            # {id:'0000'}
+            fake_asset_build = unreal_utils.get_fake_asset_build(
+                root_context_id,
+                asset_path.split("/")[-1],
+                self.session
+            )
+            asset_build = fake_asset_build
+
+        self._asset_parent_context_selector.entity = asset_build
+        self.asset_parent_context_id = asset_build['id']
+        self.asset_selector.set_context(
+            self.asset_parent_context_id, self.asset_type_name
+        )
+        self.set_option_result(full_ftrack_asset_path, key='ftrack_asset_path')
+
+        if fake_asset_build:
+            # Remove fake asset_build from the session
+            # self.session.reset()
+            self.logger.info("Rolling back fake asset build creation")
+            self.session.delete(fake_asset_build)
+            # No need to session commit because we didn't commit the fake asset
 
     def _on_status_changed(self, status):
         '''Updates the options dictionary with provided *status* when
