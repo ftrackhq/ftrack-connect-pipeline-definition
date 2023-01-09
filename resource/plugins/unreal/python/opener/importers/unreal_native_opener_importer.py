@@ -21,7 +21,11 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
             load_mode, list(self.load_modes.keys())[0]
         )
 
-        unreal_options = {}
+        # Pass version ID to enable evaluation of content browser path
+        unreal_options = dict(
+            options.items()
+            + {'version_id': context_data['version_id']}.items()
+        )
 
         results = {}
 
@@ -30,9 +34,11 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
             paths_to_import.extend(collector['result'])
 
         for component_path in paths_to_import:
-            self.logger.debug('Opening path {}'.format(component_path))
+            self.logger.debug('Opening path: "{}"'.format(component_path))
 
-            load_result = load_mode_fn(component_path, unreal_options)
+            load_result = load_mode_fn(
+                component_path, unreal_options, self.session
+            )
 
             results[component_path] = load_result
 

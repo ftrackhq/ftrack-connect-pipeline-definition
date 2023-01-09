@@ -20,9 +20,17 @@ class UnrealDependenciesPublisherFinalizerPlugin(
 
         import json
 
-        print('@@@ CONTEXT: {}'.format(json.dumps(context_data, indent=4)))
-        print('@@@ DATA: {}'.format(json.dumps(data, indent=4)))
-        print('@@@ OPTIONS: {}'.format(json.dumps(options, indent=4)))
+        print(
+            '@@@ PUB POST FIN CONTEXT: {}'.format(
+                json.dumps(context_data, indent=4)
+            )
+        )
+        print('@@@ PUB POST FIN DATA: {}'.format(json.dumps(data, indent=4)))
+        print(
+            '@@@ PUB POST FIN OPTIONS: {}'.format(
+                json.dumps(options, indent=4)
+            )
+        )
 
         # Get the dependencies and the host ID from data
         dependencies = host_id = asset_version_id = asset_path = None

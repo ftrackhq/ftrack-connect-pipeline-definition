@@ -207,24 +207,20 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             dialog.ModalDialog(
                 self.parent(),
                 message='Failed to get the asset_path from ftrack. '
-                        'Please make sure the root is crerated.\n\nDetails: {}'.format(
+                'Please make sure the root is crerated.\n\nDetails: {}'.format(
                     asset_path, e
                 ),
             )
             raise
         asset_build = unreal_utils.get_asset_build_form_path(
-            root_context_id,
-            full_ftrack_asset_path,
-            self.session
+            root_context_id, full_ftrack_asset_path, self.session
         )
 
         fake_asset_build = None
         if not asset_build:
             # {id:'0000'}
             fake_asset_build = unreal_utils.get_fake_asset_build(
-                root_context_id,
-                asset_path.split("/")[-1],
-                self.session
+                root_context_id, asset_path.split("/")[-1], self.session
             )
             asset_build = fake_asset_build
 

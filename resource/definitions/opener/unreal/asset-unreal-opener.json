@@ -1,7 +1,7 @@
 {
   "type": "opener",
-  "name": "Scene Opener",
-  "asset_type": "scene",
+  "name": "Asset Opener",
+  "asset_type": "script",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": [
@@ -15,6 +15,11 @@
               "name": "context selector",
               "plugin": "common_passthrough_opener_context",
               "widget": "common_default_opener_context"
+            },
+            {
+              "name": "root context selector",
+              "plugin": "common_passthrough_opener_context",
+              "widget": "common_root_opener_context"
             }
           ]
         }
@@ -24,7 +29,7 @@
   "components": [
     {
       "name": "snapshot",
-      "file_formats": [".mb", ".ma"],
+      "file_formats": [".uasset"],
       "stages": [
         {
           "name": "collector",
@@ -39,7 +44,7 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Open Unreal Scene",
+              "name": "Open Unreal Asset",
               "plugin": "unreal_native_opener_importer",
               "options": {
               }
@@ -58,27 +63,28 @@
       ]
     }
   ],
-  "finalizers": [
+"finalizers": [
     {
       "name": "main",
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": false,
+          "visible": true,
           "plugins":[
             {
-              "name": "Pre finalizer",
-              "plugin": "common_passthrough_opener_pre_finalizer"
+              "name": "Import level dependencies from ftrack server",
+              "plugin": "unreal_dependencies_opener_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
+          "visible": true,
           "plugins":[
             {
-              "name": "Rename scene",
-              "description" : "Upon open, rename Unreal scene to local temp directory",
-              "plugin": "unreal_native_opener_finalizer"
+              "name": "Open asset",
+              "description" : "Open the asset in Unreal Editor after import",
+              "plugin": "unreal_asset_opener_finalizer"
             }
           ]
         },
