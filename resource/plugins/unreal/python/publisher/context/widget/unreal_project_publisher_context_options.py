@@ -229,9 +229,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.asset_selector.set_context(
             self.asset_parent_context_id, self.asset_type_name
         )
-        self.set_option_result(full_ftrack_asset_path, key='ftrack_asset_path')
 
         if fake_asset_build:
+            # Have plugin create it in runtime
+            self.set_option_result(None, key='asset_parent_context_id')
+            self.set_option_result(
+                full_ftrack_asset_path, key='ftrack_asset_path'
+            )
             # Remove fake asset_build from the session
             # self.session.reset()
             self.logger.info("Rolling back fake asset build creation")
