@@ -20,11 +20,7 @@ class UnrealLevelOpenerFinalizerPlugin(plugin.UnrealOpenerFinalizerPlugin):
 
         result = {}
 
-        print(
-            '@@@ OPEN FIN CONTEXT: {}'.format(
-                json.dumps(context_data, indent=4)
-            )
-        )
+        print('@@@ OPEN FIN CONTEXT: {}'.format(context_data))
         print('@@@ OPEN FIN DATA: {}'.format(json.dumps(data, indent=4)))
         print('@@@ OPEN FIN OPTIONS: {}'.format(json.dumps(options, indent=4)))
 

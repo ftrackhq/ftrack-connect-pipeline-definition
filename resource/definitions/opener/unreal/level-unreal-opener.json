@@ -19,7 +19,7 @@
             {
               "name": "root context selector",
               "plugin": "common_passthrough_opener_context",
-              "widget": "common_root_opener_context"
+              "widget": "unreal_root_opener_context"
             }
           ]
         }
@@ -82,7 +82,7 @@
           "visible": true,
           "plugins":[
             {
-              "name": "Open level",
+              "name": "Open in editor",
               "description" : "Open the level in Unreal Editor after import",
               "plugin": "unreal_level_opener_finalizer"
             }

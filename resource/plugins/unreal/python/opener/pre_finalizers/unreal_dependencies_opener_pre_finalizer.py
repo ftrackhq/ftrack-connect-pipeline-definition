@@ -22,11 +22,8 @@ class UnrealDependenciesOpenerPreFinalizerPlugin(
 
         result = {}
 
-        print(
-            '@@@ OPEN PRE FIN CONTEXT: {}'.format(
-                json.dumps(context_data, indent=4)
-            )
-        )
+        print('@@@ open pre fin context: {}'.format(context_data))
+
         print('@@@ OPEN PRE FIN DATA: {}'.format(json.dumps(data, indent=4)))
         print(
             '@@@ OPEN PRE FIN OPTIONS: {}'.format(

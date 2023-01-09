@@ -1,6 +1,6 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-
+import copy
 import os
 
 # import maya.cmds as cmds
@@ -22,9 +22,9 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
         )
 
         # Pass version ID to enable evaluation of content browser path
-        unreal_options = dict(
-            options.items()
-            + {'version_id': context_data['version_id']}.items()
+        unreal_options = copy.deepcopy(options)
+        unreal_options.update(
+            {'version_id': context_data['version_id']}.items()
         )
 
         results = {}
@@ -39,6 +39,8 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
             load_result = load_mode_fn(
                 component_path, unreal_options, self.session
             )
+
+            self.logger.debug('Imported asset to: "{}"'.format(load_result))
 
             results[component_path] = load_result
 

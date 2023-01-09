@@ -26,9 +26,7 @@ class UnrealRootOpenerContextOptionsWidget(BaseOptionsWidget):
     @root_context_id.setter
     def root_context_id(self, context_id):
         self._root_context_selector.context_id = context_id
-        if context_id:
-            self.set_asset_parent_context(context_id)
-        # Passing project context id to options
+        # Pass root context id to options
         self.set_option_result(context_id, key='root_context_id')
 
     def __init__(
@@ -75,6 +73,8 @@ class UnrealRootOpenerContextOptionsWidget(BaseOptionsWidget):
             browse_context_id=project_context_id,
         )
         self.layout().addWidget(self._root_context_selector)
+
+        self.root_context_id = unreal_utils.get_root_context_id()
 
     def post_build(self):
         '''Post build hook.'''
