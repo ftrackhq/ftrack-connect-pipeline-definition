@@ -207,24 +207,20 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             dialog.ModalDialog(
                 self.parent(),
                 message='Failed to get the asset_path from ftrack. '
-                        'Please make sure the root is crerated.\n\nDetails: {}'.format(
+                'Please make sure the root is crerated.\n\nDetails: {}'.format(
                     asset_path, e
                 ),
             )
             raise
         asset_build = unreal_utils.get_asset_build_form_path(
-            root_context_id,
-            full_ftrack_asset_path,
-            self.session
+            root_context_id, full_ftrack_asset_path, self.session
         )
 
         fake_asset_build = None
         if not asset_build:
             # {id:'0000'}
             fake_asset_build = unreal_utils.get_fake_asset_build(
-                root_context_id,
-                asset_path.split("/")[-1],
-                self.session
+                root_context_id, asset_path.split("/")[-1], self.session
             )
             asset_build = fake_asset_build
 
@@ -233,9 +229,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.asset_selector.set_context(
             self.asset_parent_context_id, self.asset_type_name
         )
-        self.set_option_result(full_ftrack_asset_path, key='ftrack_asset_path')
 
         if fake_asset_build:
+            # Have plugin create it in runtime
+            self.set_option_result(None, key='asset_parent_context_id')
+            self.set_option_result(
+                full_ftrack_asset_path, key='ftrack_asset_path'
+            )
             # Remove fake asset_build from the session
             # self.session.reset()
             self.logger.info("Rolling back fake asset build creation")
