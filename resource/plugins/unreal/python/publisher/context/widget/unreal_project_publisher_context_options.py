@@ -50,7 +50,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     @asset_parent_context_id.setter
     def asset_parent_context_id(self, context_id):
-        self._asset_parent_context_selector.context_id = context_id
+        if not self.is_fake_asset:
+            self._asset_parent_context_selector.context_id = context_id
         # Passing parent context id to options
         self.set_option_result(context_id, key='asset_parent_context_id')
         self.on_asset_parent_selected()
@@ -76,6 +77,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             context_id=context_id,
             asset_type_name=asset_type_name,
         )
+
+        self.is_fake_asset = False
 
     def build(self):
         '''Prevent widget name from being displayed with header style.'''
@@ -172,13 +175,16 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             return
         if not self.status_layout.isEnabled():
             self.status_layout.setEnabled(True)
-            thread = BaseThread(
-                name='get_status_thread',
-                target=self._get_statuses,
-                callback=self.emit_statuses,
-                target_args=(),
-            )
-            thread.start()
+            if self.is_fake_asset:
+                self.emit_statuses(self.statuses)
+            else:
+                thread = BaseThread(
+                    name='get_status_thread',
+                    target=self._get_statuses,
+                    callback=self.emit_statuses,
+                    target_args=(),
+                )
+                thread.start()
         if not self.coments_layout.isEnabled():
             self.coments_layout.setEnabled(True)
         if not self.asset_layout.isEnabled():
@@ -219,15 +225,19 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         )
 
         fake_asset_build = None
+        self.is_fake_asset = False
         if not asset_build:
             # {id:'0000'}
-            fake_asset_build = unreal_utils.get_fake_asset_build(
+            fake_asset_build, statuses = unreal_utils.get_fake_asset_build(
                 root_context_id,
                 asset_path.split("/")[-1],
                 self.session
             )
             asset_build = fake_asset_build
             self._asset_parent_context_selector.disable_thumbnail = True
+
+            self.is_fake_asset = True
+            self.statuses = statuses
 
         self._asset_parent_context_selector.entity = asset_build
         self.asset_parent_context_id = asset_build['id']
