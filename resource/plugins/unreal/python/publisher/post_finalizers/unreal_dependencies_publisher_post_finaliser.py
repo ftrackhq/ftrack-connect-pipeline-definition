@@ -45,7 +45,7 @@ class UnrealDependenciesPublisherFinalizerPlugin(
                         break
 
         if not dependencies:
-            return {}, {'message': 'No dependencies supplied for publish!'}
+            return {'message': 'No dependencies supplied for publish!'}
 
         pipeline_data = {
             'host_id': host_id,
