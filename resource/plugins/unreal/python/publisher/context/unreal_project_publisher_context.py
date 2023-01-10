@@ -25,6 +25,7 @@ class UnrealProjectPublisherContextPlugin(plugin.PublisherContextPlugin):
                 asset_path,
                 self.session
             )
+            options['asset_parent_context_id'] = asset_build['id']
             self.logger.info(
                 'asset_build {} structure checks done'.format(asset_build['name'])
             )

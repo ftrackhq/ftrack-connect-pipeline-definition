@@ -227,6 +227,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
                 self.session
             )
             asset_build = fake_asset_build
+            self._asset_parent_context_selector.disable_thumbnail = True
 
         self._asset_parent_context_selector.entity = asset_build
         self.asset_parent_context_id = asset_build['id']
