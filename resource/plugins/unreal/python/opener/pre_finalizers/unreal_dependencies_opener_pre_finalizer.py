@@ -1,10 +1,9 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-import json
-
-import unreal
+import traceback
 
 import ftrack_api
+
 
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_unreal.utils import (
@@ -18,25 +17,17 @@ class UnrealDependenciesOpenerPreFinalizerPlugin(
     plugin_name = 'unreal_dependencies_opener_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
-        ''''''
+        '''Recursively bring in all Unreal dependencies of the opened version.'''
 
-        result = {}
-
-        print('@@@ open pre fin context: {}'.format(context_data))
-
-        print('@@@ OPEN PRE FIN DATA: {}'.format(json.dumps(data, indent=4)))
-        print(
-            '@@@ OPEN PRE FIN OPTIONS: {}'.format(
-                json.dumps(options, indent=4)
+        try:
+            messages = unreal_utils.import_dependencies(
+                context_data['version_id'], self.event_manager, self.logger
             )
-        )
-
-        # TODO: harvest dependencies from opened context
-
-        self.logger.debug('Import asset/level dependencies in Unreal editor')
-        # TODO: import dependencies in Unreal editor
-
-        return result
+            return {'message': ';'.join(messages)}
+        except:
+            print(traceback.format_exc())
+            self.logger.warning(traceback.format_exc())
+            raise
 
 
 def register(api_object, **kw):
