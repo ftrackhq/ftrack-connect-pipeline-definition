@@ -58,8 +58,8 @@ class UnrealDependenciesPublisherFinalizerPlugin(
         pipeline_data = {
             'host_id': host_id,
             'name': core_constants.BATCH_PUBLISHER,
-            'title': 'Publish dependencies - {}'.format(
-                os.path.basename(asset_path).upper()
+            'title': 'Publish level dependencies - {}'.format(
+                os.path.basename(asset_path)
             ),
             'source': str(self),
             'assets': dependencies,
