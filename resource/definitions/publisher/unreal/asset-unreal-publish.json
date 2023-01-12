@@ -1,7 +1,7 @@
 {
   "type": "publisher",
   "name": "Asset Publisher",
-  "asset_type": "scene",
+  "asset_type": "script",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": [

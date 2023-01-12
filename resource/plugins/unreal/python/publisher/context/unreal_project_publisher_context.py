@@ -21,21 +21,19 @@ class UnrealProjectPublisherContextPlugin(plugin.PublisherContextPlugin):
         root_context_id = options.get('root_context_id')
         try:
             asset_build = unreal_utils.push_ftrack_asset_path_to_server(
-                root_context_id,
-                asset_path,
-                self.session
+                root_context_id, asset_path, self.session
             )
             options['asset_parent_context_id'] = asset_build['id']
             self.logger.info(
-                'asset_build {} structure checks done'.format(asset_build['name'])
+                'asset_build {} structure checks done'.format(
+                    asset_build['name']
+                )
             )
         except Exception as e:
             raise Exception(
                 'Failed to create project level asset build for asset "{}", '
                 'please check your ftrack permissions and for any existing '
-                'entities in conflict.\n\nDetails: {}'.format(
-                    asset_path, e
-                )
+                'entities in conflict.\n\nDetails: {}'.format(asset_path, e)
             )
 
         output = self.output

@@ -34,11 +34,12 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     @property
     def root_context_id(self):
-        return self._project_context_selector.context_id
+        return self._root_context_selector.context_id
 
     @root_context_id.setter
     def root_context_id(self, context_id):
-        self._project_context_selector.context_id = context_id
+        if self.root_context_id != context_id:
+            self._root_context_selector.context_id = context_id
         if context_id:
             self.set_asset_parent_context(context_id)
         # Passing project context id to options
@@ -99,13 +100,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             self.set_option_result(self.context_id, key='task_context_id')
             self.set_option_result(self.context_id, key='context_id')
 
-        self._project_context_selector = ContextSelector(
+        self._root_context_selector = ContextSelector(
             self.session,
             enble_context_change=True,
             select_task=False,
             browse_context_id=project_context_id,
         )
-        self.layout().addWidget(self._project_context_selector)
+        self.layout().addWidget(self._root_context_selector)
 
         self.layout().addWidget(line.Line())
 
@@ -143,8 +144,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         '''Post build hook.'''
         super(UnrealProjectPublisherContextOptionsWidget, self).post_build()
 
-        self._project_context_selector.entityChanged.connect(
-            self.on_project_context_changed
+        self._root_context_selector.entityChanged.connect(
+            self.on_root_context_changed
         )
         self._asset_parent_context_selector.changeContextClicked.connect(
             self.on_change_asset_parent_context_clicked
@@ -155,8 +156,8 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             self._on_status_changed
         )
 
-    def on_project_context_changed(self, context):
-        '''Handle context change - store it with Unreal project'''
+    def on_root_context_changed(self, context):
+        '''Handle user context change - store it with Unreal project'''
         unreal_utils.set_root_context_id(context['id'])
         self.root_context_id = context['id']
 
@@ -193,6 +194,10 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
     def set_asset_parent_context(self, root_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
         asset build is created and use it as the context.'''
+        import traceback
+
+        traceback.print_stack()
+        print('@@@ set_asset_parent_context: {}'.format(root_context_id))
         asset_path = None
         if self.options.get('selection') is True:
             # TODO: Fetch the selected asset in content browser
@@ -213,15 +218,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             dialog.ModalDialog(
                 self.parent(),
                 message='Failed to get the asset_path from ftrack. '
-                        'Please make sure the root is crerated.\n\nDetails: {}'.format(
+                'Please make sure the root is crerated.\n\nDetails: {}'.format(
                     asset_path, e
                 ),
             )
             raise
         asset_build = unreal_utils.get_asset_build_form_path(
-            root_context_id,
-            full_ftrack_asset_path,
-            self.session
+            root_context_id, full_ftrack_asset_path, self.session
         )
 
         fake_asset_build = None
@@ -229,9 +232,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         if not asset_build:
             # {id:'0000'}
             fake_asset_build, statuses = unreal_utils.get_fake_asset_build(
-                root_context_id,
-                asset_path.split("/")[-1],
-                self.session
+                root_context_id, asset_path.split("/")[-1], self.session
             )
             asset_build = fake_asset_build
             self._asset_parent_context_selector.disable_thumbnail = True
