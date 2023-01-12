@@ -248,9 +248,10 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         if fake_asset_build:
             # Remove fake asset_build from the session
-            # self.session.reset()
-            self.logger.info("Rolling back fake asset build creation")
             self.session.delete(fake_asset_build)
+            self.session.reset()
+            self.logger.info("Rolling back fake asset build creation")
+
             # No need to session commit because we didn't commit the fake asset
 
     def _on_status_changed(self, status):
