@@ -38,12 +38,12 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     @root_context_id.setter
     def root_context_id(self, context_id):
-        if self.root_context_id != context_id:
+        if self._root_context_selector.context_id != context_id:
             self._root_context_selector.context_id = context_id
-        if context_id:
-            self.set_asset_parent_context(context_id)
-        # Passing project context id to options
-        self.set_option_result(context_id, key='root_context_id')
+            if context_id:
+                self.set_asset_parent_context(context_id)
+            # Passing project context id to options
+            self.set_option_result(context_id, key='root_context_id')
 
     @property
     def asset_parent_context_id(self):
@@ -194,10 +194,6 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
     def set_asset_parent_context(self, root_context_id):
         '''Set the project context for the widget to *context_id*. Make sure the corresponding project
         asset build is created and use it as the context.'''
-        import traceback
-
-        traceback.print_stack()
-        print('@@@ set_asset_parent_context: {}'.format(root_context_id))
         asset_path = None
         if self.options.get('selection') is True:
             # TODO: Fetch the selected asset in content browser
@@ -232,7 +228,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         if not asset_build:
             # {id:'0000'}
             fake_asset_build, statuses = unreal_utils.get_fake_asset_build(
-                root_context_id, asset_path.split("/")[-1], self.session
+                root_context_id, asset_path, self.session
             )
             asset_build = fake_asset_build
             self._asset_parent_context_selector.disable_thumbnail = True
@@ -241,10 +237,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             self.statuses = statuses
 
         self._asset_parent_context_selector.entity = asset_build
+        if self.is_fake_asset:
+            self._asset_parent_context_selector.set_entity_info_path(full_ftrack_asset_path)
         self.asset_parent_context_id = asset_build['id']
         self.asset_selector.set_context(
             self.asset_parent_context_id, self.asset_type_name
         )
+        self.asset_selector.set_asset_name(asset_build['name'])
         self.set_option_result(full_ftrack_asset_path, key='ftrack_asset_path')
 
         if fake_asset_build:
