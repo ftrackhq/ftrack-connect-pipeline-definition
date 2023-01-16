@@ -20,7 +20,7 @@ class UnrealRootPublisherContextPlugin(plugin.PublisherContextPlugin):
         asset_path = options.get('ftrack_asset_path')
         root_context_id = options.get('root_context_id')
         try:
-            asset_build = unreal_utils.push_ftrack_asset_path_to_server(
+            asset_build = unreal_utils.push_asset_build_to_server(
                 root_context_id, asset_path, self.session
             )
             options['asset_parent_context_id'] = asset_build['id']
