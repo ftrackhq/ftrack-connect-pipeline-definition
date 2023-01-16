@@ -238,7 +238,9 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
         self._asset_parent_context_selector.entity = asset_build
         if self.is_fake_asset:
-            self._asset_parent_context_selector.set_entity_info_path(full_ftrack_asset_path)
+            self._asset_parent_context_selector.set_entity_info_path(
+                full_ftrack_asset_path
+            )
         self.asset_parent_context_id = asset_build['id']
         self.asset_selector.set_context(
             self.asset_parent_context_id, self.asset_type_name
