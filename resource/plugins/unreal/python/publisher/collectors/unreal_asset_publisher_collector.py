@@ -19,7 +19,7 @@ class UnrealAssetPublisherCollectorPlugin(
     plugin_name = 'unreal_asset_publisher_collector'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Collect Unreal assets to publish, intended to be run from batch publisher with collect_objects injected prior to plugin execution.'''
+        '''Pass on collected Unreal assets to publish'''
         unreal_objects = options.get('collected_objects', [])
         return unreal_objects
 
