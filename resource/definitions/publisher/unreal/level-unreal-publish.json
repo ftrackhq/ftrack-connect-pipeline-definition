@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "Unreal project context",
-              "plugin": "unreal_project_publisher_context",
-              "widget": "unreal_project_publisher_context",
+              "plugin": "unreal_root_publisher_context",
+              "widget": "unreal_root_publisher_context",
               "options": {
                 "level": true
               }
@@ -58,8 +58,7 @@
           "plugins":[
             {
               "name": "export unreal level",
-              "plugin": "unreal_level_publisher_exporter",
-              "widget": "unreal_level_publisher_exporter"
+              "plugin": "unreal_level_publisher_exporter"
             }
           ]
         }

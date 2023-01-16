@@ -27,7 +27,7 @@ from ftrack_connect_pipeline_unreal.utils import (
 )
 
 
-class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
+class UnrealRootPublisherContextOptionsWidget(BaseOptionsWidget):
     '''Unreal project publisher context plugin widget'''
 
     statusesFetched = QtCore.Signal(object)
@@ -51,7 +51,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     @asset_parent_context_id.setter
     def asset_parent_context_id(self, context_id):
-        if not self.is_fake_asset:
+        if not self.is_temp_asset:
             self._asset_parent_context_selector.context_id = context_id
         # Passing parent context id to options
         self.set_option_result(context_id, key='asset_parent_context_id')
@@ -68,7 +68,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         context_id=None,
         asset_type_name=None,
     ):
-        super(UnrealProjectPublisherContextOptionsWidget, self).__init__(
+        super(UnrealRootPublisherContextOptionsWidget, self).__init__(
             parent=parent,
             session=session,
             data=data,
@@ -79,7 +79,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             asset_type_name=asset_type_name,
         )
 
-        self.is_fake_asset = False
+        self.is_temp_asset = False
 
     def build(self):
         '''Prevent widget name from being displayed with header style.'''
@@ -142,7 +142,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
 
     def post_build(self):
         '''Post build hook.'''
-        super(UnrealProjectPublisherContextOptionsWidget, self).post_build()
+        super(UnrealRootPublisherContextOptionsWidget, self).post_build()
 
         self._root_context_selector.entityChanged.connect(
             self.on_root_context_changed
@@ -176,7 +176,7 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             return
         if not self.status_layout.isEnabled():
             self.status_layout.setEnabled(True)
-            if self.is_fake_asset:
+            if self.is_temp_asset:
                 self.emit_statuses(self.statuses)
             else:
                 thread = BaseThread(
@@ -223,21 +223,21 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
             root_context_id, full_ftrack_asset_path, self.session
         )
 
-        fake_asset_build = None
-        self.is_fake_asset = False
+        temp_asset_build = None
+        self.is_temp_asset = False
         if not asset_build:
             # {id:'0000'}
-            fake_asset_build, statuses = unreal_utils.get_fake_asset_build(
+            temp_asset_build, statuses = unreal_utils.get_temp_asset_build(
                 root_context_id, asset_path, self.session
             )
-            asset_build = fake_asset_build
+            asset_build = temp_asset_build
             self._asset_parent_context_selector.disable_thumbnail = True
 
-            self.is_fake_asset = True
+            self.is_temp_asset = True
             self.statuses = statuses
 
         self._asset_parent_context_selector.entity = asset_build
-        if self.is_fake_asset:
+        if self.is_temp_asset:
             self._asset_parent_context_selector.set_entity_info_path(
                 full_ftrack_asset_path
             )
@@ -248,13 +248,13 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         self.asset_selector.set_asset_name(asset_build['name'])
         self.set_option_result(full_ftrack_asset_path, key='ftrack_asset_path')
 
-        if fake_asset_build:
-            # Remove fake asset_build from the session
-            self.session.delete(fake_asset_build)
+        if temp_asset_build:
+            # Remove temp asset_build from the session
+            self.session.delete(temp_asset_build)
             self.session.reset()
-            self.logger.info("Rolling back fake asset build creation")
+            self.logger.info("Rolling back temp asset build creation")
 
-            # No need to session commit because we didn't commit the fake asset
+            # No need to session commit because we didn't commit the temp asset
 
     def _on_status_changed(self, status):
         '''Updates the options dictionary with provided *status* when
@@ -378,18 +378,18 @@ class UnrealProjectPublisherContextOptionsWidget(BaseOptionsWidget):
         return statuses
 
 
-class UnrealProjectPublisherContextOptionsPluginWidget(
+class UnrealRootPublisherContextOptionsPluginWidget(
     plugin.PublisherContextPluginWidget
 ):
     '''Project publisher context widget enabling user selection'''
 
-    plugin_name = 'unreal_project_publisher_context'
-    widget = UnrealProjectPublisherContextOptionsWidget
+    plugin_name = 'unreal_root_publisher_context'
+    widget = UnrealRootPublisherContextOptionsWidget
 
 
 def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealProjectPublisherContextOptionsPluginWidget(api_object)
+    plugin = UnrealRootPublisherContextOptionsPluginWidget(api_object)
     plugin.register()

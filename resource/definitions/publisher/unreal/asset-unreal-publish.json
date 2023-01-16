@@ -13,8 +13,8 @@
           "plugins":[
             {
               "name": "Unreal project context",
-              "plugin": "unreal_project_publisher_context",
-              "widget": "unreal_project_publisher_context",
+              "plugin": "unreal_root_publisher_context",
+              "widget": "unreal_root_publisher_context",
               "options": {
                 "asset": true
               }
@@ -59,8 +59,7 @@
           "plugins":[
             {
               "name": "export unreal asset",
-              "plugin": "unreal_asset_publisher_exporter",
-              "widget": "unreal_asset_publisher_exporter"
+              "plugin": "unreal_asset_publisher_exporter"
             }
           ]
         }
