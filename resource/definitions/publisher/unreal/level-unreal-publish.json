@@ -12,12 +12,9 @@
           "name": "context",
           "plugins":[
             {
-              "name": "Unreal project context",
+              "name": "Unreal root context",
               "plugin": "unreal_root_publisher_context",
-              "widget": "unreal_root_publisher_context",
-              "options": {
-                "level": true
-              }
+              "widget": "unreal_root_publisher_context"
             }
           ]
         }

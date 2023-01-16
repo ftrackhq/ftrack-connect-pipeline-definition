@@ -111,11 +111,7 @@ class UnrealRootPublisherContextOptionsWidget(BaseOptionsWidget):
         self.layout().addWidget(line.Line())
 
         self.layout().addWidget(
-            QtWidgets.QLabel(
-                "Unreal {}asset build context".format(
-                    ' level' if self.options.get('level') is True else ''
-                )
-            )
+            QtWidgets.QLabel('Unreal snapshot (asset build) context')
         )
         self._asset_parent_context_selector = ContextSelector(self.session)
         self.layout().addWidget(self._asset_parent_context_selector)
@@ -164,7 +160,7 @@ class UnrealRootPublisherContextOptionsWidget(BaseOptionsWidget):
     def on_change_asset_parent_context_clicked(self):
         dialog.ModalDialog(
             self.parent(),
-            message='The unreal project parent context is not editable.',
+            message='The unreal asset parent context is not editable.',
         )
 
     def on_asset_parent_selected(self):
