@@ -9,10 +9,10 @@ from ftrack_connect_pipeline_unreal.utils import (
 )
 
 
-class UnrealProjectPublisherContextPlugin(plugin.PublisherContextPlugin):
+class UnrealRootPublisherContextPlugin(plugin.PublisherContextPlugin):
     '''Unreal project publisher context plugin'''
 
-    plugin_name = 'unreal_project_publisher_context'
+    plugin_name = 'unreal_root_publisher_context'
 
     def run(self, context_data=None, data=None, options=None):
         '''Find out the project context'''
@@ -21,7 +21,7 @@ class UnrealProjectPublisherContextPlugin(plugin.PublisherContextPlugin):
         root_context_id = options.get('root_context_id')
 
         try:
-            asset_build = unreal_utils.push_ftrack_asset_path_to_server(
+            asset_build = unreal_utils.push_asset_build_to_server(
                 root_context_id, asset_path, self.session
             )
             options['asset_parent_context_id'] = asset_build['id']
@@ -46,5 +46,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealProjectPublisherContextPlugin(api_object)
+    plugin = UnrealRootPublisherContextPlugin(api_object)
     plugin.register()

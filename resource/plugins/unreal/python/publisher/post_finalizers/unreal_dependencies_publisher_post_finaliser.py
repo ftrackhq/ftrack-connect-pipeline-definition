@@ -4,8 +4,9 @@ import os.path
 
 import ftrack_api
 
-from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline import constants as core_constants
+from ftrack_connect_pipeline_unreal import plugin
+from ftrack_connect_pipeline_qt import constants as qt_constants
 
 
 class UnrealDependenciesPublisherFinalizerPlugin(
@@ -17,20 +18,6 @@ class UnrealDependenciesPublisherFinalizerPlugin(
 
     def run(self, context_data=None, data=None, options=None):
         '''Publisher unreal asset dependencies to ftrack'''
-
-        import json
-
-        print(
-            '@@@ PUB POST FIN CONTEXT: {}'.format(
-                json.dumps(context_data, indent=4)
-            )
-        )
-        print('@@@ PUB POST FIN DATA: {}'.format(json.dumps(data, indent=4)))
-        print(
-            '@@@ PUB POST FIN OPTIONS: {}'.format(
-                json.dumps(options, indent=4)
-            )
-        )
 
         # Get the dependencies and the host ID from data
         dependencies = host_id = asset_version_id = asset_path = None
@@ -57,7 +44,7 @@ class UnrealDependenciesPublisherFinalizerPlugin(
 
         pipeline_data = {
             'host_id': host_id,
-            'name': core_constants.BATCH_PUBLISHER,
+            'name': qt_constants.BATCH_PUBLISHER_WIDGET,
             'title': 'Publish level dependencies - {}'.format(
                 os.path.basename(asset_path)
             ),

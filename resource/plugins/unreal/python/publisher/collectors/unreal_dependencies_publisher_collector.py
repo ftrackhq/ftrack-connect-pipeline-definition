@@ -19,12 +19,7 @@ class UnrealLevelPublisherCollectorPlugin(
     plugin_name = 'unreal_dependencies_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all cameras from the scene'''
-
-        print("Data on the fetch call ---> {}".format(data))
-        # TODO: take the level from the previous collector plugin executed:
-        #  In order to do this, we have to modify the plugin execution to pass
-        #  the data of the previous plugin in pipeline.
+        '''Fetch all dependencies from the level'''
 
         level_asset_path = (
             unreal.EditorLevelLibrary.get_editor_world().get_path_name()
