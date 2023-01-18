@@ -18,10 +18,22 @@ class UnrealAssetPublisherCollectorPlugin(
 
     plugin_name = 'unreal_asset_publisher_collector'
 
+    def fetch(self, context_data=None, data=None, options=None):
+        '''Fetch the selected asset from content browser'''
+
+        selected_asset_data = (
+            unreal.EditorUtilityLibrary.get_selected_asset_data()
+        )
+
+        if len(selected_asset_data) == 0:
+            return []
+
+        return selected_asset_data[0].package_name
+
     def run(self, context_data=None, data=None, options=None):
         '''Pass on collected Unreal assets to publish'''
-        unreal_objects = options.get('collected_objects', [])
-        return unreal_objects
+        asset_path = options.get('asset')
+        return [asset_path]
 
 
 def register(api_object, **kw):

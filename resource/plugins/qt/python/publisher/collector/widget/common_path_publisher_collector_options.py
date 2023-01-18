@@ -42,7 +42,7 @@ class CommonPathPublisherCollectorOptionsWidget(BaseOptionsWidget):
             options=options,
         )
         # We add a new button to fetch the data, we could also override the run_
-        # build bunction or simply add a new button whatever we want, calling
+        # build function or simply add a new button whatever we want, calling
         # the self.on_run_plugin() function
         self.fetch_build()
 

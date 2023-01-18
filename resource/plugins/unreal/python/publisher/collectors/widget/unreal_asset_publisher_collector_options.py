@@ -1,19 +1,20 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2022 ftrack
+# :copyright: Copyright (c) 2014-2023 ftrack
+from functools import partial
+
+from Qt import QtWidgets, QtCore
 
 from ftrack_connect_pipeline_unreal import plugin
-from ftrack_connect_pipeline_qt.plugin.widget.base_collector_widget import (
-    BaseCollectorWidget,
-)
+from ftrack_connect_pipeline_qt.plugin.widget import BaseOptionsWidget
 
 import ftrack_api
 
 
-class UnrealAssetsPublisherCollectorOptionsWidget(BaseCollectorWidget):
+class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
     '''Unreal assets user selection template plugin widget'''
 
     # Run fetch function on widget initialization
-    auto_fetch_on_init = False
+    auto_fetch_on_init = True
 
     def __init__(
         self,
@@ -35,6 +36,70 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseCollectorWidget):
             options=options,
             context_id=context_id,
             asset_type_name=asset_type_name,
+        )
+
+    def build(self):
+        '''build function widgets.'''
+        super(UnrealAssetsPublisherCollectorOptionsWidget, self).build()
+
+        self._summary_widget = QtWidgets.QLabel()
+        self.layout().addWidget(self._summary_widget)
+
+        current_asset = self.options.get('asset') or ''
+
+        widget_layout = QtWidgets.QHBoxLayout()
+        widget_layout.setContentsMargins(0, 0, 0, 0)
+        widget_layout.setAlignment(QtCore.Qt.AlignTop)
+
+        label = QtWidgets.QLabel('Asset:')
+        self.line_edit = QtWidgets.QLineEdit(current_asset)
+
+        widget_layout.addWidget(label)
+        widget_layout.addWidget(self.line_edit)
+        self.layout().addLayout(widget_layout)
+
+        self.layout().addWidget(
+            QtWidgets.QLabel(
+                'Hint: Select an asset in the Unreal content browser and refresh the publisher to use it.'
+            )
+        )
+        self.report_input()
+
+    def post_build(self):
+        super(UnrealAssetsPublisherCollectorOptionsWidget, self).post_build()
+        self.line_edit.textChanged.connect(self._on_asset_changed)
+
+    def _on_asset_changed(self, asset_path):
+        self.set_option_result(asset_path, key='asset')
+        self.report_input()
+
+    def on_fetch_callback(self, result):
+        '''This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.line_edit.clear()
+        self.line_edit.setText(result)
+
+    def on_add_callback(self, result):
+        '''This function is called by the _set_internal_run_result function of
+        the BaseOptionsWidget'''
+        self.line_edit.clear()
+        self.line_edit.setText(result)
+
+    def report_input(self):
+        '''(Override) Amount of collected objects has changed, notify parent(s)'''
+        message = ''
+        status = False
+        num_objects = 1 if len(self._options.get('asset') or '') > 0 else 0
+        if num_objects > 0:
+            message = '{} item{} selected'.format(
+                num_objects, 's' if num_objects > 1 else ''
+            )
+            status = True
+        self.inputChanged.emit(
+            {
+                'status': status,
+                'message': message,
+            }
         )
 
 

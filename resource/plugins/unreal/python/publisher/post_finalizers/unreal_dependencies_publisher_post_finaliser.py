@@ -12,7 +12,7 @@ from ftrack_connect_pipeline_qt import constants as qt_constants
 class UnrealDependenciesPublisherFinalizerPlugin(
     plugin.UnrealPublisherPostFinalizerPlugin
 ):
-    '''Plugin for finalizing the Unreal open process'''
+    '''Plugin for finalizing the Unreal asset/level dependencies publish process'''
 
     plugin_name = 'unreal_dependencies_publisher_post_finalizer'
 

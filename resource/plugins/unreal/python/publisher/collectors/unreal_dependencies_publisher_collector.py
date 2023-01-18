@@ -19,13 +19,26 @@ class UnrealLevelPublisherCollectorPlugin(
     plugin_name = 'unreal_dependencies_publisher_collector'
 
     def fetch(self, context_data=None, data=None, options=None):
-        '''Fetch all dependencies from the level'''
+        '''Fetch all dependencies from the level or the selected asset'''
 
-        level_asset_path = (
-            unreal.EditorLevelLibrary.get_editor_world().get_path_name()
-        )
+        if options.get('asset') is True:
+            # Get dependencies of the selected asset
+            selected_asset_data = (
+                unreal.EditorUtilityLibrary.get_selected_asset_data()
+            )
 
-        return unreal_utils.get_asset_dependencies(level_asset_path)
+            if len(selected_asset_data) == 0:
+                return []
+
+            asset_path = selected_asset_data[0].package_name
+
+        else:
+            # Fetch from level
+            asset_path = (
+                unreal.EditorLevelLibrary.get_editor_world().get_path_name()
+            )
+
+        return unreal_utils.get_asset_dependencies(asset_path)
 
     def run(self, context_data=None, data=None, options=None):
         '''Return the list of collected object from *options*'''

@@ -36,7 +36,10 @@
             {
               "name": "collect dependencies",
               "plugin": "unreal_dependencies_publisher_collector",
-              "widget": "unreal_dependencies_publisher_collector"
+              "widget": "unreal_dependencies_publisher_collector",
+              "options" : {
+                "asset": true
+              }
             }
           ]
         },
@@ -72,7 +75,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "Pre publish to ftrack server",
+              "name": "pre publish to ftrack server",
               "plugin": "common_passthrough_publisher_pre_finalizer"
             }
           ]
@@ -82,7 +85,7 @@
           "visible": false,
           "plugins":[
             {
-              "name": "Publish to ftrack server",
+              "name": "publish to ftrack server",
               "plugin": "common_passthrough_publisher_finalizer"
             }
           ]
@@ -92,7 +95,11 @@
           "visible": true,
           "plugins":[
             {
-              "name": "Publish asset dependencies to ftrack server",
+              "name": "publish asset dependencies to ftrack server",
+              "plugin": "unreal_assetinfo_publisher_post_finalizer"
+            },
+            {
+              "name": "publish asset dependencies to ftrack server",
               "plugin": "unreal_dependencies_publisher_post_finalizer"
             }
           ]
