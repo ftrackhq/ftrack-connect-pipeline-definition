@@ -18,16 +18,25 @@ class UnrealLevelPublisherCollectorPlugin(
 
     plugin_name = 'unreal_level_publisher_collector'
 
+    def fetch(self, context_data=None, data=None, options=None):
+        '''Fetch current Unreal level asset name, save it first.'''
+        # Any level open?
+        level_asset_path = (
+            unreal.EditorLevelLibrary.get_editor_world().get_path_name()
+        )
+        if level_asset_path is None:
+            return ''
+        level_asset_path = str(level_asset_path).split('.')[0]
+        return level_asset_path
+
     def run(self, context_data=None, data=None, options=None):
-        '''Collect Unreal level asset name, save it first.'''
+        '''Pass on collected Unreal level to publish'''
+        level_path = options.get('level')
         if not unreal.EditorLevelLibrary.save_current_level():
             error_message = "Error exporting the level: Please save the level with a name before publish"
             self.logger.error(error_message)
             return False, {'message': error_message}
-        level_asset_path = str(
-            unreal.EditorLevelLibrary.get_editor_world().get_path_name()
-        ).split('.')[0]
-        return [level_asset_path]
+        return [level_path]
 
 
 def register(api_object, **kw):

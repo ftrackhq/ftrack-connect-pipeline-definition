@@ -26,9 +26,9 @@ class UnrealAssetPublisherCollectorPlugin(
         )
 
         if len(selected_asset_data) == 0:
-            return []
+            return ''
 
-        return selected_asset_data[0].package_name
+        return str(selected_asset_data[0].package_name)
 
     def run(self, context_data=None, data=None, options=None):
         '''Pass on collected Unreal assets to publish'''

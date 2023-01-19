@@ -1,7 +1,7 @@
 {
   "type": "loader",
-  "name": "Animation Loader",
-  "asset_type": "anim",
+  "name": "Asset Opener",
+  "asset_type": "script",
   "host_type": "unreal",
   "ui_type": "qt",
   "contexts": [
@@ -15,6 +15,11 @@
               "name": "context selector",
               "plugin": "common_passthrough_loader_context",
               "widget": "common_passthrough_loader_context"
+            },
+            {
+              "name": "root context selector",
+              "plugin": "common_passthrough_loader_context",
+              "widget": "unreal_root_loader_context"
             }
           ]
         }
@@ -22,47 +27,9 @@
     }
   ],
   "components": [
-     {
-      "name": "cache",
-      "file_formats": [".abc"],
-      "optional": true,
-      "enabled": false,
-      "stages": [
-        {
-          "name": "collector",
-          "plugins":[
-            {
-              "name": "Collect components from context",
-              "plugin": "common_context_loader_collector"
-            }
-          ]
-        },
-        {
-          "name": "importer",
-          "plugins":[
-            {
-              "name": "Import paths to Unreal",
-              "plugin": "unreal_abc_animation_loader_importer",
-              "widget": "unreal_abc_animation_loader_importer"
-            }
-          ]
-        },
-        {
-          "name": "post_importer",
-          "plugins":[
-            {
-              "name": "unreal",
-              "plugin": "common_passthrough_loader_post_importer"
-            }
-          ]
-        }
-      ]
-    },
     {
-      "name": "game",
-      "file_formats": [".fbx"],
-      "optional": true,
-      "enabled": false,
+      "name": "snapshot",
+      "file_formats": [".uasset"],
       "stages": [
         {
           "name": "collector",
@@ -78,8 +45,7 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_fbx_animation_loader_importer",
-              "widget": "unreal_fbx_animation_loader_importer"
+              "plugin": "unreal_native_loader_importer"
             }
           ]
         },
@@ -95,17 +61,17 @@
       ]
     }
   ],
-  "finalizers": [
+"finalizers": [
     {
       "name": "main",
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": false,
+          "visible": true,
           "plugins":[
             {
-              "name": "Pre finalizer",
-              "plugin": "common_passthrough_loader_pre_finalizer"
+              "name": "Import asset dependencies from ftrack server",
+              "plugin": "unreal_dependencies_loader_pre_finalizer"
             }
           ]
         },

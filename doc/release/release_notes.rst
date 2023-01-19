@@ -7,6 +7,15 @@
 Release Notes
 *************
 
+.. release:: upcoming
+
+    .. change:: changed
+
+        Replaced "selected" attribute with "enabled" in definitions, "selected" to be
+        deprecated in schema in next major release.
+
+        Added "enabled" and "optional" attributes to publisher schema Stages and Plugins.
+
 .. release:: 1.2.0
     :date: 2022-12-15
 

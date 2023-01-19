@@ -33,13 +33,8 @@ class UnrealLevelOpenerFinalizerPlugin(plugin.UnrealOpenerFinalizerPlugin):
                         break
         # Expect: "C:\\Users\\Henrik Norin\\Documents\\Unreal Projects\\MyEmptyProject\\Content\\Levels\\NewWorld.umap"
         # Transform to asset path
-        root_content_dir = (
-            unreal.SystemLibrary.get_project_content_directory().replace(
-                '/', os.sep
-            )
-        )
-        level_path = '/Game/{}'.format(
-            level_filesystem_path[len(root_content_dir) :].replace('\\', '/')
+        level_path = unreal_utils.filesystem_asset_path_to_asset_path(
+            level_filesystem_path
         )
 
         self.logger.debug(

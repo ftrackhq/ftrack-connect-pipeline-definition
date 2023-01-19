@@ -26,7 +26,7 @@
       "name": "cache",
       "file_formats": [".abc"],
       "optional": true,
-      "selected": false,
+      "enabled": false,
       "stages": [
         {
           "name": "collector",
@@ -62,7 +62,7 @@
       "name": "game",
       "file_formats": [".fbx"],
       "optional": true,
-      "selected": false,
+      "enabled": false,
       "stages": [
         {
           "name": "collector",

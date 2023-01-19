@@ -192,13 +192,20 @@ class UnrealRootPublisherContextOptionsWidget(BaseOptionsWidget):
         asset build is created and use it as the context.'''
         asset_path = None
         if self.options.get('selection') is True:
-            # TODO: Fetch the selected asset in content browser
-            pass
+            # Fetch the selected asset in content browser
+            selected_asset_data = (
+                unreal.EditorUtilityLibrary.get_selected_asset_data()
+            )
+            if len(selected_asset_data) > 0:
+                asset_path = str(selected_asset_data[0].package_name)
         else:
             # Fetch the current level
             asset_path = str(
                 unreal.EditorLevelLibrary.get_editor_world().get_path_name()
             ).split('.')[0]
+
+        if not asset_path:
+            return
 
         full_ftrack_asset_path = None
         try:

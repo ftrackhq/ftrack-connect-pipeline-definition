@@ -45,55 +45,28 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
         self._summary_widget = QtWidgets.QLabel()
         self.layout().addWidget(self._summary_widget)
 
-        current_asset = self.options.get('asset') or ''
+        current_level = self.options.get('level') or ''
 
-        widget_layout = QtWidgets.QHBoxLayout()
-        widget_layout.setContentsMargins(0, 0, 0, 0)
-        widget_layout.setAlignment(QtCore.Qt.AlignTop)
-
-        label = QtWidgets.QLabel('Asset:')
-        self.line_edit = QtWidgets.QLineEdit(current_asset)
+        self.line_edit = QtWidgets.QLineEdit(current_level)
         self.line_edit.setReadOnly(True)
 
-        widget_layout.addWidget(label)
-        widget_layout.addWidget(self.line_edit)
-        self.layout().addLayout(widget_layout)
-
-        self._empty_label = QtWidgets.QLabel(
-            'Hint: Select an asset in the Unreal content browser and refresh the publisher to use it.'
-        )
-        self.layout().addWidget(self._empty_label)
-        self._empty_label.setVisible(len(current_asset) == 0)
+        self.layout().addWidget(self.line_edit)
         self.report_input()
 
-    def post_build(self):
-        super(UnrealAssetsPublisherCollectorOptionsWidget, self).post_build()
-        self.line_edit.textChanged.connect(self._on_asset_changed)
-
-    def _on_asset_changed(self, asset_path):
-        self.set_option_result(asset_path, key='asset')
-        self._empty_label.setVisible(len(asset_path) == 0)
-        self.report_input()
-
-    def on_fetch_callback(self, result):
+    def on_fetch_callback(self, level_path):
         '''This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
+        self.set_option_result(level_path, key='level')
         self.line_edit.clear()
-        self.line_edit.setText(result)
-
-    def on_add_callback(self, result):
-        '''This function is called by the _set_internal_run_result function of
-        the BaseOptionsWidget'''
-        self.line_edit.clear()
-        self.line_edit.setText(result)
+        self.line_edit.setText(level_path)
 
     def report_input(self):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
         message = ''
         status = False
-        num_objects = 1 if len(self._options.get('asset') or '') > 0 else 0
+        num_objects = 1 if len(self._options.get('level') or '') > 0 else 0
         if num_objects > 0:
-            message = '{} asset{} selected'.format(
+            message = '{} level{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''
             )
             status = True

@@ -1,5 +1,5 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2022 ftrack
+# :copyright: Copyright (c) 2014-2023 ftrack
 import copy
 import os
 
@@ -10,11 +10,11 @@ from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
 import ftrack_api
 
 
-class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
-    plugin_name = 'unreal_native_opener_importer'
+class UnrealNativeLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
+    plugin_name = 'unreal_native_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
-        '''Open an Unreal asset from path stored in collected object provided with *data*'''
+        '''Load an Unreal asset from path stored in collected object provided with *data*'''
 
         load_mode = load_const.OPEN_MODE
         load_mode_fn = self.load_modes.get(
@@ -34,7 +34,7 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
             paths_to_import.extend(collector['result'])
 
         for component_path in paths_to_import:
-            self.logger.debug('Opening path: "{}"'.format(component_path))
+            self.logger.debug('Loading path: "{}"'.format(component_path))
 
             load_result = load_mode_fn(
                 component_path, unreal_options, self.session
@@ -51,5 +51,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealNativeOpenerImporterPlugin(api_object)
+    plugin = UnrealNativeLoaderImporterPlugin(api_object)
     plugin.register()

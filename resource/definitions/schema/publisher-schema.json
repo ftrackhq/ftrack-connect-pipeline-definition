@@ -48,6 +48,14 @@
           "type": "boolean",
           "default": true
         },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
         "widget_ref": {
           "type": "string"
         },
@@ -428,6 +436,14 @@
           "type": "string"
         },
         "visible": {
+          "type": "boolean",
+          "default": true
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false
+        },
+        "enabled": {
           "type": "boolean",
           "default": true
         },

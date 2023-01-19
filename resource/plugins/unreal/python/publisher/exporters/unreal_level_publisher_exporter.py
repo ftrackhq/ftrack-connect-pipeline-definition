@@ -30,7 +30,7 @@ class UnrealLevelPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
         level_asset_path = (
             collected_objects[0].replace('/Game/', '').replace('/', os.sep)
         )
-        level_deps = collected_objects[1:]
+        level_dependencies = collected_objects[1:]
 
         root_content_dir = (
             unreal.SystemLibrary.get_project_content_directory().replace(
@@ -41,7 +41,7 @@ class UnrealLevelPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
             os.path.join(root_content_dir, level_asset_path)
         )
 
-        return [umap_path], {'data': level_deps}
+        return [umap_path], {'data': level_dependencies}
 
 
 def register(api_object, **kw):

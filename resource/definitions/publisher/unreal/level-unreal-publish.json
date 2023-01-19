@@ -23,14 +23,15 @@
   ],
   "components": [
     {
-      "name": "snapshot",
+      "name": "level",
       "stages": [
         {
           "name": "collector",
           "plugins":[
             {
               "name": "collect level",
-              "plugin": "unreal_level_publisher_collector"
+              "plugin": "unreal_level_publisher_collector",
+              "widget": "unreal_level_publisher_collector"
             },
             {
               "name": "collect dependencies",
@@ -95,7 +96,8 @@
           "plugins":[
             {
               "name": "Publish level dependencies to ftrack server",
-              "plugin": "unreal_dependencies_publisher_post_finalizer"
+              "plugin": "unreal_dependencies_publisher_post_finalizer",
+              "optional": true
             }
           ]
         }

@@ -14,7 +14,10 @@
             {
               "name": "Unreal root context",
               "plugin": "unreal_root_publisher_context",
-              "widget": "unreal_root_publisher_context"
+              "widget": "unreal_root_publisher_context",
+              "options": {
+                "selection": true
+              }
             }
           ]
         }
@@ -23,7 +26,7 @@
   ],
   "components": [
     {
-      "name": "snapshot",
+      "name": "asset",
       "stages": [
         {
           "name": "collector",
@@ -95,12 +98,19 @@
           "visible": true,
           "plugins":[
             {
-              "name": "publish asset dependencies to ftrack server",
+              "name": "Publish dependency asset info to ftrack server",
               "plugin": "unreal_assetinfo_publisher_post_finalizer"
+            },{
+              "name": "Track as dependency in unreal project",
+              "plugin": "unreal_dependencytrack_publisher_post_finalizer",
+              "description": "Start tracking the asset as a dependency in the local unreal project",
+              "optional": true,
+              "enabled": false
             },
             {
-              "name": "publish asset dependencies to ftrack server",
-              "plugin": "unreal_dependencies_publisher_post_finalizer"
+              "name": "Publish asset dependencies to ftrack server",
+              "plugin": "unreal_dependencies_publisher_post_finalizer",
+              "optional": true
             }
           ]
         }

@@ -8,6 +8,10 @@ from ftrack_connect_pipeline import constants as core_constants
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_qt import constants as qt_constants
 
+from ftrack_connect_pipeline_unreal.utils import (
+    custom_commands as unreal_utils,
+)
+
 
 class UnrealDependenciesPublisherFinalizerPlugin(
     plugin.UnrealPublisherPostFinalizerPlugin
@@ -20,17 +24,19 @@ class UnrealDependenciesPublisherFinalizerPlugin(
         '''Publisher unreal asset dependencies to ftrack'''
 
         # Get the dependencies and the host ID from data
-        dependencies = host_id = asset_version_id = asset_path = None
+        dependencies = (
+            host_id
+        ) = asset_version_id = asset_filesystem_path = None
         for comp in data:
-            if comp['name'] == 'snapshot':
+            if comp['type'] == 'component':
                 for result in comp['result']:
                     if result['name'] == 'exporter':
                         plugin_result = result['result'][0]
                         dependencies = plugin_result['user_data']['data']
                         host_id = plugin_result['host_id']
-                        asset_path = plugin_result['result'][0]
+                        asset_filesystem_path = plugin_result['result'][0]
                         break
-            elif comp['name'] == 'main':
+            elif comp['type'] == 'finalizer':
                 for result in comp['result']:
                     if result['name'] == 'finalizer':
                         plugin_result = result['result'][0]
@@ -42,14 +48,22 @@ class UnrealDependenciesPublisherFinalizerPlugin(
         if not dependencies:
             return {'message': 'No dependencies supplied for publish!'}
 
+        asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
+            asset_filesystem_path
+        )
+
         pipeline_data = {
             'host_id': host_id,
             'name': qt_constants.BATCH_PUBLISHER_WIDGET,
-            'title': 'Publish level dependencies - {}'.format(
-                os.path.basename(asset_path)
+            'title': 'Publish {} dependencies - {}'.format(
+                'level'
+                if asset_filesystem_path.lower().endswith('.umap')
+                else 'asset',
+                os.path.basename(asset_filesystem_path),
             ),
             'source': str(self),
             'assets': dependencies,
+            'parent_asset': asset_path,
             'parent_asset_version_id': asset_version_id,
         }
         if not options.get('interactive') is False:
