@@ -25,18 +25,6 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
 
         import json
 
-        print(
-            '@@@ UnrealDependencyTrackPublisherFinalizerPlugin.run(): context_data = {}'.format(
-                json.dumps(context_data, indent=4)
-            )
-        )
-
-        print(
-            '@@@ UnrealDependencyTrackPublisherFinalizerPlugin.run(): data = {}'.format(
-                json.dumps(data, indent=4)
-            )
-        )
-
         # Extract version ID from the run data
         asset_version_id = component_name = asset_filesystem_path = None
         for comp in data:
@@ -97,6 +85,9 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                 asset_version_id, component_name
             )
         ).one()
+        # Find out were the asset got stored
+        location = self.session.pick_location()
+        component_path = location.get_filesystem_path(component)
         ftrack_object_manager = self.FtrackObjectManager(self.event_manager)
         ftrack_object_manager.asset_info = (
             ftrack_object_manager.generate_snapshot_asset_info(
@@ -104,6 +95,7 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                 asset_version_id,
                 component['id'],
                 component_name,
+                component_path,
                 asset_filesystem_path,
             )
         )

@@ -71,7 +71,7 @@ class UnrealAssetInfoPublisherFinalizerPlugin(
                     assetversion['metadata']['ftrack-connect-pipeline-unreal']
                 )
 
-            metadata['asset_info'] = param_dict
+            metadata['pipeline_asset_info'] = param_dict
 
             self.logger.debug('Asset info to store @ "{}"!'.format(metadata))
             assetversion['metadata'][

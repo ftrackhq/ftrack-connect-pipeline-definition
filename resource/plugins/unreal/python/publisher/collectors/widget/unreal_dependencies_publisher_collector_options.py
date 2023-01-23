@@ -44,7 +44,9 @@ class UnrealDependenciesPublisherCollectorOptionsWidget(BaseCollectorWidget):
         message = ''
         status = False
         # TODO: Remove the +1 when QT supports summarize of multiple collectors
-        num_objects = len(self.options.get('collected_objects') or []) + 1
+        num_objects = len(self.options.get('collected_objects') or [])
+        if num_objects > 0:
+            num_objects += 1
         if num_objects > 0:
             message = '{} asset{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''

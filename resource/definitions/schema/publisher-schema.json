@@ -115,10 +115,6 @@
           "type": "boolean",
           "default": true
         },
-        "selected": {
-          "type": "boolean",
-          "default": true
-        },
         "stages": {
           "type": "array",
           "maxItems": 3,
