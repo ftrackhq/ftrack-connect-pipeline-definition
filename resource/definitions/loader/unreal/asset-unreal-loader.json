@@ -1,6 +1,6 @@
 {
   "type": "loader",
-  "name": "Asset Opener",
+  "name": "Asset Loader",
   "asset_type": "script",
   "host_type": "unreal",
   "ui_type": "qt",
@@ -28,7 +28,7 @@
   ],
   "components": [
     {
-      "name": "snapshot",
+      "name": "asset",
       "file_formats": [".uasset"],
       "stages": [
         {
@@ -71,17 +71,19 @@
           "plugins":[
             {
               "name": "Import asset dependencies from ftrack server",
-              "plugin": "unreal_dependencies_loader_pre_finalizer"
+              "plugin": "unreal_dependencies_loader_pre_finalizer",
+              "optional": true
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": false,
+          "visible": true,
           "plugins":[
             {
-              "name": "Finalizer",
-              "plugin": "common_passthrough_loader_finalizer"
+              "name": "Finalize asset",
+              "description" : "Restore pipeline asset info, restore modification time and load asset in Unreal",
+              "plugin": "unreal_asset_loader_finalizer"
             }
           ]
         },

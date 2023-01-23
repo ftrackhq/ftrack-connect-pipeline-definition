@@ -28,7 +28,7 @@
   ],
   "components": [
     {
-      "name": "snapshot",
+      "name": "level",
       "file_formats": [".umap"],
       "stages": [
         {
@@ -73,7 +73,8 @@
           "plugins":[
             {
               "name": "Import level dependencies from ftrack server",
-              "plugin": "unreal_dependencies_opener_pre_finalizer"
+              "plugin": "unreal_dependencies_opener_pre_finalizer",
+              "optional": true
             }
           ]
         },

@@ -28,7 +28,7 @@
   ],
   "components": [
     {
-      "name": "snapshot",
+      "name": "asset",
       "file_formats": [".uasset"],
       "stages": [
         {
@@ -72,8 +72,10 @@
           "visible": true,
           "plugins":[
             {
-              "name": "Import level dependencies from ftrack server",
-              "plugin": "unreal_dependencies_opener_pre_finalizer"
+              "name": "Import asset dependencies from ftrack server",
+              "description": "Search ftrack for asset dependencies, and their sub dependencies, and import them to Unreal",
+              "plugin": "unreal_dependencies_opener_pre_finalizer",
+              "optional": true
             }
           ]
         },
@@ -82,8 +84,8 @@
           "visible": true,
           "plugins":[
             {
-              "name": "Open asset in editor",
-              "description" : "Open the asset in Unreal Editor after import",
+              "name": "Finalize asset",
+              "description" : "Restore pipeline asset info, restore modification time and load asset in Unreal",
               "plugin": "unreal_asset_opener_finalizer"
             }
           ]

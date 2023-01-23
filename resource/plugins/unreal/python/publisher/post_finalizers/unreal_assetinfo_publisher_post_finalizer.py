@@ -1,16 +1,17 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2022 ftrack
+# :copyright: Copyright (c) 2014-2023 ftrack
 import json
+import os
 
 import ftrack_api
 
 from ftrack_connect_pipeline import constants as core_constants
 from ftrack_connect_pipeline_unreal import plugin
-from ftrack_connect_pipeline_qt import constants as qt_constants
 
 from ftrack_connect_pipeline_unreal.utils import (
     custom_commands as unreal_utils,
 )
+from ftrack_connect_pipeline_unreal.constants import asset as asset_const
 
 
 class UnrealAssetInfoPublisherFinalizerPlugin(
@@ -58,32 +59,47 @@ class UnrealAssetInfoPublisherFinalizerPlugin(
                 asset_path
             )
 
+        # Read current metadata
+        assetversion = self.session.query(
+            'AssetVersion where id is "{0}"'.format(asset_version_id)
+        ).one()
+        metadata = {}
+        if 'ftrack-connect-pipeline-unreal' in assetversion.get('metadata'):
+            metadata = json.loads(
+                assetversion['metadata']['ftrack-connect-pipeline-unreal']
+            )
+
         if param_dict:
             # Store the asset info as metadata in ftrack
-            assetversion = self.session.query(
-                'AssetVersion where id is "{0}"'.format(asset_version_id)
-            ).one()
-            metadata = {}
-            if 'ftrack-connect-pipeline-unreal' in assetversion.get(
-                'metadata'
-            ):
-                metadata = json.loads(
-                    assetversion['metadata']['ftrack-connect-pipeline-unreal']
-                )
 
             metadata['pipeline_asset_info'] = param_dict
 
             self.logger.debug('Asset info to store @ "{}"!'.format(metadata))
-            assetversion['metadata'][
-                'ftrack-connect-pipeline-unreal'
-            ] = json.dumps(metadata)
-            self.session.commit()
 
             message = 'Stored ftrack dependency asset info on asset version'
         else:
             message = (
                 'No ftrack dependency asset info to store on asset version'
             )
+
+        if asset_filesystem_path and os.path.exists(asset_filesystem_path):
+            # Store file size and modification time for sync purposes
+            metadata[asset_const.MOD_DATE] = os.path.getmtime(
+                asset_filesystem_path
+            )
+            metadata[asset_const.FILE_SIZE] = os.path.getsize(
+                asset_filesystem_path
+            )
+            message += "; Stored asset local file size({}) and modification time({}) on asset version".format(
+                metadata[asset_const.FILE_SIZE], metadata[asset_const.MOD_DATE]
+            )
+        else:
+            message += "; No local file size and modification time to store on asset version"
+
+        assetversion['metadata'][
+            'ftrack-connect-pipeline-unreal'
+        ] = json.dumps(metadata)
+        self.session.commit()
 
         self.logger.debug(message)
         return {'message': message}

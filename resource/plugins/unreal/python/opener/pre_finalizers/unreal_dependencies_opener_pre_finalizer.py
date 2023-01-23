@@ -14,6 +14,8 @@ from ftrack_connect_pipeline_unreal.utils import (
 class UnrealDependenciesOpenerPreFinalizerPlugin(
     plugin.UnrealOpenerPreFinalizerPlugin
 ):
+    '''Unreal dependencies importer plugin.'''
+
     plugin_name = 'unreal_dependencies_opener_pre_finalizer'
 
     def run(self, context_data=None, data=None, options=None):

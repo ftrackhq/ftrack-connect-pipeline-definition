@@ -6,6 +6,8 @@ import unreal
 
 import ftrack_api
 
+from ftrack_connect_pipeline import constants as core_constants
+
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_unreal.utils import (
     custom_commands as unreal_utils,
@@ -13,6 +15,8 @@ from ftrack_connect_pipeline_unreal.utils import (
 
 
 class UnrealLevelOpenerFinalizerPlugin(plugin.UnrealOpenerFinalizerPlugin):
+    '''Unreal level open finalizer plugin.'''
+
     plugin_name = 'unreal_level_opener_finalizer'
 
     def run(self, context_data=None, data=None, options=None):
@@ -23,9 +27,9 @@ class UnrealLevelOpenerFinalizerPlugin(plugin.UnrealOpenerFinalizerPlugin):
         # Find the path to level
         level_filesystem_path = None
         for comp in data:
-            if comp['name'] == 'snapshot':
+            if comp['type'] == core_constants.COMPONENT:
                 for result in comp['result']:
-                    if result['name'] == 'importer':
+                    if result['type'] == core_constants.IMPORTER:
                         plugin_result = result['result'][0]
                         level_filesystem_path = list(
                             plugin_result['result'].values()

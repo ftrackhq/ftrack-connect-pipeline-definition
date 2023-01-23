@@ -48,13 +48,13 @@
           "type": "boolean",
           "default": true
         },
-        "optional": {
-          "type": "boolean",
-          "default": false
-        },
         "enabled": {
           "type": "boolean",
           "default": true
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false
         },
         "widget_ref": {
           "type": "string"

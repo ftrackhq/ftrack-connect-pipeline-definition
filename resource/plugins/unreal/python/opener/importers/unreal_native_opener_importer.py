@@ -11,6 +11,8 @@ import ftrack_api
 
 
 class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
+    '''Unreal native importer plugin.'''
+
     plugin_name = 'unreal_native_opener_importer'
 
     def run(self, context_data=None, data=None, options=None):
