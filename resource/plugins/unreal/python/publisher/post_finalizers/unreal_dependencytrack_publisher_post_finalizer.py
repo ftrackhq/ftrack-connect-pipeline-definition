@@ -20,8 +20,21 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
 
     plugin_name = 'unreal_dependencytrack_publisher_post_finalizer'
 
+    def extract_loader_options(self, options):
+        if options is None:
+            options = {}
+        return {
+            'definition': options.get('definition') or 'Asset Loader',
+            'plugin_name': options.get('plugin_name')
+            or 'unreal_native_loader_importer',
+            'plugin_type': options.get('plugin_type') or 'loader.importer',
+            'method': options.get('method') or 'init_and_load',
+            'file_formats': options.get('file_formats') or ['.uasset'],
+        }
+
     def run(self, context_data=None, data=None, options=None):
-        '''Create/update local snapshot asset info'''
+        '''Create/update local snapshot asset info based on *context_data* and *data*, with snapshot
+        loader defined in *options*.'''
 
         import json
 
@@ -97,6 +110,7 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                 component_name,
                 component_path,
                 asset_filesystem_path,
+                self.extract_loader_options(options),
             )
         )
 
