@@ -95,6 +95,10 @@
           "visible": true,
           "plugins":[
             {
+              "name": "Link task to snapshot asset build",
+              "plugin": "unreal_link_publisher_post_finalizer"
+            },
+            {
               "name": "Publish level dependencies to ftrack server",
               "plugin": "unreal_dependencies_publisher_post_finalizer",
               "optional": true

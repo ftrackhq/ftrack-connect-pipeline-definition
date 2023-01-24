@@ -217,7 +217,7 @@ class UnrealRootPublisherContextOptionsWidget(BaseOptionsWidget):
             dialog.ModalDialog(
                 self.parent(),
                 message='Failed to get the asset_path from ftrack. '
-                'Please make sure the root is crerated.\n\nDetails: {}'.format(
+                'Please make sure the root is created.\n\nDetails: {}'.format(
                     asset_path, e
                 ),
             )
