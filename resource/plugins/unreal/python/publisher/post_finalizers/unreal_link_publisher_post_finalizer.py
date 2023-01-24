@@ -24,8 +24,6 @@ class UnrealLinkPublisherFinalizerPlugin(
     def run(self, context_data=None, data=None, options=None):
         '''Link task provided in *context_data* to snapshot asset build provided in *context_data*.'''
 
-        message = ''
-
         # Locate the task
         task = self.session.query(
             'Task where id is "{}"'.format(context_data['context_id'])
@@ -43,17 +41,28 @@ class UnrealLinkPublisherFinalizerPlugin(
             )
         ).one()
 
-        # Create task incoming link
-        self.session.create(
-            'TypedContextLink', {'from': asset_build, 'to': task}
-        )
-        self.session.commit()
-
-        return {
-            'message': 'Linked context {} to asset build {}.'.format(
-                task['id'], asset_build['id']
+        # Create task incoming link if not exits
+        tcl = self.session.query(
+            'TypedContextLink where from_id is "{}" and to_id is "{}"'.format(
+                asset_build['id'], task['id']
             )
-        }
+        ).first()
+        if not tcl:
+            self.session.create(
+                'TypedContextLink', {'from': asset_build, 'to': task}
+            )
+            self.session.commit()
+            return {
+                'message': 'Linked asset build {} to task context {}.'.format(
+                    asset_build['id'], task['id']
+                )
+            }
+        else:
+            return {
+                'message': 'Alread a link from asset build {} to task context {}.'.format(
+                    asset_build['id'], task['id']
+                )
+            }
 
 
 def register(api_object, **kw):
