@@ -28,10 +28,6 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
 
         result = {}
 
-        import json
-
-        print('@@@ data: {}'.format(json.dumps(data, indent=4)))
-
         # First, evaluate asset path
         asset_filesystem_path = None
         for comp in data:
