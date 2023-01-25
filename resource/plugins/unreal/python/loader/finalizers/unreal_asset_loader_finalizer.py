@@ -36,7 +36,7 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
                     if result['type'] == core_constants.IMPORTER:
                         plugin_result = result['result'][0]
                         asset_filesystem_path = list(
-                            plugin_result['result']['run_result'].values()
+                            plugin_result['result']['result'].values()
                         )[0]
                         break
 
