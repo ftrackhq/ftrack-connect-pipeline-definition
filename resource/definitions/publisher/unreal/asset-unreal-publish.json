@@ -105,7 +105,14 @@
               "plugin": "unreal_dependencytrack_publisher_post_finalizer",
               "description": "Start tracking the asset as a dependency in the local unreal project",
               "optional": true,
-              "enabled": false
+              "enabled": false,
+              "options": {
+                "definition": "Asset Loader",
+                "plugin_name": "unreal_native_loader_importer",
+                "plugin_type": "loader.importer",
+                "method": "init_and_load",
+                "file_formats": [".uasset"]
+              }
             },
             {
               "name": "Link task to snapshot asset build",
