@@ -7,6 +7,7 @@ import maya.cmds as cmds
 
 from ftrack_connect_pipeline_maya import plugin
 from ftrack_connect_pipeline_maya.constants.asset import modes as load_const
+from ftrack_connect_pipeline_maya.constants import asset as asset_const
 import ftrack_api
 
 
@@ -29,7 +30,9 @@ class MayaNativeOpenerImporterPlugin(plugin.MayaOpenerImporterPlugin):
 
         paths_to_import = []
         for collector in data:
-            paths_to_import.extend(collector['result'])
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
 
         for component_path in paths_to_import:
             self.logger.debug('Opening path {}'.format(component_path))
