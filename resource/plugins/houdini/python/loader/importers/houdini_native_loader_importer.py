@@ -5,6 +5,7 @@ import six
 
 from ftrack_connect_pipeline_houdini import plugin
 from ftrack_connect_pipeline_houdini.constants.asset import modes as load_const
+from ftrack_connect_pipeline_houdini.constants import asset as asset_const
 import ftrack_api
 
 
@@ -38,7 +39,9 @@ class HoudiniNativeLoaderImporterPlugin(plugin.HoudiniLoaderImporterPlugin):
         results = {}
         paths_to_import = []
         for collector in data:
-            paths_to_import.extend(collector['result'])
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
         for component_path in paths_to_import:
             self.logger.debug('Loading path {}'.format(component_path))
 

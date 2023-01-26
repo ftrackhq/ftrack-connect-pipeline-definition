@@ -3,6 +3,7 @@
 
 import os
 from ftrack_connect_pipeline import plugin
+from ftrack_connect_pipeline.constants import asset as asset_const
 
 import ftrack_api
 
@@ -24,7 +25,7 @@ class CollectFromContextOpenerPlugin(plugin.OpenerCollectorPlugin):
         component_name = data[0].get('name')
         file_formats = options.get('file_formats', [])
         location = self.session.pick_location()
-        component_paths = []
+        result = {}
         for component in asset_version_entity['components']:
             if component['name'] == component_name:
                 component_path = location.get_filesystem_path(component)
@@ -39,9 +40,12 @@ class CollectFromContextOpenerPlugin(plugin.OpenerCollectorPlugin):
                         )
                     )
                     continue
-                component_paths.append(component_path)
+                result[asset_const.COMPONENT_NAME] = component['name']
+                result[asset_const.COMPONENT_PATH] = component_path
+                result[asset_const.COMPONENT_ID] = component['id']
+                break
 
-        return component_paths
+        return result
 
 
 def register(api_object, **kw):

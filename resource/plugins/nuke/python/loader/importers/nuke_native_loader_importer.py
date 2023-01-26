@@ -5,6 +5,7 @@ import ftrack_api
 
 from ftrack_connect_pipeline_nuke import plugin
 from ftrack_connect_pipeline_nuke.constants.asset import modes as load_const
+from ftrack_connect_pipeline_nuke.constants import asset as asset_const
 
 
 class NukeNativeLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
@@ -37,7 +38,9 @@ class NukeNativeLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
 
         paths_to_import = []
         for collector in data:
-            paths_to_import.extend(collector['result'])
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
 
         for component_path in paths_to_import:
             self.logger.debug('Loading path {}'.format(component_path))
