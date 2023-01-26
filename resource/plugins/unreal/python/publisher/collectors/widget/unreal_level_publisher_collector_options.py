@@ -45,7 +45,10 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
         self._summary_widget = QtWidgets.QLabel()
         self.layout().addWidget(self._summary_widget)
 
-        current_level = self.options.get('level') or ''
+        collected_objects = self.options.get('collected_objects') or []
+        current_level = ''
+        if len(collected_objects) > 0:
+            current_level = collected_objects[0]
 
         self.line_edit = QtWidgets.QLineEdit(current_level)
         self.line_edit.setReadOnly(True)
@@ -56,7 +59,7 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
     def on_fetch_callback(self, level_path):
         '''This function is called by the _set_internal_run_result function of
         the BaseOptionsWidget'''
-        self.set_option_result(level_path, key='level')
+        self.set_option_result([level_path], key='collected_objects')
         self.line_edit.clear()
         self.line_edit.setText(level_path)
 
@@ -64,7 +67,9 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
         message = ''
         status = False
-        num_objects = 1 if len(self._options.get('level') or '') > 0 else 0
+        num_objects = (
+            1 if len(self._options.get('collected_objects') or []) > 0 else 0
+        )
         if num_objects > 0:
             message = '{} level{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''

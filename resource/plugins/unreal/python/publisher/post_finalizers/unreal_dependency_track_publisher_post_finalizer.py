@@ -16,9 +16,9 @@ from ftrack_connect_pipeline_unreal.utils import (
 class UnrealDependencyTrackPublisherFinalizerPlugin(
     plugin.UnrealPublisherPostFinalizerPlugin
 ):
-    '''Plugin for finalizing the Unreal publish process for a dependency'''
+    '''Plugin for start tracking an asset as a dependency with a snapshot asset info in Unreal.'''
 
-    plugin_name = 'unreal_dependencytrack_publisher_post_finalizer'
+    plugin_name = 'unreal_dependency_track_publisher_post_finalizer'
 
     def extract_loader_options(self, options):
         if options is None:
@@ -26,17 +26,13 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         return {
             'definition': options.get('definition') or 'Asset Loader',
             'plugin_name': options.get('plugin_name')
-            or 'unreal_native_loader_importer',
-            'plugin_type': options.get('plugin_type') or 'loader.importer',
+            or 'unreal_asset_loader_importer',
             'method': options.get('method') or 'init_and_load',
-            'file_formats': options.get('file_formats') or ['.uasset'],
         }
 
     def run(self, context_data=None, data=None, options=None):
         '''Create/update local snapshot asset info based on *context_data* and *data*, with snapshot
         loader defined in *options*.'''
-
-        import json
 
         # Extract version ID from the run data
         asset_version_id = component_name = asset_filesystem_path = None
@@ -64,27 +60,22 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                                 break
                         break
 
-        if 'asset_path' in options:
-            # Given pre fetched by batch publisher
-            asset_path = options['asset_path']
-            param_dict = options['param_dict']
-            dcc_object_name = options['dcc_object_name']
-        else:
-            if not asset_filesystem_path:
-                return {'message': 'No asset could be extracted from publish!'}
+        if not asset_filesystem_path:
+            return {'message': 'No asset could be extracted from publish!'}
 
-            # Convert to game path
-            asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
-                asset_filesystem_path
-            )
+        # Convert to game path
+        asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
+            asset_filesystem_path
+        )
 
-            # Check if already has snapshot asset info
-            dcc_object_name, param_dict = unreal_utils.get_asset_info(
-                asset_path, snapshot=True
-            )
+        # Check if already has snapshot asset info
+        dcc_object_name, param_dict = unreal_utils.get_asset_info(
+            asset_path, snapshot=True
+        )
 
         if param_dict:
-            # Store the asset info as metadata in ftrack
+            # Remove the existing snapshot asset info on disk, otherwise creating
+            # and storing it will fail below
             self.logger.warning(
                 'Removing existing snapshot asset info @ "{}"!'.format(
                     param_dict

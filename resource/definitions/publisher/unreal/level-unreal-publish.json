@@ -23,7 +23,7 @@
   ],
   "components": [
     {
-      "name": "level",
+      "name": "snapshot",
       "stages": [
         {
           "name": "collector",

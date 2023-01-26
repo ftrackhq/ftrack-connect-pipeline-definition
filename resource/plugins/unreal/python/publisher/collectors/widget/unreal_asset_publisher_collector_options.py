@@ -45,7 +45,10 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
         self._summary_widget = QtWidgets.QLabel()
         self.layout().addWidget(self._summary_widget)
 
-        current_asset = self.options.get('asset') or ''
+        collected_objects = self.options.get('collected_objects') or []
+        current_asset = ''
+        if len(collected_objects) > 0:
+            current_asset = collected_objects[0]
 
         widget_layout = QtWidgets.QHBoxLayout()
         widget_layout.setContentsMargins(0, 0, 0, 0)
@@ -71,7 +74,7 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
         self.line_edit.textChanged.connect(self._on_asset_changed)
 
     def _on_asset_changed(self, asset_path):
-        self.set_option_result(asset_path, key='asset')
+        self.set_option_result([asset_path], key='collected_objects')
         self._empty_label.setVisible(len(asset_path) == 0)
         self.report_input()
 
@@ -91,7 +94,9 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
         '''(Override) Amount of collected objects has changed, notify parent(s)'''
         message = ''
         status = False
-        num_objects = 1 if len(self._options.get('asset') or '') > 0 else 0
+        num_objects = (
+            1 if len(self._options.get('collected_objects') or []) > 0 else 0
+        )
         if num_objects > 0:
             message = '{} asset{} selected'.format(
                 num_objects, 's' if num_objects > 1 else ''

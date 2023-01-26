@@ -10,8 +10,10 @@ from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
 import ftrack_api
 
 
-class UnrealNativeLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
-    plugin_name = 'unreal_native_loader_importer'
+class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
+    '''Unreal asset loader plugin'''
+
+    plugin_name = 'unreal_asset_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
         '''Load an Unreal asset from path stored in collected object provided with *data*'''
@@ -51,5 +53,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealNativeLoaderImporterPlugin(api_object)
+    plugin = UnrealAssetLoaderImporterPlugin(api_object)
     plugin.register()

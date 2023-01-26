@@ -32,8 +32,8 @@ class UnrealAssetPublisherCollectorPlugin(
 
     def run(self, context_data=None, data=None, options=None):
         '''Pass on collected Unreal assets to publish'''
-        asset_path = options.get('asset')
-        return [asset_path]
+        collected_objects = options.get('collected_objects') or []
+        return collected_objects
 
 
 def register(api_object, **kw):
