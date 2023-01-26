@@ -18,7 +18,7 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
     def run(self, context_data=None, data=None, options=None):
         '''Load an Unreal asset from path stored in collected object provided with *data*'''
 
-        load_mode = load_const.OPEN_MODE
+        load_mode = load_const.IMPORT_MODE
         load_mode_fn = self.load_modes.get(
             load_mode, list(self.load_modes.keys())[0]
         )

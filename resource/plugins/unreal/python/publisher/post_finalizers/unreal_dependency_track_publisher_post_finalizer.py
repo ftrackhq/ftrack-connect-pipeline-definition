@@ -1,12 +1,17 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 import json
+import copy
+import os
 
 import ftrack_api
 
 from ftrack_connect_pipeline import constants as core_constants
+from ftrack_connect_pipeline.constants import asset as asset_const
+from ftrack_connect_pipeline.asset.asset_info import FtrackAssetInfo
+
 from ftrack_connect_pipeline_unreal import plugin
-from ftrack_connect_pipeline_qt import constants as qt_constants
+from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
 
 from ftrack_connect_pipeline_unreal.utils import (
     custom_commands as unreal_utils,
@@ -28,6 +33,28 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
             'plugin_name': options.get('plugin_name')
             or 'unreal_asset_loader_importer',
             'method': options.get('method') or 'init_and_load',
+        }
+
+    def generate_snapshot_asset_info_options(
+        self, context_data, loader_options
+    ):
+        '''
+        Returns a dictionary of options for creating a snapshot asset_info.
+        '''
+        return {
+            "pipeline": {
+                "plugin_name": loader_options['plugin_name'],
+                "plugin_type": "loader.importer",
+                "method": "init_and_load",
+                "category": "plugin",
+                "host_type": "unreal",
+                "definition": loader_options['definition'],
+            },
+            "settings": {
+                "context_data": context_data,
+                "data": {},
+                "options": {},
+            },
         }
 
     def run(self, context_data=None, data=None, options=None):
@@ -83,6 +110,10 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
             )
             unreal_utils.delete_ftrack_node(dcc_object_name)
 
+        asset_version = self.session.query(
+            'AssetVersion where id is "{}"'.format(asset_version_id)
+        ).one()
+
         # Create new snapshot asset info
         component = self.session.query(
             'Component where version.id is {} and name is "{}"'.format(
@@ -93,17 +124,28 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         location = self.session.pick_location()
         component_path = location.get_filesystem_path(component)
         ftrack_object_manager = self.FtrackObjectManager(self.event_manager)
-        ftrack_object_manager.asset_info = (
-            ftrack_object_manager.generate_snapshot_asset_info(
-                context_data,
-                asset_version_id,
-                component['id'],
-                component_name,
-                component_path,
-                asset_filesystem_path,
-                self.extract_loader_options(options),
-            )
+
+        # Generate asset info options with publish context augmented with version and component data
+        context_data_merged = copy.deepcopy(context_data)
+        context_data_merged[asset_const.VERSION_ID] = asset_version_id
+        context_data_merged[asset_const.COMPONENT_ID] = component['id']
+
+        asset_info_options = self.generate_snapshot_asset_info_options(
+            context_data_merged, self.extract_loader_options(options)
         )
+        ftrack_object_manager.asset_info = FtrackAssetInfo.create(
+            asset_version,
+            component_name,
+            component_path=component_path,
+            component_id=component['id'],
+            load_mode=load_const.IMPORT_MODE,
+            objects_loaded=True,
+            is_snapshot=True,
+            snapshot_component_path=asset_filesystem_path,
+        )
+        ftrack_object_manager.asset_info[
+            asset_const.ASSET_INFO_OPTIONS
+        ] = asset_info_options
 
         # Store asset info with Unreal project
         dcc_object = self.DccObject(
