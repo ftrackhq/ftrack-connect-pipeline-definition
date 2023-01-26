@@ -30,9 +30,9 @@ class CollectFromContextOpenerPlugin(plugin.OpenerCollectorPlugin):
             if component['name'] == component_name:
                 component_path = location.get_filesystem_path(component)
                 if (
-                        file_formats
-                        and os.path.splitext(component_path)[-1]
-                        not in file_formats
+                    file_formats
+                    and os.path.splitext(component_path)[-1]
+                    not in file_formats
                 ):
                     self.logger.warning(
                         '{} not among accepted format {}'.format(

@@ -21,7 +21,9 @@ class NukeCameraLoaderImporterPlugin(plugin.NukeLoaderImporterPlugin):
 
         paths_to_import = []
         for collector in data:
-            paths_to_import.append(collector['result'].get(asset_const.COMPONENT_PATH))
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
 
         for component_path in paths_to_import:
             self.logger.debug('Importing path {}'.format(component_path))
