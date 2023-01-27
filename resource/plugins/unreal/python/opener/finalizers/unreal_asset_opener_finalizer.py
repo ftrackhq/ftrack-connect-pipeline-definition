@@ -87,7 +87,7 @@ class UnrealAssetOpenerFinalizerPlugin(plugin.UnrealOpenerFinalizerPlugin):
                 ftrack_object_manager.asset_info = asset_info
                 dcc_object = UnrealDccObject()
                 dcc_object.name = (
-                    ftrack_object_manager._generate_dcc_object_name()
+                    ftrack_object_manager.generate_dcc_object_name()
                 )
                 if dcc_object.exists():
                     self.logger.debug(

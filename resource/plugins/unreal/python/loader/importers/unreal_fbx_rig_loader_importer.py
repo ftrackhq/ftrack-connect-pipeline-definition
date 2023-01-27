@@ -26,7 +26,6 @@ class UnrealFbxRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         )
 
         # Fbx rig specific options
-
         task.options = unreal.FbxImportUI()
         task.options.import_mesh = False
         task.options.import_as_skeletal = True
@@ -52,7 +51,6 @@ class UnrealFbxRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         )
 
         # Rig specific options
-
         skeletonName = options.get('Skeleton')
         if skeletonName:
             skeletons = unreal_utils.get_asset_by_class('Skeleton')

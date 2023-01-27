@@ -21,13 +21,11 @@ class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         '''Load Alembic geometry file pointed out by collected *data*, with *options*.'''
 
         # Build import task
-
         task, component_path = unreal_utils.prepare_load_task(
             self.session, context_data, data, options
         )
 
         # Alembic geo specific options
-
         task.options = unreal.AbcImportSettings()
         task.options.import_type = unreal.AlembicImportType.STATIC_MESH
         task.options.material_settings.set_editor_property(
@@ -35,7 +33,6 @@ class UnrealAbcGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         )
 
         # Geometry specific options
-
         import_result = unreal_utils.import_file(task)
 
         if import_result is None:

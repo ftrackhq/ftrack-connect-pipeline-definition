@@ -98,7 +98,7 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
                 ftrack_object_manager.asset_info = asset_info
                 dcc_object = UnrealDccObject()
                 dcc_object.name = (
-                    ftrack_object_manager._generate_dcc_object_name()
+                    ftrack_object_manager.generate_dcc_object_name()
                 )
                 # Check if asset info is already present, need to remove it otherwise we won't be
                 # able to restore it.

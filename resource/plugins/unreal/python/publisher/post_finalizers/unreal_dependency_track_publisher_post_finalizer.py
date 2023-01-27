@@ -1,8 +1,6 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2022 ftrack
-import json
+# :copyright: Copyright (c) 2014-2023 ftrack
 import copy
-import os
 
 import ftrack_api
 
@@ -36,7 +34,7 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         }
 
     def generate_snapshot_asset_info_options(
-        self, context_data, loader_options
+        self, context_data, loader_options, component_path
     ):
         '''
         Returns a dictionary of options for creating a snapshot asset_info.
@@ -49,10 +47,26 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                 "category": "plugin",
                 "host_type": "unreal",
                 "definition": loader_options['definition'],
+                "load_mode": load_const.OPEN_MODE,
             },
             "settings": {
                 "context_data": context_data,
-                "data": {},
+                "data": [
+                    {
+                        "name": "common_context_loader_collector",
+                        "options": {},
+                        "result": {asset_const.COMPONENT_PATH: component_path},
+                        "status": True,
+                        "category": "plugin",
+                        "type": "collector",
+                        "plugin_type": "loader.collector",
+                        "method": "run",
+                        "user_data": {},
+                        "widget_ref": None,
+                        "host_id": None,
+                        "plugin_id": None,
+                    }
+                ],
                 "options": {},
             },
         }
@@ -131,32 +145,52 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         context_data_merged[asset_const.COMPONENT_ID] = component['id']
 
         asset_info_options = self.generate_snapshot_asset_info_options(
-            context_data_merged, self.extract_loader_options(options)
+            context_data_merged,
+            self.extract_loader_options(options),
+            component_path,
         )
         ftrack_object_manager.asset_info = FtrackAssetInfo.create(
             asset_version,
             component_name,
             component_path=component_path,
             component_id=component['id'],
-            load_mode=load_const.IMPORT_MODE,
+            load_mode=load_const.OPEN_MODE,
             objects_loaded=True,
             is_snapshot=True,
-            snapshot_component_path=asset_filesystem_path,
         )
         ftrack_object_manager.asset_info[
             asset_const.ASSET_INFO_OPTIONS
         ] = asset_info_options
 
+        # Align modification date with component source
+        stat = os.stat(asset_filesystem_path)
+        os.utime(
+            asset_filesystem_path,
+            times=(
+                stat.st_atime,
+                ftrack_object_manager.asset_info[asset_const.MOD_DATE],
+            ),
+        )
+        self.logger.debug(
+            'Restored file modification time: {} on asset: {} (size: {})'.format(
+                ftrack_object_manager.asset_info[asset_const.MOD_DATE],
+                asset_filesystem_path,
+                ftrack_object_manager.asset_info[asset_const.FILE_SIZE],
+            )
+        )
+
         # Store asset info with Unreal project
         dcc_object = self.DccObject(
-            name=ftrack_object_manager._generate_dcc_object_name()
+            name=ftrack_object_manager.generate_dcc_object_name()
         )
         ftrack_object_manager.dcc_object = dcc_object
         # Connect to existing dependency
         ftrack_object_manager.connect_objects([asset_path])
 
-        message = 'Stored snapshot asset info {} for asset "{}"'.format(
-            json.dumps(ftrack_object_manager.asset_info, indent=4), asset_path
+        message = (
+            'Stored snapshot asset info {} for dependency asset "{}"'.format(
+                ftrack_object_manager.asset_info, asset_path
+            )
         )
         self.logger.debug(message)
         return {'message': message}

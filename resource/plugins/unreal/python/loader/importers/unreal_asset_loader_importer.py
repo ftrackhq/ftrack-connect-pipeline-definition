@@ -1,9 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2023 ftrack
 import copy
-import os
 
-# import maya.cmds as cmds
+from ftrack_connect_pipeline.constants import asset as asset_const
 
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
@@ -18,7 +17,7 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
     def run(self, context_data=None, data=None, options=None):
         '''Load an Unreal asset from path stored in collected object provided with *data*'''
 
-        load_mode = load_const.IMPORT_MODE
+        load_mode = load_const.OPEN_MODE
         load_mode_fn = self.load_modes.get(
             load_mode, list(self.load_modes.keys())[0]
         )
@@ -33,7 +32,9 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         paths_to_import = []
         for collector in data:
-            paths_to_import.extend(collector['result'])
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
 
         for component_path in paths_to_import:
             self.logger.debug('Loading path: "{}"'.format(component_path))
