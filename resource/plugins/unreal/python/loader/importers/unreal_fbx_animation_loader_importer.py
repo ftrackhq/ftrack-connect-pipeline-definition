@@ -23,13 +23,11 @@ class UnrealFbxAnimationLoaderImporterPlugin(
         '''Load FBX animation file pointed out by collected *data*, with *options*.'''
 
         # Build import task
-
         task, component_path = unreal_utils.prepare_load_task(
             self.session, context_data, data, options
         )
 
         # Fbx animation specific options
-
         task.options = unreal.FbxImportUI()
         task.options.import_mesh = False
         task.options.import_as_skeletal = False
@@ -68,7 +66,6 @@ class UnrealFbxAnimationLoaderImporterPlugin(
             )
 
         # Animation specific options
-
         skeletonName = options.get('Skeleton')
         if skeletonName:
             skeletons = unreal_utils.get_asset_by_class('Skeleton')

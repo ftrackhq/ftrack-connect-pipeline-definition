@@ -28,7 +28,7 @@
   ],
   "components": [
     {
-      "name": "asset",
+      "name": "snapshot",
       "file_formats": [".uasset"],
       "stages": [
         {
@@ -45,7 +45,7 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_native_loader_importer"
+              "plugin": "unreal_asset_loader_importer"
             }
           ]
         },

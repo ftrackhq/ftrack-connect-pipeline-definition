@@ -1,17 +1,18 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2023 ftrack
 import copy
-import os
 
-# import maya.cmds as cmds
+from ftrack_connect_pipeline.constants import asset as asset_const
 
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
 import ftrack_api
 
 
-class UnrealNativeLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
-    plugin_name = 'unreal_native_loader_importer'
+class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
+    '''Unreal asset loader plugin'''
+
+    plugin_name = 'unreal_asset_loader_importer'
 
     def run(self, context_data=None, data=None, options=None):
         '''Load an Unreal asset from path stored in collected object provided with *data*'''
@@ -31,7 +32,9 @@ class UnrealNativeLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
 
         paths_to_import = []
         for collector in data:
-            paths_to_import.extend(collector['result'])
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
 
         for component_path in paths_to_import:
             self.logger.debug('Loading path: "{}"'.format(component_path))
@@ -51,5 +54,5 @@ def register(api_object, **kw):
     if not isinstance(api_object, ftrack_api.Session):
         # Exit to avoid registering this plugin again.
         return
-    plugin = UnrealNativeLoaderImporterPlugin(api_object)
+    plugin = UnrealAssetLoaderImporterPlugin(api_object)
     plugin.register()

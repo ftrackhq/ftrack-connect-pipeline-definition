@@ -23,13 +23,11 @@ class UnrealAbcAnimationLoaderImporterPlugin(
         '''Load Alembic animation file pointed out by collected *data*, with *options*.'''
 
         # Build import task
-
         task, component_path = unreal_utils.prepare_load_task(
             self.session, context_data, data
         )
 
         # Alembic animation specific options
-
         task.options = unreal.AbcImportSettings()
         task.options.import_type = unreal.AlembicImportType.GEOMETRY_CACHE
         task.options.material_settings.set_editor_property(
@@ -43,7 +41,6 @@ class UnrealAbcAnimationLoaderImporterPlugin(
             task.options.sampling_settings.frame_end = options['AnimRangeMax']
 
         # Animation specific options
-
         skeletonName = options.get('Skeleton')
         if skeletonName:
             skeletons = unreal_utils.get_asset_by_class('Skeleton')

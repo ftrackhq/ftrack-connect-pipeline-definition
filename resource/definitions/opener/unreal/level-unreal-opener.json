@@ -28,7 +28,7 @@
   ],
   "components": [
     {
-      "name": "level",
+      "name": "snapshot",
       "file_formats": [".umap"],
       "stages": [
         {

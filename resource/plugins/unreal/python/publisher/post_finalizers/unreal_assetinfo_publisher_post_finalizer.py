@@ -42,37 +42,37 @@ class UnrealAssetInfoPublisherFinalizerPlugin(
                         ]
                         break
 
-        if 'param_dict' in options:
-            # Given pre fetched by batch publisher
-            param_dict = options['param_dict']
-        else:
-            # Get asset info, must be run in main thread
-            if not asset_filesystem_path:
-                return {'message': 'No asset could be extracted from publish!'}
+        # Get asset info, must be run in main thread
+        if not asset_filesystem_path:
+            return {'message': 'No asset could be extracted from publish!'}
 
-            # Convert to game path
-            asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
-                asset_filesystem_path
-            )
+        # Convert to game path
+        asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
+            asset_filesystem_path
+        )
 
-            unused_dcc_object_name, param_dict = unreal_utils.get_asset_info(
-                asset_path
-            )
+        unused_dcc_object_name, param_dict = unreal_utils.get_asset_info(
+            asset_path
+        )
 
         # Read current metadata
-        assetversion = self.session.query(
+        asset_version = self.session.query(
             'AssetVersion where id is "{0}"'.format(asset_version_id)
         ).one()
         metadata = {}
-        if 'ftrack-connect-pipeline-unreal' in assetversion.get('metadata'):
+        if core_constants.PIPELINE_METADATA_KEY in asset_version.get(
+            'metadata'
+        ):
             metadata = json.loads(
-                assetversion['metadata']['ftrack-connect-pipeline-unreal']
+                asset_version['metadata'][core_constants.PIPELINE_METADATA_KEY]
             )
 
         if param_dict:
             # Store the asset info as metadata in ftrack
 
-            metadata['pipeline_asset_info'] = param_dict
+            metadata[
+                core_constants.PIPELINE_ASSET_INFO_METADATA_KEY
+            ] = param_dict
 
             self.logger.debug('Asset info to store @ "{}"!'.format(metadata))
 
@@ -96,8 +96,8 @@ class UnrealAssetInfoPublisherFinalizerPlugin(
         else:
             message += "; No local file size and modification time to store on asset version"
 
-        assetversion['metadata'][
-            'ftrack-connect-pipeline-unreal'
+        asset_version['metadata'][
+            core_constants.PIPELINE_METADATA_KEY
         ] = json.dumps(metadata)
         self.session.commit()
 

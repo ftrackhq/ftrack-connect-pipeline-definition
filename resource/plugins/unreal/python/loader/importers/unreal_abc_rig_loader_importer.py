@@ -21,13 +21,11 @@ class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         '''Load Alembic rig file pointed out by collected *data*, with *options*.'''
 
         # Build import task
-
         task, component_path = unreal_utils.prepare_load_task(
             self.session, context_data, data, options
         )
 
         # Alembic rig specific options
-
         task.options = unreal.AbcImportSettings()
         task.options.import_type = unreal.AlembicImportType.SKELETAL
         task.options.material_settings.set_editor_property(
@@ -35,7 +33,6 @@ class UnrealAbcRigLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         )
 
         # Rig specific options
-
         skeletonName = options.get('Skeleton')
         if skeletonName:
             skeletons = unreal_utils.get_asset_by_class('Skeleton')

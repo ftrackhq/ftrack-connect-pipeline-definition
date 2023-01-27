@@ -1,7 +1,5 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
-import json
-import os
 import unreal
 
 import ftrack_api
@@ -35,7 +33,7 @@ class UnrealLevelOpenerFinalizerPlugin(plugin.UnrealOpenerFinalizerPlugin):
                             plugin_result['result'].values()
                         )[0]
                         break
-        # Expect: "C:\\Users\\Henrik Norin\\Documents\\Unreal Projects\\MyEmptyProject\\Content\\Levels\\NewWorld.umap"
+        # Expect: "C:\\Users\\<user name>\\Documents\\Unreal Projects\\MyEmptyProject\\Content\\Levels\\NewWorld.umap"
         # Transform to asset path
         level_path = unreal_utils.filesystem_asset_path_to_asset_path(
             level_filesystem_path

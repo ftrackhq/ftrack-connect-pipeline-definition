@@ -21,13 +21,11 @@ class UnrealFbxGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         '''Load FBX geometry file pointed out by collected *data*, with *options*.'''
 
         # Build import task
-
         task, component_path = unreal_utils.prepare_load_task(
             self.session, context_data, data, options
         )
 
         # Fbx geo specific options
-
         task.options = unreal.FbxImportUI()
         task.options.import_mesh = True
         task.options.import_as_skeletal = False
@@ -49,7 +47,6 @@ class UnrealFbxGeometryLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         )
 
         # Geometry specific options
-
         import_result = unreal_utils.import_file(task)
         self.logger.info('Imported FBX geo: {}'.format(import_result))
 

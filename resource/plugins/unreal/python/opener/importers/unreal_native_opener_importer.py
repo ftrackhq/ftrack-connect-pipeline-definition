@@ -1,9 +1,8 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 import copy
-import os
 
-# import maya.cmds as cmds
+from ftrack_connect_pipeline.constants import asset as asset_const
 
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
@@ -33,7 +32,9 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
 
         paths_to_import = []
         for collector in data:
-            paths_to_import.extend(collector['result'])
+            paths_to_import.append(
+                collector['result'].get(asset_const.COMPONENT_PATH)
+            )
 
         for component_path in paths_to_import:
             self.logger.debug('Opening path: "{}"'.format(component_path))
@@ -42,7 +43,9 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
                 component_path, unreal_options, self.session
             )
 
-            self.logger.debug('Imported asset to: "{}"'.format(load_result))
+            self.logger.debug(
+                'Imported Unreal asset to: "{}"'.format(load_result)
+            )
 
             results[component_path] = load_result
 
