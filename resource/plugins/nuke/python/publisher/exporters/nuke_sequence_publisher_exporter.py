@@ -187,13 +187,11 @@ class NukeSequencePublisherExporterPlugin(plugin.NukePublisherExporterPlugin):
                     )
                     shutil.copy(source_path, destination_path)
 
-                sequence_path = '{} [{}-{}]'.format(
+                sequence_path = '{}'.format(
                     os.path.join(
                         temp_sequence_dir,
                         os.path.basename(file_node['file'].value()),
-                    ),
-                    int(file_node['first'].value()),
-                    int(file_node['last'].value()),
+                    )
                 )
         finally:
             # restore selection

@@ -1,15 +1,20 @@
 # :coding: utf-8
-# :copyright: Copyright (c) 2014-2022 ftrack
-
-from functools import partial
-
-from ftrack_connect_pipeline_unreal import plugin
-from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
-from ftrack_connect_pipeline_qt.ui.utility.widget import group_box
+# :copyright: Copyright (c) 2014-2023 ftrack
+import os
 
 from Qt import QtWidgets, QtCore
 
+import unreal
+
 import ftrack_api
+
+from ftrack_connect_pipeline_qt.plugin.widget.dynamic import DynamicWidget
+from ftrack_connect_pipeline_qt.ui.utility.widget import dialog
+
+from ftrack_connect_pipeline_unreal import plugin
+from ftrack_connect_pipeline_unreal.utils import (
+    custom_commands as unreal_utils,
+)
 
 
 class UnrealReviewablePublisherExporterOptionsWidget(DynamicWidget):
@@ -64,8 +69,98 @@ class UnrealReviewablePublisherExporterOptionsWidget(DynamicWidget):
         # Update current options with the given ones from definitions and store
         self.update(self.define_options())
 
+        bg = QtWidgets.QButtonGroup(self)
+
+        self.pickup_rb = QtWidgets.QRadioButton('Pick up rendered sequence')
+        bg.addButton(self.pickup_rb)
+        self.layout().addWidget(self.pickup_rb)
+
+        # TODO: Store video capture output folder in Unreal project
+        self._choose_folder_widget = QtWidgets.QWidget()
+        self._choose_folder_widget.setLayout(QtWidgets.QHBoxLayout())
+        self._choose_folder_widget.layout().setContentsMargins(0, 0, 0, 0)
+        self._choose_folder_widget.layout().setSpacing(0)
+
+        self._choose_folder_widget.layout().addWidget(
+            QtWidgets.QLabel('Capture folder:')
+        )
+
+        self._render_folder_input = QtWidgets.QLineEdit(
+            '<please choose a movie>'
+        )
+        self._render_folder_input.setReadOnly(True)
+
+        self._choose_folder_widget.layout().addWidget(
+            self._render_folder_input, 20
+        )
+
+        self._browser_button = QtWidgets.QPushButton('BROWSE')
+        self._browser_button.setObjectName('borderless')
+
+        self._choose_folder_widget.layout().addWidget(self._browser_button)
+        self.layout().addWidget(self._choose_folder_widget)
+
+        self.render_rb = QtWidgets.QRadioButton('Render from sequence')
+        bg.addButton(self.render_rb)
+        self.layout().addWidget(self.render_rb)
+
+        if not 'mode' in self.options:
+            self.set_option_result('pickup', 'mode')  # Set default mode
+        mode = self.options['mode'].lower()
+        if mode == 'pickup':
+            self.pickup_rb.setChecked(True)
+        else:
+            self.render_rb.setChecked(True)
+
         # Call the super build to automatically generate the options
         super(UnrealReviewablePublisherExporterOptionsWidget, self).build()
+
+    def post_build(self):
+        super(
+            UnrealReviewablePublisherExporterOptionsWidget, self
+        ).post_build()
+
+        self.render_rb.clicked.connect(self._update_render_mode)
+        self.pickup_rb.clicked.connect(self._update_render_mode)
+
+        self._update_render_mode()
+
+        self._browser_button.clicked.connect(self._show_file_dialog)
+
+    def _update_render_mode(self):
+        mode = 'render'
+        if self.pickup_rb.isChecked():
+            mode = 'pickup'
+        self.set_option_result(mode, 'mode')
+
+        self._choose_folder_widget.setVisible(mode == 'pickup')
+        self.option_group.setVisible(mode == 'render')
+
+    def _show_file_dialog(self):
+        '''Shows the file dialog'''
+
+        if self._render_folder_input.text() == '<please choose a folder>':
+            start_dir = os.path.realpath(
+                os.path.join(
+                    unreal.SystemLibrary.get_project_saved_directory(),
+                    "VideoCaptures",
+                )
+            )
+        else:
+            start_dir = os.path.dirname(self._render_folder_input.text())
+
+        movie_path = QtWidgets.QFileDialog.getOpenFileName(
+            caption='Choose rendered movie file',
+            dir=start_dir,
+            filter='Avi file (*.avi)',
+        )
+
+        if not movie_path:
+            return
+
+        self._render_folder_input.setText(movie_path)
+        self._render_folder_input.setToolTip(movie_path)
+        self.set_option_result(movie_path, 'file_path')
 
 
 class UnrealReviewablePublisherExporterOptionsPluginWidget(
