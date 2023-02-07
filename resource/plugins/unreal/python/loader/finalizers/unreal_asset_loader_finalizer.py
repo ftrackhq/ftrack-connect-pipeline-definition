@@ -28,7 +28,7 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
         result = {}
 
         # First, evaluate asset path
-        asset_filesystem_path = component_path = None
+        asset_filesystem_path = None
         for comp in data:
             if comp['type'] == core_constants.COMPONENT:
                 for result in comp['result']:

@@ -85,7 +85,9 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         loader defined in *options*.'''
 
         # Extract version ID from the run data
-        asset_version_id = component_name = asset_filesystem_path = None
+        asset_version_id = None
+        component_name = None
+        asset_filesystem_path = None
         for comp in data:
             if comp['type'] == core_constants.COMPONENT:
                 for result in comp['result']:
