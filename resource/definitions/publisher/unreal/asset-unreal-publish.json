@@ -113,6 +113,10 @@
               }
             },
             {
+              "name": "Link task to snapshot asset build",
+              "plugin": "unreal_link_publisher_post_finalizer"
+            },
+            {
               "name": "Publish asset dependencies to ftrack server",
               "plugin": "unreal_dependencies_publisher_post_finalizer",
               "optional": true
