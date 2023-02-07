@@ -568,10 +568,11 @@
     "components",
     "finalizers",
     "type",
+    "batch",
     "_config"
   ],
   "order":[
-    "type", "name", "asset_type", "task_type", "host_type", "ui_type", "discoverable" ,"contexts", "components", "finalizers"
+    "type", "name", "asset_type", "task_type", "host_type", "ui_type", "batch", "discoverable" ,"contexts", "components", "finalizers"
   ],
   "properties": {
     "type": {
@@ -605,6 +606,10 @@
       "default": [
         "Task"
       ]
+    },
+    "batch": {
+      "type": "boolean",
+      "default": false
     },
     "contexts": {
       "type": "array",
