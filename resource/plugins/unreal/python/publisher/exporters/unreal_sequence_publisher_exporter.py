@@ -57,13 +57,11 @@ class UnrealSequencePublisherExporterPlugin(
                 )
                 shutil.copy(source_path, destination_path)
 
-            new_file_path = '{} [{}-{}]'.format(
+            new_file_path = '{}'.format(
                 os.path.join(
                     temp_sequence_dir,
                     os.path.basename(file_path),
-                ),
-                first,
-                last,
+                )
             )
 
         else:

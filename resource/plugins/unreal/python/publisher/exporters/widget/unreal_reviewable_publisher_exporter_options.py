@@ -105,7 +105,7 @@ class UnrealReviewablePublisherExporterOptionsWidget(DynamicWidget):
         self.layout().addWidget(self.render_rb)
 
         if not 'mode' in self.options:
-            self.set_option_result('pickup', 'mode')  # Set default mode
+            self.set_option_result('render', 'mode')  # Set default mode
         mode = self.options['mode'].lower()
         if mode == 'pickup':
             self.pickup_rb.setChecked(True)
@@ -149,7 +149,10 @@ class UnrealReviewablePublisherExporterOptionsWidget(DynamicWidget):
         else:
             start_dir = os.path.dirname(self._render_folder_input.text())
 
-        movie_path = QtWidgets.QFileDialog.getOpenFileName(
+        (
+            movie_path,
+            unused_selected_filter,
+        ) = QtWidgets.QFileDialog.getOpenFileName(
             caption='Choose rendered movie file',
             dir=start_dir,
             filter='Avi file (*.avi)',
