@@ -27,21 +27,12 @@ class UnrealAssetPublisherExporterPlugin(plugin.UnrealPublisherExporterPlugin):
         for collector in data:
             collected_objects.extend(collector['result'])
 
-        asset_asset_path = (
-            collected_objects[0].replace('/Game/', '').replace('/', os.sep)
+        asset_filesystem_path = unreal_utils.asset_path_to_filesystem_path(
+            collected_objects[0]
         )
         asset_dependencies = collected_objects[1:]
 
-        root_content_dir = (
-            unreal.SystemLibrary.get_project_content_directory().replace(
-                '/', os.sep
-            )
-        )
-        asset_path = unreal_utils.determine_extension(
-            os.path.join(root_content_dir, asset_asset_path)
-        )
-
-        return [asset_path], {'data': asset_dependencies}
+        return [asset_filesystem_path], {'data': asset_dependencies}
 
 
 def register(api_object, **kw):

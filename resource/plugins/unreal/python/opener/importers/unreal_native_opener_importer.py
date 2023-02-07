@@ -1,6 +1,9 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 import copy
+import os
+
+import unreal
 
 from ftrack_connect_pipeline.constants import asset as asset_const
 
@@ -39,15 +42,21 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Opening path: "{}"'.format(component_path))
 
-            load_result = load_mode_fn(
+            asset_filesystem_path = load_mode_fn(
                 component_path, unreal_options, self.session
             )
 
-            self.logger.debug(
-                'Imported Unreal asset to: "{}"'.format(load_result)
+            # Have Unreal discover the newly imported asset
+            assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
+            assetRegistry.scan_paths_synchronous(
+                [os.path.dirname(asset_filesystem_path)], force_rescan=True
             )
 
-            results[component_path] = load_result
+            self.logger.debug(
+                'Imported Unreal asset to: "{}"'.format(asset_filesystem_path)
+            )
+
+            results[component_path] = asset_filesystem_path
 
         return results
 

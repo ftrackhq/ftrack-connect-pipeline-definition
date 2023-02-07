@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2023 ftrack
 import copy
-
+import os
 import ftrack_api
 
 from ftrack_connect_pipeline import constants as core_constants
@@ -34,7 +34,12 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         }
 
     def generate_snapshot_asset_info_options(
-        self, context_data, loader_options, component_path
+        self,
+        context_data,
+        loader_options,
+        component_id,
+        component_name,
+        component_path,
     ):
         '''
         Returns a dictionary of options for creating a snapshot asset_info.
@@ -55,7 +60,11 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                     {
                         "name": "common_context_loader_collector",
                         "options": {},
-                        "result": {asset_const.COMPONENT_PATH: component_path},
+                        "result": {
+                            asset_const.COMPONENT_ID: component_id,
+                            asset_const.COMPONENT_NAME: component_name,
+                            asset_const.COMPONENT_PATH: component_path,
+                        },
                         "status": True,
                         "category": "plugin",
                         "type": "collector",
@@ -147,6 +156,8 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         asset_info_options = self.generate_snapshot_asset_info_options(
             context_data_merged,
             self.extract_loader_options(options),
+            component['id'],
+            component['name'],
             component_path,
         )
         ftrack_object_manager.asset_info = FtrackAssetInfo.create(
@@ -161,6 +172,15 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
         ftrack_object_manager.asset_info[
             asset_const.ASSET_INFO_OPTIONS
         ] = asset_info_options
+
+        # Store asset info with Unreal project
+        dcc_object = self.DccObject(
+            name=ftrack_object_manager.generate_dcc_object_name()
+        )
+        ftrack_object_manager.dcc_object = dcc_object
+
+        # Connect to existing dependency, needs to be done before aligning modification date
+        ftrack_object_manager.connect_objects([asset_path])
 
         # Align modification date with component source
         stat = os.stat(asset_filesystem_path)
@@ -178,14 +198,6 @@ class UnrealDependencyTrackPublisherFinalizerPlugin(
                 ftrack_object_manager.asset_info[asset_const.FILE_SIZE],
             )
         )
-
-        # Store asset info with Unreal project
-        dcc_object = self.DccObject(
-            name=ftrack_object_manager.generate_dcc_object_name()
-        )
-        ftrack_object_manager.dcc_object = dcc_object
-        # Connect to existing dependency
-        ftrack_object_manager.connect_objects([asset_path])
 
         message = (
             'Stored snapshot asset info {} for dependency asset "{}"'.format(

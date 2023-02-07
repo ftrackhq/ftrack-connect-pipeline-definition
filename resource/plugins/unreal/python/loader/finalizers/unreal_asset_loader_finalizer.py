@@ -1,7 +1,7 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2022 ftrack
 import json
-
+import os
 import unreal
 
 import ftrack_api
@@ -28,15 +28,18 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
         result = {}
 
         # First, evaluate asset path
-        asset_filesystem_path = None
+        asset_filesystem_path = component_path = None
         for comp in data:
             if comp['type'] == core_constants.COMPONENT:
                 for result in comp['result']:
                     if result['type'] == core_constants.IMPORTER:
                         plugin_result = result['result'][0]
-                        asset_filesystem_path = list(
-                            plugin_result['result']['result'].values()
+                        component_path = list(
+                            plugin_result['result']['result'].keys()
                         )[0]
+                        asset_filesystem_path = plugin_result['result'][
+                            'result'
+                        ][component_path]
                         break
 
         if asset_filesystem_path is None:
@@ -47,14 +50,6 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
         # Transform to asset path
         asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
             asset_filesystem_path
-        )
-
-        # Checkout the asset
-        self.logger.debug(
-            'Result of checking out new asset "{}" in Unreal editor: {}'.format(
-                asset_path,
-                unreal.EditorAssetLibrary.checkout_asset(asset_path),
-            )
         )
 
         # Load the asset in Unreal
@@ -123,6 +118,8 @@ class UnrealAssetLoaderFinalizerPlugin(plugin.UnrealLoaderFinalizerPlugin):
                             asset_path
                         )
                     )
+        else:
+            self.logger.debug('No metadata found for asset: {}'.format(ident))
 
         result['asset'] = asset_path
 

@@ -1,6 +1,9 @@
 # :coding: utf-8
 # :copyright: Copyright (c) 2014-2023 ftrack
+import os
 import copy
+
+import unreal
 
 from ftrack_connect_pipeline.constants import asset as asset_const
 
@@ -39,13 +42,41 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         for component_path in paths_to_import:
             self.logger.debug('Loading path: "{}"'.format(component_path))
 
-            load_result = load_mode_fn(
+            asset_filesystem_path = load_mode_fn(
                 component_path, unreal_options, self.session
             )
 
-            self.logger.debug('Imported asset to: "{}"'.format(load_result))
+            # Align modification date so asset does not appear as out of sync, after load
+            # the local asset info will have the modification date of the imported asset
+            # within ftrack location
+            file_size_remote = os.path.getsize(component_path)
+            file_size_local = os.path.getsize(asset_filesystem_path)
+            mod_date_remote = os.path.getmtime(component_path)
 
-            results[component_path] = load_result
+            stat = os.stat(asset_filesystem_path)
+            os.utime(
+                asset_filesystem_path, times=(stat.st_atime, mod_date_remote)
+            )
+            self.logger.debug(
+                'Restored file modification time: {} on asset: {} (size: {}, local size: {})'.format(
+                    mod_date_remote,
+                    asset_filesystem_path,
+                    file_size_remote,
+                    file_size_local,
+                )
+            )
+
+            # Have Unreal discover the newly imported asset
+            assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
+            assetRegistry.scan_paths_synchronous(
+                [os.path.dirname(asset_filesystem_path)], force_rescan=True
+            )
+
+            self.logger.debug(
+                'Imported asset to: "{}"'.format(asset_filesystem_path)
+            )
+
+            results[component_path] = asset_filesystem_path
 
         return results
 

@@ -32,13 +32,11 @@ class UnrealLevelPublisherCollectorPlugin(
 
             asset_path = str(selected_asset_data[0].package_name)
 
-        else:
-            # Fetch from level
-            asset_path = str(
-                unreal.EditorLevelLibrary.get_editor_world().get_path_name()
-            )
+            return unreal_utils.get_asset_dependencies(asset_path)
 
-        return unreal_utils.get_asset_dependencies(asset_path)
+        else:
+            # Fetch level dependencies
+            return unreal_utils.get_level_dependencies()
 
     def add(self, context_data=None, data=None, options=None):
         '''Fetch the selected asset from content browser'''
