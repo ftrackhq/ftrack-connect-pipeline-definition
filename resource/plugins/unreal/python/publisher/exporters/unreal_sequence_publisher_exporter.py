@@ -25,14 +25,12 @@ class UnrealSequencePublisherExporterPlugin(
     _standard_structure = ftrack_api.structure.standard.StandardStructure()
 
     def run(self, context_data=None, data=None, options=None):
-        '''Render and export a image file sequence from the selected sequence given
+        '''Render and export an image file sequence from the selected sequence given
         in *data* and options given with *options*.'''
 
         if options.get('mode') == 'pickup':
 
             file_path = options.get('file_path')
-            first = options.get('first')
-            last = options.get('last')
 
             collections = clique.parse(file_path)
 
