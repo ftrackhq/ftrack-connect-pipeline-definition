@@ -30,7 +30,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "select sequence",
+              "name": "select level sequence",
               "plugin": "unreal_sequence_publisher_collector",
               "widget": "unreal_sequence_publisher_collector"
             }
@@ -65,7 +65,7 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "select sequence",
+              "name": "select level sequence",
               "plugin": "unreal_sequence_publisher_collector",
               "widget": "unreal_sequence_publisher_collector"
             }

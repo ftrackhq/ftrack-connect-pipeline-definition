@@ -27,8 +27,8 @@ class UnrealSequencePublisherCollectorPlugin(
         '''Fetch all sequences from the level/map'''
         result = []
         collected_objects = unreal_utils.get_all_sequences()
-        # Mark the selected sequence
 
+        # Find the selected sequence
         seq_name_sel = None
         for actor in unreal.EditorLevelLibrary.get_selected_level_actors():
             if (
@@ -43,6 +43,7 @@ class UnrealSequencePublisherCollectorPlugin(
             if object == seq_name_sel:
                 data['default'] = True
             result.append(data)
+
         return result
 
     def run(self, context_data=None, data=None, options=None):

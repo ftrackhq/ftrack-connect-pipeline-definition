@@ -95,6 +95,8 @@ class UnrealSequencePublisherExporterOptionsWidget(DynamicWidget):
 
         self._render_folder_input = QtWidgets.QLineEdit(
             '<please choose a folder>'
+            if not 'file_path' in self.options
+            else self.options['file_path']
         )
         self._render_folder_input.setReadOnly(True)
 

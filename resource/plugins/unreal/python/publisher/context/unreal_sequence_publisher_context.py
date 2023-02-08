@@ -23,7 +23,11 @@ class UnrealSequencePublisherContextPlugin(plugin.PublisherContextPlugin):
 
         try:
             shot = unreal_utils.push_shot_to_server(
-                sequence_context_id, shot_name, self.session
+                sequence_context_id,
+                shot_name,
+                self.session,
+                start=options.get('start'),
+                end=options.get('end'),
             )
             options['asset_parent_context_id'] = shot['id']
             self.logger.info(

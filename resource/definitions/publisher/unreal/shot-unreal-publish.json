@@ -34,8 +34,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect shot(s) to render",
-              "plugin": "unreal_shot_publisher_collector"
+              "name": "select level sequence",
+              "plugin": "unreal_sequence_publisher_collector"
             }
           ]
         },
@@ -68,8 +68,8 @@
           "name": "collector",
           "plugins":[
             {
-              "name": "collect shot(s) to render",
-              "plugin": "unreal_shot_publisher_collector"
+              "name": "select level sequence",
+              "plugin": "unreal_sequence_publisher_collector"
             }
           ]
         },
