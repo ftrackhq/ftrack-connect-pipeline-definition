@@ -36,7 +36,7 @@ class UnrealLevelPublisherCollectorPlugin(
 
         else:
             # Fetch level dependencies
-            return unreal_utils.get_level_dependencies()
+            return unreal_utils.get_level_dependencies(recursive=True)
 
     def add(self, context_data=None, data=None, options=None):
         '''Fetch the selected asset from content browser'''

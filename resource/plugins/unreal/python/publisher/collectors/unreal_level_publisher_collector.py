@@ -31,12 +31,12 @@ class UnrealLevelPublisherCollectorPlugin(
 
     def run(self, context_data=None, data=None, options=None):
         '''Pass on collected Unreal level to publish'''
-        level_path = options.get('level')
+        result = options.get('collected_objects', [])
         if not unreal.EditorLevelLibrary.save_current_level():
             error_message = "Error exporting the level: Please save the level with a name before publish"
             self.logger.error(error_message)
             return False, {'message': error_message}
-        return [level_path]
+        return result
 
 
 def register(api_object, **kw):

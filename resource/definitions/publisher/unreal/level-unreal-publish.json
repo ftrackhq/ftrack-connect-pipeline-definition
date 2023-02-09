@@ -38,7 +38,7 @@
               "plugin": "unreal_dependencies_publisher_collector",
               "widget": "unreal_dependencies_publisher_collector",
               "options" : {
-                "asset": true
+                "level": true
               }
             }
           ]

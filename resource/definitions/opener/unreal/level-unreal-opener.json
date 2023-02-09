@@ -44,8 +44,8 @@
           "name": "importer",
           "plugins":[
             {
-              "name": "Open Unreal Asset",
-              "plugin": "unreal_native_opener_importer",
+              "name": "Open Unreal level",
+              "plugin": "unreal_level_opener_importer",
               "options": {
                 "dependencies": true
               }
@@ -70,12 +70,11 @@
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": true,
+          "visible": false,
           "plugins":[
             {
-              "name": "Import level dependencies from ftrack server",
-              "plugin": "unreal_dependencies_opener_pre_finalizer",
-              "optional": true
+              "name": "Pre finalizer",
+              "plugin": "common_passthrough_opener_pre_finalizer"
             }
           ]
         },
@@ -86,7 +85,8 @@
             {
               "name": "Open in editor",
               "description" : "Open the level in Unreal Editor after import",
-              "plugin": "unreal_level_opener_finalizer"
+              "plugin": "unreal_level_opener_finalizer",
+              "optional": true
             }
           ]
         },

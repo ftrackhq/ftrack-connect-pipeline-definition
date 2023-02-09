@@ -86,7 +86,7 @@ class UnrealAssetsPublisherCollectorOptionsWidget(BaseOptionsWidget):
 class UnrealAssetsPublisherCollectorPluginWidget(
     plugin.UnrealPublisherCollectorPluginWidget
 ):
-    plugin_name = 'unreal_assets_publisher_collector'
+    plugin_name = 'unreal_level_publisher_collector'
     widget = UnrealAssetsPublisherCollectorOptionsWidget
 
 
