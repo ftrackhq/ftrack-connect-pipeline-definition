@@ -65,24 +65,8 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
                 self.event_manager,
             )
 
-            # Asset is loaded from the asset manager and needs to be found by Unreal so object
-            # can be connected to asset info
-            assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
-            assetRegistry.scan_paths_synchronous(
-                [os.path.dirname(asset_filesystem_path)], force_rescan=True
-            )
-
-            # Load the asset in Unreal
             asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
                 asset_filesystem_path
-            )
-            unreal_load_result = unreal.EditorAssetLibrary.load_asset(
-                asset_path
-            )
-            self.logger.debug(
-                'Result of loading asset "{}" in Unreal editor: {}'.format(
-                    asset_path, unreal_load_result
-                )
             )
 
             # Load dependencies if not already being loaded as a dependency
@@ -112,6 +96,23 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
                 unreal_utils.connect_object(
                     asset_path, asset_info, self.logger
                 )
+
+            # Asset is loaded from the asset manager and needs to be found by Unreal so object
+            # can be connected to asset info
+            assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
+            assetRegistry.scan_paths_synchronous(
+                [os.path.dirname(asset_filesystem_path)], force_rescan=True
+            )
+
+            # Load the asset in Unreal
+            unreal_load_result = unreal.EditorAssetLibrary.load_asset(
+                asset_path
+            )
+            self.logger.debug(
+                'Result of loading asset "{}" in Unreal editor: {}'.format(
+                    asset_path, unreal_load_result
+                )
+            )
 
             self.logger.debug(
                 'Imported asset to: "{}"'.format(asset_filesystem_path)

@@ -44,6 +44,9 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
             )
 
         is_dependency = options.get('is_dependency') is True
+        asset_info = copy.deepcopy(
+            self.asset_info
+        )  # Store a local reference to asset info as it seems to me a singleton
         for component_path in paths_to_import:
 
             self.logger.debug(
@@ -60,12 +63,36 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
                 self.event_manager,
             )
 
-            # Load dependencies
-            objects_to_connect = None
+            asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
+                asset_filesystem_path
+            )
+
+            # Load dependencies if not already being loaded as a dependency
             if not is_dependency:
+
+                # Set asset_info as loaded, cannot be done after dependencies has been imported
+                # as object manager is a singleton and will be used for all imports
+                self.ftrack_object_manager.objects_loaded = True
+
                 self.logger.debug('Loading dependencies')
                 objects_to_connect = unreal_utils.import_dependencies(
                     context_data['version_id'], self.event_manager, self.logger
+                )
+
+                self.logger.debug(
+                    'Connecting {} dependencies'.format(
+                        len(objects_to_connect)
+                    )
+                )
+                for dep_asset_path, dep_asset_info in objects_to_connect:
+                    unreal_utils.connect_object(
+                        dep_asset_path, dep_asset_info, self.logger
+                    )
+
+                # Connect my self, cannot be done in plugin run as it will also detect
+                # and connect dependencies
+                unreal_utils.connect_object(
+                    asset_path, asset_info, self.logger
                 )
 
             # Have Unreal discover the asset
@@ -75,31 +102,12 @@ class UnrealNativeOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
             )
 
             # Load the asset in Unreal
-            asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
-                asset_filesystem_path
-            )
             self.logger.debug(
                 'Result of loading asset "{}" in Unreal editor: {}'.format(
                     asset_path,
                     unreal.EditorAssetLibrary.load_asset(asset_path),
                 )
             )
-
-            if objects_to_connect:
-                self.logger.debug(
-                    'Connecting {} dependencies'.format(
-                        len(objects_to_connect)
-                    )
-                )
-                for asset_path, asset_info in objects_to_connect:
-                    unreal_utils.connect_object(
-                        asset_path, asset_info, self.logger
-                    )
-
-            if not is_dependency:
-                # Connect my self, cannot be done in plugin run as it will also detect
-                # and connect dependencies
-                self.ftrack_object_manager.connect_objects([asset_path])
 
             self.logger.debug(
                 'Imported Unreal asset to: "{}"'.format(asset_filesystem_path)
