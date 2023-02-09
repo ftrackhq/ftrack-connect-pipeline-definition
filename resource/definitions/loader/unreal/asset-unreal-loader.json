@@ -45,7 +45,10 @@
           "plugins":[
             {
               "name": "Import paths to Unreal",
-              "plugin": "unreal_asset_loader_importer"
+              "plugin": "unreal_asset_loader_importer",
+              "options": {
+                "dependencies": true
+              }
             }
           ]
         },
@@ -67,23 +70,21 @@
       "stages": [
         {
           "name": "pre_finalizer",
-          "visible": true,
+          "visible": false,
           "plugins":[
             {
-              "name": "Import asset dependencies from ftrack server",
-              "plugin": "unreal_dependencies_loader_pre_finalizer",
-              "optional": true
+              "name": "Pre finalizer",
+              "plugin": "common_passthrough_loader_pre_finalizer"
             }
           ]
         },
         {
           "name": "finalizer",
-          "visible": true,
+          "visible": false,
           "plugins":[
             {
-              "name": "Finalize asset",
-              "description" : "Restore pipeline asset info, restore modification time and load asset in Unreal",
-              "plugin": "unreal_asset_loader_finalizer"
+              "name": "Finalizer",
+              "plugin": "common_passthrough_loader_finalizer"
             }
           ]
         },

@@ -2,14 +2,19 @@
 # :copyright: Copyright (c) 2014-2023 ftrack
 import os
 import copy
+import time
 
 import unreal
+
+import ftrack_api
 
 from ftrack_connect_pipeline.constants import asset as asset_const
 
 from ftrack_connect_pipeline_unreal import plugin
 from ftrack_connect_pipeline_unreal.constants.asset import modes as load_const
-import ftrack_api
+from ftrack_connect_pipeline_unreal.utils import (
+    custom_commands as unreal_utils,
+)
 
 
 class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
@@ -39,38 +44,74 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
                 collector['result'].get(asset_const.COMPONENT_PATH)
             )
 
+        is_dependency = options.get('is_dependency') is True
+        asset_info = copy.deepcopy(
+            self.asset_info
+        )  # Store a local reference to asset info as it seems to me a singleton
         for component_path in paths_to_import:
-            self.logger.debug('Loading path: "{}"'.format(component_path))
+
+            self.logger.debug(
+                'Copy path to content folder: "{}"'.format(component_path)
+            )
 
             asset_filesystem_path = load_mode_fn(
                 component_path, unreal_options, self.session
             )
 
-            # Align modification date so asset does not appear as out of sync, after load
-            # the local asset info will have the modification date of the imported asset
-            # within ftrack location
-            file_size_remote = os.path.getsize(component_path)
-            file_size_local = os.path.getsize(asset_filesystem_path)
-            mod_date_remote = os.path.getmtime(component_path)
-
-            stat = os.stat(asset_filesystem_path)
-            os.utime(
-                asset_filesystem_path, times=(stat.st_atime, mod_date_remote)
-            )
-            self.logger.debug(
-                'Restored file modification time: {} on asset: {} (size: {}, local size: {})'.format(
-                    mod_date_remote,
-                    asset_filesystem_path,
-                    file_size_remote,
-                    file_size_local,
-                )
+            # Restore ftrack dependency pipeline asset info
+            unreal_utils.import_ftrack_dependency_asset_info(
+                context_data['version_id'],
+                asset_filesystem_path,
+                self.event_manager,
             )
 
-            # Have Unreal discover the newly imported asset
+            # Asset is loaded from the asset manager and needs to be found by Unreal so object
+            # can be connected to asset info
             assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
             assetRegistry.scan_paths_synchronous(
                 [os.path.dirname(asset_filesystem_path)], force_rescan=True
             )
+
+            # Load the asset in Unreal
+            asset_path = unreal_utils.filesystem_asset_path_to_asset_path(
+                asset_filesystem_path
+            )
+            unreal_load_result = unreal.EditorAssetLibrary.load_asset(
+                asset_path
+            )
+            self.logger.debug(
+                'Result of loading asset "{}" in Unreal editor: {}'.format(
+                    asset_path, unreal_load_result
+                )
+            )
+
+            # Load dependencies if not already being loaded as a dependency
+            if not is_dependency:
+
+                # Set asset_info as loaded, cannot be done after dependencies has been imported
+                # as object manager is a singleton and will be used for all imports
+                self.ftrack_object_manager.objects_loaded = True
+
+                self.logger.debug('Loading dependencies')
+                objects_to_connect = unreal_utils.import_dependencies(
+                    context_data['version_id'], self.event_manager, self.logger
+                )
+
+                self.logger.debug(
+                    'Connecting {} dependencies'.format(
+                        len(objects_to_connect)
+                    )
+                )
+                for dep_asset_path, dep_asset_info in objects_to_connect:
+                    unreal_utils.connect_object(
+                        dep_asset_path, dep_asset_info, self.logger
+                    )
+
+                # Connect my self, cannot be done in plugin run as it will also detect
+                # and connect dependencies
+                unreal_utils.connect_object(
+                    asset_path, asset_info, self.logger
+                )
 
             self.logger.debug(
                 'Imported asset to: "{}"'.format(asset_filesystem_path)

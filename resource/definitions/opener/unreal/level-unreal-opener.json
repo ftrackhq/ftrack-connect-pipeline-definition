@@ -47,6 +47,7 @@
               "name": "Open Unreal Asset",
               "plugin": "unreal_native_opener_importer",
               "options": {
+                "dependencies": true
               }
             }
           ]
