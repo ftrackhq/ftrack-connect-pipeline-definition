@@ -58,7 +58,6 @@ class UnrealLevelOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
                 objects_to_connect = unreal_utils.import_dependencies(
                     context_data['version_id'],
                     self.event_manager,
-                    is_dependency=False,
                     provided_logger=self.logger,
                 )
 
@@ -71,6 +70,12 @@ class UnrealLevelOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
                     unreal_utils.connect_object(
                         dep_asset_path, dep_asset_info, self.logger
                     )
+
+            # Have Unreal discover the level
+            assetRegistry = unreal.AssetRegistryHelpers.get_asset_registry()
+            assetRegistry.scan_paths_synchronous(
+                [os.path.dirname(level_filesystem_path)], force_rescan=True
+            )
 
             self.logger.debug(
                 'Imported Unreal level to: "{}"'.format(level_filesystem_path)

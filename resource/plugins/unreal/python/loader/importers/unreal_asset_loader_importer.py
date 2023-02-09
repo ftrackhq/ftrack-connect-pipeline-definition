@@ -72,24 +72,27 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
             # Load dependencies if not already being loaded as a dependency
             if not is_dependency:
 
-                # Set asset_info as loaded, cannot be done after dependencies has been imported
-                # as object manager is a singleton and will be used for all imports
-                self.ftrack_object_manager.objects_loaded = True
+                if options.get('dependencies') is True:
+                    # Set asset_info as loaded, cannot be done after dependencies has been imported
+                    # as object manager is a singleton and will be used for all imports
+                    self.ftrack_object_manager.objects_loaded = True
 
-                self.logger.debug('Loading dependencies')
-                objects_to_connect = unreal_utils.import_dependencies(
-                    context_data['version_id'], self.event_manager, self.logger
-                )
+                    self.logger.debug('Loading dependencies')
+                    objects_to_connect = unreal_utils.import_dependencies(
+                        context_data['version_id'],
+                        self.event_manager,
+                        self.logger,
+                    )
 
-                self.logger.debug(
-                    'Connecting {} dependencies'.format(
-                        len(objects_to_connect)
+                    self.logger.debug(
+                        'Connecting {} dependencies'.format(
+                            len(objects_to_connect)
+                        )
                     )
-                )
-                for dep_asset_path, dep_asset_info in objects_to_connect:
-                    unreal_utils.connect_object(
-                        dep_asset_path, dep_asset_info, self.logger
-                    )
+                    for dep_asset_path, dep_asset_info in objects_to_connect:
+                        unreal_utils.connect_object(
+                            dep_asset_path, dep_asset_info, self.logger
+                        )
 
                 # Connect my self, cannot be done in plugin run as it will also detect
                 # and connect dependencies

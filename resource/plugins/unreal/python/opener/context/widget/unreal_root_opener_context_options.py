@@ -86,8 +86,9 @@ class UnrealRootOpenerContextOptionsWidget(BaseOptionsWidget):
 
     def on_root_context_changed(self, context):
         '''Handle context change - store it with Unreal project'''
-        unreal_utils.set_root_context_id(context['id'])
-        self.root_context_id = context['id']
+        if context and context['id'] != unreal_utils.get_root_context_id():
+            unreal_utils.set_root_context_id(context['id'])
+            self.root_context_id = context['id']
 
 
 class UnrealRootOpenerContextOptionsPluginWidget(
