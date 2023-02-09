@@ -58,6 +58,7 @@ class UnrealLevelOpenerImporterPlugin(plugin.UnrealOpenerImporterPlugin):
                 objects_to_connect = unreal_utils.import_dependencies(
                     context_data['version_id'],
                     self.event_manager,
+                    recursive=False,  # All dependencies are tracked in level
                     provided_logger=self.logger,
                 )
 

@@ -50,6 +50,10 @@ class UnrealAssetLoaderImporterPlugin(plugin.UnrealLoaderImporterPlugin):
         )  # Store a local reference to asset info as it seems to me a singleton
         for component_path in paths_to_import:
 
+            import traceback
+
+            traceback.print_stack()
+
             self.logger.debug(
                 'Copy path to content folder: "{}"'.format(component_path)
             )
