@@ -38,12 +38,10 @@ class UnrealRootPublisherContextOptionsWidget(BaseOptionsWidget):
 
     @root_context_id.setter
     def root_context_id(self, context_id):
-        if self._root_context_selector.context_id != context_id:
-            self._root_context_selector.context_id = context_id
-            if context_id:
-                self.set_asset_parent_context(context_id)
-            # Passing project context id to options
-            self.set_option_result(context_id, key='root_context_id')
+        if context_id:
+            self.set_asset_parent_context(context_id)
+        # Passing project context id to options
+        self.set_option_result(context_id, key='root_context_id')
 
     @property
     def asset_parent_context_id(self):
